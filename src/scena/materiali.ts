@@ -55,7 +55,7 @@ export function materialeAttenuato() {
 /** Sagoma della pelle: quasi invisibile al centro, più marcata sui contorni. */
 export function materialePelle() {
   const m = new THREE.MeshStandardMaterial({
-    color: '#e4e0d8',
+    color: '#e9e4ef',
     roughness: 1,
     transparent: true,
     opacity: 0.05,

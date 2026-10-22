@@ -2,29 +2,19 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import type CameraControls from 'camera-controls';
 import { Suspense, useEffect, useRef } from 'react';
 import * as THREE from 'three';
-import { CONFIG } from '../app/config';
+import { CONFIG, LARGHEZZA_STRETTA, larghezzaPannello } from '../app/config';
 import { misure } from '../app/misure';
 import { useAtlante, useMovimentoRidotto } from '../app/stato';
-import { scenaApi } from './api';
+import { aggiornaRichiamo } from '../pannello/tracciato-richiamo';
+import { BERSAGLIO_INIZIALE, POSIZIONE_INIZIALE, scenaApi } from './api';
 import { Controlli } from './Controlli';
 import { Corpo } from './Corpo';
-
-// Vista iniziale: corpo intero, leggermente dall'alto, centrato all'altezza del bacino.
-const BERSAGLIO_INIZIALE = new THREE.Vector3(0, 0.8, 0.1);
-const POSIZIONE_INIZIALE = new THREE.Vector3(0.0, 1.0, 4.2);
 
 // Funzione stabile: i controlli si registrano una sola volta, non a ogni render della scena.
 function registraControlli(c: CameraControls) {
   if (scenaApi.controlli === c) return;
   scenaApi.controlli = c;
-  c.setTarget(...BERSAGLIO_INIZIALE.toArray(), false);
-}
-
-export function vistaIniziale(animata: boolean) {
-  const c = scenaApi.controlli;
-  if (!c) return;
-  c.setFocalOffset(0, 0, 0, animata);
-  c.setLookAt(...POSIZIONE_INIZIALE.toArray(), ...BERSAGLIO_INIZIALE.toArray(), animata);
+  c.setTarget(...BERSAGLIO_INIZIALE, false);
 }
 
 // Margine attorno alla struttura inquadrata, rispetto al suo ingombro.
@@ -62,15 +52,30 @@ function Regia({ pronta }: { pronta: boolean }) {
     const c = scenaApi.controlli;
     if (!c || !pronta || !stato.selezione) return;
     const semialtezza = distanza.current * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
-    if (larghezza <= 760) {
+    if (larghezza <= LARGHEZZA_STRETTA) {
       // Su smartphone il cartellino è un foglio in basso: la struttura sale nella metà superiore.
       c.setFocalOffset(0, stato.scheda ? 0 : semialtezza * 0.45, 0, !ridotto);
       return;
     }
-    const pannello = stato.scheda ? Math.min(larghezza * 0.5, 720) : 400;
+    const pannello = larghezzaPannello(larghezza, stato.scheda);
     c.setFocalOffset(semialtezza * camera.aspect * (pannello / larghezza), 0, 0, !ridotto);
   }, [stato.selezione, stato.scheda, ridotto, pronta, camera, larghezza]);
 
+  return null;
+}
+
+/** Proietta il centro della struttura selezionata sullo schermo per la linea di richiamo. */
+function Richiamo() {
+  const { stato } = useAtlante();
+  const camera = useThree((s) => s.camera);
+  const punto = useRef(new THREE.Vector3());
+  useFrame(() => {
+    const u = stato.selezione ? scenaApi.unita.get(stato.selezione) : undefined;
+    if (!u) return aggiornaRichiamo(null);
+    const p = u.box.getCenter(punto.current).project(camera);
+    if (p.z > 1) return aggiornaRichiamo(null);
+    aggiornaRichiamo({ x: ((p.x + 1) / 2) * innerWidth, y: ((1 - p.y) / 2) * innerHeight });
+  });
   return null;
 }
 
@@ -94,24 +99,25 @@ function Misuratore() {
   return null;
 }
 
-export function Scena({ pronta, onPronta }: { pronta: boolean; onPronta: () => void }) {
+export default function Scena({ pronta, onPronta }: { pronta: boolean; onPronta: () => void }) {
   return (
     <Canvas
       className="scena"
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-      camera={{ fov: 32, near: 0.01, far: 50, position: POSIZIONE_INIZIALE.toArray() }}
+      camera={{ fov: 32, near: 0.01, far: 50, position: [...POSIZIONE_INIZIALE] }}
       onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
     >
-      <hemisphereLight args={['#dfe6ee', '#1a1410', 0.9]} />
+      <hemisphereLight args={['#e6e2ec', '#1a1420', 0.9]} />
       <directionalLight position={[1.5, 3, 2.5]} intensity={2.2} />
-      <directionalLight position={[-2, 1.5, -2]} intensity={1.1} color="#9fb6c9" />
+      <directionalLight position={[-2, 1.5, -2]} intensity={1.1} color="#b9aecb" />
       <Controlli onPronti={registraControlli} minDistance={0.15} maxDistance={6} smoothTime={0.35} />
       <Suspense fallback={null}>
         <Corpo />
         <Pronta onPronta={onPronta} />
       </Suspense>
       <Regia pronta={pronta} />
+      <Richiamo />
       {CONFIG.misure && <Misuratore />}
     </Canvas>
   );

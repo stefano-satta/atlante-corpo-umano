@@ -1,20 +1,32 @@
-/* Direzione C · Sala e cartellino (D10): la scena è scura, i pannelli sono fogli chiari. */
+/*
+ * Direzione A · Istologia (D16). I colori vengono dalla colorazione ematossilina-eosina:
+ * la sala ha il viola-nero dell'ematossilina, il pannello è il vetrino chiaro, l'eosina
+ * segna solo selezione e azioni, il nucleo i termini e i collegamenti.
+ */
 :root {
-  --sala: #0e1216;
-  --sala-alta: #1e252c;
-  --sala-bordo: #2a3238;
-  --sala-testo: #e4e0d8;
-  --sala-tenue: #9aa1a7;
-  --cartellino: #f4f3ef;
-  --cartellino-bordo: #d9d6ce;
-  --inchiostro: #1f2328;
-  --inchiostro-tenue: #5c5a54;
-  --accento: #23408e;
-  --accento-sala: #a9bdf0;
-  --f-titoli: "Spectral", Georgia, serif;
-  --f-testo: "Atkinson Hyperlegible", system-ui, sans-serif;
-  --f-etichette: "IBM Plex Mono", ui-monospace, monospace;
-  --durata: 260ms;
+  --sala: #16131f;
+  --sala-rilievo: #1d1928;
+  --sala-alta: #29233a;
+  --sala-bordo: #3a3446;
+  --sala-testo: #e9e4ef;
+  --sala-tenue: #a59db3;
+  --sala-spenta: #8a8296;
+  --vetrino: #f4f1f5;
+  --vetrino-velo: #ebe5ee;
+  --vetrino-bordo: #ddd6e2;
+  --inchiostro: #221a33;
+  --inchiostro-tenue: #6a6178;
+  --eosina: #b23d62;
+  --eosina-scura: #962f50;
+  --eosina-sala: #ef8fac;
+  --nucleo: #4a3c8c;
+  --f-titoli: "Bricolage Grotesque Variable", "Bricolage Grotesque", system-ui, sans-serif;
+  --f-testo: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --curva: cubic-bezier(0.16, 1, 0.3, 1);
+  --apertura: 460ms;
+  /* Larghezze del pannello: devono restare uguali a larghezzaPannello() in src/app/config.ts. */
+  --l-cartellino: clamp(320px, 30vw, 400px);
+  --l-scheda: min(52vw, 760px);
   color-scheme: dark;
 }
 
@@ -28,11 +40,16 @@ body,
   margin: 0;
 }
 body {
-  background: radial-gradient(ellipse 70% 80% at 45% 50%, var(--sala-alta) 0%, var(--sala) 70%);
+  background: radial-gradient(ellipse 70% 85% at 42% 50%, #221d2e 0%, var(--sala) 72%);
   background-color: var(--sala);
   color: var(--sala-testo);
   font: 16px / 1.5 var(--f-testo);
   overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: var(--eosina);
+  color: #fff;
 }
 button {
   font: inherit;
@@ -40,13 +57,39 @@ button {
   cursor: pointer;
 }
 :focus-visible {
-  outline: 2px solid var(--accento-sala);
+  outline: 2px solid var(--eosina-sala);
   outline-offset: 2px;
+}
+
+/* Etichette: maiuscoletto del carattere di testo, mai il monospazio. */
+.etichetta,
+.voce,
+.strato,
+.comando,
+.indice-scheda a,
+.caricamento {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
 }
 
 .atlante {
   position: fixed;
   inset: 0;
+  --occupato: 0px;
+}
+.atlante[data-pannello="cartellino"] {
+  --occupato: var(--l-cartellino);
+}
+/* Velo in alto: tiene leggibili titolo, menu e crediti quando il corpo passa sotto. */
+.atlante::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 150px;
+  background: linear-gradient(rgb(22 19 31 / 0.88), rgb(22 19 31 / 0.6) 55%, rgb(22 19 31 / 0));
+  pointer-events: none;
+  z-index: 1;
 }
 .scena {
   /* biome-ignore lint/complexity/noImportantStyles: il Canvas di React Three Fiber imposta position nello stile in linea */
@@ -58,67 +101,71 @@ button {
 /* Barra in alto */
 .barra-alta {
   position: absolute;
-  inset: 0 0 auto 0;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: var(--occupato);
   display: flex;
-  align-items: center;
-  gap: 24px;
+  align-items: baseline;
   flex-wrap: wrap;
-  padding: calc(14px + env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) 14px
-    max(20px, env(safe-area-inset-left, 0px));
+  gap: 8px 32px;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 28px 0 max(28px, env(safe-area-inset-left, 0px));
   pointer-events: none;
 }
 .barra-alta > * {
   pointer-events: auto;
 }
 .marchio {
-  font: 300 22px / 1 var(--f-titoli);
-  letter-spacing: 0.01em;
+  font: 600 21px / 1 var(--f-titoli);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.015em;
 }
 .barra-alta nav {
   display: flex;
-  gap: 4px;
+  gap: 20px;
 }
 .voce {
   background: none;
   border: 0;
-  padding: 6px 10px;
-  border-radius: 3px;
-  font: 400 12px / 1 var(--f-etichette);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--sala-tenue);
+  padding: 4px 0;
+  font-size: 15px;
+  color: var(--sala-spenta);
 }
 .voce[aria-disabled="true"] {
   cursor: not-allowed;
-  opacity: 0.6;
 }
-.badge-prototipo {
-  margin-left: auto;
-  font: 400 11px / 1 var(--f-etichette);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--sala-tenue);
-  border: 1px solid var(--sala-bordo);
-  padding: 6px 8px;
-  border-radius: 3px;
+.piede {
+  position: absolute;
+  z-index: 1;
+  left: max(28px, env(safe-area-inset-left, 0px));
+  top: calc(56px + env(safe-area-inset-top, 0px));
+  max-width: 44ch;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--sala-spenta);
+  pointer-events: none;
+}
+.piede p {
+  margin: 0;
 }
 
-/* Barra dei comandi in basso */
+/* Barra dei comandi: in basso, centrata nello spazio libero della scena */
 .barra-comandi {
   position: absolute;
-  left: 50%;
-  bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+  left: calc((100% - var(--occupato)) / 2);
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px;
-  background: rgba(14, 18, 22, 0.78);
+  gap: 2px;
+  padding: 4px;
+  background: var(--sala-rilievo);
   border: 1px solid var(--sala-bordo);
-  border-radius: 6px;
-  backdrop-filter: blur(8px);
-  max-width: calc(100vw - 32px);
+  border-radius: 3px;
+  max-width: calc(100% - var(--occupato) - 32px);
   overflow-x: auto;
+  transition: left var(--apertura) var(--curva);
+  z-index: 2;
 }
 .gruppo-strati {
   display: flex;
@@ -126,295 +173,384 @@ button {
 }
 .strato,
 .comando {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   background: none;
   border: 1px solid transparent;
-  border-radius: 4px;
-  padding: 8px 12px;
+  border-radius: 2px;
+  padding: 8px 14px 9px;
   white-space: nowrap;
-  font: 400 12px / 1 var(--f-etichette);
-  letter-spacing: 0.06em;
+  font-size: 15px;
+  line-height: 1;
   color: var(--sala-testo);
   transition:
-    background var(--durata),
-    color var(--durata);
+    background-color 180ms ease-out,
+    color 180ms ease-out;
 }
 .strato:hover,
 .comando:hover {
-  background: #1a2127;
+  background: var(--sala-alta);
 }
 .strato[aria-checked="true"] {
-  background: var(--cartellino);
+  background: var(--vetrino);
   color: var(--inchiostro);
 }
-.comando[aria-pressed="true"] {
-  border-color: var(--sala-bordo);
+.strato:focus-visible,
+.comando:focus-visible {
+  outline-offset: -1px;
+}
+/* Interruttore della sagoma: un cerchio pieno quando la pelle è visibile. */
+.comando[aria-pressed]::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+}
+.comando[aria-pressed="true"]::before {
+  background: var(--eosina-sala);
+  border-color: var(--eosina-sala);
 }
 .separatore {
   width: 1px;
   align-self: stretch;
   background: var(--sala-bordo);
-  margin: 2px 4px;
+  margin: 4px 6px;
 }
 .breve {
   display: none;
 }
 
-/* Cartellino */
-.cartellino {
+/* Linea di richiamo dalla struttura al pannello */
+.richiamo {
   position: absolute;
-  right: max(20px, env(safe-area-inset-right, 0px));
-  top: 76px;
-  width: min(360px, calc(100vw - 40px));
-  background: var(--cartellino);
-  color: var(--inchiostro);
-  border-radius: 4px;
-  padding: 20px 22px 18px;
-  box-shadow: -18px 0 40px rgba(0, 0, 0, 0.35);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  animation: entra var(--durata) ease-out;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
 }
-@keyframes entra {
-  from {
-    opacity: 0;
-    transform: translateX(16px);
-  }
+.richiamo[data-visibile="no"] {
+  visibility: hidden;
 }
-.cartellino-testa {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.richiamo polyline {
+  fill: none;
+  stroke: var(--eosina-sala);
+  stroke-width: 1.25;
 }
-.etichetta {
-  font: 500 11px / 1.2 var(--f-etichette);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--inchiostro-tenue);
-}
-.chiudi {
-  background: none;
-  border: 0;
-  font-size: 22px;
-  line-height: 1;
-  padding: 2px 6px;
-  color: var(--inchiostro-tenue);
-  border-radius: 3px;
-}
-.chiudi:focus-visible,
-.apri-scheda:focus-visible,
-.indietro:focus-visible,
-.indice-scheda a:focus-visible {
-  outline-color: var(--accento);
-}
-.nome {
-  font: 300 32px / 1.05 var(--f-titoli);
-  margin: 0;
-  text-wrap: balance;
-  overflow-wrap: anywhere;
-}
-.termine {
-  font: italic 300 17px / 1.2 var(--f-titoli);
-  margin: 0;
-  color: var(--inchiostro-tenue);
-}
-.provvisorio {
-  margin: 0;
-  font-size: 13px;
-  color: var(--inchiostro-tenue);
-}
-.testo-prova {
-  margin: 6px 0 0;
-  font-size: 15px;
-  line-height: 1.5;
-  color: var(--inchiostro-tenue);
-}
-.badge {
-  display: inline-block;
-  font: 500 10px / 1 var(--f-etichette);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  border: 1px solid var(--cartellino-bordo);
-  padding: 3px 5px;
-  border-radius: 2px;
-  margin-right: 4px;
-  color: var(--inchiostro);
-}
-.relazioni {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 4px 14px;
-  margin: 8px 0 0;
-  padding-top: 10px;
-  border-top: 1px solid var(--cartellino-bordo);
-  font-size: 14px;
-}
-.relazioni dt {
-  font: 500 11px / 1.6 var(--f-etichette);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--inchiostro-tenue);
-}
-.relazioni dd {
-  margin: 0;
-}
-.in-preparazione {
-  color: var(--inchiostro-tenue);
-  font-style: italic;
-}
-.apri-scheda {
-  align-self: flex-start;
-  margin-top: 6px;
-  background: var(--accento);
-  color: #fff;
-  border: 0;
-  border-radius: 3px;
-  padding: 10px 14px;
-  font-weight: 700;
-  font-size: 14px;
-}
-.nota {
-  margin: 4px 0 0;
-  font-size: 13px;
-  color: var(--inchiostro-tenue);
-}
-.fonte {
-  margin: 2px 0 0;
-  font: 400 11px / 1.4 var(--f-etichette);
-  color: var(--inchiostro-tenue);
+.richiamo circle {
+  fill: var(--eosina-sala);
+  stroke: var(--sala);
+  stroke-width: 2;
 }
 
-/* Scheda organo: il cartellino si allarga a metà schermo */
-.scheda {
+/* Pannello ancorato al bordo destro: cartellino, poi scheda */
+.pannello {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
-  width: min(50vw, 720px);
-  background: var(--cartellino);
+  width: var(--l-cartellino);
+  background: var(--vetrino);
   color: var(--inchiostro);
-  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.45);
+  border-left: 3px solid var(--eosina);
   overflow-y: auto;
   overscroll-behavior: contain;
-  animation: allarga 420ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  scrollbar-color: var(--vetrino-bordo) transparent;
+  scrollbar-width: thin;
+  z-index: 3;
+  transition: width var(--apertura) var(--curva);
+  animation: pannello-entra 420ms var(--curva);
 }
-@keyframes allarga {
+.pannello[data-modo="scheda"] {
+  width: var(--l-scheda);
+}
+@keyframes pannello-entra {
   from {
-    opacity: 0.4;
-    clip-path: inset(76px 20px auto calc(100% - 380px) round 4px);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
+    transform: translateX(100%);
   }
 }
-.scheda-testa {
-  padding: 28px 40px 18px;
-  border-bottom: 1px solid var(--cartellino-bordo);
+.pannello :focus-visible {
+  outline-color: var(--eosina);
+}
+.pannello .etichetta {
+  font-size: 15px;
+  color: var(--inchiostro-tenue);
+}
+.pannello-testa {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 32px;
+}
+.chiudi {
   display: grid;
-  gap: 8px;
-  position: sticky;
-  top: 0;
-  background: var(--cartellino);
-  z-index: 1;
-}
-.indietro {
-  justify-self: start;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-right: -8px;
   background: none;
   border: 0;
-  padding: 4px 0;
-  font-size: 14px;
-  color: var(--accento);
-  font-weight: 700;
+  border-radius: 3px;
+  color: var(--inchiostro-tenue);
 }
-.scheda h1 {
-  font: 300 52px / 1 var(--f-titoli);
-  margin: 6px 0 0;
+.chiudi:hover {
+  background: var(--vetrino-velo);
+  color: var(--inchiostro);
+}
+
+.cartellino {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 32px calc(28px + env(safe-area-inset-bottom, 0px));
+  animation: compare 280ms var(--curva);
+}
+@keyframes compare {
+  from {
+    opacity: 0;
+  }
+}
+.nome {
+  font: 600 clamp(36px, 3.4vw, 48px) / 1 var(--f-titoli);
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.025em;
+  margin: 28px 0 6px;
+  text-wrap: balance;
   outline: none;
 }
-.avviso-prova {
+.nome.lungo {
+  font-size: clamp(26px, 2.3vw, 32px);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+}
+.termine {
+  margin: 0;
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.25;
+  color: var(--nucleo);
+}
+.provvisorio {
   margin: 4px 0 0;
+  font-size: 14px;
+  color: var(--inchiostro-tenue);
+}
+.testo {
+  margin: 22px 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.testo.in-preparazione {
+  color: var(--inchiostro-tenue);
+}
+.testo .etichetta {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--nucleo);
+}
+.relazioni {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+  gap: 8px 20px;
+  margin: 24px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--vetrino-bordo);
+  font-size: 15px;
+}
+.relazioni dd {
+  margin: 0;
+}
+.assente {
+  color: var(--inchiostro-tenue);
+  font-style: italic;
+}
+.azione {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 12px 16px;
+  background: var(--eosina);
+  color: #fff;
+  border: 0;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  transition: background-color 180ms ease-out;
+}
+.azione svg {
+  transition: transform 240ms var(--curva);
+}
+.azione:hover {
+  background: var(--eosina-scura);
+}
+.azione:hover svg {
+  transform: translateX(3px);
+}
+.nota {
+  margin: 24px 0 0;
+  font-size: 14px;
+  color: var(--inchiostro-tenue);
+}
+.fonte {
+  margin: auto 0 0;
+  padding-top: 28px;
   font-size: 13px;
   color: var(--inchiostro-tenue);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Scheda organo: il pannello si allarga */
+.scheda {
+  min-height: 100%;
+  animation: compare 360ms var(--curva) 80ms backwards;
+}
+.scheda-testa {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 48px 16px;
+  background: var(--vetrino);
+  border-bottom: 1px solid var(--vetrino-bordo);
+}
+.scheda .nome {
+  font-size: clamp(44px, 5vw, 72px);
+  margin: 20px 0 4px;
+}
+.indietro {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  background: none;
+  border: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--eosina);
+}
+.indietro:hover {
+  color: var(--eosina-scura);
 }
 .indice-scheda {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px 14px;
-  margin-top: 8px;
+  gap: 2px 20px;
+  margin-top: 14px;
 }
 .indice-scheda a {
-  font: 400 12px / 1.6 var(--f-etichette);
-  color: var(--accento);
+  padding: 2px 0;
+  font-size: 15px;
+  color: var(--nucleo);
   text-decoration: none;
+  text-underline-offset: 4px;
 }
 .indice-scheda a:hover {
   text-decoration: underline;
 }
 .scheda-corpo {
-  padding: 12px 40px 60px;
   display: grid;
-  gap: 30px;
-  max-width: 68ch;
+  gap: 40px;
+  max-width: 70ch;
+  padding: 24px 48px 80px;
+}
+.scheda-corpo section {
+  scroll-margin-top: 260px;
+}
+.avviso {
+  margin: 0;
+  padding: 12px 14px;
+  background: var(--vetrino-velo);
+  border-radius: 3px;
+  font-size: 15px;
+  color: var(--inchiostro-tenue);
 }
 .scheda-corpo h2 {
-  font: 300 26px / 1.15 var(--f-titoli);
-  margin: 18px 0 10px;
+  margin: 0 0 14px;
+  font: 600 27px / 1.15 var(--f-titoli);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.015em;
 }
-.righe-prova {
+.righe-attesa {
   display: grid;
-  gap: 9px;
+  gap: 10px;
 }
-.righe-prova span {
+.righe-attesa span[aria-hidden] {
   height: 10px;
   border-radius: 2px;
-  background: #e5e2db;
+  background: var(--vetrino-bordo);
 }
-.righe-prova span:nth-child(2) {
+.righe-attesa span:nth-child(3) {
   width: 92%;
 }
-.righe-prova span:nth-child(3) {
-  width: 64%;
+.righe-attesa span:nth-child(4) {
+  width: 61%;
 }
 .riquadro-processo {
   margin: 0;
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 .segnaposto-animazione {
-  aspect-ratio: 16 / 9;
-  border-radius: 4px;
-  background: var(--sala);
-  color: var(--sala-tenue);
   display: grid;
   place-items: center;
-  font: 400 12px / 1 var(--f-etichette);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  aspect-ratio: 16 / 9;
+  border-radius: 3px;
+  background: var(--sala);
+  color: var(--sala-tenue);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  font-size: 15px;
 }
 .riquadro-processo figcaption {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--inchiostro-tenue);
 }
 
-/* Stato e servizio */
+/* Caricamento e servizio */
 .caricamento {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  font: 400 12px / 1 var(--f-etichette);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  font-size: 15px;
   color: var(--sala-tenue);
+  white-space: nowrap;
 }
-.crediti {
+.caricamento-linea {
+  position: relative;
+  width: 140px;
+  height: 1px;
+  background: var(--sala-bordo);
+  overflow: hidden;
+}
+.caricamento-linea::after {
+  content: "";
   position: absolute;
-  left: max(20px, env(safe-area-inset-left, 0px));
-  top: 52px;
-  margin: 0;
-  font: 400 10px / 1.3 var(--f-etichette);
-  color: #6f777d;
-  max-width: 46ch;
+  inset: 0;
+  width: 40%;
+  background: var(--eosina-sala);
+  animation: scorre 1.4s var(--curva) infinite;
+}
+@keyframes scorre {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
 }
 .solo-lettori {
   position: absolute;
@@ -426,17 +562,17 @@ button {
 }
 .misure {
   position: absolute;
-  left: 20px;
-  bottom: 80px;
+  left: 28px;
+  bottom: 84px;
   margin: 0;
   padding: 10px 12px;
-  border-radius: 4px;
-  background: rgba(0, 0, 0, 0.7);
+  border-radius: 3px;
+  background: var(--sala-rilievo);
   border: 1px solid var(--sala-bordo);
   display: grid;
   grid-template-columns: auto auto;
   gap: 2px 14px;
-  font: 400 11px / 1.5 var(--f-etichette);
+  font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 .misure dt {
@@ -451,65 +587,81 @@ button {
   margin: 15vh auto;
   padding: 0 20px;
 }
+.senza-webgl h1 {
+  font: 600 40px / 1.05 var(--f-titoli);
+  letter-spacing: -0.02em;
+}
 
-/* Tablet e smartphone: il cartellino diventa un foglio dal basso, la scheda va a tutto schermo */
+/* Smartphone: il cartellino diventa un foglio dal basso, la scheda va a tutto schermo */
 @media (max-width: 760px) {
-  .barra-alta nav,
-  .crediti {
+  .atlante[data-pannello="cartellino"] {
+    --occupato: 0px;
+  }
+  .barra-alta {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .barra-alta nav {
     display: none;
   }
-  .badge-prototipo {
-    font-size: 10px;
+  .piede {
+    left: 20px;
+    top: calc(50px + env(safe-area-inset-top, 0px));
+    font-size: 11px;
+    max-width: 36ch;
   }
-  .cartellino {
+  .pannello[data-modo="cartellino"] {
     top: auto;
-    right: 0;
     left: 0;
-    bottom: 0;
     width: auto;
-    border-radius: 10px 10px 0 0;
-    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-    max-height: 55vh;
-    overflow-y: auto;
-    animation-name: sale;
+    max-height: 58vh;
+    border-left: 0;
+    border-top: 3px solid var(--eosina);
+    animation-name: foglio-sale;
   }
-  @keyframes sale {
+  @keyframes foglio-sale {
     from {
-      transform: translateY(24px);
-      opacity: 0;
+      transform: translateY(100%);
     }
   }
-  .scheda {
+  .pannello[data-modo="scheda"] {
     width: 100%;
+    border-left: 0;
+  }
+  .cartellino {
+    padding: 16px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+  .nome {
+    margin-top: 12px;
   }
   .scheda-testa,
   .scheda-corpo {
     padding-left: 20px;
     padding-right: 20px;
   }
-  .scheda h1 {
-    font-size: 40px;
-  }
   .barra-comandi {
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-    gap: 2px;
-    padding: 4px;
+    max-width: calc(100% - 16px);
   }
-  .barra-comandi.con-selezione {
+  .atlante[data-pannello="cartellino"] .barra-comandi {
     display: none;
   }
   .strato,
   .comando {
-    padding: 8px 9px;
+    padding: 8px 8px 9px;
+    font-size: 14px;
+  }
+  .comando[aria-pressed] {
+    gap: 6px;
+  }
+  .separatore {
+    margin: 4px 2px;
   }
   .esteso {
     display: none;
   }
   .breve {
     display: inline;
-  }
-  .caricamento {
-    white-space: nowrap;
   }
 }
 
@@ -519,6 +671,8 @@ button {
   *::after {
     /* biome-ignore lint/complexity/noImportantStyles: con il movimento ridotto le animazioni vanno annullate ovunque */
     animation-duration: 1ms !important;
+    /* biome-ignore lint/complexity/noImportantStyles: un'animazione infinita ridotta a 1 ms lampeggerebbe */
+    animation-iteration-count: 1 !important;
     /* biome-ignore lint/complexity/noImportantStyles: come sopra, per le transizioni */
     transition-duration: 1ms !important;
   }

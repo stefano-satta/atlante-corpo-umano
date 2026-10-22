@@ -1,5 +1,5 @@
 import { type Strato, useAtlante, useMovimentoRidotto } from '../app/stato';
-import { vistaIniziale } from '../scena/Scena';
+import { vistaIniziale } from '../scena/api';
 
 const STRATI: Array<{ id: Strato; nome: string; breve: string }> = [
   { id: 'muscoli', nome: 'Muscoli', breve: 'Muscoli' },
@@ -11,11 +11,7 @@ export function BarraComandi() {
   const { stato, invia } = useAtlante();
   const ridotto = useMovimentoRidotto();
   return (
-    <div
-      className={`barra-comandi${stato.selezione ? ' con-selezione' : ''}`}
-      role="toolbar"
-      aria-label="Comandi della vista"
-    >
+    <div className="barra-comandi" role="toolbar" aria-label="Comandi della vista">
       <div className="gruppo-strati" role="radiogroup" aria-label="Strato visibile">
         {STRATI.map((s) => (
           // biome-ignore lint/a11y/useSemanticElements: pulsanti con ruolo radio per lo stile a segmenti; tastiera e lettori di schermo restano corretti

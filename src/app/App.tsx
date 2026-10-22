@@ -1,13 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { ORGANI_PER_ID } from '../contenuti/organi';
 import { BarraComandi } from '../esplora/BarraComandi';
-import { Cartellino } from '../esplora/Cartellino';
 import { PannelloMisure } from '../esplora/PannelloMisure';
-import { scenaApi } from '../scena/api';
-import { Scena, vistaIniziale } from '../scena/Scena';
-import { Scheda } from '../scheda/Scheda';
+import { Pannello } from '../pannello/Pannello';
+import { Richiamo } from '../pannello/Richiamo';
+import { scenaApi, vistaIniziale } from '../scena/api';
 import { CONFIG } from './config';
 import { type Strato, useAtlante, useMovimentoRidotto } from './stato';
+
+// Il motore 3D (three.js e React Three Fiber) sta in un pacchetto separato: l'interfaccia
+// compare subito e il modello si carica in parallelo (D14).
+const Scena = lazy(() => import('../scena/Scena'));
 
 const VOCI = ['Percorsi', 'Indice', 'Fonti', 'Informazioni'];
 const TASTI_STRATO: Record<string, Strato> = { '1': 'muscoli', '2': 'organi', '3': 'scheletro' };
@@ -72,6 +75,7 @@ export function App() {
   }, [stato.scheda, invia, ridotto]);
 
   const u = stato.selezione ? scenaApi.unita.get(stato.selezione) : undefined;
+  const conScheda = stato.scheda && !!(u && ORGANI_PER_ID.get(u.id)?.scheda);
   const annuncio = u ? `Selezionato: ${ORGANI_PER_ID.get(u.id)?.nome ?? u.nomeFma}` : '';
 
   if (!supportaWebGL())
@@ -83,30 +87,33 @@ export function App() {
     );
 
   return (
-    <div className={`atlante${stato.scheda ? ' con-scheda' : ''}`}>
-      <Scena pronta={pronta} onPronta={onPronta} />
+    <div className="atlante" data-pannello={u ? (conScheda ? 'scheda' : 'cartellino') : 'no'}>
+      <Suspense fallback={null}>
+        <Scena pronta={pronta} onPronta={onPronta} />
+      </Suspense>
       <header className="barra-alta">
         <span className="marchio">Atlante del corpo umano</span>
         <nav aria-label="Sezioni">
           {VOCI.map((v) => (
-            <button type="button" key={v} className="voce" aria-disabled="true" title="Non incluso nel prototipo">
+            <button type="button" key={v} className="voce" aria-disabled="true" title="In preparazione">
               {v}
             </button>
           ))}
         </nav>
-        <span className="badge-prototipo">Prototipo · nomi e testi provvisori</span>
       </header>
       {!pronta && (
         <div className="caricamento" role="status">
-          Caricamento del modello…
+          <span>Caricamento del modello 3D</span>
+          <span className="caricamento-linea" aria-hidden="true" />
         </div>
       )}
-      <Cartellino />
-      <Scheda />
-      {!stato.scheda && <BarraComandi />}
-      <p className="crediti">
-        Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0 · modelli derivati CC BY-SA 4.0
-      </p>
+      <Richiamo />
+      <Pannello />
+      {!conScheda && <BarraComandi />}
+      <footer className="piede">
+        <p>Versione in sviluppo: nomi e testi sono in preparazione.</p>
+        <p>Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0. Modelli derivati CC BY-SA 4.0.</p>
+      </footer>
       <p className="solo-lettori" aria-live="polite">
         {annuncio}
       </p>

@@ -2,7 +2,7 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1 Fondazione completata; M2 Design Istologia in attesa di approvazione.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1 e M2 completate; M3 Contenuti reali in attesa di approvazione.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
 - **In sospeso:** conferma in Blender dei polmoni di Z-Anatomy (l'utente installa Blender)
 
@@ -27,7 +27,7 @@
 | D16 | 2026-10-22 | 5 | Direzione visiva (sostituisce palette, caratteri e componenti di D10) | **A · Istologia** ([tavola](https://claude.ai/artifact/SXyNxdti76sUAxzmzWXs9b)). Palette da colorazione ematossilina-eosina: sala #16131f, vetrino #f4f1f5, inchiostro #221a33, eosina #b23d62 (selezione e azioni; #ef8fac sulla sala), nucleo #4a3c8c (termini e collegamenti). Caratteri: Bricolage Grotesque (titoli), Atkinson Hyperlegible Next (testo ed etichette in maiuscoletto); niente monospazio. Componenti: barra dei comandi orizzontale in basso al centro, mantenuta dal prototipo su richiesta dell'utente e adattata (segmenti Muscoli · Scheletro e organi · Scheletro, poi Sagoma e Vista iniziale; testo in Atkinson Hyperlegible Next maiuscoletto al posto del monospazio; fondo ematossilina pieno senza sfocatura, bordo sottile, angoli di 3 px; segmento attivo in vetrino con inchiostro; focus in eosina), al posto della stratigrafia verticale proposta; richiamo con linea dalla struttura al cartellino, cartellino ancorato al bordo destro a tutta altezza che si allarga nella scheda. Restano validi da D10: rosso e blu riservati ad arterie e vene, volo della telecamera, movimento ridotto, contrasto WCAG AA, comportamento su tablet e smartphone. |
 | D17 | 2026-10-22 | 6 | Contenuti | Approvati: processo in sei passi (affermazioni, fonti, verifica, scrittura, controllo automatico, approvazione dell'utente) con stati bozza → verificato → approvato; modello dati Struttura e Fonte; un file Markdown con intestazione YAML per struttura, bibliografia unica, rimandi `[@id]`; librerie `yaml` e `marked` solo in build; nomi italiani di ossa e muscoli derivati dal termine TA2 e dall'uso corrente, con metodo dichiarato. Contenuti pilota: cuore (cartellino e scheda), femore (cartellino), diaframma (cartellino). |
 | D18 | 2026-10-22 | 6 | Contenuti pilota | Approvati cuore, femore e diaframma (stato "approvato") e le scelte sulle incertezze: strati della parete secondo OpenStax e SEER con differenza dichiarata; termini latini da verificare sulla TA2 prima della pubblicazione; diaframma con funzione nell'apparato respiratorio e appartenenza al sistema muscolare; relazioni verso strutture senza contenuto come testo semplice. Fonti: NHLBI, NCI SEER, OpenStax A&P 2e (citata, mai riprodotta). |
-| D19 | 2026-10-22 | 7 | Piano di implementazione | Approvate le milestone M1 Fondazione, M2 Design Istologia, M3 Contenuti reali, M4 Polmoni, M5 Ciclo cardiaco, M6 Percorso "Un respiro", M7 Soglia, tour e Indice, M8 Pubblicazione; poi Fase 8. Approvata e avviata M1. |
+| D19 | 2026-10-22 | 7 | Piano di implementazione | Approvate le milestone M1 Fondazione, M2 Design Istologia, M3 Contenuti reali, M4 Polmoni, M5 Ciclo cardiaco, M6 Percorso "Un respiro", M7 Soglia, tour e Indice, M8 Pubblicazione; poi Fase 8. Approvata e avviata M1. M2 approvata il 2026-10-22. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -100,3 +100,12 @@
   - attribuzione BodyParts3D in `public/modelli/LICENZE.md`;
   - bundle JS 349 kB gzip, invariato: drei era già escluso dal tree-shaking. La riduzione vera richiede il caricamento differito del motore 3D (D14, da M2/M8);
   - dipendenze di sviluppo aggiunte: jsdom e @testing-library/dom, per i test dei componenti da M2.
+- **2026-10-22** — M2 Design Istologia completata. Risultati:
+  - palette ematossilina-eosina e caratteri Bricolage Grotesque e Atkinson Hyperlegible Next (variabili, ospitati localmente); Spectral, IBM Plex Mono e Atkinson Hyperlegible tolti;
+  - barra in basso adattata come da D16, centrata nello spazio libero della scena; interruttore Sagoma con indicatore pieno/vuoto;
+  - pannello unico ancorato a destra a tutta altezza (`src/pannello/`): cartellino che si allarga nella scheda; fuoco gestito in apertura e chiusura;
+  - linea di richiamo dalla struttura al titolo del pannello, aggiornata a ogni fotogramma e tracciata all'apertura; nascosta su schermo stretto e con movimento ridotto non animata;
+  - velo sfumato in alto per la leggibilità di titolo, menu e crediti;
+  - motore 3D in un pacchetto separato (D14): interfaccia 74,5 kB gzip invece di 349; il motore (277 kB) si carica in parallelo;
+  - test: 23 unitari e di componente (Vitest, Testing Library), 5 end-to-end (Playwright, Chromium con SwiftShader) con controllo axe-core WCAG 2.1 AA senza violazioni.
+- **2026-10-22** — Decisioni minori della M2: niente numero davanti all'apparato nel cartellino (il mockup lo mostrava, ma non porta informazione); icone disegnate in SVG invece dei caratteri × e →; il bordo del pannello resta di 3 px in eosina come nella tavola approvata; l'avviso "Prototipo" in alto è sostituito da "Versione in sviluppo: nomi e testi sono in preparazione" sotto il titolo.

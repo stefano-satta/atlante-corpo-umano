@@ -10,12 +10,12 @@
     "test": "vitest run",
     "controlla": "biome check .",
     "modelli:scarica": "node pipeline/scarica-bodyparts3d.mjs",
-    "modelli:prepara": "node pipeline/prepara-modelli.mjs"
+    "modelli:prepara": "node pipeline/prepara-modelli.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
-    "@fontsource/atkinson-hyperlegible": "^5.3.0",
-    "@fontsource/ibm-plex-mono": "^5.3.0",
-    "@fontsource/spectral": "^5.3.0",
+    "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
+    "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@react-three/fiber": "^9.8.2",
     "camera-controls": "^3.1.2",
     "react": "^19.3.1",
@@ -23,10 +23,12 @@
     "three": "^0.186.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@biomejs/biome": "^2.6.2",
     "@gltf-transform/core": "^4.5.1",
     "@gltf-transform/extensions": "^4.5.1",
     "@gltf-transform/functions": "^4.5.1",
+    "@playwright/test": "^1.64.1",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@types/react": "^19.3.0",
