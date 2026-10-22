@@ -1,0 +1,31 @@
+{
+  "ratio": 0.25,
+  "ratioPelle": 0.125,
+  "errore": 0.01,
+  "riepilogo": {
+    "ossa": {
+      "strutture": 217,
+      "triangoliPrima": 520766,
+      "triangoliDopo": 139712,
+      "kB": 696
+    },
+    "muscoli": {
+      "strutture": 323,
+      "triangoliPrima": 2086974,
+      "triangoliDopo": 521420,
+      "kB": 2083
+    },
+    "organi": {
+      "strutture": 266,
+      "triangoliPrima": 718084,
+      "triangoliDopo": 190712,
+      "kB": 934
+    },
+    "pelle": {
+      "strutture": 1,
+      "triangoliPrima": 203382,
+      "triangoliDopo": 25420,
+      "kB": 86
+    }
+  }
+}

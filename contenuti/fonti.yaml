@@ -1,0 +1,98 @@
+# Bibliografia unica dell'atlante (D17). Ogni voce è stata aperta e letta;
+# "consultata" è la data in cui il testo è stato verificato.
+
+nhlbi-cuore-anatomia:
+  tipo: istituzionale
+  titolo: "How the Heart Works: What the Heart Looks Like"
+  ente: National Heart, Lung, and Blood Institute (NHLBI), National Institutes of Health
+  aggiornata: 2022-03-24
+  url: https://www.nhlbi.nih.gov/health/heart/anatomy
+  consultata: 2026-10-22
+
+nhlbi-cuore-flusso:
+  tipo: istituzionale
+  titolo: "How the Heart Works: How Blood Flows through the Heart"
+  ente: National Heart, Lung, and Blood Institute (NHLBI), National Institutes of Health
+  aggiornata: 2025-06-25
+  url: https://www.nhlbi.nih.gov/health/heart/blood-flow
+  consultata: 2026-10-22
+
+nhlbi-cuore-battito:
+  tipo: istituzionale
+  titolo: "How the Heart Works: How the Heart Beats"
+  ente: National Heart, Lung, and Blood Institute (NHLBI), National Institutes of Health
+  aggiornata: 2025-06-25
+  url: https://www.nhlbi.nih.gov/health/heart/heart-beats
+  consultata: 2026-10-22
+
+nhlbi-respirazione:
+  tipo: istituzionale
+  titolo: "How the Lungs Work: How Your Body Controls Breathing"
+  ente: National Heart, Lung, and Blood Institute (NHLBI), National Institutes of Health
+  aggiornata: 2022-03-24
+  url: https://www.nhlbi.nih.gov/health/lungs/body-controls-breathing
+  consultata: 2026-10-22
+
+seer-cuore-struttura:
+  tipo: istituzionale
+  titolo: "Structure of the Heart"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/cardiovascular/heart/structure.html
+  consultata: 2026-10-22
+
+# OpenStax, Anatomy and Physiology 2e. Manuale universitario, Rice University.
+# Usato solo come fonte delle affermazioni: nessun testo o immagine riprodotti
+# (licenza CC BY-NC-SA 4.0, incompatibile con il riuso commerciale, D6).
+openstax-ap-19-1:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 19.1 Heart Anatomy"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/19-1-heart-anatomy
+  consultata: 2026-10-22
+
+openstax-ap-19-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 19.3 Cardiac Cycle"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/19-3-cardiac-cycle
+  consultata: 2026-10-22
+
+openstax-ap-8-4:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 8.4 Bones of the Lower Limb"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/8-4-bones-of-the-lower-limb
+  consultata: 2026-10-22
+
+openstax-ap-11-4:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 11.4 Axial Muscles of the Abdominal Wall and Thorax"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax
+  consultata: 2026-10-22
+
+openstax-ap-13-4:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 13.4 The Peripheral Nervous System"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/13-4-the-peripheral-nervous-system
+  consultata: 2026-10-22
+
+openstax-ap-22-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 22.3 The Process of Breathing"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/22-3-the-process-of-breathing
+  consultata: 2026-10-22
