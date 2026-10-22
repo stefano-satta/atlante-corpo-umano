@@ -2,7 +2,7 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale (piano delle milestone in attesa di approvazione)
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1 Fondazione completata; M2 Design Istologia in attesa di approvazione.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
 - **In sospeso:** conferma in Blender dei polmoni di Z-Anatomy (l'utente installa Blender)
 
@@ -91,3 +91,12 @@
 - **2026-10-22** — Registrate D10 (direzione artistica), D11 (architettura e UX), D12 (prototipo P1).
 - **2026-10-22** — Prototipo P1 realizzato in `prototipo/`; esito in [RAPPORTO-PROTOTIPO.md](RAPPORTO-PROTOTIPO.md).
 - **2026-10-22** — Registrate D13–D17. Contenuti pilota (cuore, femore, diaframma) e bibliografia scritti in `contenuti/`, stato "verificato"; revisione in [REVISIONE-PILOTA.md](REVISIONE-PILOTA.md). StatPearls/NCBI non leggibile in automatico (reCAPTCHA): usate NHLBI, NCI SEER e OpenStax A&P 2e.
+- **2026-10-22** — Registrate D18 (contenuti pilota approvati) e D19 (piano delle milestone, avvio M1).
+- **2026-10-22** — M1 Fondazione completata. Il codice è passato da `prototipo/` alla struttura definitiva (`src/app`, `src/scena`, `src/esplora`, `src/scheda`, `src/contenuti`, `src/stile`, `pipeline/`). Risultati:
+  - drei sostituito da camera-controls;
+  - solo la variante di modello 10% (r25 rimossa);
+  - Biome, Vitest e 12 test (stato, geometria, classificazione);
+  - script `modelli:scarica` e `modelli:prepara`. La preparazione è deterministica: i sei file rigenerati sono identici byte per byte a quelli in `public/modelli/`;
+  - attribuzione BodyParts3D in `public/modelli/LICENZE.md`;
+  - bundle JS 349 kB gzip, invariato: drei era già escluso dal tree-shaking. La riduzione vera richiede il caricamento differito del motore 3D (D14, da M2/M8);
+  - dipendenze di sviluppo aggiunte: jsdom e @testing-library/dom, per i test dei componenti da M2.
