@@ -14,7 +14,7 @@ const base: AtlasState = {
   home: false,
   tour: null,
 };
-const noUrl = { selection: null, sheet: false, page: null, guidedPath: null };
+const noUrl = { selection: null, sheet: false, page: null, guidedPath: null, home: false };
 
 describe("soglia d'ingresso", () => {
   const open = { ...base, home: true };
@@ -27,12 +27,21 @@ describe("soglia d'ingresso", () => {
   it('resta aperta sotto una pagina di lettura e tornando indietro su /', () => {
     const withIndex = atlasReducer(open, { type: 'setPage', page: 'indice' });
     expect(withIndex.home).toBe(true);
-    const back = atlasReducer(withIndex, { type: 'fromUrl', ...noUrl });
+    expect(urlFor({ ...noUrl, home: true })).toBe('/');
+    const back = atlasReducer(withIndex, { type: 'fromUrl', ...readUrl('/') });
     expect(back).toMatchObject({ home: true, page: null });
   });
 
-  it('una volta chiusa non si riapre tornando su /', () => {
-    expect(atlasReducer(base, { type: 'fromUrl', ...noUrl }).home).toBe(false);
+  it("ha un indirizzo diverso dall'atlante: / è la soglia, /esplora l'atlante", () => {
+    expect(readUrl('/').home).toBe(true);
+    expect(readUrl('/esplora')).toMatchObject({ home: false, selection: null });
+    expect(urlFor(noUrl)).toBe('/esplora');
+    expect(atlasReducer(open, { type: 'setHome', open: false }).home).toBe(false);
+  });
+
+  it('tornando su / si riapre, tornando su /esplora si richiude', () => {
+    expect(atlasReducer(base, { type: 'fromUrl', ...readUrl('/') }).home).toBe(true);
+    expect(atlasReducer(open, { type: 'fromUrl', ...readUrl('/esplora') }).home).toBe(false);
   });
 
   it("l'Indice ha il suo indirizzo", () => {

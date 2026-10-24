@@ -105,6 +105,6 @@ describe('pannello della struttura selezionata', () => {
     open('/esplora/cuore');
     fireEvent.click(screen.getByRole('button', { name: 'Chiudi il cartellino' }));
     expect(screen.queryByRole('complementary')).toBeNull();
-    expect(location.pathname).toBe('/');
+    expect(location.pathname).toBe('/esplora');
   });
 });

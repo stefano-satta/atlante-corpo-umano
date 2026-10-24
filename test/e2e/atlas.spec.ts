@@ -15,6 +15,7 @@ async function enter(page: Page, { tour = false } = {}) {
   const exploreButton = page.getByRole('button', { name: 'Esplora il corpo' });
   await expect(exploreButton).toHaveAttribute('aria-disabled', 'false', { timeout: 45_000 });
   await exploreButton.click();
+  await expect(page).toHaveURL(/\/esplora$/);
   if (!tour)
     await page
       .getByRole('dialog', { name: 'Ruota e avvicinati' })
@@ -259,7 +260,7 @@ test('il percorso "Un respiro" si segue passo per passo e si può lasciare per e
   // I passi non riempiono la cronologia; Esc chiude il percorso.
   await page.keyboard.press('Escape');
   await expect(panel).toHaveCount(0);
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/esplora$/);
   expect(errors).toEqual([]);
 });
 
@@ -296,11 +297,19 @@ test("la soglia d'ingresso porta all'atlante e il tour compare solo alla prima v
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await expect(page.getByRole('button', { name: 'Aiuto' })).toBeFocused();
 
-  // Il tasto ? riapre la guida, Esc la chiude; tornando alla soglia il tour non riparte.
+  // Il tasto ? riapre la guida, Esc la chiude; Indietro riporta alla soglia, Avanti all'atlante.
   await page.keyboard.press('?');
   await expect(page.getByRole('heading', { name: 'Ruota e avvicinati' })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Il corpo umano, strato per strato.' })).toBeVisible();
+  await page.goForward();
+  await expect(page).toHaveURL(/\/esplora$/);
+  await expect(page.getByRole('toolbar')).toBeVisible();
+
+  // Tornando alla soglia il tour non riparte.
   await page.goto('/');
   await page.getByRole('button', { name: 'Esplora il corpo' }).click();
   await expect(page.getByRole('toolbar')).toBeVisible();

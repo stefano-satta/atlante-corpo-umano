@@ -21,8 +21,8 @@ Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `pub
 
 ## Regole di progetto (vincolanti)
 
-- **`docs/DECISIONI.md` è la fonte di verità** su stato del progetto, decisioni approvate (D1…D27), decisioni delegate e registro delle modifiche. Leggerlo prima di lavorare; registrarvi ogni decisione minore presa in autonomia e riferirla all'utente.
-- **Lavoro a milestone:** per ogni milestone si presenta un piano con alternative e una raccomandazione, si attende un'approvazione esplicita (il silenzio non vale) e ci si ferma dopo averla completata.
+- **`docs/DECISIONI.md`** è l'archivio delle decisioni approvate (D1…D27) e del registro delle modifiche. Non serve leggerlo per intero: cercarvi (`grep`) la decisione citata o l'area toccata quando una scelta potrebbe contraddirne una approvata. A fine lavoro si aggiunge una riga al registro (§ 6) per le modifiche di comportamento o di contenuto.
+- **Modo di lavoro:** il lavoro a milestone è concluso. Le richieste puntuali si eseguono direttamente; si chiede prima solo per scelte ambigue o che cambiano una decisione approvata.
 - **Contenuti medici:** niente informazioni inventate. Solo fonti autorevoli (OpenStax A&P 2e, NHLBI, FIPAT TA2), verificate leggendole; ogni paragrafo ha una citazione; distinguere fatti e incertezze, dichiarare i limiti; non affermare mai una revisione medica. Un testo passa a `approvato` solo con l'approvazione dell'utente.
 - **Licenze (D6):** niente licenze NC. Dal pacchetto Z-Anatomy non si estraggono i modelli NC (orecchio interno CC BY-NC-SA, rene CC BY-NC).
 - Ogni download richiede il permesso dell'utente (nome del file, fonte, dimensione).
@@ -62,7 +62,8 @@ Alias `@/` → `src/` (in `tsconfig.json`, `vite.config.ts` e `vitest.config.ts`
 
 `contexts/AtlasContext.tsx` contiene un reducer unico (`utils/atlasReducer.ts`; dalla UI `useAtlas()` → `{state, dispatch}`), sincronizzato con l'URL tramite `readUrl` e `writeUrl` in `utils/url.ts` (D11). Rotte principali:
 
-- `/` (soglia d'ingresso);
+- `/` (soglia d'ingresso; Indietro dall'atlante vi riporta);
+- `/esplora` (atlante senza selezione: "Esplora il corpo", chiusura del cartellino o del percorso);
 - `/esplora/<unità>` o `/organo/<id>`;
 - `/percorsi/<id>/<passo>` (passo contato da 1);
 - `/indice`, `/fonti`, `/informazioni` (`PAGE_IDS` in `utils/pages.ts`).

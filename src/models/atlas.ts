@@ -22,7 +22,7 @@ export interface AtlasState {
   sheet: boolean;
   /** Pagina di lettura aperta sopra l'atlante (Indice, Fonti, Informazioni). */
   page: PageId | null;
-  /** Soglia d'ingresso (D26): aperta arrivando sull'indirizzo `/`, si chiude scegliendo come entrare. */
+  /** Soglia d'ingresso (D26) sull'indirizzo `/`; entrando nell'atlante si passa a `/esplora`. */
   home: boolean;
   /** Passo del tour iniziale in corso, contato da 0. */
   tour: number | null;
@@ -35,7 +35,7 @@ export interface AtlasState {
 }
 
 /** Parte dello stato che si legge e si scrive nell'indirizzo. */
-export type UrlState = Pick<AtlasState, 'selection' | 'sheet' | 'page' | 'guidedPath'>;
+export type UrlState = Pick<AtlasState, 'selection' | 'sheet' | 'page' | 'guidedPath' | 'home'>;
 
 export type AtlasAction =
   | { type: 'setLayer'; layer: Layer }

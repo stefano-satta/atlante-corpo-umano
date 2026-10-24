@@ -29,10 +29,10 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
       // Aprendo una pagina dall'indirizzo la selezione resta quella che c'era.
       if (a.page) return { ...s, page: a.page };
       // Un indirizzo di struttura lascia attivo il percorso in corso; uno di percorso lo imposta.
-      // Tornando indietro su `/` la soglia resta com'era: chiusa, se si era già entrati.
+      // Tornando indietro su `/` si torna alla soglia, su `/esplora` all'atlante.
       return {
         ...s,
-        home: s.home && !a.selection && !a.guidedPath,
+        home: a.home,
         selection: a.selection,
         sheet: a.sheet,
         page: null,
@@ -41,13 +41,12 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
   }
 }
 
-/** Stato all'apertura: dall'indirizzo, con la soglia aperta solo arrivando su `/`. */
+/** Stato all'apertura, dall'indirizzo: su `/` la soglia è aperta. */
 export function initialAtlasState(): AtlasState {
   return {
     layer: 'organi',
     skin: true,
     hover: null,
-    home: location.pathname === '/',
     tour: null,
     ...readUrl(),
   };

@@ -9,8 +9,8 @@ export const AtlasContext = createContext<{ state: AtlasState; dispatch: AtlasDi
 export function AtlasProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(atlasReducer, undefined, initialAtlasState);
 
-  const { selection, sheet, page, guidedPath } = state;
-  useEffect(() => writeUrl({ selection, sheet, page, guidedPath }), [selection, sheet, page, guidedPath]);
+  const { selection, sheet, page, guidedPath, home } = state;
+  useEffect(() => writeUrl({ selection, sheet, page, guidedPath, home }), [selection, sheet, page, guidedPath, home]);
   useEffect(() => {
     const onPopState = () => dispatch({ type: 'fromUrl', ...readUrl() });
     addEventListener('popstate', onPopState);

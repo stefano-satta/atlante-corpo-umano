@@ -269,3 +269,9 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - un foglio di stile per area in `src/styles/` (token in `tokens.css`) al posto di `stile.css`; segno del glossario `glossary-term`/`data-term` e classi `citation`/`visually-hidden`;
   - `test/ambiente-dom.ts` → `test/dom-setup.ts`, `test/e2e/esplora.spec.ts` → `test/e2e/atlas.spec.ts`;
   - `CLAUDE.md` aggiornato alla nuova struttura. Verifica: build, 71 test unitari e di componente, Biome senza errori.
+- **2026-10-24** — Il lavoro a milestone è concluso (indicazione dell'utente): le richieste puntuali si eseguono direttamente. `CLAUDE.md` aggiornato di conseguenza; `.impeccable/config.json` punta al nuovo `src/styles/panel.css`.
+- **2026-10-24** — Soglia e atlante hanno indirizzi distinti (richiesta dell'utente; modifica il comportamento di D26 per cui la soglia non ricompariva tornando su `/`):
+  - `/` è la soglia; "Esplora il corpo" porta a `/esplora`, che apre l'atlante senza soglia anche come indirizzo diretto;
+  - chiudendo il cartellino o il percorso si torna a `/esplora`, non più a `/`;
+  - Indietro dall'atlante riporta alla soglia, Avanti all'atlante; il tour non riparte.
+  - Test: 72 unitari e di componente, 19 end-to-end.
