@@ -2,9 +2,9 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. M6 Percorso "Un respiro" completata e approvata. M7 Soglia, tour e Indice implementata; il glossario attende l'approvazione del testo. Resta M8.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. M6 Percorso "Un respiro" completata e approvata. M7 Soglia, tour e Indice completata e approvata. Resta M8 Pubblicazione.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
-- **In sospeso:** approvazione del testo del glossario (25 voci, stato "bozza"), che completa la M7
+- **In sospeso:** piano della M8 Pubblicazione
 
 ## 2. Decisioni approvate
 
@@ -35,6 +35,7 @@
 | D24 | 2026-10-24 | 7 | M6 Percorso "Un respiro" | Approvato il piano con le scelte A1–F1: corpo 3D fermo con telecamera che inquadra ed evidenzia, movimento in uno schema 2D del torace e dell'alveolo (A1); percorso nel pannello a destra, foglio in basso su smartphone (B1); esplorazione libera con "Torna al percorso" dopo la selezione di una struttura (C1); ogni passo sceglie lo strato e può aggiungere singole strutture di un altro strato (D1); indirizzi `/percorsi/respirazione/1`…`6` e voce Percorsi attiva che apre il passo 1 (E1); con il movimento ridotto niente volo della telecamera, schema fermo e niente Riproduci (F1). Sei passi: Un respiro, Le vie dell'aria, I bronchi, Inspirazione, Negli alveoli, Espirazione. |
 | D25 | 2026-10-24 | 7 | Contenuti | Approvato il testo del percorso "Un respiro" (6 passi; fonti OpenStax 22.1, 22.3, 22.4 e NHLBI). Il percorso passa allo stato "approvato" ed entra nella build di produzione. M6 completata. |
 | D26 | 2026-10-24 | 7 | M7 Soglia, tour e Indice | Approvato il piano con le scelte A1, B1, C1, D1, E1: soglia d'ingresso sopra l'atlante su `/`, con "Esplora il corpo", "Segui un percorso", Indice, Informazioni e l'avvertenza già approvata, mentre il modello si carica dietro (A1); tour di 4 passi sugli elementi veri, automatico alla prima visita dopo "Esplora il corpo", con "Salta", ricordato nel browser e riaperto dal nuovo pulsante Aiuto (B1); Indice `/indice` con ricerca, strutture con testo, percorsi, processi e organi del modello per apparato; ossa e muscoli senza testo esclusi, con nota (C1); glossario in `contenuti/glossario.yaml` con fonti e stati, sezione dell'Indice e definizioni sul posto con il segno `[[testo\|termine]]`, testo da approvare a parte (D1); senza WebGL 2 si apre l'Indice con lettura dei testi, del ciclo cardiaco e del percorso (E1). |
+| D27 | 2026-10-24 | 7 | Contenuti | Approvato il testo delle 25 voci del glossario (`contenuti/glossario.yaml`), portate in stato "approvato" e incluse nella build di produzione: i termini segnati nei testi aprono la definizione sul posto. M7 completata. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -260,3 +261,5 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - nei testi approvati (cuore, ciclo cardiaco, polmoni, percorso "Un respiro") sono stati aggiunti solo i segni del glossario: senza i segni il testo è identico parola per parola, verificato automaticamente; gli stati restano "approvato";
   - un termine è segnato una sola volta per sezione o passo;
   - l'avviso grigio su fondo grigio aveva contrasto insufficiente: il testo ora è in inchiostro pieno.
+- **2026-10-24** — Angoli superiori squadrati sotto la barra d'accento della guida e della definizione del glossario (correzione visiva).
+- **2026-10-24** — Registrata D27: glossario approvato (25 voci) e incluso nella build di produzione. M7 completata.

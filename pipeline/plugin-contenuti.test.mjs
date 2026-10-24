@@ -6,7 +6,7 @@ import { contenuti, senzaVociMancanti } from './plugin-contenuti.mjs';
 
 // Copia dei contenuti reali con stati fissati, per provare il filtro di pubblicazione senza
 // dipendere da quali testi sono approvati oggi: femore in bozza, cuore e Informazioni approvati,
-// percorso "Un respiro" verificato.
+// percorso "Un respiro" verificato; nel glossario alveolo in bozza, le altre voci approvate.
 let radice;
 beforeAll(() => {
   radice = fs.mkdtempSync(path.join(os.tmpdir(), 'atlante-'));
@@ -21,6 +21,14 @@ beforeAll(() => {
   fissa('strutture/cuore.md', 'approvato');
   fissa('pagine/informazioni.md', 'approvato');
   fissa('percorsi/respirazione.md', 'verificato');
+  const glossario = path.join(radice, 'contenuti/glossario.yaml');
+  fs.writeFileSync(
+    glossario,
+    fs
+      .readFileSync(glossario, 'utf8')
+      .replace(/^ {2}stato: .*$/gm, '  stato: approvato')
+      .replace(/^(alveolo:\n(?: {2}.*\n)*?) {2}stato: approvato$/m, '$1  stato: bozza'),
+  );
 });
 afterAll(() => fs.rmSync(radice, { recursive: true, force: true }));
 
@@ -57,7 +65,7 @@ describe('pubblicazione dei contenuti', () => {
   });
 
   it('in produzione il glossario contiene solo le voci approvate', () => {
-    expect(caricaIndice('build')).not.toMatch(/GLOSSARIO = \[\{/);
+    expect(caricaIndice('build')).toMatch(/GLOSSARIO = \[\{"id":"aorta"/);
     expect(caricaIndice('serve')).toMatch(/GLOSSARIO = \[\{"id":"alveolo"/);
   });
 
