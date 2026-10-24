@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect, useRef } from 'react';
 import { useAtlante } from '../app/stato';
 import { dataEstesa, haPagina, useStruttura } from '../contenuti/contenuti';
 import type { VoceIndice } from '../contenuti/tipi';
@@ -6,6 +6,10 @@ import { LinkPagina } from '../pagine/Pagina';
 import { AvvisoStato, NomeRelazione, Termine } from './Cartellino';
 import { ElencoFonti, Testo } from './Fonti';
 import { IconaIndietro } from './icone';
+
+// L'animazione si scarica solo quando si apre la scheda che la contiene.
+const CicloCardiaco = lazy(() => import('../processi/CicloCardiaco'));
+
 import { registraBersaglio } from './tracciato-richiamo';
 
 /** Contenuto del pannello allargato: la scheda completa di un organo (sezioni di D11). */
@@ -67,16 +71,13 @@ export function Scheda({ voce }: { voce: VoceIndice }) {
           <section key={x.ancora} id={`sez-${x.ancora}`} aria-labelledby={`t-${x.ancora}`}>
             <h2 id={`t-${x.ancora}`}>{x.titolo}</h2>
             <Testo className="testo" html={x.html} />
-            {x.chiave === 'Il processo' && voce.id === 'cuore' && (
-              <figure className="riquadro-processo">
-                <div className="segnaposto-animazione" aria-hidden="true">
-                  <span>Ciclo cardiaco</span>
-                </div>
-                <figcaption>
-                  L'animazione del ciclo cardiaco, con pausa e avanzamento passo per passo, è in preparazione.
-                </figcaption>
-              </figure>
-            )}
+            {x.chiave === 'Il processo' &&
+              s.processi.map((p) => (
+                <Suspense key={p.id} fallback={<p role="status">Caricamento dell'animazione…</p>}>
+                  <AvvisoStato stato={p.stato} />
+                  <CicloCardiaco processo={p} />
+                </Suspense>
+              ))}
           </section>
         ))}
         {s && (

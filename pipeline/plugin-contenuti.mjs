@@ -25,7 +25,7 @@ export function contenuti({ radice = process.cwd() } = {}) {
     if (letti.errori.length) throw new Error(`Controllo dei contenuti non superato:\n- ${letti.errori.join('\n- ')}`);
     const pubblicabile = (c) => bozze || c.stato === 'approvato';
     cache = {
-      strutture: letti.strutture.filter(pubblicabile),
+      strutture: letti.strutture.filter(pubblicabile).map((s) => ({ ...s, processi: s.processi.filter(pubblicabile) })),
       pagine: letti.pagine.filter(pubblicabile),
       fonti: letti.fonti,
     };
@@ -49,7 +49,9 @@ export function contenuti({ radice = process.cwd() } = {}) {
       const d = dati();
       const percorso = id.slice(PREFISSO.length + 1);
       if (percorso === '') {
-        const indice = d.strutture.map(({ sezioni, relazioni, fonti, limiti, fontiBreve, ...resto }) => resto);
+        const indice = d.strutture.map(
+          ({ sezioni, relazioni, fonti, limiti, fontiBreve, processi, ...resto }) => resto,
+        );
         const caricatori = (elenco, tipo) =>
           `{${elenco.map((c) => `${JSON.stringify(c.id)}: () => import(${JSON.stringify(`${PREFISSO}/${tipo}/${c.id}`)})`).join(',')}}`;
         return [

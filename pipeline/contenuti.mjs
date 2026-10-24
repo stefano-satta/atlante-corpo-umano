@@ -21,6 +21,20 @@ const TIPI_FONTE = ['istituzionale', 'manuale', 'terminologia'];
 /** Sezioni ammesse nel corpo, nell'ordine della scheda (D11). "Collegamenti" e "Fonti" si generano. */
 export const SEZIONI = ['In breve', 'Dove si trova', 'Come è fatto', 'Cosa fa', 'Il processo'];
 
+/**
+ * Stato visivo di ogni passo di un processo animato (ciclo cardiaco). Ogni campo ha valori
+ * ammessi fissi: il disegno sa rappresentare solo questi.
+ */
+export const CAMPI_PASSO = {
+  atri: ['rilassati', 'contratti'],
+  ventricoli: ['rilassati', 'contratti'],
+  av: ['aperte', 'chiuse'],
+  semilunari: ['aperte', 'chiuse'],
+  segnale: ['nessuno', 'senoatriale', 'atrioventricolare', 'ventricoli'],
+  tono: ['nessuno', 'primo', 'secondo'],
+};
+export const FLUSSI = ['vene-atri', 'atri-ventricoli', 'ventricoli-arterie'];
+
 const DATA = /^\d{4}-\d{2}-\d{2}$/;
 const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const CITAZIONE = /\[@([^\]\s]+)\]/g;
@@ -160,6 +174,48 @@ export function leggiContenuti(cartella, modello) {
   }
   const perId = new Map(grezze.map((g) => [g.dati.id, g]));
 
+  // Processi animati (contenuti/processi/): un passo per sezione "## Titolo", con lo stato del
+  // disegno nell'intestazione. Si compilano insieme alla struttura a cui appartengono, così i
+  // rimandi usano la stessa numerazione delle fonti della scheda.
+  const processiPer = new Map();
+  const cartellaProcessi = path.join(cartella, 'processi');
+  const fileProcessi = fs.existsSync(cartellaProcessi)
+    ? fs
+        .readdirSync(cartellaProcessi)
+        .filter((f) => f.endsWith('.md'))
+        .sort()
+    : [];
+  for (const file of fileProcessi) {
+    const errore = errorePer(`processi/${file}`);
+    const letto = separaIntestazione(fs.readFileSync(path.join(cartellaProcessi, file), 'utf8'));
+    if (!letto) {
+      errore('manca l’intestazione YAML');
+      continue;
+    }
+    const d = letto.dati;
+    if (`${d.id}.md` !== file) errore(`l'id "${d.id}" deve coincidere con il nome del file`);
+    if (!perId.has(d.struttura)) errore(`struttura sconosciuta: ${d.struttura}`);
+    if (typeof d.titolo !== 'string' || !d.titolo) errore('manca il titolo');
+    if (!STATI.includes(d.stato)) errore(`stato deve essere uno tra ${STATI.join(', ')}`);
+    if (!DATA.test(String(d.revisione))) errore('manca la data di revisione');
+    const passi = Array.isArray(d.passi) ? d.passi : [];
+    if (passi.length < 2) errore('servono almeno due passi');
+    passi.forEach((passo, i) => {
+      for (const [campo, valori] of Object.entries(CAMPI_PASSO))
+        if (!valori.includes(passo?.[campo]))
+          errore(`passo ${i + 1}: ${campo} deve essere uno tra ${valori.join(', ')}`);
+      for (const f of passo?.flussi ?? []) if (!FLUSSI.includes(f)) errore(`passo ${i + 1}: flusso sconosciuto ${f}`);
+    });
+    const sezioni = letto.corpo.split(/^## (.+)$/m);
+    if (sezioni[0].trim()) errore('c’è del testo prima del primo passo');
+    const testi = [];
+    for (let i = 1; i < sezioni.length; i += 2) testi.push({ titolo: sezioni[i].trim(), testo: sezioni[i + 1].trim() });
+    if (testi.length !== passi.length)
+      errore(`i passi nell'intestazione (${passi.length}) e nel testo (${testi.length}) non coincidono`);
+    if (!processiPer.has(d.struttura)) processiPer.set(d.struttura, []);
+    processiPer.get(d.struttura).push({ errore, dati: d, passi, testi });
+  }
+
   // Seconda passata: corpo, rimandi, relazioni.
   const strutture = [];
   for (const { file, dati: d, corpo } of grezze) {
@@ -207,6 +263,23 @@ export function leggiContenuti(cartella, modello) {
     });
     if (!relazioni.some((r) => r.tipo === 'fa-parte-di')) errore('manca la relazione "fa-parte-di"');
 
+    const processi = (processiPer.get(d.id) ?? []).map((p) => ({
+      id: p.dati.id,
+      titolo: p.dati.titolo,
+      stato: p.dati.stato,
+      revisione: String(p.dati.revisione),
+      passi: p.passi.map((passo, i) => {
+        const testo = p.testi[i]?.testo ?? '';
+        controllaRimandi(lexer, testo, p.errore);
+        return {
+          titolo: p.testi[i]?.titolo ?? '',
+          html: marked.parse(rimandi(testo)),
+          ...Object.fromEntries(Object.keys(CAMPI_PASSO).map((c) => [c, passo[c]])),
+          flussi: passo.flussi ?? [],
+        };
+      }),
+    }));
+
     strutture.push({
       id: d.id,
       tipo: d.tipo,
@@ -224,6 +297,7 @@ export function leggiContenuti(cartella, modello) {
       sezioni: compilate,
       scheda: d.tipo === 'organo' && compilate.length > 1,
       relazioni,
+      processi,
       fonti: ordine.map((id, i) => ({ n: i + 1, id, ...fonti[id] })),
       fontiBreve,
     });

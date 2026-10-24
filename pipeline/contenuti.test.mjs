@@ -112,3 +112,40 @@ describe('contenuti reali dell’atlante', () => {
     expect(r.strutture.map((s) => s.id)).toEqual(['cuore', 'diaframma', 'femore']);
   });
 });
+
+describe('processi animati', () => {
+  const passo =
+    '{ atri: rilassati, ventricoli: rilassati, av: aperte, semilunari: chiuse, segnale: nessuno, tono: nessuno, flussi: [vene-atri] }';
+  const processo = (passi, corpo) => `---
+id: ciclo
+struttura: cuore
+titolo: Ciclo
+passi: [${passi.join(', ')}]
+stato: verificato
+revisione: 2026-10-24
+---
+${corpo}`;
+  const conProcesso = (testo) => {
+    prepara('## In breve\n\nFrase [@a].\n');
+    fs.mkdirSync(path.join(cartella, 'processi'));
+    fs.writeFileSync(path.join(cartella, 'processi', 'ciclo.md'), testo);
+    return leggiContenuti(cartella, MODELLO);
+  };
+
+  it('compila i passi con la numerazione delle fonti della struttura', () => {
+    const r = conProcesso(processo([passo, passo], '## Uno\n\nFrase [@b].\n\n## Due\n\nFrase [@a].\n'));
+    expect(r.errori).toEqual([]);
+    const [p] = r.strutture[0].processi;
+    expect(p.passi.map((x) => x.titolo)).toEqual(['Uno', 'Due']);
+    expect(p.passi[0].html).toContain('href="#fonte-2"');
+    expect(r.strutture[0].fonti.map((f) => f.id)).toEqual(['a', 'b']);
+  });
+
+  it('rifiuta stati del disegno non previsti, passi senza testo e didascalie senza fonte', () => {
+    const errato = passo.replace('av: aperte', 'av: socchiuse');
+    const errori = conProcesso(processo([errato, passo], '## Uno\n\nFrase senza fonte.\n')).errori.join();
+    expect(errori).toMatch(/av deve essere uno tra aperte, chiuse/);
+    expect(errori).toMatch(/passi nell'intestazione \(2\) e nel testo \(1\)/);
+    expect(errori).toMatch(/paragrafo senza fonte/);
+  });
+});

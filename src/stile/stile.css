@@ -494,28 +494,6 @@ button {
 .righe-attesa span:nth-child(4) {
   width: 61%;
 }
-.riquadro-processo {
-  margin: 0;
-  display: grid;
-  gap: 10px;
-}
-.segnaposto-animazione {
-  display: grid;
-  place-items: center;
-  aspect-ratio: 16 / 9;
-  border-radius: 3px;
-  background: var(--sala);
-  color: var(--sala-tenue);
-  font-variant-caps: all-small-caps;
-  letter-spacing: 0.06em;
-  font-weight: 600;
-  font-size: 15px;
-}
-.riquadro-processo figcaption {
-  font-size: 14px;
-  color: var(--inchiostro-tenue);
-}
-
 /* Testi compilati dai contenuti */
 .testo > :first-child {
   margin-top: 0;
@@ -752,6 +730,284 @@ button {
   margin-top: 6px;
 }
 
+/* Animazione del ciclo cardiaco (M5). Rosso e blu solo per il sangue (D10). */
+.ciclo {
+  --sangue-povero: #4362a8;
+  --sangue-ricco: #b8434b;
+  --segnale: #f2c14e;
+  --nucleo-sala: #c3baf2;
+  margin: 24px 0 0;
+  padding: 18px 20px 20px;
+  display: grid;
+  gap: 14px;
+  background: var(--sala);
+  color: var(--sala-testo);
+  border-radius: 3px;
+}
+.ciclo :focus-visible {
+  outline-color: var(--eosina-sala);
+}
+.ciclo-titolo {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--sala-tenue);
+}
+.ciclo-schema {
+  position: relative;
+}
+.schema-cuore {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.schema-cuore .vaso {
+  fill: none;
+  stroke-width: 24;
+  opacity: 0.85;
+}
+.schema-cuore .vaso.povero,
+.campione.povero {
+  stroke: var(--sangue-povero);
+  background: var(--sangue-povero);
+}
+.schema-cuore .vaso.ricco,
+.campione.ricco {
+  stroke: var(--sangue-ricco);
+  background: var(--sangue-ricco);
+}
+.schema-cuore .cavita > * {
+  stroke: var(--sala-testo);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 420ms var(--curva),
+    stroke 260ms ease-out;
+}
+.schema-cuore .cavita.povero > * {
+  fill: var(--sangue-povero);
+}
+.schema-cuore .cavita.ricco > * {
+  fill: var(--sangue-ricco);
+}
+.schema-cuore[data-atri="contratti"] .atrio > * {
+  transform: scale(0.9);
+}
+.schema-cuore[data-ventricoli="contratti"] .ventricolo > * {
+  transform: scale(0.88);
+}
+/* Il segnale elettrico colora la parete delle cavità che sta raggiungendo. */
+.schema-cuore[data-segnale="atrioventricolare"] .atrio > *,
+.schema-cuore[data-segnale="ventricoli"] .ventricolo > * {
+  stroke: var(--segnale);
+  stroke-width: 3;
+}
+.schema-cuore .lembo {
+  stroke: var(--vetrino);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: transform 320ms var(--curva);
+}
+.schema-cuore[data-av="aperte"] .av .lembo {
+  transform: rotate(calc(var(--verso) * 62deg));
+}
+.schema-cuore[data-semilunari="aperte"] .semilunari .lembo {
+  transform: rotate(calc(var(--verso) * -80deg));
+}
+.schema-cuore .flusso {
+  fill: none;
+  stroke: var(--vetrino);
+  stroke-width: 2.5;
+  stroke-dasharray: 6 8;
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+.schema-cuore .punta {
+  fill: var(--vetrino);
+}
+.flussi[data-attivi~="vene-atri"] [data-flusso="vene-atri"],
+.flussi[data-attivi~="atri-ventricoli"] [data-flusso="atri-ventricoli"],
+.flussi[data-attivi~="ventricoli-arterie"] [data-flusso="ventricoli-arterie"] {
+  opacity: 0.95;
+}
+/* Il tratteggio scorre solo durante la riproduzione: in pausa le frecce restano ferme. */
+.ciclo-schema[data-in-riproduzione="true"] .flusso {
+  animation: scorre-flusso 900ms linear infinite;
+}
+@keyframes scorre-flusso {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+.schema-cuore .nodo {
+  fill: var(--sala-alta);
+  stroke: var(--sala-testo);
+  stroke-width: 1.5;
+  transition: fill 240ms ease-out;
+}
+.schema-cuore .alone-nodo {
+  fill: none;
+  stroke: var(--segnale);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.schema-cuore[data-segnale="senoatriale"] .nodo-sa,
+.schema-cuore[data-segnale="atrioventricolare"] .nodo-av {
+  fill: var(--segnale);
+}
+.schema-cuore[data-segnale="senoatriale"] .alone-nodo.nodo-sa,
+.schema-cuore[data-segnale="atrioventricolare"] .alone-nodo.nodo-av {
+  animation: impulso 1100ms var(--curva) 2;
+}
+@keyframes impulso {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(4.5);
+  }
+}
+.schema-cuore text {
+  font-family: var(--f-testo);
+}
+.schema-cuore .etichette text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.schema-cuore .etichette .minore {
+  fill: var(--sala-tenue);
+  font-size: 11px;
+  font-weight: 500;
+}
+.schema-cuore .etichette .testo-nodo {
+  fill: #fff;
+  font-size: 10px;
+  font-weight: 500;
+}
+.schema-cuore .orientamento {
+  fill: var(--sala-tenue);
+  font-size: 12px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.ciclo-tono {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--vetrino);
+  color: var(--inchiostro);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+  animation: compare 280ms var(--curva);
+}
+.ciclo-comandi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.ciclo-pulsante,
+.ciclo-passi button {
+  display: inline-grid;
+  place-items: center;
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid var(--sala-bordo);
+  border-radius: 2px;
+  background: var(--sala-rilievo);
+  color: var(--sala-testo);
+  transition: background-color 180ms ease-out;
+}
+.ciclo-pulsante:hover,
+.ciclo-passi button:hover {
+  background: var(--sala-alta);
+}
+.ciclo-pulsante.riproduci {
+  display: inline-flex;
+  gap: 8px;
+  padding: 0 14px;
+  font-weight: 700;
+  font-size: 15px;
+}
+.ciclo-passi {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.ciclo-passi button {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.ciclo-passi button[aria-current="step"] {
+  background: var(--vetrino);
+  border-color: var(--vetrino);
+  color: var(--inchiostro);
+}
+.ciclo-didascalia {
+  min-height: 11em;
+}
+.ciclo-didascalia .ciclo-numero {
+  margin: 0;
+  font-size: 15px;
+  color: var(--sala-tenue);
+}
+.ciclo-didascalia h3 {
+  margin: 2px 0 8px;
+  font: 600 22px / 1.15 var(--f-titoli);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.01em;
+}
+.ciclo .testo p {
+  margin: 0;
+}
+.ciclo .rimando a {
+  color: var(--nucleo-sala);
+}
+.ciclo-legenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--sala-tenue);
+}
+.voce-legenda {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.campione {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+.campione.segnale {
+  background: var(--segnale);
+}
+.ciclo-avvertenza {
+  margin: 0;
+  font-size: 13px;
+  color: var(--sala-tenue);
+}
+
 /* Caricamento e servizio */
 .caricamento {
   position: absolute;
@@ -894,6 +1150,19 @@ button {
   }
   .separatore {
     margin: 4px 2px;
+  }
+  /* Sullo schermo stretto il disegno si rimpicciolisce: etichette più grandi, nodi solo nella didascalia. */
+  .schema-cuore .etichette text {
+    font-size: 16px;
+  }
+  .schema-cuore .etichette .minore {
+    font-size: 14px;
+  }
+  .schema-cuore .etichette .testo-nodo {
+    display: none;
+  }
+  .schema-cuore .orientamento {
+    font-size: 16px;
   }
   .esteso {
     display: none;

@@ -2,7 +2,7 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate. Prossima: M4 Polmoni (serve Blender) oppure M5 Ciclo cardiaco.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco realizzata, didascalie in attesa di approvazione. Restano M4 (serve Blender), M6, M7, M8.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
 - **In sospeso:** conferma in Blender dei polmoni di Z-Anatomy (l'utente installa Blender)
 
@@ -29,6 +29,7 @@
 | D18 | 2026-10-22 | 6 | Contenuti pilota | Approvati cuore, femore e diaframma (stato "approvato") e le scelte sulle incertezze: strati della parete secondo OpenStax e SEER con differenza dichiarata; termini latini da verificare sulla TA2 prima della pubblicazione; diaframma con funzione nell'apparato respiratorio e appartenenza al sistema muscolare; relazioni verso strutture senza contenuto come testo semplice. Fonti: NHLBI, NCI SEER, OpenStax A&P 2e (citata, mai riprodotta). |
 | D19 | 2026-10-22 | 7 | Piano di implementazione | Approvate le milestone M1 Fondazione, M2 Design Istologia, M3 Contenuti reali, M4 Polmoni, M5 Ciclo cardiaco, M6 Percorso "Un respiro", M7 Soglia, tour e Indice, M8 Pubblicazione; poi Fase 8. Approvata e avviata M1. M2 approvata il 2026-10-22; M3 il 2026-10-24. |
 | D20 | 2026-10-24 | 7 | Contenuti | Approvati la correzione del termine latino del femore in "os femoris" (TA2 1360) e il testo della pagina Informazioni, inclusa la dichiarazione che i testi non sono stati rivisti da un medico o da un anatomista. Femore e Informazioni passano allo stato "approvato". |
+| D21 | 2026-10-24 | 7 | M5 Ciclo cardiaco | Approvato il piano con l'opzione A: schema 2D in sezione frontale disegnato per l'atlante (SVG con transizioni CSS), 5 passi, riproduzione che parte ferma, passo per passo con il movimento ridotto, nessun valore numerico, nessun suono, schema dichiarato come semplificato e non in scala. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -131,3 +132,23 @@
   - il numero TA2 compare accanto al termine latino;
   - l'avviso "Versione in sviluppo" ora dice "alcuni nomi e testi sono in preparazione".
 - **2026-10-24** — Registrata D20: femore e pagina Informazioni approvati e inclusi nella build di produzione. Chiusa la questione aperta sulla dichiarazione di revisione dei contenuti.
+- **2026-10-24** — M5 Ciclo cardiaco realizzata. Risultati:
+  - nuovo file `contenuti/processi/ciclo-cardiaco.md`: 5 passi; per ognuno lo stato del disegno (atri, ventricoli, valvole, segnale, tono, flussi) e una didascalia con i rimandi;
+  - il controllo automatico ora verifica anche i processi: valori ammessi per ogni parte del disegno, stesso numero di passi tra intestazione e testo, una fonte per ogni paragrafo; la numerazione delle fonti è quella della scheda;
+  - componente `src/processi/` (schema, comandi, riproduzione), caricato solo con la scheda: 2,3 kB gzip;
+  - comandi Riproduci/Pausa, Precedente, Successivo e passi da 1 a 5; la didascalia viene annunciata solo fuori dalla riproduzione; con il movimento ridotto il pulsante Riproduci non compare;
+  - test: 44 unitari e di componente, 11 end-to-end con axe-core senza violazioni.
+- **2026-10-24** — Verifica sulle fonti per le didascalie, su OpenStax 19.3 letto direttamente il 2026-10-24:
+  - le valvole semilunari si chiudono quando la pressione nei ventricoli scende sotto quella del tronco polmonare e dell'aorta, all'inizio del rilassamento;
+  - il secondo tono è la chiusura delle valvole semilunari durante la diastole ventricolare;
+  - nella diastole le valvole atrioventricolari si aprono e il sangue passa dagli atri ai ventricoli;
+  - la contrazione degli atri completa il riempimento;
+  - gli atri si rilassano quando si contraggono i ventricoli.
+
+  Queste affermazioni sono nuove rispetto al testo approvato del cuore. Il file del processo è in stato "verificato": fuori dalla build di produzione fino all'approvazione.
+- **2026-10-24** — Decisioni minori della M5:
+  - colori del sangue in tono con la palette (#4362a8 povero, #b8434b ricco di ossigeno);
+  - segnale elettrico in giallo (#f2c14e), distinto da selezione e azioni;
+  - frecce di flusso ferme in pausa;
+  - su schermo stretto le etichette del disegno sono più grandi e quelle dei due nodi sono nascoste: i nodi restano nominati nelle didascalie;
+  - il percorso del segnale nei ventricoli non è disegnato (le fonti approvate non nominano fascio di His e fibre di Purkinje): il segnale è mostrato colorando la parete delle cavità che raggiunge.

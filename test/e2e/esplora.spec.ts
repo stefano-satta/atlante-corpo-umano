@@ -145,3 +145,27 @@ test('le pagine Fonti e Informazioni si aprono dal menu e si chiudono con Esc', 
   await expect(page).toHaveURL(/\/esplora\/cuore$/);
   await expect(page.getByRole('main')).toHaveCount(0);
 });
+
+test('il ciclo cardiaco nella scheda si comanda da tastiera e non ha problemi di accessibilità', async ({ page }) => {
+  await page.goto('/organo/cuore');
+  await attendiScena(page);
+  const ciclo = page.getByRole('figure', { name: 'Il ciclo cardiaco, passo per passo' });
+  await ciclo.scrollIntoViewIfNeeded();
+  await expect(ciclo.getByRole('heading', { name: 'Le cavità si riempiono' })).toBeVisible();
+  await ciclo.getByRole('button', { name: 'Passo successivo' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(ciclo.getByRole('heading', { name: 'Parte il segnale' })).toBeVisible();
+  await ciclo.getByRole('button', { name: /Passo 4/ }).click();
+  await expect(ciclo.getByText('Primo tono', { exact: true })).toBeVisible();
+  await expect(ciclo.locator('.schema-cuore')).toHaveAttribute('data-ventricoli', 'contratti');
+  await accessibilita(page);
+});
+
+test('con il movimento ridotto il ciclo cardiaco va solo passo per passo', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/organo/cuore');
+  await attendiScena(page);
+  const ciclo = page.getByRole('figure', { name: 'Il ciclo cardiaco, passo per passo' });
+  await expect(ciclo.getByRole('button', { name: 'Passo successivo' })).toBeVisible();
+  await expect(ciclo.getByRole('button', { name: 'Riproduci' })).toHaveCount(0);
+});
