@@ -7,7 +7,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { useActiveStep } from '@/hooks/useActiveStep';
 import { useAtlas } from '@/hooks/useAtlas';
 import type { ModelElement, ModelLayer, SceneUnit } from '@/models/scene';
-import { VISIBLE_MODEL_LAYERS } from '@/utils/atlasReducer';
+import { GHOST_MODEL_LAYERS, LAYER_OF_MODEL_LAYER, VISIBLE_MODEL_LAYERS } from '@/utils/atlasReducer';
 import { modelUrl } from '@/utils/layout';
 import { sceneApi } from '@/utils/sceneApi';
 import {
@@ -18,7 +18,15 @@ import {
   setUnitStates,
   skinMaterial,
 } from '@/utils/sceneMaterials';
-import { createUnits, prepareLayer, UNIT_DIMMED, UNIT_HIDDEN, unitStates, unitsForElements } from '@/utils/sceneModel';
+import {
+  createUnits,
+  prepareLayer,
+  UNIT_DIMMED,
+  UNIT_GHOST,
+  UNIT_HIDDEN,
+  unitStates,
+  unitsForElements,
+} from '@/utils/sceneModel';
 
 const MODEL_LAYERS: ModelLayer[] = ['ossa', 'muscoli', 'organi', 'pelle'];
 const PICKING_LAYER = 1;
@@ -57,13 +65,15 @@ export function Body() {
   const { step } = useActiveStep();
   const highlighted = useMemo(() => new Set(step ? unitsForElements(step.evidenzia, units) : []), [step, units]);
   const visible = VISIBLE_MODEL_LAYERS[state.layer];
+  const ghost = GHOST_MODEL_LAYERS[state.layer];
   const focus = useMemo(() => (selected ? new Set([selected.id]) : highlighted), [selected, highlighted]);
-  const states = useMemo(() => unitStates(units, visible, focus), [units, visible, focus]);
-  // Si disegnano solo gli strati con almeno un'unità non nascosta, e le attenuate solo se ce ne sono.
+  const states = useMemo(() => unitStates(units, visible, focus, ghost), [units, visible, focus, ghost]);
+  // Si disegnano solo gli strati con almeno un'unità non nascosta, e le semitrasparenti
+  // (attenuate o fantasma) solo se ce ne sono.
   const { activeLayers, anyDimmed } = useMemo(() => {
     const activeLayers = new Set<ModelLayer>();
     for (const u of units.values()) if (states[u.index] !== UNIT_HIDDEN) activeLayers.add(u.layer);
-    return { activeLayers, anyDimmed: states.includes(UNIT_DIMMED) };
+    return { activeLayers, anyDimmed: states.includes(UNIT_DIMMED) || states.includes(UNIT_GHOST) };
   }, [units, states]);
   useEffect(() => setUnitStates(states), [states]);
   useEffect(() => {
@@ -73,8 +83,8 @@ export function Body() {
   useEffect(() => {
     // Una struttura aperta da un indirizzo diretto può stare in uno strato nascosto: lo si mostra.
     // Non serve per una struttura evidenziata da un passo, che si vede già.
-    if (selected && !visible.includes(selected.layer) && !highlighted.has(selected.id))
-      dispatch({ type: 'revealLayer', layer: selected.layer === 'muscoli' ? 'muscoli' : 'organi' });
+    if (selected && selected.layer !== 'pelle' && !visible.includes(selected.layer) && !highlighted.has(selected.id))
+      dispatch({ type: 'revealLayer', layer: LAYER_OF_MODEL_LAYER[selected.layer] });
   }, [selected, visible, highlighted, dispatch]);
 
   // Selezione via GPU: si disegna l'id di ogni unità e si legge il pixel sotto il puntatore.

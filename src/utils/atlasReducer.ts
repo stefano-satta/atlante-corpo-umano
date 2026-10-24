@@ -54,7 +54,21 @@ export function initialAtlasState(): AtlasState {
 
 /** Strati del modello visibili per ciascuno strato della barra dei comandi. */
 export const VISIBLE_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
-  muscoli: ['muscoli'],
-  organi: ['ossa', 'organi'],
   scheletro: ['ossa'],
+  organi: ['organi'],
+  muscoli: ['muscoli'],
+};
+
+/** Strati del modello mostrati solo come contesto (fantasma, non selezionabili). */
+export const GHOST_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
+  scheletro: [],
+  organi: ['ossa'],
+  muscoli: [],
+};
+
+/** Strato della barra in cui una struttura del modello è piena e selezionabile. */
+export const LAYER_OF_MODEL_LAYER: Record<Exclude<ModelLayer, 'pelle'>, Layer> = {
+  ossa: 'scheletro',
+  organi: 'organi',
+  muscoli: 'muscoli',
 };

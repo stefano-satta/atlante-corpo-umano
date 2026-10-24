@@ -284,3 +284,8 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - `riferimenti.yaml`: nomi per gli apparati e le strutture citate nelle relazioni, così le relazioni restano leggibili anche quando la destinazione non è ancora approvata;
   - tutti i testi nuovi sono in stato "verificato": fuori dalla build di produzione fino all'approvazione dell'utente;
   - nota: le pagine OpenStax ora dichiarano che il libro non può essere usato per addestrare modelli linguistici né "ingerito" in servizi di AI generativa senza permesso scritto. Da valutare con l'utente.
+- **2026-10-24** — Strati della barra riordinati in Scheletro · Organi · Muscoli, uno per tessuto (richiesta dell'utente; modifica D3, D11 e D16, dove il segmento era "Scheletro e organi"). Motivo: nella vista con scheletro e organi le ossa piene coprivano organi come l'encefalo, che col clic non si raggiungeva. Risultati:
+  - **Organi:** le ossa restano come contesto in uno stato nuovo, "fantasma": semitrasparenti come le strutture attenuate (un po' di più) e non selezionabili, quindi il clic arriva all'organo dietro. Valgono anche nei passi del percorso "Un respiro", che così conservano le coste;
+  - **Scheletro** e **Muscoli** invariati; tasti 1, 2, 3 nello stesso ordine della barra; testo del tour aggiornato;
+  - un indirizzo diretto a un osso apre lo strato Scheletro (prima Scheletro e organi);
+  - Test: 73 unitari e di componente, 20 end-to-end.

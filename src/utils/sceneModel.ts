@@ -11,10 +11,14 @@ const LAYER_COLORS: Record<ModelLayer, string> = {
   pelle: '#e4e0d8',
 };
 
-/** Come appare un'unità: nascosta, attenuata (semitrasparente) o piena. */
+/**
+ * Come appare un'unità: nascosta, attenuata (semitrasparente), piena o fantasma (semitrasparente
+ * come l'attenuata ma non selezionabile: fa da contesto senza coprire ciò che sta dietro).
+ */
 export const UNIT_HIDDEN = 0;
 export const UNIT_DIMMED = 1;
 export const UNIT_FULL = 2;
+export const UNIT_GHOST = 3;
 
 export function createUnits(elements: ModelElement[]) {
   const units = new Map<string, SceneUnit>();
@@ -123,18 +127,21 @@ export function prepareLayer(
  * Stato di ogni unità, indicizzato per `SceneUnit.index`. Senza un fuoco sono piene le unità
  * degli strati visibili. Con un fuoco (la struttura selezionata, o le strutture evidenziate
  * da un passo di percorso) sono piene solo quelle del fuoco, anche se stanno in uno strato
- * nascosto, e le altre degli strati visibili sono attenuate.
+ * nascosto, e le altre degli strati visibili sono attenuate. Le unità degli strati di
+ * contesto, fuori dal fuoco, sono fantasma.
  */
 export function unitStates(
   units: Map<string, SceneUnit>,
   visible: readonly ModelLayer[],
   focus: ReadonlySet<string> | null,
+  ghost: readonly ModelLayer[] = [],
 ) {
   const states = new Uint8Array(units.size + 1);
   for (const u of units.values()) {
+    const rest = ghost.includes(u.layer) ? UNIT_GHOST : UNIT_HIDDEN;
     const isVisible = visible.includes(u.layer);
-    if (!focus?.size) states[u.index] = isVisible ? UNIT_FULL : UNIT_HIDDEN;
-    else states[u.index] = focus.has(u.id) ? UNIT_FULL : isVisible ? UNIT_DIMMED : UNIT_HIDDEN;
+    if (!focus?.size) states[u.index] = isVisible ? UNIT_FULL : rest;
+    else states[u.index] = focus.has(u.id) ? UNIT_FULL : isVisible ? UNIT_DIMMED : rest;
   }
   return states;
 }

@@ -37,7 +37,7 @@ test('la vista iniziale si carica senza errori e senza problemi di accessibilit�
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
   await enter(page);
-  await expect(page.getByRole('radio', { name: 'Scheletro e organi' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: 'Organi' })).toHaveAttribute('aria-checked', 'true');
   await checkAccessibility(page);
   expect(errors).toEqual([]);
 });
@@ -81,9 +81,9 @@ test('la scheda si apre, si chiude con Esc e la cronologia funziona', async ({ p
 test('i tasti 1–3 cambiano strato', async ({ page }) => {
   await enter(page);
   await page.keyboard.press('1');
-  await expect(page.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: 'Scheletro' })).toHaveAttribute('aria-checked', 'true');
   await page.keyboard.press('3');
-  await expect(page.getByRole('radio', { name: 'Scheletro', exact: true })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
 });
 
 test('su schermo stretto il cartellino è un foglio dal basso e la barra si nasconde', async ({ page }) => {
@@ -118,6 +118,12 @@ test('un indirizzo diretto a un muscolo mostra lo strato dei muscoli', async ({ 
   await waitForScene(page);
   await expect(page.getByRole('heading', { name: 'Diaframma' })).toBeVisible();
   await expect(page.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
+});
+
+test('un indirizzo diretto a un osso mostra lo strato dello scheletro', async ({ page }) => {
+  await page.goto('/esplora/FJ3259');
+  await waitForScene(page);
+  await expect(page.getByRole('radio', { name: 'Scheletro' })).toHaveAttribute('aria-checked', 'true');
 });
 
 test('la scheda del cuore ha tutte le sezioni, i collegamenti e le fonti', async ({ page }) => {

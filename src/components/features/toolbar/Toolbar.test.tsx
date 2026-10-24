@@ -13,18 +13,18 @@ const renderToolbar = () =>
   );
 
 describe('barra dei comandi', () => {
-  it('mostra i tre strati come scelta esclusiva, con Scheletro e organi attivo', () => {
+  it('mostra i tre strati come scelta esclusiva, con Organi attivo', () => {
     renderToolbar();
     const layers = screen.getAllByRole('radio');
-    expect(layers.map((l) => l.getAttribute('aria-label'))).toEqual(['Muscoli', 'Scheletro e organi', 'Scheletro']);
-    expect(screen.getByRole('radio', { name: 'Scheletro e organi' }).getAttribute('aria-checked')).toBe('true');
+    expect(layers.map((l) => l.getAttribute('aria-label'))).toEqual(['Scheletro', 'Organi', 'Muscoli']);
+    expect(screen.getByRole('radio', { name: 'Organi' }).getAttribute('aria-checked')).toBe('true');
   });
 
   it('cambia strato al clic', () => {
     renderToolbar();
     fireEvent.click(screen.getByRole('radio', { name: 'Muscoli' }));
     expect(screen.getByRole('radio', { name: 'Muscoli' }).getAttribute('aria-checked')).toBe('true');
-    expect(screen.getByRole('radio', { name: 'Scheletro e organi' }).getAttribute('aria-checked')).toBe('false');
+    expect(screen.getByRole('radio', { name: 'Organi' }).getAttribute('aria-checked')).toBe('false');
   });
 
   it('accende e spegne la sagoma della pelle', () => {

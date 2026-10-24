@@ -4,9 +4,9 @@ import type { Layer } from '@/models/atlas';
 import { resetView } from '@/utils/sceneApi';
 
 const LAYERS: Array<{ id: Layer; name: string; short: string }> = [
-  { id: 'muscoli', name: 'Muscoli', short: 'Muscoli' },
-  { id: 'organi', name: 'Scheletro e organi', short: 'Organi' },
   { id: 'scheletro', name: 'Scheletro', short: 'Scheletro' },
+  { id: 'organi', name: 'Organi', short: 'Organi' },
+  { id: 'muscoli', name: 'Muscoli', short: 'Muscoli' },
 ];
 
 /** Barra dei comandi della vista: strato, sagoma, vista iniziale e guida. */

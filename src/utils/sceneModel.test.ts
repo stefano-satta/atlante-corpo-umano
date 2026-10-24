@@ -6,6 +6,7 @@ import {
   createUnits,
   UNIT_DIMMED,
   UNIT_FULL,
+  UNIT_GHOST,
   UNIT_HIDDEN,
   unitStates,
   unitsForElements,
@@ -71,6 +72,16 @@ describe('stati delle unità', () => {
     expect(stateOf(states, 'FJ3')).toBe(UNIT_FULL);
     expect(stateOf(states, 'cuore')).toBe(UNIT_DIMMED);
     expect(stateOf(states, 'FJ4')).toBe(UNIT_HIDDEN);
+  });
+
+  it('mostra come fantasma le unità degli strati di contesto, anche con un fuoco', () => {
+    const states = unitStates(units, ['organi'], null, ['ossa']);
+    expect(stateOf(states, 'cuore')).toBe(UNIT_FULL);
+    expect(stateOf(states, 'FJ3')).toBe(UNIT_GHOST);
+    const focused = unitStates(units, ['organi'], new Set(['FJ3']), ['ossa']);
+    expect(stateOf(focused, 'FJ3')).toBe(UNIT_FULL);
+    expect(stateOf(focused, 'FJ4')).toBe(UNIT_GHOST);
+    expect(stateOf(focused, 'cuore')).toBe(UNIT_DIMMED);
   });
 
   it('trova le unità di un contenuto per gruppo e per FMA', () => {

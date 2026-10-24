@@ -5,7 +5,7 @@ import { closeTour } from '@/utils/tour';
 import { useAtlas } from './useAtlas';
 import { useReducedMotion } from './useReducedMotion';
 
-const LAYER_KEYS: Record<string, Layer> = { '1': 'muscoli', '2': 'organi', '3': 'scheletro' };
+const LAYER_KEYS: Record<string, Layer> = { '1': 'scheletro', '2': 'organi', '3': 'muscoli' };
 
 /**
  * Comandi da tastiera (D11): frecce per ruotare, + e − per lo zoom, 1–3 per gli strati,

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
 // Uniform condivisi da tutti i materiali del corpo: stato di ogni unità (nascosta, attenuata,
-// piena; vedi unitStates) in una texture di una riga, e unità sotto il puntatore. Gli id delle
+// piena, fantasma; vedi unitStates) in una texture di una riga, e unità sotto il puntatore. Gli id delle
 // unità partono da 1; 0 significa "nessuna".
 export const bodyUniforms = {
   uStates: { value: new THREE.DataTexture(new Uint8Array(1), 1, 1, THREE.RedFormat) },
@@ -22,7 +22,7 @@ export function setUnitStates(states: Uint8Array) {
   t.dispose();
 }
 
-// Stato dell'unità del frammento: 0 nascosta, 1 attenuata, 2 piena.
+// Stato dell'unità del frammento: 0 nascosta, 1 attenuata, 2 piena, 3 fantasma.
 const READ_STATE = 'float state = texelFetch(uStates, ivec2(int(vUnit + 0.5), 0), 0).r * 255.0;';
 
 function injectUnit(shader: THREE.WebGLProgramParametersWithUniforms, fragment: string) {
@@ -44,13 +44,16 @@ export function fullMaterial() {
   m.onBeforeCompile = (shader) =>
     injectUnit(
       shader,
-      `if (state < 1.5) discard;
+      `if (abs(state - 2.0) > 0.5) discard;
        if (abs(vUnit - uHover) < 0.5) diffuseColor.rgb = mix(diffuseColor.rgb, vec3(1.0), 0.28);`,
     );
   return m;
 }
 
-/** Strutture attenuate: semitrasparenti, attorno alla selezione o alle strutture di un passo. */
+/**
+ * Strutture attenuate (attorno alla selezione o alle strutture di un passo) e fantasma
+ * (le ossa nella vista Organi): semitrasparenti, le fantasma un po' di più.
+ */
 export function dimmedMaterial() {
   const m = new THREE.MeshStandardMaterial({
     vertexColors: true,
@@ -62,7 +65,8 @@ export function dimmedMaterial() {
   m.onBeforeCompile = (shader) =>
     injectUnit(
       shader,
-      `if (abs(state - 1.0) > 0.5) discard;
+      `if (state < 0.5 || abs(state - 2.0) < 0.5) discard;
+       if (state > 2.5) diffuseColor.a *= 0.7;
        if (abs(vUnit - uHover) < 0.5) diffuseColor.a = min(1.0, diffuseColor.a * 3.0);`,
     );
   return m;
@@ -89,7 +93,7 @@ export function skinMaterial() {
   return m;
 }
 
-/** Materiale per la selezione via GPU: codifica l'id dell'unità nel colore. Le unità nascoste non si scelgono. */
+/** Materiale per la selezione via GPU: codifica l'id dell'unità nel colore. Le unità nascoste e fantasma non si scelgono. */
 export const pickingMaterial = new THREE.ShaderMaterial({
   uniforms: bodyUniforms,
   vertexShader: `attribute float aUnit;
@@ -103,7 +107,7 @@ export const pickingMaterial = new THREE.ShaderMaterial({
     varying float vUnit;
     void main() {
       ${READ_STATE}
-      if (state < 0.5) discard;
+      if (state < 0.5 || state > 2.5) discard;
       float id = floor(vUnit + 0.5);
       gl_FragColor = vec4(mod(id, 256.0) / 255.0, floor(id / 256.0) / 255.0, 0.0, 1.0);
     }`,
