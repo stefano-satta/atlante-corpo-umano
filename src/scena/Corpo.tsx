@@ -7,9 +7,27 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { percorsoModelli } from '../app/config';
 import { kBModelli, misure } from '../app/misure';
 import { STRATI_VISIBILI, useAtlante } from '../app/stato';
+import { usePassoAttivo } from '../percorsi/passo';
 import { scenaApi } from './api';
-import { materialeAttenuato, materialePelle, materialePieno, materialeSelezione, uniformiCorpo } from './materiali';
-import { creaUnita, type Elemento, preparaStrato, type StratoModello, type Unita } from './modello';
+import {
+  impostaStati,
+  materialeAttenuato,
+  materialePelle,
+  materialePieno,
+  materialeSelezione,
+  uniformiCorpo,
+} from './materiali';
+import {
+  ATTENUATA,
+  creaUnita,
+  type Elemento,
+  NASCOSTA,
+  preparaStrato,
+  type StratoModello,
+  statiUnita,
+  type Unita,
+  unitaPerElementi,
+} from './modello';
 
 const STRATI: StratoModello[] = ['ossa', 'muscoli', 'organi', 'pelle'];
 const LIVELLO_SELEZIONE = 1;
@@ -48,22 +66,31 @@ export function Corpo() {
     });
   }, [unita]);
 
-  // Selezione e hover passano agli shader tramite uniform.
+  // Fuoco della vista: la struttura selezionata, altrimenti le strutture evidenziate dal passo
+  // di percorso in corso (D24), che possono stare anche in uno strato nascosto.
   const sel = stato.selezione ? unita.get(stato.selezione) : undefined;
-  useEffect(() => {
-    uniformiCorpo.uSel.value = sel?.indice ?? 0;
-    uniformiCorpo.uAny.value = sel ? 1 : 0;
-  }, [sel]);
+  const { passo } = usePassoAttivo();
+  const evidenziate = useMemo(() => new Set(passo ? unitaPerElementi(passo.evidenzia, unita) : []), [passo, unita]);
+  const visibili = STRATI_VISIBILI[stato.strato];
+  const fuoco = useMemo(() => (sel ? new Set([sel.id]) : evidenziate), [sel, evidenziate]);
+  const stati = useMemo(() => statiUnita(unita, visibili, fuoco), [unita, visibili, fuoco]);
+  // Si disegnano solo gli strati con almeno un'unità non nascosta, e le attenuate solo se ce ne sono.
+  const { attivi, attenuate } = useMemo(() => {
+    const attivi = new Set<StratoModello>();
+    for (const u of unita.values()) if (stati[u.indice] !== NASCOSTA) attivi.add(u.strato);
+    return { attivi, attenuate: stati.includes(ATTENUATA) };
+  }, [unita, stati]);
+  useEffect(() => impostaStati(stati), [stati]);
   useEffect(() => {
     uniformiCorpo.uHover.value = stato.hover ? (unita.get(stato.hover)?.indice ?? 0) : 0;
   }, [stato.hover, unita]);
 
-  const visibili = STRATI_VISIBILI[stato.strato];
   useEffect(() => {
     // Una struttura aperta da un indirizzo diretto può stare in uno strato nascosto: lo si mostra.
-    if (sel && !visibili.includes(sel.strato as never))
+    // Non serve per una struttura evidenziata da un passo, che si vede già.
+    if (sel && !visibili.includes(sel.strato as never) && !evidenziate.has(sel.id))
       invia({ tipo: 'mostra-strato', strato: sel.strato === 'muscoli' ? 'muscoli' : 'organi' });
-  }, [sel, visibili, invia]);
+  }, [sel, visibili, evidenziate, invia]);
 
   // Selezione via GPU: si disegna l'id di ogni unità e si legge il pixel sotto il puntatore.
   const bersaglio = useMemo(() => new THREE.WebGLRenderTarget(1, 1), []);
@@ -142,9 +169,9 @@ export function Corpo() {
         const g = geometrie[s];
         if (!g) return null;
         return (
-          <group key={s} visible={visibili.includes(s)}>
+          <group key={s} visible={attivi.has(s)}>
             <mesh geometry={g} material={materiali.pieno} onUpdate={(m) => m.layers.enable(LIVELLO_SELEZIONE)} />
-            <mesh geometry={g} material={materiali.attenuato} renderOrder={2} visible={!!sel} />
+            <mesh geometry={g} material={materiali.attenuato} renderOrder={2} visible={attenuate} />
           </group>
         );
       })}

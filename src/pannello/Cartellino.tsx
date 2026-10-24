@@ -1,13 +1,13 @@
 import { useLayoutEffect } from 'react';
 import { misure } from '../app/misure';
 import { useAtlante } from '../app/stato';
-import { contenutoDi, STRUTTURE, urlTa2, useStruttura } from '../contenuti/contenuti';
+import { contenutoDi, haPercorso, PERCORSI, STRUTTURE, urlTa2, useStruttura } from '../contenuti/contenuti';
 import { NOMI_APPARATI, ORGANI_PER_ID } from '../contenuti/organi';
 import type { Relazione, Struttura } from '../contenuti/tipi';
 import { scenaApi } from '../scena/api';
 import type { Unita } from '../scena/modello';
 import { ElencoFonti, Testo } from './Fonti';
-import { IconaAvanti, IconaChiudi } from './icone';
+import { IconaAvanti, IconaChiudi, IconaIndietro } from './icone';
 import { registraBersaglio } from './tracciato-richiamo';
 
 const FA_PARTE_DI = { ossa: 'Scheletro', muscoli: 'Sistema muscolare' } as const;
@@ -99,6 +99,19 @@ export function AvvisoStato({ stato }: { stato: Struttura['stato'] }) {
   return <p className="avviso-stato">Bozza ({stato}): testo non ancora approvato, visibile solo in sviluppo.</p>;
 }
 
+/** Ritorno al passo del percorso guidato da cui si è partiti per esplorare una struttura (D24). */
+function TornaAlPercorso() {
+  const { stato, invia } = useAtlante();
+  const percorso = stato.percorso;
+  if (!percorso || !haPercorso(percorso.id)) return null;
+  const titolo = PERCORSI.find((p) => p.id === percorso.id)?.titolo;
+  return (
+    <button type="button" className="indietro torna-percorso" onClick={() => invia({ tipo: 'seleziona', id: null })}>
+      <IconaIndietro /> Torna al percorso “{titolo}”, passo {percorso.passo + 1}
+    </button>
+  );
+}
+
 /** Contenuto del pannello per la struttura selezionata. */
 export function Cartellino({ unita: u }: { unita: Unita }) {
   const { invia } = useAtlante();
@@ -123,6 +136,7 @@ export function Cartellino({ unita: u }: { unita: Unita }) {
 
   return (
     <div className="cartellino">
+      <TornaAlPercorso />
       <div className="pannello-testa">
         <span className="etichetta">{gruppo}</span>
         <button

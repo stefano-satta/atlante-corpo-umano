@@ -211,3 +211,52 @@ test('i polmoni si selezionano, hanno il loro testo e si raggiungono dal cuore',
     await expect(page.getByRole('heading', { name: titolo })).toBeVisible();
   await accessibilita(page);
 });
+
+test('il percorso "Un respiro" si segue passo per passo e si può lasciare per esplorare', async ({ page }) => {
+  const errori: string[] = [];
+  page.on('pageerror', (e) => errori.push(e.message));
+  await page.goto('/');
+  await attendiScena(page);
+  await page.getByRole('navigation', { name: 'Sezioni' }).getByRole('button', { name: 'Percorsi' }).click();
+  await expect(page).toHaveURL(/\/percorsi\/respirazione\/1$/);
+  const pannello = page.getByRole('complementary', { name: 'Percorso guidato' });
+  await expect(pannello.getByRole('heading', { name: 'Un respiro' })).toBeVisible();
+  await expect(pannello.getByText('Passo 1 di 6').first()).toBeVisible();
+  await accessibilita(page);
+
+  await pannello.getByRole('button', { name: 'Avanti' }).click();
+  await expect(page).toHaveURL(/\/percorsi\/respirazione\/2$/);
+  await expect(pannello.getByRole('heading', { name: "Le vie dell'aria" })).toBeVisible();
+  await pannello.getByRole('button', { name: 'Passo 5: Negli alveoli' }).click();
+  await expect(page).toHaveURL(/\/percorsi\/respirazione\/5$/);
+  await expect(pannello.getByText("Ossigeno, dall'aria al sangue")).toBeVisible();
+  await expect(pannello.getByRole('heading', { name: 'Fonti di questo passo' })).toBeVisible();
+  await accessibilita(page);
+
+  // Si esplora una struttura (come con un clic nel corpo) e si torna allo stesso passo.
+  await page.evaluate(() => {
+    history.pushState(null, '', '/esplora/polmoni');
+    dispatchEvent(new PopStateEvent('popstate'));
+  });
+  const cartellino = page.getByRole('complementary', { name: 'Struttura selezionata' });
+  await expect(cartellino.getByRole('heading', { name: 'Polmoni' })).toBeVisible();
+  await cartellino.getByRole('button', { name: /Torna al percorso “Un respiro”, passo 5/ }).click();
+  await expect(page).toHaveURL(/\/percorsi\/respirazione\/5$/);
+  await expect(pannello.getByRole('heading', { name: 'Negli alveoli' })).toBeVisible();
+
+  // I passi non riempiono la cronologia; Esc chiude il percorso.
+  await page.keyboard.press('Escape');
+  await expect(pannello).toHaveCount(0);
+  await expect(page).toHaveURL(/\/$/);
+  expect(errori).toEqual([]);
+});
+
+test('con il movimento ridotto il percorso non offre la riproduzione continua', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/percorsi/respirazione/4');
+  await attendiScena(page);
+  const pannello = page.getByRole('complementary', { name: 'Percorso guidato' });
+  await expect(pannello.getByRole('heading', { name: 'Inspirazione' })).toBeVisible();
+  await expect(pannello.locator('.schema-torace')).toHaveAttribute('data-fase', 'inspirazione');
+  await expect(pannello.getByRole('button', { name: /Riproduci/ })).toHaveCount(0);
+});

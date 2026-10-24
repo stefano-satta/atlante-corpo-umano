@@ -1,13 +1,29 @@
 import * as THREE from 'three';
 
-// Uniform condivisi da tutti i materiali del corpo: unità selezionata, unità
-// sotto il puntatore e presenza di una selezione. Gli id delle unità partono
-// da 1; 0 significa "nessuna".
+// Uniform condivisi da tutti i materiali del corpo: stato di ogni unità (nascosta, attenuata,
+// piena; vedi statiUnita) in una texture di una riga, e unità sotto il puntatore. Gli id delle
+// unità partono da 1; 0 significa "nessuna".
 export const uniformiCorpo = {
-  uSel: { value: 0 },
+  uStati: { value: new THREE.DataTexture(new Uint8Array(1), 1, 1, THREE.RedFormat) },
   uHover: { value: 0 },
-  uAny: { value: 0 },
 };
+
+/** Aggiorna gli stati delle unità letti dagli shader. */
+export function impostaStati(stati: Uint8Array) {
+  const t = uniformiCorpo.uStati.value;
+  if (t.image.width === stati.length) {
+    (t.image.data as Uint8Array).set(stati);
+    t.needsUpdate = true;
+    return;
+  }
+  const nuova = new THREE.DataTexture(stati.slice(), stati.length, 1, THREE.RedFormat);
+  nuova.needsUpdate = true;
+  uniformiCorpo.uStati.value = nuova;
+  t.dispose();
+}
+
+// Stato dell'unità del frammento: 0 nascosta, 1 attenuata, 2 piena.
+const LEGGI_STATO = 'float stato = texelFetch(uStati, ivec2(int(vUnit + 0.5), 0), 0).r * 255.0;';
 
 function iniettaUnita(shader: THREE.WebGLProgramParametersWithUniforms, frammento: string) {
   Object.assign(shader.uniforms, uniformiCorpo);
@@ -17,24 +33,24 @@ function iniettaUnita(shader: THREE.WebGLProgramParametersWithUniforms, framment
   shader.fragmentShader = shader.fragmentShader
     .replace(
       '#include <common>',
-      '#include <common>\nuniform float uSel;\nuniform float uHover;\nuniform float uAny;\nvarying float vUnit;',
+      '#include <common>\nuniform sampler2D uStati;\nuniform float uHover;\nvarying float vUnit;',
     )
-    .replace('#include <color_fragment>', `#include <color_fragment>\n${frammento}`);
+    .replace('#include <color_fragment>', `#include <color_fragment>\n${LEGGI_STATO}\n${frammento}`);
 }
 
-/** Strutture piene: con una selezione attiva resta visibile solo l'unità scelta. */
+/** Strutture piene: le unità nello stato "piena". */
 export function materialePieno() {
   const m = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.62, metalness: 0 });
   m.onBeforeCompile = (shader) =>
     iniettaUnita(
       shader,
-      `if (uAny > 0.5 && abs(vUnit - uSel) > 0.5) discard;
+      `if (stato < 1.5) discard;
        if (abs(vUnit - uHover) < 0.5) diffuseColor.rgb = mix(diffuseColor.rgb, vec3(1.0), 0.28);`,
     );
   return m;
 }
 
-/** Strutture attenuate: tutte tranne la selezionata, semitrasparenti. */
+/** Strutture attenuate: semitrasparenti, attorno alla selezione o alle strutture di un passo. */
 export function materialeAttenuato() {
   const m = new THREE.MeshStandardMaterial({
     vertexColors: true,
@@ -46,7 +62,7 @@ export function materialeAttenuato() {
   m.onBeforeCompile = (shader) =>
     iniettaUnita(
       shader,
-      `if (uAny < 0.5 || abs(vUnit - uSel) < 0.5) discard;
+      `if (abs(stato - 1.0) > 0.5) discard;
        if (abs(vUnit - uHover) < 0.5) diffuseColor.a = min(1.0, diffuseColor.a * 3.0);`,
     );
   return m;
@@ -73,8 +89,9 @@ export function materialePelle() {
   return m;
 }
 
-/** Materiale per la selezione via GPU: codifica l'id dell'unità nel colore. */
+/** Materiale per la selezione via GPU: codifica l'id dell'unità nel colore. Le unità nascoste non si scelgono. */
 export const materialeSelezione = new THREE.ShaderMaterial({
+  uniforms: uniformiCorpo,
   vertexShader: `attribute float aUnit;
     varying float vUnit;
     void main() {
@@ -82,8 +99,11 @@ export const materialeSelezione = new THREE.ShaderMaterial({
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }`,
   fragmentShader: `precision highp float;
+    uniform sampler2D uStati;
     varying float vUnit;
     void main() {
+      ${LEGGI_STATO}
+      if (stato < 0.5) discard;
       float id = floor(vUnit + 0.5);
       gl_FragColor = vec4(mod(id, 256.0) / 255.0, floor(id / 256.0) / 255.0, 0.0, 1.0);
     }`,

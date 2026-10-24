@@ -97,3 +97,41 @@ export interface Pagina {
   revisione: string;
   html: string;
 }
+
+/** Strutture del modello 3D: organi per gruppo, ossa e muscoli per FMA. */
+export interface Elementi3d {
+  gruppi: string[];
+  fma: string[];
+}
+
+export type SchemaPercorso = 'nessuno' | 'torace' | 'inspirazione' | 'espirazione' | 'alveolo';
+
+/** Un passo di un percorso guidato (D24). */
+export interface PassoPercorso {
+  titolo: string;
+  html: string;
+  strato: 'muscoli' | 'organi' | 'scheletro';
+  /** Strutture mostrate piene; quelle di un altro strato si aggiungono alla vista. */
+  evidenzia: Elementi3d;
+  /** Strutture da inquadrare, se diverse da quelle evidenziate. */
+  inquadra: Elementi3d | null;
+  schema: SchemaPercorso;
+}
+
+export interface VocePercorso {
+  id: string;
+  titolo: string;
+  stato: Stato;
+  /** Numero di passi. */
+  passi: number;
+}
+
+export interface Percorso {
+  id: string;
+  titolo: string;
+  stato: Stato;
+  revisione: string;
+  limiti: string | null;
+  passi: PassoPercorso[];
+  fonti: FonteNumerata[];
+}

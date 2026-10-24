@@ -2,9 +2,9 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. Restano M6, M7, M8.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. M6 Percorso "Un respiro" realizzata, testo in attesa di approvazione. Restano M7 e M8.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
-- **In sospeso:** nessuna decisione; prossima milestone da scegliere tra M6, M7 e M8
+- **In sospeso:** approvazione del testo del percorso "Un respiro" (stato "verificato", fuori dalla build di produzione)
 
 ## 2. Decisioni approvate
 
@@ -32,6 +32,7 @@
 | D21 | 2026-10-24 | 7 | M5 Ciclo cardiaco | Approvato il piano con l'opzione A: schema 2D in sezione frontale disegnato per l'atlante (SVG con transizioni CSS), 5 passi, riproduzione che parte ferma, passo per passo con il movimento ridotto, nessun valore numerico, nessun suono, schema dichiarato come semplificato e non in scala. |
 | D22 | 2026-10-24 | 7 | Contenuti | Didascalie del ciclo cardiaco approvate a condizione che provengano da fonti ufficiali verificate. Ogni frase nuova è stata ricontrollata sul testo di OpenStax 19.3; tolta l'unica frase senza riscontro esplicito ("Poi il ciclo ricomincia"). Processo in stato "approvato" e incluso nella build di produzione. |
 | D23 | 2026-10-24 | 7 | M4 Polmoni | Approvati forma e posizione dei polmoni di Z-Anatomy allineati a BodyParts3D, il testo dei polmoni (cartellino e scheda; fonti NHLBI e OpenStax 22.2; termine *pulmones*, TA2 3265) e la nuova versione della pagina Informazioni (origine dei polmoni e crediti di Z-Anatomy). Polmoni e Informazioni passano allo stato "approvato" e tornano nella build di produzione. |
+| D24 | 2026-10-24 | 7 | M6 Percorso "Un respiro" | Approvato il piano con le scelte A1–F1: corpo 3D fermo con telecamera che inquadra ed evidenzia, movimento in uno schema 2D del torace e dell'alveolo (A1); percorso nel pannello a destra, foglio in basso su smartphone (B1); esplorazione libera con "Torna al percorso" dopo la selezione di una struttura (C1); ogni passo sceglie lo strato e può aggiungere singole strutture di un altro strato (D1); indirizzi `/percorsi/respirazione/1`…`6` e voce Percorsi attiva che apre il passo 1 (E1); con il movimento ridotto niente volo della telecamera, schema fermo e niente Riproduci (F1). Sei passi: Un respiro, Le vie dell'aria, I bronchi, Inspirazione, Negli alveoli, Espirazione. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -203,3 +204,42 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - il link alla pagina Informazioni nelle schede diventa testo semplice se la pagina non è pubblicata;
   - i test della pubblicazione fissano gli stati dei contenuti nella copia di prova, così non dipendono da quali testi sono approvati.
 - **2026-10-24** — Registrata D23: testo dei polmoni e pagina Informazioni approvati, inclusi nella build di produzione. M4 completata.
+- **2026-10-24** — Registrata D24: approvato il piano della M6 Percorso "Un respiro" (scelte A1–F1).
+- **2026-10-24** — M6 realizzata:
+  - **Testo:** nuovo file `contenuti/percorsi/respirazione.md`, con 6 passi: Un respiro, Le vie dell'aria, I bronchi, Inspirazione, Negli alveoli, Espirazione. Ogni frase rimanda a una fonte letta il 2026-10-24.
+  - **Fonti nuove:** OpenStax 22.1 (organi e strutture dell'apparato respiratorio) e 22.4 (scambio dei gas).
+  - **Fonti rilette per il percorso:** OpenStax 22.3 e le pagine NHLBI "The Respiratory System" e "How Your Body Controls Breathing". La loro data di consultazione resta quella originale, perché le citano anche testi già approvati che non ho ricontrollato.
+  - **Differenza tra le fonti:** per OpenStax gli intercostali esterni lavorano nell'inspirazione normale; per NHLBI gli intercostali servono durante l'attività fisica. Il percorso segue OpenStax e la differenza è nelle note sulle fonti.
+  - **Stato:** il testo è "verificato", quindi fuori dalla build di produzione fino all'approvazione.
+  - **Controllo automatico:** ora copre anche i percorsi:
+    - strato e schema ammessi;
+    - strutture evidenziate e inquadrate presenti nel modello;
+    - stesso numero di passi tra intestazione e testo;
+    - una fonte per ogni paragrafo.
+
+    I percorsi hanno fonti numerate proprie e compaiono nella pagina Fonti ("Citata per: percorso “Un respiro”").
+  - **Scena:** ogni unità ha uno stato (nascosta, attenuata o piena) letto dagli shader da una texture. Così si possono evidenziare più strutture insieme e mostrare singole strutture di un altro strato, come il diaframma accanto ai polmoni. Le unità nascoste non si possono selezionare.
+  - **Telecamera narrante:** a ogni passo inquadra di fronte le strutture del passo, nello spazio libero accanto al pannello.
+  - **Interfaccia:**
+    - percorso nel pannello a destra (foglio in basso su smartphone);
+    - indirizzi `/percorsi/respirazione/1`…`6`;
+    - la voce Percorsi del menu è attiva;
+    - in ogni passo si può aprire una struttura e tornare con "Torna al percorso";
+    - Esc chiude il percorso;
+    - il pannello del percorso si scarica solo quando lo si apre (3,1 kB gzip), il testo pesa 2,6 kB gzip.
+  - **Schemi 2D:**
+    - torace in inspirazione ed espirazione, con diaframma, costole, polmoni e frecce;
+    - un alveolo con il capillare;
+    - la riproduzione parte ferma e manca con il movimento ridotto.
+  - **Test:** 58 unitari e di componente, 15 end-to-end con axe-core senza violazioni.
+- **2026-10-24** — Decisioni minori della M6:
+  - del naso, che non è nel modello 3D, si evidenziano le ossa nasali e le conche nasali inferiori, descritte da OpenStax 22.1;
+  - nello schema dell'alveolo i due gas si distinguono per colore (ossigeno verde acqua, anidride carbonica ambra) e i loro nomi stanno nella legenda, perché sul disegno si sovrapponevano alle forme;
+  - nello schema del torace i movimenti sono accentuati, e l'avvertenza lo dice;
+  - i passi di un percorso non creano voci nella cronologia: "Indietro" del browser esce dal percorso;
+  - la voce Percorsi resta "In preparazione" finché nessun percorso è pubblicato;
+  - i comandi Indietro e Avanti restano fissi in fondo al pannello, così non si perdono scorrendo il testo;
+  - sotto ogni passo compaiono solo le fonti citate in quel passo;
+  - su smartphone il foglio del percorso occupa metà schermo e la telecamera inquadra le strutture nella metà alta;
+  - anche durante il percorso le strutture attenuate si possono selezionare, come accade già con la selezione.
+

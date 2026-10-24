@@ -4,6 +4,7 @@
 //   virtual:contenuti/struttura/<id>     testo, relazioni e fonti di una struttura (caricato su richiesta)
 //   virtual:contenuti/fonti              bibliografia completa per la pagina Fonti
 //   virtual:contenuti/pagina/<id>        pagine editoriali (Informazioni)
+//   virtual:contenuti/percorso/<id>      percorsi guidati, come "Un respiro" (caricati su richiesta)
 //
 // In produzione entrano solo i contenuti "approvato" (D17); con ATLANTE_BOZZE=1, e sempre
 // in sviluppo, entrano anche bozze e testi verificati, segnalati nell'interfaccia.
@@ -27,6 +28,7 @@ export function contenuti({ radice = process.cwd() } = {}) {
     cache = {
       strutture: letti.strutture.filter(pubblicabile).map((s) => ({ ...s, processi: s.processi.filter(pubblicabile) })),
       pagine: letti.pagine.filter(pubblicabile),
+      percorsi: letti.percorsi.filter(pubblicabile),
       fonti: letti.fonti,
     };
     return cache;
@@ -58,12 +60,14 @@ export function contenuti({ radice = process.cwd() } = {}) {
           `export const STRUTTURE = ${JSON.stringify(indice)};`,
           `export const caricaStruttura = ${caricatori(d.strutture, 'struttura')};`,
           `export const caricaPagina = ${caricatori(d.pagine, 'pagina')};`,
+          `export const PERCORSI = ${JSON.stringify(d.percorsi.map(({ id, titolo, stato, passi }) => ({ id, titolo, stato, passi: passi.length })))};`,
+          `export const caricaPercorso = ${caricatori(d.percorsi, 'percorso')};`,
           `export const caricaFonti = () => import(${JSON.stringify(`${PREFISSO}/fonti`)});`,
         ].join('\n');
       }
       if (percorso === '/fonti') return `export default ${JSON.stringify(d.fonti)};`;
       const [, tipo, chiave] = percorso.split('/');
-      const elenco = tipo === 'struttura' ? d.strutture : tipo === 'pagina' ? d.pagine : [];
+      const elenco = { struttura: d.strutture, pagina: d.pagine, percorso: d.percorsi }[tipo] ?? [];
       const voce = elenco.find((c) => c.id === chiave);
       if (!voce) this.error(`Contenuto inesistente: ${percorso}`);
       return `export default ${JSON.stringify(voce)};`;

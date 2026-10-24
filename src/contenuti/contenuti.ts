@@ -1,8 +1,8 @@
-import { caricaFonti, caricaPagina, caricaStruttura, STRUTTURE } from 'virtual:contenuti';
+import { caricaFonti, caricaPagina, caricaPercorso, caricaStruttura, PERCORSI, STRUTTURE } from 'virtual:contenuti';
 import { useEffect, useState } from 'react';
-import type { FonteCitata, Pagina, Struttura, VoceIndice } from './tipi';
+import type { FonteCitata, Pagina, Percorso, Struttura, VoceIndice } from './tipi';
 
-export { STRUTTURE };
+export { PERCORSI, STRUTTURE };
 
 const perGruppo = new Map<string, VoceIndice>();
 const perFma = new Map<string, VoceIndice>();
@@ -18,6 +18,7 @@ export function contenutoDi(u: { id: string; strato: string; fma: string | null 
 }
 
 export const haPagina = (id: string) => id in caricaPagina;
+export const haPercorso = (id: string) => id in caricaPercorso;
 
 // Moduli di contenuto già caricati: restano in memoria, così riaprire una struttura è immediato.
 const caricati = new Map<string, unknown>();
@@ -46,6 +47,8 @@ function useCaricato<T>(chiave: string | undefined, carica: (() => Promise<{ def
 export const useStruttura = (id: string | undefined) =>
   useCaricato<Struttura>(id && `struttura/${id}`, id ? caricaStruttura[id] : undefined);
 export const usePagina = (id: string) => useCaricato<Pagina>(`pagina/${id}`, caricaPagina[id]);
+export const usePercorso = (id: string | undefined) =>
+  useCaricato<Percorso>(id && `percorso/${id}`, id ? caricaPercorso[id] : undefined);
 export const useFonti = () => useCaricato<FonteCitata[]>('fonti', caricaFonti);
 
 const MESI = [

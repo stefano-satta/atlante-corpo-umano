@@ -1,6 +1,15 @@
 import * as THREE from 'three';
 import { describe, expect, it } from 'vitest';
-import { ancoraRichiamo, creaUnita, type Elemento } from './modello';
+import {
+  ATTENUATA,
+  ancoraRichiamo,
+  creaUnita,
+  type Elemento,
+  NASCOSTA,
+  PIENA,
+  statiUnita,
+  unitaPerElementi,
+} from './modello';
 
 const elementi: Elemento[] = [
   { id: 'FJ1', nome: 'Wall of left atrium', fma: 'FMA1', strato: 'organi', gruppo: 'cuore' },
@@ -45,5 +54,27 @@ describe('ancoraRichiamo', () => {
     const normali = [0, 0, 1, 1, 0, 0, 1, 0, 0, -1, 0, 0, -1, 0, 0, 0, 0, 1];
     const a = ancoraRichiamo(posizioni, normali, box, new THREE.Vector3());
     expect(Math.abs(a.x)).toBe(2);
+  });
+});
+
+describe('stati delle unità', () => {
+  const unita = creaUnita(elementi);
+  const stato = (stati: Uint8Array, id: string) => stati[unita.get(id)?.indice ?? 0];
+
+  it('senza fuoco mostra piene le unità degli strati visibili e nasconde le altre', () => {
+    const stati = statiUnita(unita, ['organi'], null);
+    expect(stato(stati, 'cuore')).toBe(PIENA);
+    expect(stato(stati, 'FJ3')).toBe(NASCOSTA);
+  });
+
+  it('con un fuoco attenua il resto e mostra anche le unità di uno strato nascosto', () => {
+    const stati = statiUnita(unita, ['organi'], new Set(['FJ3']));
+    expect(stato(stati, 'FJ3')).toBe(PIENA);
+    expect(stato(stati, 'cuore')).toBe(ATTENUATA);
+    expect(stato(stati, 'FJ4')).toBe(NASCOSTA);
+  });
+
+  it('trova le unità di un contenuto per gruppo e per FMA', () => {
+    expect(unitaPerElementi({ gruppi: ['cuore', 'inesistente'], fma: ['FMA24474'] }, unita)).toEqual(['cuore', 'FJ4']);
   });
 });

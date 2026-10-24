@@ -1,10 +1,10 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { haPagina } from '../contenuti/contenuti';
+import { haPagina, PERCORSI } from '../contenuti/contenuti';
 import { ORGANI_PER_ID } from '../contenuti/organi';
 import { BarraComandi } from '../esplora/BarraComandi';
 import { PannelloMisure } from '../esplora/PannelloMisure';
 import { Pagina } from '../pagine/Pagina';
-import { Pannello, useStrutturaSelezionata } from '../pannello/Pannello';
+import { Pannello, usePercorsoAperto, useStrutturaSelezionata } from '../pannello/Pannello';
 import { Richiamo } from '../pannello/Richiamo';
 import { scenaApi, vistaIniziale } from '../scena/api';
 import { CONFIG } from './config';
@@ -14,9 +14,8 @@ import { type IdPagina, type Strato, useAtlante, useMovimentoRidotto } from './s
 // compare subito e il modello si carica in parallelo (D14).
 const Scena = lazy(() => import('../scena/Scena'));
 
-// Voci della barra in alto (D11). Percorsi e Indice arrivano con le milestone M6 e M7.
+// Voci della barra in alto (D11). L'Indice arriva con la M7.
 const VOCI: Array<{ nome: string; pagina?: IdPagina }> = [
-  { nome: 'Percorsi' },
   { nome: 'Indice' },
   { nome: 'Fonti', pagina: 'fonti' },
   { nome: 'Informazioni', pagina: 'informazioni' },
@@ -61,7 +60,8 @@ export function App() {
       switch (e.key) {
         case 'Escape':
           if (stato.scheda) invia({ tipo: 'scheda', aperta: false });
-          else invia({ tipo: 'seleziona', id: null });
+          else if (stato.selezione || !stato.percorso) invia({ tipo: 'seleziona', id: null });
+          else invia({ tipo: 'percorso', percorso: null });
           return;
         case 'ArrowLeft':
           c?.rotate(-0.3, 0, animata);
@@ -94,7 +94,7 @@ export function App() {
     };
     addEventListener('keydown', suTasto);
     return () => removeEventListener('keydown', suTasto);
-  }, [stato.scheda, stato.pagina, invia, ridotto]);
+  }, [stato.scheda, stato.pagina, stato.selezione, stato.percorso, invia, ridotto]);
 
   // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta.
   const paginaPrecedente = useRef(stato.pagina);
@@ -105,6 +105,9 @@ export function App() {
   }, [stato.pagina]);
 
   const { unita: u, voce, scheda } = useStrutturaSelezionata();
+  const percorso = usePercorsoAperto();
+  // Finché c'è un solo percorso, la voce Percorsi apre direttamente il suo primo passo (D24).
+  const primoPercorso = PERCORSI[0];
   const nome = voce?.nome ?? (u && (ORGANI_PER_ID.get(u.id)?.nome ?? u.nomeFma));
   const annuncio = nome ? `Selezionato: ${nome}` : '';
 
@@ -117,7 +120,7 @@ export function App() {
     );
 
   return (
-    <div className="atlante" data-pannello={u ? (scheda ? 'scheda' : 'cartellino') : 'no'}>
+    <div className="atlante" data-pannello={u ? (scheda ? 'scheda' : 'cartellino') : percorso ? 'percorso' : 'no'}>
       {/* Con una pagina di lettura aperta la vista resta montata ma inerte, e la scena smette di disegnare. */}
       <div className="vista" inert={!!stato.pagina}>
         <Suspense fallback={null}>
@@ -126,6 +129,20 @@ export function App() {
         <header className="barra-alta">
           <span className="marchio">Atlante del corpo umano</span>
           <nav aria-label="Sezioni">
+            {primoPercorso ? (
+              <button
+                type="button"
+                className="voce"
+                aria-current={percorso ? 'true' : undefined}
+                onClick={() => invia({ tipo: 'percorso', percorso: { id: primoPercorso.id, passo: 0 } })}
+              >
+                Percorsi
+              </button>
+            ) : (
+              <button type="button" className="voce" aria-disabled="true" title="In preparazione">
+                Percorsi
+              </button>
+            )}
             {VOCI.map((v) =>
               v.pagina && (v.pagina === 'fonti' || haPagina(v.pagina)) ? (
                 <button

@@ -149,3 +149,63 @@ ${corpo}`;
     expect(errori).toMatch(/paragrafo senza fonte/);
   });
 });
+
+describe('percorsi guidati', () => {
+  const passo = (extra = '') => `{ strato: organi, evidenzia: { gruppi: [cuore] }, schema: torace${extra} }`;
+  const percorso = (passi, corpo) => `---
+id: giro
+titolo: Un giro
+passi: [${passi.join(', ')}]
+stato: verificato
+revisione: 2026-10-24
+---
+${corpo}`;
+  const conPercorso = (testo) => {
+    prepara('## In breve\n\nFrase [@a].\n');
+    fs.mkdirSync(path.join(cartella, 'percorsi'));
+    fs.writeFileSync(path.join(cartella, 'percorsi', 'giro.md'), testo);
+    return leggiContenuti(cartella, MODELLO);
+  };
+
+  it('compila i passi con fonti numerate proprie e li segnala nella bibliografia', () => {
+    const r = conPercorso(
+      percorso(
+        [passo(), passo(', inquadra: { fma: [FMA1] }')],
+        '## Uno\n\nFrase [@b].\n\n## Due\n\nFrase [@a] [@b].\n',
+      ),
+    );
+    expect(r.errori).toEqual([]);
+    const [p] = r.percorsi;
+    expect(p.passi.map((x) => x.titolo)).toEqual(['Uno', 'Due']);
+    expect(p.fonti.map((f) => `${f.n}:${f.id}`)).toEqual(['1:b', '2:a']);
+    expect(p.passi[1]).toMatchObject({ strato: 'organi', schema: 'torace', inquadra: { gruppi: [], fma: ['FMA1'] } });
+    expect(p.passi[0].inquadra).toBeNull();
+    expect(r.fonti.find((f) => f.id === 'b').citataDa).toContainEqual({
+      id: 'percorsi/giro',
+      nome: 'percorso “Un giro”',
+    });
+  });
+
+  it('rifiuta schemi e strati sconosciuti, strutture assenti dal modello e paragrafi senza fonte', () => {
+    const errori = conPercorso(
+      percorso(
+        [passo().replace('schema: torace', 'schema: cuore'), passo().replace('[cuore]', '[fegato]')],
+        '## Uno\n\nFrase senza fonte.\n\n## Due\n\nFrase [@a].\n',
+      ),
+    ).errori.join();
+    expect(errori).toMatch(/passo 1: schema deve essere uno tra/);
+    expect(errori).toMatch(/passo 2: il gruppo 3D "fegato" non esiste nel modello/);
+    expect(errori).toMatch(/paragrafo senza fonte/);
+    expect(conPercorso(percorso([passo(), passo()], '## Uno\n\nFrase [@a].\n')).errori.join()).toMatch(
+      /passi nell'intestazione \(2\) e nel testo \(1\)/,
+    );
+  });
+
+  it('il percorso reale "Un respiro" ha sei passi con fonti', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const [p] = r.percorsi;
+    expect(p.id).toBe('respirazione');
+    expect(p.passi).toHaveLength(6);
+    expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
+  });
+});

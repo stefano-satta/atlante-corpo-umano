@@ -5,7 +5,8 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { contenuti } from './plugin-contenuti.mjs';
 
 // Copia dei contenuti reali con stati fissati, per provare il filtro di pubblicazione senza
-// dipendere da quali testi sono approvati oggi: femore in bozza, cuore e Informazioni approvati.
+// dipendere da quali testi sono approvati oggi: femore in bozza, cuore e Informazioni approvati,
+// percorso "Un respiro" verificato.
 let radice;
 beforeAll(() => {
   radice = fs.mkdtempSync(path.join(os.tmpdir(), 'atlante-'));
@@ -19,6 +20,7 @@ beforeAll(() => {
   fissa('strutture/femore.md', 'bozza');
   fissa('strutture/cuore.md', 'approvato');
   fissa('pagine/informazioni.md', 'approvato');
+  fissa('percorsi/respirazione.md', 'verificato');
 });
 afterAll(() => fs.rmSync(radice, { recursive: true, force: true }));
 
@@ -42,9 +44,12 @@ describe('pubblicazione dei contenuti', () => {
     expect(indice).toContain('"id":"cuore"');
     expect(indice).toContain('virtual:contenuti/pagina/informazioni');
     expect(indice).not.toContain('"id":"femore"');
+    expect(indice).toContain('export const PERCORSI = [];');
   });
 
   it('in sviluppo include anche bozze e testi verificati', () => {
-    expect(caricaIndice('serve')).toContain('"id":"femore"');
+    const indice = caricaIndice('serve');
+    expect(indice).toContain('"id":"femore"');
+    expect(indice).toContain('virtual:contenuti/percorso/respirazione');
   });
 });

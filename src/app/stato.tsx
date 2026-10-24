@@ -11,7 +11,17 @@ export interface StatoAtlante {
   scheda: boolean;
   /** Pagina di lettura aperta sopra l'atlante (Fonti, Informazioni). */
   pagina: IdPagina | null;
+  /**
+   * Percorso guidato in corso (D24), con il passo contato da 0. Resta attivo mentre si
+   * esplora una struttura, così si può tornare al passo da cui si era partiti.
+   */
+  percorso: PercorsoAttivo | null;
   hover: string | null;
+}
+
+export interface PercorsoAttivo {
+  id: string;
+  passo: number;
 }
 
 export type Azione =
@@ -22,8 +32,11 @@ export type Azione =
   | { tipo: 'seleziona'; id: string | null }
   | { tipo: 'scheda'; aperta: boolean }
   | { tipo: 'pagina'; pagina: IdPagina | null }
+  | { tipo: 'percorso'; percorso: PercorsoAttivo | null }
   | { tipo: 'hover'; id: string | null }
-  | { tipo: 'da-url'; selezione: string | null; scheda: boolean; pagina: IdPagina | null };
+  | ({ tipo: 'da-url' } & DaUrl);
+
+type DaUrl = Pick<StatoAtlante, 'selezione' | 'scheda' | 'pagina' | 'percorso'>;
 
 export function riduttore(s: StatoAtlante, a: Azione): StatoAtlante {
   switch (a.tipo) {
@@ -39,31 +52,53 @@ export function riduttore(s: StatoAtlante, a: Azione): StatoAtlante {
       return { ...s, scheda: a.aperta && s.selezione !== null };
     case 'pagina':
       return { ...s, pagina: a.pagina };
+    case 'percorso':
+      // Scegliere un passo chiude la struttura che si stava esplorando.
+      return { ...s, percorso: a.percorso, selezione: null, scheda: false };
     case 'hover':
       return s.hover === a.id ? s : { ...s, hover: a.id };
     case 'da-url':
       // Aprendo una pagina dall'indirizzo la selezione resta quella che c'era.
-      return a.pagina ? { ...s, pagina: a.pagina } : { ...s, selezione: a.selezione, scheda: a.scheda, pagina: null };
+      if (a.pagina) return { ...s, pagina: a.pagina };
+      // Un indirizzo di struttura lascia attivo il percorso in corso; uno di percorso lo imposta.
+      return {
+        ...s,
+        selezione: a.selezione,
+        scheda: a.scheda,
+        pagina: null,
+        percorso: a.percorso ?? (a.selezione ? s.percorso : null),
+      };
   }
 }
 
-// Indirizzi (D11): /esplora/<id>, /organo/<id>, /fonti, /informazioni.
+// Indirizzi (D11): /esplora/<id>, /organo/<id>, /percorsi/<id>/<passo>, /fonti, /informazioni.
+// Nell'indirizzo il passo si conta da 1.
 const PAGINE: IdPagina[] = ['fonti', 'informazioni'];
 
-function leggiUrl(): { selezione: string | null; scheda: boolean; pagina: IdPagina | null } {
-  const pagina = PAGINE.find((p) => location.pathname === `/${p}`) ?? null;
-  const m = /^\/(esplora|organo)\/([^/]+)/.exec(location.pathname);
-  if (!m) return { selezione: null, scheda: false, pagina };
-  return { selezione: decodeURIComponent(m[2]), scheda: m[1] === 'organo', pagina };
+export function leggiUrl(pathname = location.pathname): DaUrl {
+  const pagina = PAGINE.find((p) => pathname === `/${p}`) ?? null;
+  const p = /^\/percorsi\/([a-z0-9-]+)(?:\/(\d+))?\/?$/.exec(pathname);
+  const percorso = p ? { id: p[1], passo: Math.max(0, Number(p[2] ?? 1) - 1) } : null;
+  const m = /^\/(esplora|organo)\/([^/]+)/.exec(pathname);
+  if (!m) return { selezione: null, scheda: false, pagina, percorso };
+  return { selezione: decodeURIComponent(m[2]), scheda: m[1] === 'organo', pagina, percorso };
 }
 
-function scriviUrl(selezione: string | null, scheda: boolean, pagina: IdPagina | null) {
-  const percorso = pagina
-    ? `/${pagina}`
-    : selezione
-      ? `/${scheda ? 'organo' : 'esplora'}/${encodeURIComponent(selezione)}`
-      : '/';
-  if (percorso !== location.pathname) history.pushState(null, '', percorso + location.search);
+export function indirizzo(s: DaUrl) {
+  if (s.pagina) return `/${s.pagina}`;
+  if (s.selezione) return `/${s.scheda ? 'organo' : 'esplora'}/${encodeURIComponent(s.selezione)}`;
+  if (s.percorso) return `/percorsi/${s.percorso.id}/${s.percorso.passo + 1}`;
+  return '/';
+}
+
+function scriviUrl(s: DaUrl) {
+  const nuovo = indirizzo(s);
+  if (nuovo === location.pathname) return;
+  // Passare da un passo all'altro dello stesso percorso non crea una voce di cronologia per passo:
+  // "Indietro" esce dal percorso invece di ripercorrerlo all'indietro.
+  const stessoPercorso =
+    s.percorso && !s.selezione && !s.pagina && location.pathname.startsWith(`/percorsi/${s.percorso.id}/`);
+  history[stessoPercorso ? 'replaceState' : 'pushState'](null, '', nuovo + location.search);
 }
 
 const Contesto = createContext<{ stato: StatoAtlante; invia: (a: Azione) => void } | null>(null);
@@ -76,10 +111,8 @@ export function ProviderAtlante({ children }: { children: ReactNode }) {
     ...leggiUrl(),
   }));
 
-  useEffect(
-    () => scriviUrl(stato.selezione, stato.scheda, stato.pagina),
-    [stato.selezione, stato.scheda, stato.pagina],
-  );
+  const { selezione, scheda, pagina, percorso } = stato;
+  useEffect(() => scriviUrl({ selezione, scheda, pagina, percorso }), [selezione, scheda, pagina, percorso]);
   useEffect(() => {
     const suPopstate = () => invia({ tipo: 'da-url', ...leggiUrl() });
     addEventListener('popstate', suPopstate);

@@ -35,6 +35,10 @@ export const CAMPI_PASSO = {
 };
 export const FLUSSI = ['vene-atri', 'atri-ventricoli', 'ventricoli-arterie'];
 
+/** Schemi 2D che un passo di percorso può mostrare, e strati che può scegliere (D24). */
+export const SCHEMI_PERCORSO = ['nessuno', 'torace', 'inspirazione', 'espirazione', 'alveolo'];
+const STRATI_PERCORSO = ['muscoli', 'organi', 'scheletro'];
+
 const DATA = /^\d{4}-\d{2}-\d{2}$/;
 const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const CITAZIONE = /\[@([^\]\s]+)\]/g;
@@ -107,6 +111,30 @@ function controllaHtml(token, errore) {
     const figli = [...(t.tokens ?? []), ...(t.items ?? [])];
     if (figli.length) controllaHtml(figli, errore);
   }
+}
+
+/**
+ * Numerazione delle fonti di un contenuto, nell'ordine della prima citazione, e
+ * trasformazione dei gruppi [@id] in rimandi numerati.
+ */
+function numeratore(fonti, errore) {
+  const ordine = [];
+  const numero = (id) => {
+    if (!fonti[id]) {
+      errore(`citazione di una fonte inesistente: [@${id}]`);
+      return 0;
+    }
+    if (!ordine.includes(id)) ordine.push(id);
+    return ordine.indexOf(id) + 1;
+  };
+  const rimandi = (testo) =>
+    testo.replace(GRUPPO_CITAZIONI, (gruppo) => {
+      const numeri = [...gruppo.matchAll(CITAZIONE)].map((m) => numero(m[1]));
+      const link = numeri.map((n) => `<a href="#fonte-${n}">${n}</a>`).join(', ');
+      return `<sup class="rimando"><span class="solo-lettori">fonti </span>${link}</sup>`;
+    });
+  const elenco = () => ordine.map((id, i) => ({ n: i + 1, id, ...fonti[id] }));
+  return { ordine, numero, rimandi, elenco };
 }
 
 function controllaFonte(id, f, errore) {
@@ -221,21 +249,7 @@ export function leggiContenuti(cartella, modello) {
   for (const { file, dati: d, corpo } of grezze) {
     const errore = errorePer(`strutture/${file}`);
     const sezioni = dividiSezioni(corpo, errore);
-    const ordine = [];
-    const numero = (id) => {
-      if (!fonti[id]) {
-        errore(`citazione di una fonte inesistente: [@${id}]`);
-        return 0;
-      }
-      if (!ordine.includes(id)) ordine.push(id);
-      return ordine.indexOf(id) + 1;
-    };
-    const rimandi = (testo) =>
-      testo.replace(GRUPPO_CITAZIONI, (gruppo) => {
-        const numeri = [...gruppo.matchAll(CITAZIONE)].map((m) => numero(m[1]));
-        const link = numeri.map((n) => `<a href="#fonte-${n}">${n}</a>`).join(', ');
-        return `<sup class="rimando"><span class="solo-lettori">fonti </span>${link}</sup>`;
-      });
+    const { ordine, numero, rimandi, elenco } = numeratore(fonti, errore);
 
     // Le fonti si numerano nell'ordine della prima citazione; il cartellino mostra solo "In breve",
     // quindi le sue fonti sono le prime della lista.
@@ -298,7 +312,7 @@ export function leggiContenuti(cartella, modello) {
       scheda: d.tipo === 'organo' && compilate.length > 1,
       relazioni,
       processi,
-      fonti: ordine.map((id, i) => ({ n: i + 1, id, ...fonti[id] })),
+      fonti: elenco(),
       fontiBreve,
     });
   }
@@ -329,11 +343,83 @@ export function leggiContenuti(cartella, modello) {
     });
   }
 
-  const citataDa = (idFonte) =>
-    strutture.filter((s) => s.fonti.some((f) => f.id === idFonte)).map((s) => ({ id: s.id, nome: s.nome }));
+  // Percorsi guidati (contenuti/percorsi/, D24): un passo per sezione "## Titolo", con strato,
+  // strutture evidenziate, inquadratura e schema nell'intestazione. Hanno fonti numerate proprie.
+  const percorsi = [];
+  const cartellaPercorsi = path.join(cartella, 'percorsi');
+  for (const file of fs.existsSync(cartellaPercorsi)
+    ? fs
+        .readdirSync(cartellaPercorsi)
+        .filter((f) => f.endsWith('.md'))
+        .sort()
+    : []) {
+    const errore = errorePer(`percorsi/${file}`);
+    const letto = separaIntestazione(fs.readFileSync(path.join(cartellaPercorsi, file), 'utf8'));
+    if (!letto) {
+      errore('manca l’intestazione YAML');
+      continue;
+    }
+    const d = letto.dati;
+    if (`${d.id}.md` !== file) errore(`l'id "${d.id}" deve coincidere con il nome del file`);
+    if (typeof d.titolo !== 'string' || !d.titolo) errore('manca il titolo');
+    if (!STATI.includes(d.stato)) errore(`stato deve essere uno tra ${STATI.join(', ')}`);
+    if (!DATA.test(String(d.revisione))) errore('manca la data di revisione');
+    const passi = Array.isArray(d.passi) ? d.passi : [];
+    if (passi.length < 2) errore('servono almeno due passi');
+    const sezioni = letto.corpo.split(/^## (.+)$/m);
+    if (sezioni[0].trim()) errore('c’è del testo prima del primo passo');
+    const testi = [];
+    for (let i = 1; i < sezioni.length; i += 2) testi.push({ titolo: sezioni[i].trim(), testo: sezioni[i + 1].trim() });
+    if (testi.length !== passi.length)
+      errore(`i passi nell'intestazione (${passi.length}) e nel testo (${testi.length}) non coincidono`);
+
+    // Strutture del modello indicate per gruppo (organi) o per FMA (ossa e muscoli).
+    const elementi = (valore, campo, i) => {
+      const gruppi = valore?.gruppi ?? [];
+      const fma = valore?.fma ?? [];
+      for (const g of gruppi)
+        if (!modello.gruppi.has(g)) errore(`passo ${i + 1}: il gruppo 3D "${g}" non esiste nel modello`);
+      for (const f of fma) if (!modello.fma.has(f)) errore(`passo ${i + 1}: l'elemento ${f} non esiste nel modello`);
+      if (!gruppi.length && !fma.length) errore(`passo ${i + 1}: ${campo} deve indicare dei gruppi o degli FMA`);
+      return { gruppi, fma };
+    };
+    const { rimandi, elenco } = numeratore(fonti, errore);
+    const compilati = passi.map((passo, i) => {
+      if (!STRATI_PERCORSO.includes(passo?.strato))
+        errore(`passo ${i + 1}: strato deve essere uno tra ${STRATI_PERCORSO.join(', ')}`);
+      if (!SCHEMI_PERCORSO.includes(passo?.schema))
+        errore(`passo ${i + 1}: schema deve essere uno tra ${SCHEMI_PERCORSO.join(', ')}`);
+      const testo = testi[i]?.testo ?? '';
+      controllaRimandi(lexer, testo, errore);
+      return {
+        titolo: testi[i]?.titolo ?? '',
+        html: marked.parse(rimandi(testo)),
+        strato: passo?.strato,
+        evidenzia: elementi(passo?.evidenzia, 'evidenzia', i),
+        inquadra: passo?.inquadra ? elementi(passo.inquadra, 'inquadra', i) : null,
+        schema: passo?.schema,
+      };
+    });
+    percorsi.push({
+      id: d.id,
+      titolo: d.titolo,
+      stato: d.stato,
+      revisione: String(d.revisione),
+      limiti: typeof d.limiti === 'string' ? d.limiti.trim() : null,
+      passi: compilati,
+      fonti: elenco(),
+    });
+  }
+
+  const citataDa = (idFonte) => [
+    ...strutture.filter((s) => s.fonti.some((f) => f.id === idFonte)).map((s) => ({ id: s.id, nome: s.nome })),
+    ...percorsi
+      .filter((p) => p.fonti.some((f) => f.id === idFonte))
+      .map((p) => ({ id: `percorsi/${p.id}`, nome: `percorso “${p.titolo}”` })),
+  ];
   const elencoFonti = Object.entries(fonti).map(([id, f]) => ({ id, ...f, citataDa: citataDa(id) }));
 
-  return { strutture, pagine, fonti: elencoFonti, errori };
+  return { strutture, pagine, percorsi, fonti: elencoFonti, errori };
 }
 
 /** Strutture e gruppi presenti nel modello 3D, da public/modelli/strutture.json. */

@@ -78,7 +78,8 @@ button {
   inset: 0;
   --occupato: 0px;
 }
-.atlante[data-pannello="cartellino"] {
+.atlante[data-pannello="cartellino"],
+.atlante[data-pannello="percorso"] {
   --occupato: var(--l-cartellino);
 }
 /* Velo in alto: tiene leggibili titolo, menu e crediti quando il corpo passa sotto. */
@@ -133,6 +134,10 @@ button {
 }
 .voce[aria-disabled="true"] {
   cursor: not-allowed;
+}
+.voce[aria-current="true"] {
+  color: var(--sala-testo);
+  box-shadow: inset 0 -2px var(--eosina-sala);
 }
 .piede {
   position: absolute;
@@ -1084,9 +1089,253 @@ button {
   letter-spacing: -0.02em;
 }
 
+/* Percorso guidato nel pannello (D24) */
+.percorso {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 32px calc(28px + env(safe-area-inset-bottom, 0px));
+  animation: compare 280ms var(--curva);
+}
+.percorso-numero {
+  margin: 20px 0 0;
+}
+.percorso .nome {
+  margin-top: 4px;
+}
+.percorso .testo p {
+  margin: 0 0 12px;
+}
+.percorso-comandi {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--vetrino-bordo);
+}
+.percorso-comandi .azione {
+  margin: 0;
+}
+.indietro:disabled {
+  color: var(--inchiostro-tenue);
+  opacity: 0.5;
+  cursor: default;
+}
+.percorso-passi {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.percorso-passi button {
+  min-width: 34px;
+  height: 34px;
+  border: 1px solid var(--vetrino-bordo);
+  border-radius: 2px;
+  background: none;
+  color: var(--inchiostro);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 180ms ease-out;
+}
+.percorso-passi button:hover {
+  background: var(--vetrino-velo);
+}
+.percorso-passi button[aria-current="step"] {
+  background: var(--inchiostro);
+  border-color: var(--inchiostro);
+  color: var(--vetrino);
+}
+.torna-percorso {
+  align-self: flex-start;
+  margin: 0 0 10px;
+  font-size: 14px;
+  text-align: left;
+}
+.ciclo.respiro {
+  margin: 18px 0 4px;
+}
+
+/* Schemi del respiro: torace e alveolo */
+.schema-respiro {
+  display: block;
+  width: 100%;
+  height: auto;
+  --aria: #cfc4b6;
+  --osso: #d9d2c5;
+  --muscolo: #c96b5f;
+  font-family: var(--f-testo);
+}
+.schema-respiro .etichette text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.schema-respiro .etichette .minore {
+  fill: var(--sala-tenue);
+  font-size: 11px;
+  font-weight: 500;
+}
+.schema-respiro .orientamento {
+  fill: var(--sala-tenue);
+  font-size: 12px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.schema-respiro .punta {
+  fill: var(--vetrino);
+}
+.schema-torace .polmone {
+  fill: #c99ea4;
+  stroke: var(--sala-testo);
+  stroke-width: 1.5;
+}
+.schema-torace .polmoni,
+.schema-torace .diaframma,
+.schema-torace .costole {
+  transform-box: view-box;
+  transition: transform 1600ms cubic-bezier(0.45, 0, 0.25, 1);
+}
+.schema-torace .polmoni {
+  transform-origin: 180px 64px;
+}
+.schema-torace .vie-aeree path {
+  fill: none;
+  stroke: var(--aria);
+  stroke-linecap: round;
+  stroke-width: 12;
+}
+.schema-torace .vie-aeree .bronchi {
+  stroke-width: 8;
+}
+.schema-torace .costole path {
+  fill: none;
+  stroke: var(--osso);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+.schema-torace .costole-destra {
+  transform-origin: 172px 140px;
+}
+.schema-torace .costole-sinistra {
+  transform-origin: 188px 140px;
+}
+.schema-torace .diaframma {
+  fill: none;
+  stroke: var(--muscolo);
+  stroke-width: 7;
+  stroke-linecap: round;
+  transform-origin: 180px 254px;
+}
+/* Inspirazione: il diaframma si abbassa e si appiattisce, le costole salgono e si allargano, i polmoni seguono. */
+.schema-torace[data-fase="inspirazione"] .diaframma {
+  transform: translateY(14px) scaleY(0.62);
+}
+.schema-torace[data-fase="inspirazione"] .polmoni {
+  transform: scale(1.05, 1.06);
+}
+.schema-torace[data-fase="inspirazione"] .costole-destra {
+  transform: translateX(-7px) rotate(5deg);
+}
+.schema-torace[data-fase="inspirazione"] .costole-sinistra {
+  transform: translateX(7px) rotate(-5deg);
+}
+.schema-respiro .frecce path,
+.schema-alveolo .gas {
+  fill: none;
+  stroke: var(--vetrino);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.schema-torace .frecce {
+  opacity: 0;
+  transition: opacity 320ms ease-out;
+}
+.schema-torace[data-fase="inspirazione"] .frecce-inspirazione,
+.schema-torace[data-fase="espirazione"] .frecce-espirazione {
+  opacity: 0.95;
+}
+.schema-alveolo .bronchiolo {
+  fill: none;
+  stroke: var(--aria);
+  stroke-width: 22;
+}
+.schema-alveolo .alveolo {
+  fill: rgb(207 196 182 / 0.16);
+  stroke: var(--aria);
+  stroke-width: 2.5;
+}
+.schema-alveolo .capillare {
+  fill: none;
+  stroke: url(#sangue-capillare);
+  stroke-width: 20;
+  stroke-linecap: round;
+}
+.schema-alveolo .stop-povero {
+  stop-color: var(--sangue-povero);
+}
+.schema-alveolo .stop-ricco {
+  stop-color: var(--sangue-ricco);
+}
+.schema-alveolo .corrente {
+  fill: none;
+  stroke: var(--vetrino);
+  stroke-width: 2;
+  stroke-dasharray: 6 8;
+  opacity: 0.8;
+}
+.schema-alveolo .gas {
+  stroke-width: 3;
+  stroke-dasharray: 5 5;
+}
+.schema-alveolo .ossigeno,
+.campione.ossigeno {
+  stroke: var(--gas-ossigeno);
+  background: var(--gas-ossigeno);
+}
+.schema-alveolo .anidride,
+.campione.anidride {
+  stroke: var(--gas-anidride);
+  background: var(--gas-anidride);
+}
+.schema-alveolo .punta-ossigeno {
+  fill: var(--gas-ossigeno);
+}
+.schema-alveolo .punta-anidride {
+  fill: var(--gas-anidride);
+}
+.respiro {
+  --gas-ossigeno: #8fd3c3;
+  --gas-anidride: #e3b45c;
+}
+/* La fase del respiro sta nell'angolo in basso a sinistra, lontana da diaframma e frecce. */
+.ciclo-tono.fase-respiro {
+  left: 0;
+  bottom: 0;
+  transform: none;
+}
+.percorso-comandi {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  padding-bottom: 14px;
+  background: var(--vetrino);
+}
+.ciclo-schema[data-in-riproduzione="true"] .schema-alveolo .corrente,
+.ciclo-schema[data-in-riproduzione="true"] .schema-alveolo .gas {
+  animation: scorre-flusso 900ms linear infinite;
+}
+
 /* Smartphone: il cartellino diventa un foglio dal basso, la scheda va a tutto schermo */
 @media (max-width: 760px) {
-  .atlante[data-pannello="cartellino"] {
+  .atlante[data-pannello="cartellino"],
+  .atlante[data-pannello="percorso"] {
     --occupato: 0px;
   }
   .barra-alta {
@@ -1102,7 +1351,8 @@ button {
     font-size: 11px;
     max-width: 36ch;
   }
-  .pannello[data-modo="cartellino"] {
+  .pannello[data-modo="cartellino"],
+  .pannello[data-modo="percorso"] {
     top: auto;
     left: 0;
     width: auto;
@@ -1120,7 +1370,11 @@ button {
     width: 100%;
     border-left: 0;
   }
-  .cartellino {
+  .pannello[data-modo="percorso"] {
+    max-height: 50vh;
+  }
+  .cartellino,
+  .percorso {
     padding: 16px 20px calc(22px + env(safe-area-inset-bottom, 0px));
   }
   .nome {
@@ -1137,8 +1391,16 @@ button {
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     max-width: calc(100% - 16px);
   }
-  .atlante[data-pannello="cartellino"] .barra-comandi {
+  .atlante[data-pannello="cartellino"] .barra-comandi,
+  .atlante[data-pannello="percorso"] .barra-comandi {
     display: none;
+  }
+  .schema-respiro .etichette text,
+  .schema-respiro .orientamento {
+    font-size: 16px;
+  }
+  .schema-respiro .etichette .minore {
+    font-size: 14px;
   }
   .strato,
   .comando {

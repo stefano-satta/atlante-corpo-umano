@@ -134,3 +134,45 @@ export function preparaStrato(
   for (const g of geometrie) g.dispose();
   return unita1;
 }
+
+/** Come appare un'unità: nascosta, attenuata (semitrasparente) o piena. */
+export const NASCOSTA = 0;
+export const ATTENUATA = 1;
+export const PIENA = 2;
+
+/**
+ * Stato di ogni unità, indicizzato per `Unita.indice`. Senza un fuoco sono piene le unità
+ * degli strati visibili. Con un fuoco (la struttura selezionata, o le strutture evidenziate
+ * da un passo di percorso) sono piene solo quelle del fuoco, anche se stanno in uno strato
+ * nascosto, e le altre degli strati visibili sono attenuate.
+ */
+export function statiUnita(
+  unita: Map<string, Unita>,
+  visibili: readonly StratoModello[],
+  fuoco: ReadonlySet<string> | null,
+) {
+  const stati = new Uint8Array(unita.size + 1);
+  for (const u of unita.values()) {
+    const visibile = visibili.includes(u.strato);
+    if (!fuoco?.size) stati[u.indice] = visibile ? PIENA : NASCOSTA;
+    else stati[u.indice] = fuoco.has(u.id) ? PIENA : visibile ? ATTENUATA : NASCOSTA;
+  }
+  return stati;
+}
+
+/** Unità indicate da un contenuto: organi per gruppo, ossa e muscoli per FMA (anche più unità per FMA). */
+export function unitaPerElementi(elementi: { gruppi: string[]; fma: string[] }, unita: Map<string, Unita>) {
+  const ids = elementi.gruppi.filter((g) => unita.has(g));
+  for (const u of unita.values()) if (u.fma && elementi.fma.includes(u.fma)) ids.push(u.id);
+  return ids;
+}
+
+/** Ingombro complessivo di più unità. */
+export function ingombro(ids: string[], unita: Map<string, Unita>) {
+  const box = new THREE.Box3();
+  for (const id of ids) {
+    const u = unita.get(id);
+    if (u) box.union(u.box);
+  }
+  return box;
+}

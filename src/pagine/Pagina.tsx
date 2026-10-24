@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useRef } from 'react';
 import { type IdPagina, useAtlante } from '../app/stato';
-import { dataEstesa, haPagina, STRUTTURE, useFonti, usePagina } from '../contenuti/contenuti';
+import { dataEstesa, haPagina, PERCORSI, STRUTTURE, useFonti, usePagina } from '../contenuti/contenuti';
 import type { FonteCitata } from '../contenuti/tipi';
 import { Riferimento, Testo } from '../pannello/Fonti';
 import { IconaIndietro } from '../pannello/icone';
@@ -45,7 +45,7 @@ function Fonti() {
   const { dato: fonti, errore } = useFonti();
   if (errore) return <p className="avviso">Non è stato possibile caricare l'elenco delle fonti.</p>;
   if (!fonti) return <p role="status">Caricamento delle fonti…</p>;
-  const pubblicate = new Set(STRUTTURE.map((s) => s.id));
+  const pubblicate = new Set([...STRUTTURE.map((s) => s.id), ...PERCORSI.map((p) => `percorsi/${p.id}`)]);
   return (
     <>
       <p className="introduzione">
