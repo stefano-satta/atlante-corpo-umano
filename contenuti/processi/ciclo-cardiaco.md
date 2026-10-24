@@ -10,7 +10,7 @@ passi:
   - { atri: contratti, ventricoli: rilassati, av: aperte, semilunari: chiuse, segnale: atrioventricolare, tono: nessuno, flussi: [atri-ventricoli] }
   - { atri: rilassati, ventricoli: contratti, av: chiuse, semilunari: aperte, segnale: ventricoli, tono: primo, flussi: [ventricoli-arterie] }
   - { atri: rilassati, ventricoli: rilassati, av: chiuse, semilunari: chiuse, segnale: nessuno, tono: secondo, flussi: [vene-atri] }
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 
@@ -32,4 +32,4 @@ Poi si contraggono i ventricoli [@nhlbi-cuore-battito], mentre gli atri si rilas
 
 ## I ventricoli si rilassano
 
-Quando i ventricoli si rilassano, la pressione al loro interno scende sotto quella delle grandi arterie: le valvole aortica e polmonare si chiudono e impediscono al sangue di tornare indietro. È il secondo tono del battito [@openstax-ap-19-3]. Poi il ciclo ricomincia.
+Quando i ventricoli si rilassano, la pressione al loro interno scende sotto quella delle grandi arterie: le valvole aortica e polmonare si chiudono e impediscono al sangue di tornare indietro. È il secondo tono del battito [@openstax-ap-19-3].

@@ -2,7 +2,7 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco realizzata, didascalie in attesa di approvazione. Restano M4 (serve Blender), M6, M7, M8.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata. Restano M4 (serve Blender), M6, M7, M8.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
 - **In sospeso:** conferma in Blender dei polmoni di Z-Anatomy (l'utente installa Blender)
 
@@ -30,6 +30,7 @@
 | D19 | 2026-10-22 | 7 | Piano di implementazione | Approvate le milestone M1 Fondazione, M2 Design Istologia, M3 Contenuti reali, M4 Polmoni, M5 Ciclo cardiaco, M6 Percorso "Un respiro", M7 Soglia, tour e Indice, M8 Pubblicazione; poi Fase 8. Approvata e avviata M1. M2 approvata il 2026-10-22; M3 il 2026-10-24. |
 | D20 | 2026-10-24 | 7 | Contenuti | Approvati la correzione del termine latino del femore in "os femoris" (TA2 1360) e il testo della pagina Informazioni, inclusa la dichiarazione che i testi non sono stati rivisti da un medico o da un anatomista. Femore e Informazioni passano allo stato "approvato". |
 | D21 | 2026-10-24 | 7 | M5 Ciclo cardiaco | Approvato il piano con l'opzione A: schema 2D in sezione frontale disegnato per l'atlante (SVG con transizioni CSS), 5 passi, riproduzione che parte ferma, passo per passo con il movimento ridotto, nessun valore numerico, nessun suono, schema dichiarato come semplificato e non in scala. |
+| D22 | 2026-10-24 | 7 | Contenuti | Didascalie del ciclo cardiaco approvate a condizione che provengano da fonti ufficiali verificate. Ogni frase nuova è stata ricontrollata sul testo di OpenStax 19.3; tolta l'unica frase senza riscontro esplicito ("Poi il ciclo ricomincia"). Processo in stato "approvato" e incluso nella build di produzione. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -152,3 +153,4 @@
   - frecce di flusso ferme in pausa;
   - su schermo stretto le etichette del disegno sono più grandi e quelle dei due nodi sono nascoste: i nodi restano nominati nelle didascalie;
   - il percorso del segnale nei ventricoli non è disegnato (le fonti approvate non nominano fascio di His e fibre di Purkinje): il segnale è mostrato colorando la parete delle cavità che raggiunge.
+- **2026-10-24** — Registrata D22: didascalie del ciclo cardiaco approvate dopo un nuovo controllo frase per frase su OpenStax 19.3; tolta la frase "Poi il ciclo ricomincia", priva di riscontro esplicito.
