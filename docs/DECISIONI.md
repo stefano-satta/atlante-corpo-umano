@@ -2,7 +2,7 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate. In attesa: approvazione della correzione del termine del femore e della pagina Informazioni; poi M4 (serve Blender) o M5.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate. Prossima: M4 Polmoni (serve Blender) oppure M5 Ciclo cardiaco.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
 - **In sospeso:** conferma in Blender dei polmoni di Z-Anatomy (l'utente installa Blender)
 
@@ -28,6 +28,7 @@
 | D17 | 2026-10-22 | 6 | Contenuti | Approvati: processo in sei passi (affermazioni, fonti, verifica, scrittura, controllo automatico, approvazione dell'utente) con stati bozza → verificato → approvato; modello dati Struttura e Fonte; un file Markdown con intestazione YAML per struttura, bibliografia unica, rimandi `[@id]`; librerie `yaml` e `marked` solo in build; nomi italiani di ossa e muscoli derivati dal termine TA2 e dall'uso corrente, con metodo dichiarato. Contenuti pilota: cuore (cartellino e scheda), femore (cartellino), diaframma (cartellino). |
 | D18 | 2026-10-22 | 6 | Contenuti pilota | Approvati cuore, femore e diaframma (stato "approvato") e le scelte sulle incertezze: strati della parete secondo OpenStax e SEER con differenza dichiarata; termini latini da verificare sulla TA2 prima della pubblicazione; diaframma con funzione nell'apparato respiratorio e appartenenza al sistema muscolare; relazioni verso strutture senza contenuto come testo semplice. Fonti: NHLBI, NCI SEER, OpenStax A&P 2e (citata, mai riprodotta). |
 | D19 | 2026-10-22 | 7 | Piano di implementazione | Approvate le milestone M1 Fondazione, M2 Design Istologia, M3 Contenuti reali, M4 Polmoni, M5 Ciclo cardiaco, M6 Percorso "Un respiro", M7 Soglia, tour e Indice, M8 Pubblicazione; poi Fase 8. Approvata e avviata M1. M2 approvata il 2026-10-22; M3 il 2026-10-24. |
+| D20 | 2026-10-24 | 7 | Contenuti | Approvati la correzione del termine latino del femore in "os femoris" (TA2 1360) e il testo della pagina Informazioni, inclusa la dichiarazione che i testi non sono stati rivisti da un medico o da un anatomista. Femore e Informazioni passano allo stato "approvato". |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -70,7 +71,6 @@
 | Collocazione di processi e animazioni (scheda organo e/o percorsi guidati). | Fase 1 |
 | Organi e processi della v1 (proposta: cuore, polmoni, encefalo, fegato, stomaco, reni; ciclo cardiaco e respirazione). | Fase 6 |
 | Criterio di selezione delle strutture "principali" cliccabili nella v1. | Fasi 3–6 |
-| Revisione dei contenuti: nessuno specialista; dichiarazione esplicita nel sito. Testo proposto nella pagina Informazioni (M3), in attesa di approvazione. | Fase 7 |
 | Codice sorgente open source: sì o no. | Non urgente |
 | Fonte autorevole per i nomi italiani di ossa e muscoli. | Fase 6 |
 
@@ -130,3 +130,4 @@
   - le relazioni verso strutture senza contenuto restano testo semplice (D18);
   - il numero TA2 compare accanto al termine latino;
   - l'avviso "Versione in sviluppo" ora dice "alcuni nomi e testi sono in preparazione".
+- **2026-10-24** — Registrata D20: femore e pagina Informazioni approvati e inclusi nella build di produzione. Chiusa la questione aperta sulla dichiarazione di revisione dei contenuti.

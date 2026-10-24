@@ -19,7 +19,7 @@ limiti: >
   Nella Terminologia Anatomica il termine latino "femur" indica la coscia
   (TA2 160); l'osso si chiama "os femoris" (TA2 1360).
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 
