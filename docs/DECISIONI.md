@@ -154,3 +154,6 @@
   - su schermo stretto le etichette del disegno sono più grandi e quelle dei due nodi sono nascoste: i nodi restano nominati nelle didascalie;
   - il percorso del segnale nei ventricoli non è disegnato (le fonti approvate non nominano fascio di His e fibre di Purkinje): il segnale è mostrato colorando la parete delle cavità che raggiunge.
 - **2026-10-24** — Registrata D22: didascalie del ciclo cardiaco approvate dopo un nuovo controllo frase per frase su OpenStax 19.3; tolta la frase "Poi il ciclo ricomincia", priva di riscontro esplicito.
+- **2026-10-24** — Corretto un difetto segnalato dall'utente ("Too many active WebGL contexts", poi "Context Lost"). Il controllo del supporto WebGL creava un contesto di prova a ogni aggiornamento dell'interfaccia e non lo rilasciava mai. Dopo circa 16 contesti il browser chiudeva il più vecchio, quello della scena 3D.
+  - Ora il controllo si fa una volta sola e il contesto di prova viene rilasciato subito.
+  - Aggiunto un test end-to-end che conta i contesti creati durante l'uso. Con il codice precedente, 30 cambi di strato creavano 30 contesti in più.

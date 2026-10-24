@@ -169,3 +169,25 @@ test('con il movimento ridotto il ciclo cardiaco va solo passo per passo', async
   await expect(ciclo.getByRole('button', { name: 'Passo successivo' })).toBeVisible();
   await expect(ciclo.getByRole('button', { name: 'Riproduci' })).toHaveCount(0);
 });
+
+test("l'uso prolungato non crea nuovi contesti WebGL e la scena resta viva", async ({ page }) => {
+  // Ogni contesto WebGL creato dalla pagina viene contato: oltre il limite del browser
+  // (circa 16) il più vecchio, quello della scena, verrebbe chiuso.
+  await page.addInitScript(() => {
+    const w = window as unknown as { contesti: number };
+    w.contesti = 0;
+    const originale = HTMLCanvasElement.prototype.getContext;
+    HTMLCanvasElement.prototype.getContext = function (this: HTMLCanvasElement, ...a: unknown[]) {
+      if (String(a[0]).startsWith('webgl')) w.contesti++;
+      return (originale as (...b: unknown[]) => unknown).apply(this, a);
+    } as typeof originale;
+  });
+  const avvisi: string[] = [];
+  page.on('console', (m) => /Too many active WebGL contexts|Context Lost/.test(m.text()) && avvisi.push(m.text()));
+  await page.goto('/');
+  await attendiScena(page);
+  const iniziali = await page.evaluate(() => (window as unknown as { contesti: number }).contesti);
+  for (let i = 0; i < 30; i++) await page.keyboard.press(['1', '2', '3'][i % 3]);
+  expect(await page.evaluate(() => (window as unknown as { contesti: number }).contesti)).toBe(iniziali);
+  expect(avvisi).toEqual([]);
+});
