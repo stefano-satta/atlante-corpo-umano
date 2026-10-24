@@ -2,9 +2,9 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni implementata, in attesa dell'approvazione dei testi. Restano M6, M7, M8.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. Restano M6, M7, M8.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
-- **In sospeso:** approvazione del testo dei polmoni e della nuova versione della pagina Informazioni (M4); entrambi in stato "verificato", quindi fuori dalla build di produzione
+- **In sospeso:** nessuna decisione; prossima milestone da scegliere tra M6, M7 e M8
 
 ## 2. Decisioni approvate
 
@@ -31,6 +31,7 @@
 | D20 | 2026-10-24 | 7 | Contenuti | Approvati la correzione del termine latino del femore in "os femoris" (TA2 1360) e il testo della pagina Informazioni, inclusa la dichiarazione che i testi non sono stati rivisti da un medico o da un anatomista. Femore e Informazioni passano allo stato "approvato". |
 | D21 | 2026-10-24 | 7 | M5 Ciclo cardiaco | Approvato il piano con l'opzione A: schema 2D in sezione frontale disegnato per l'atlante (SVG con transizioni CSS), 5 passi, riproduzione che parte ferma, passo per passo con il movimento ridotto, nessun valore numerico, nessun suono, schema dichiarato come semplificato e non in scala. |
 | D22 | 2026-10-24 | 7 | Contenuti | Didascalie del ciclo cardiaco approvate a condizione che provengano da fonti ufficiali verificate. Ogni frase nuova è stata ricontrollata sul testo di OpenStax 19.3; tolta l'unica frase senza riscontro esplicito ("Poi il ciclo ricomincia"). Processo in stato "approvato" e incluso nella build di produzione. |
+| D23 | 2026-10-24 | 7 | M4 Polmoni | Approvati forma e posizione dei polmoni di Z-Anatomy allineati a BodyParts3D, il testo dei polmoni (cartellino e scheda; fonti NHLBI e OpenStax 22.2; termine *pulmones*, TA2 3265) e la nuova versione della pagina Informazioni (origine dei polmoni e crediti di Z-Anatomy). Polmoni e Informazioni passano allo stato "approvato" e tornano nella build di produzione. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -201,4 +202,4 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - nei cartellini e nelle schede, un collegamento verso una struttura che ha un testo è un link che la seleziona nel corpo (completa D18);
   - il link alla pagina Informazioni nelle schede diventa testo semplice se la pagina non è pubblicata;
   - i test della pubblicazione fissano gli stati dei contenuti nella copia di prova, così non dipendono da quali testi sono approvati.
-
+- **2026-10-24** — Registrata D23: testo dei polmoni e pagina Informazioni approvati, inclusi nella build di produzione. M4 completata.

@@ -1,7 +1,7 @@
 ---
 id: informazioni
 titolo: Informazioni
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

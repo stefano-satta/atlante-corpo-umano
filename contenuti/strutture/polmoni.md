@@ -20,7 +20,7 @@ limiti: >
   BodyParts3D: le sue forme sono una ricostruzione semplificata e mostrano i
   lobi, ma non i segmenti, le vie aeree interne né la pleura.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 
