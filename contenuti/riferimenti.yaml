@@ -10,6 +10,7 @@ apparati:
   scheletrico: Apparato scheletrico
   digerente: Apparato digerente
   urinario: Apparato urinario
+  genitale-maschile: Apparato genitale maschile
   nervoso: Sistema nervoso
   linfatico: Sistema linfatico
 
@@ -26,6 +27,7 @@ nomi:
   nervo-frenico: Nervo frenico
   apparato-digerente: Apparato digerente
   apparato-urinario: Apparato urinario
+  apparato-genitale-maschile: Apparato genitale maschile
   sistema-nervoso: Sistema nervoso
   sistema-linfatico: Sistema linfatico
   midollo-spinale: Midollo spinale

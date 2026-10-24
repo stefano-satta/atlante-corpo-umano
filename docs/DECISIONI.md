@@ -36,6 +36,7 @@
 | D25 | 2026-10-24 | 7 | Contenuti | Approvato il testo del percorso "Un respiro" (6 passi; fonti OpenStax 22.1, 22.3, 22.4 e NHLBI). Il percorso passa allo stato "approvato" ed entra nella build di produzione. M6 completata. |
 | D26 | 2026-10-24 | 7 | M7 Soglia, tour e Indice | Approvato il piano con le scelte A1, B1, C1, D1, E1: soglia d'ingresso sopra l'atlante su `/`, con "Esplora il corpo", "Segui un percorso", Indice, Informazioni e l'avvertenza già approvata, mentre il modello si carica dietro (A1); tour di 4 passi sugli elementi veri, automatico alla prima visita dopo "Esplora il corpo", con "Salta", ricordato nel browser e riaperto dal nuovo pulsante Aiuto (B1); Indice `/indice` con ricerca, strutture con testo, percorsi, processi e organi del modello per apparato; ossa e muscoli senza testo esclusi, con nota (C1); glossario in `contenuti/glossario.yaml` con fonti e stati, sezione dell'Indice e definizioni sul posto con il segno `[[testo\|termine]]`, testo da approvare a parte (D1); senza WebGL 2 si apre l'Indice con lettura dei testi, del ciclo cardiaco e del percorso (E1). |
 | D27 | 2026-10-24 | 7 | Contenuti | Approvato il testo delle 25 voci del glossario (`contenuti/glossario.yaml`), portate in stato "approvato" e incluse nella build di produzione: i termini segnati nei testi aprono la definizione sul posto. M7 completata. |
+| D28 | 2026-10-24 | 7 | Contenuti | Approvati i testi delle sette schede dell'apparato genitale maschile (testicoli, epididimi, dotti deferenti, vescichette seminali, prostata, pene, uretra; fonti OpenStax 27.1 e SEER; termini latini verificati sulla TA2), portate in stato "approvato" e incluse nella build di produzione. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -289,3 +290,10 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - **Scheletro** e **Muscoli** invariati; tasti 1, 2, 3 nello stesso ordine della barra; testo del tour aggiornato;
   - un indirizzo diretto a un osso apre lo strato Scheletro (prima Scheletro e organi);
   - Test: 73 unitari e di componente, 20 end-to-end.
+- **2026-10-24** — Apparato genitale maschile (richiesta dell'utente, primo passo verso un selettore Uomo/Donna). Verifica preliminare: BodyParts3D e Z-Anatomy contengono solo un corpo maschile; non ci sono modelli di organi genitali femminili né della mammella, e anche pelle e bacino sono maschili. Risultati:
+  - sette nuovi organi selezionabili, dagli OBJ di BodyParts3D già presenti in `dati-sorgente/` (nessun download): testicoli, epididimi, dotti deferenti, vescichette seminali, prostata, pene (corpi cavernosi, corpo spongioso, glande) e uretra (maschile, nell'apparato urinario); strato degli organi da 649 a 669 kB;
+  - nuovo apparato "Apparato genitale maschile" (`genitale-maschile`) nell'Indice, dopo l'urinario;
+  - termini latini e numeri verificati sul TA2 Viewer: testis 3576, epididymis 3603, ductus deferens 3621, glandula seminalis 3631, prostata 3637, penis 3662, urethra masculina 3442;
+  - sette schede in stato "verificato" (fuori dalla produzione fino all'approvazione), con fonti nuove OpenStax 27.1 e SEER (Testes, Duct System, Accessory Glands, Penis, Male Sexual Response and Hormonal Control); le differenze tra le fonti sono dichiarate nei limiti;
+  - Test: 74 unitari e di componente, 20 end-to-end.
+  - testi approvati dall'utente lo stesso giorno (D28): le sette schede entrano nella build di produzione.

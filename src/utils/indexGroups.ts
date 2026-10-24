@@ -3,7 +3,16 @@ import type { StructureSummary } from '@/models/content';
 import { STRUCTURES } from './content';
 import { BODY_SYSTEM_NAMES, ORGANS } from './organs';
 
-const ORDER = ['cardiovascolare', 'respiratorio', 'digerente', 'urinario', 'nervoso', 'linfatico', 'scheletrico'];
+const ORDER = [
+  'cardiovascolare',
+  'respiratorio',
+  'digerente',
+  'urinario',
+  'genitale-maschile',
+  'nervoso',
+  'linfatico',
+  'scheletrico',
+];
 
 /**
  * Voci dell'Indice raggruppate per apparato (D26): gli organi del modello, con il testo quando c'è,

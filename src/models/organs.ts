@@ -1,4 +1,11 @@
-export type BodySystem = 'cardiovascolare' | 'nervoso' | 'digerente' | 'urinario' | 'respiratorio' | 'linfatico';
+export type BodySystem =
+  | 'cardiovascolare'
+  | 'nervoso'
+  | 'digerente'
+  | 'urinario'
+  | 'respiratorio'
+  | 'linfatico'
+  | 'genitale-maschile';
 
 /** Organo del modello 3D, con il nome italiano e il termine anatomico correnti. */
 export interface Organ {

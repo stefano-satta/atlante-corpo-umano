@@ -10,6 +10,7 @@ export const BODY_SYSTEM_NAMES: Record<BodySystem, string> = {
   urinario: 'Apparato urinario',
   respiratorio: 'Apparato respiratorio',
   linfatico: 'Sistema linfatico',
+  'genitale-maschile': 'Apparato genitale maschile',
 };
 
 export const ORGANS: Organ[] = [
@@ -37,6 +38,26 @@ export const ORGANS: Organ[] = [
   { id: 'milza', name: 'Milza', latinTerm: 'splen', system: 'linfatico', color: '#6c3a3e' },
   { id: 'reni', name: 'Reni', latinTerm: 'ren', system: 'urinario', color: '#8b4a40' },
   { id: 'vescica', name: 'Vescica urinaria', latinTerm: 'vesica urinaria', system: 'urinario', color: '#c7a99a' },
+  { id: 'uretra', name: 'Uretra', latinTerm: 'urethra masculina', system: 'urinario', color: '#d6bcae' },
+  // Apparato genitale maschile (BodyParts3D riproduce un corpo maschile): toni carne e ocra, distinti da vescica e reni.
+  { id: 'testicoli', name: 'Testicoli', latinTerm: 'testis', system: 'genitale-maschile', color: '#d2b4a2' },
+  { id: 'epididimi', name: 'Epididimi', latinTerm: 'epididymis', system: 'genitale-maschile', color: '#a9786a' },
+  {
+    id: 'dotti-deferenti',
+    name: 'Dotti deferenti',
+    latinTerm: 'ductus deferens',
+    system: 'genitale-maschile',
+    color: '#d9c4ae',
+  },
+  {
+    id: 'vescichette-seminali',
+    name: 'Vescichette seminali',
+    latinTerm: 'glandula seminalis',
+    system: 'genitale-maschile',
+    color: '#bf9f7e',
+  },
+  { id: 'prostata', name: 'Prostata', latinTerm: 'prostata', system: 'genitale-maschile', color: '#a26c62' },
+  { id: 'pene', name: 'Pene', latinTerm: 'penis', system: 'genitale-maschile', color: '#b98a7c' },
   {
     id: 'trachea-bronchi',
     name: 'Trachea e bronchi',

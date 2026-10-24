@@ -27,3 +27,20 @@ describe('polmoni da Z-Anatomy (M4)', () => {
     expect(fs.readFileSync('public/modelli/LICENZE.md', 'utf8')).toMatch(/Z-Anatomy.*CC BY-SA 4\.0/s);
   });
 });
+
+describe('apparato genitale maschile (BodyParts3D)', () => {
+  it('ogni organo ha i suoi elementi nello strato degli organi', () => {
+    const nomi = (gruppo) =>
+      strutture
+        .filter((s) => s.gruppo === gruppo)
+        .map((s) => s.nome)
+        .sort();
+    expect(nomi('testicoli')).toEqual(['Left testis', 'Right testis']);
+    expect(nomi('epididimi')).toEqual(['Left epididymis', 'Right epididymis']);
+    expect(nomi('dotti-deferenti')).toEqual(['Left deferent duct', 'Right deferent duct']);
+    expect(nomi('vescichette-seminali')).toEqual(['Left seminal vesicle', 'Right seminal vesicle']);
+    expect(nomi('prostata')).toEqual(['Prostate']);
+    expect(nomi('pene')).toEqual(['Corpus cavernosum of penis', 'Corpus spongiosum of penis', 'Glans penis']);
+    expect(nomi('uretra')).toEqual(['Urethra']);
+  });
+});
