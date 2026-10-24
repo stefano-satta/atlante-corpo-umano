@@ -275,3 +275,12 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - chiudendo il cartellino o il percorso si torna a `/esplora`, non più a `/`;
   - Indietro dall'atlante riporta alla soglia, Avanti all'atlante; il tour non riparte.
   - Test: 72 unitari e di componente, 19 end-to-end.
+- **2026-10-24** — Completati i testi degli organi del modello e di tutte le ossa (richiesta dell'utente). Scelte dell'utente: una scheda unica per i reni, cartellini per tutte le ossa del modello, scheda completa per gli organi. Risultati:
+  - **Reni:** i gruppi 3D `rene-destro` e `rene-sinistro` sono uniti nel gruppo `reni` (`pipeline/gruppi-organi.mjs`, `src/utils/organs.ts`); cambia solo `strutture.json`, i `.glb` rigenerati sono identici;
+  - **Organi:** 12 schede nuove (In breve, Dove si trova, Come è fatto, Cosa fa): encefalo, trachea e bronchi, esofago, stomaco, intestino tenue, intestino crasso, fegato, colecisti, pancreas, milza, reni, vescica urinaria;
+  - **Ossa:** 52 cartellini nuovi, che con il femore coprono tutte le 217 ossa del modello. Ossa ripetute dello stesso tipo sono riunite in una voce (vertebre per regione, coste, cartilagini costali, metacarpali, metatarsali, falangi della mano e del piede);
+  - **Fonti nuove**, lette il 2026-10-24: OpenStax A&P 2e 7.1–7.4, 8.1–8.3, 13.2, 13.3, 21.1, 23.3–23.6, 25.2, 25.3; NCI SEER (milza, stomaco, reni, vescica); NIDDK (reni, vie urinarie). La pagina NINDS sull'encefalo non era leggibile (errore 403);
+  - **Termini latini** verificati sui dati del visualizzatore ufficiale TA2 2.07 (numero nel campo `ta2`);
+  - `riferimenti.yaml`: nomi per gli apparati e le strutture citate nelle relazioni, così le relazioni restano leggibili anche quando la destinazione non è ancora approvata;
+  - tutti i testi nuovi sono in stato "verificato": fuori dalla build di produzione fino all'approvazione dell'utente;
+  - nota: le pagine OpenStax ora dichiarano che il libro non può essere usato per addestrare modelli linguistici né "ingerito" in servizi di AI generativa senza permesso scritto. Da valutare con l'utente.

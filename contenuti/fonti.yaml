@@ -141,3 +141,193 @@ fipat-ta2:
   ente: Federative International Programme for Anatomical Terminology (FIPAT), International Federation of Associations of Anatomists (IFAA); Open Anatomy Project
   url: https://ta2viewer.openanatomy.org/
   consultata: 2026-10-24
+
+# Fonti aggiunte il 2026-10-24 per le schede degli organi e i cartellini delle ossa.
+
+openstax-ap-7-1:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 7.1 Divisions of the Skeletal System"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/7-1-divisions-of-the-skeletal-system
+  consultata: 2026-10-24
+
+openstax-ap-7-2:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 7.2 The Skull"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/7-2-the-skull
+  consultata: 2026-10-24
+
+openstax-ap-7-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 7.3 The Vertebral Column"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/7-3-the-vertebral-column
+  consultata: 2026-10-24
+
+openstax-ap-7-4:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 7.4 The Thoracic Cage"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/7-4-the-thoracic-cage
+  consultata: 2026-10-24
+
+openstax-ap-8-1:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 8.1 The Pectoral Girdle"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/8-1-the-pectoral-girdle
+  consultata: 2026-10-24
+
+openstax-ap-8-2:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 8.2 Bones of the Upper Limb"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/8-2-bones-of-the-upper-limb
+  consultata: 2026-10-24
+
+openstax-ap-8-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 8.3 The Pelvic Girdle and Pelvis"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/8-3-the-pelvic-girdle-and-pelvis
+  consultata: 2026-10-24
+
+openstax-ap-13-2:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 13.2 The Central Nervous System"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/13-2-the-central-nervous-system
+  consultata: 2026-10-24
+
+openstax-ap-13-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 13.3 Circulation and the Central Nervous System"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/13-3-circulation-and-the-central-nervous-system
+  consultata: 2026-10-24
+
+openstax-ap-21-1:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 21.1 Anatomy of the Lymphatic and Immune Systems"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/21-1-anatomy-of-the-lymphatic-and-immune-systems
+  consultata: 2026-10-24
+
+openstax-ap-23-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 23.3 The Mouth, Pharynx, and Esophagus"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/23-3-the-mouth-pharynx-and-esophagus
+  consultata: 2026-10-24
+
+openstax-ap-23-4:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 23.4 The Stomach"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/23-4-the-stomach
+  consultata: 2026-10-24
+
+openstax-ap-23-5:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 23.5 The Small and Large Intestines"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/23-5-the-small-and-large-intestines
+  consultata: 2026-10-24
+
+openstax-ap-23-6:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 23.6 Accessory Organs in Digestion: The Liver, Pancreas, and Gallbladder"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder
+  consultata: 2026-10-24
+
+openstax-ap-25-2:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 25.2 Gross Anatomy of Urine Transport"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/25-2-gross-anatomy-of-urine-transport
+  consultata: 2026-10-24
+
+openstax-ap-25-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 25.3 Gross Anatomy of the Kidney"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/25-3-gross-anatomy-of-the-kidney
+  consultata: 2026-10-24
+
+seer-milza:
+  tipo: istituzionale
+  titolo: "Spleen"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/lymphatic/components/spleen.html
+  consultata: 2026-10-24
+
+seer-stomaco:
+  tipo: istituzionale
+  titolo: "Stomach"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/digestive/regions/stomach.html
+  consultata: 2026-10-24
+
+seer-reni:
+  tipo: istituzionale
+  titolo: "Kidneys"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/urinary/components/kidney.html
+  consultata: 2026-10-24
+
+seer-vescica:
+  tipo: istituzionale
+  titolo: "Urinary Bladder"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/urinary/components/bladder.html
+  consultata: 2026-10-24
+
+niddk-reni:
+  tipo: istituzionale
+  titolo: "Your Kidneys & How They Work"
+  ente: National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK), National Institutes of Health
+  # La pagina indica "Last Reviewed June 2018" (senza giorno).
+  url: https://www.niddk.nih.gov/health-information/kidney-disease/kidneys-how-they-work
+  consultata: 2026-10-24
+
+niddk-vie-urinarie:
+  tipo: istituzionale
+  titolo: "The Urinary Tract & How It Works"
+  ente: National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK), National Institutes of Health
+  # La pagina indica "Last Reviewed June 2020" (senza giorno).
+  url: https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-tract-how-it-works
+  consultata: 2026-10-24

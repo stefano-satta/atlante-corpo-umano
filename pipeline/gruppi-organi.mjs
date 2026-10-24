@@ -21,8 +21,7 @@ export const GRUPPI_ORGANI = [
   { id: 'intestino-crasso', elementi: /^(Appendix|(Ascending|Transverse|Descending) colon|Rectum)$/ },
   { id: 'pancreas', elementi: /^Pancreas$/ },
   { id: 'milza', elementi: /^Spleen$/ },
-  { id: 'rene-destro', elementi: /^Right kidney$/ },
-  { id: 'rene-sinistro', elementi: /^Left kidney$/ },
+  { id: 'reni', elementi: /^(Right|Left) kidney$/ },
   { id: 'vescica', elementi: /^Urinary bladder$/ },
   {
     id: 'trachea-bronchi',
