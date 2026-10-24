@@ -2,9 +2,9 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. M6 Percorso "Un respiro" realizzata, testo in attesa di approvazione. Restano M7 e M8.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. M6 Percorso "Un respiro" completata e approvata. Restano M7 e M8.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
-- **In sospeso:** approvazione del testo del percorso "Un respiro" (stato "verificato", fuori dalla build di produzione)
+- **In sospeso:** nessuna decisione; prossima milestone da scegliere tra M7 e M8
 
 ## 2. Decisioni approvate
 
@@ -33,6 +33,7 @@
 | D22 | 2026-10-24 | 7 | Contenuti | Didascalie del ciclo cardiaco approvate a condizione che provengano da fonti ufficiali verificate. Ogni frase nuova è stata ricontrollata sul testo di OpenStax 19.3; tolta l'unica frase senza riscontro esplicito ("Poi il ciclo ricomincia"). Processo in stato "approvato" e incluso nella build di produzione. |
 | D23 | 2026-10-24 | 7 | M4 Polmoni | Approvati forma e posizione dei polmoni di Z-Anatomy allineati a BodyParts3D, il testo dei polmoni (cartellino e scheda; fonti NHLBI e OpenStax 22.2; termine *pulmones*, TA2 3265) e la nuova versione della pagina Informazioni (origine dei polmoni e crediti di Z-Anatomy). Polmoni e Informazioni passano allo stato "approvato" e tornano nella build di produzione. |
 | D24 | 2026-10-24 | 7 | M6 Percorso "Un respiro" | Approvato il piano con le scelte A1–F1: corpo 3D fermo con telecamera che inquadra ed evidenzia, movimento in uno schema 2D del torace e dell'alveolo (A1); percorso nel pannello a destra, foglio in basso su smartphone (B1); esplorazione libera con "Torna al percorso" dopo la selezione di una struttura (C1); ogni passo sceglie lo strato e può aggiungere singole strutture di un altro strato (D1); indirizzi `/percorsi/respirazione/1`…`6` e voce Percorsi attiva che apre il passo 1 (E1); con il movimento ridotto niente volo della telecamera, schema fermo e niente Riproduci (F1). Sei passi: Un respiro, Le vie dell'aria, I bronchi, Inspirazione, Negli alveoli, Espirazione. |
+| D25 | 2026-10-24 | 7 | Contenuti | Approvato il testo del percorso "Un respiro" (6 passi; fonti OpenStax 22.1, 22.3, 22.4 e NHLBI). Il percorso passa allo stato "approvato" ed entra nella build di produzione. M6 completata. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -242,4 +243,4 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - sotto ogni passo compaiono solo le fonti citate in quel passo;
   - su smartphone il foglio del percorso occupa metà schermo e la telecamera inquadra le strutture nella metà alta;
   - anche durante il percorso le strutture attenuate si possono selezionare, come accade già con la selezione.
-
+- **2026-10-24** — Registrata D25: testo del percorso "Un respiro" approvato e incluso nella build di produzione. M6 completata.

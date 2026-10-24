@@ -20,7 +20,7 @@ limiti: >
   modo diverso: OpenStax indica gli intercostali esterni, insieme al diaframma,
   tra i muscoli dell'inspirazione normale; NHLBI scrive che gli intercostali hanno
   un ruolo durante l'attività fisica. Il percorso segue OpenStax.
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 
