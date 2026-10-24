@@ -2,7 +2,7 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1 e M2 completate; M3 Contenuti reali in attesa di approvazione.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate. In attesa: approvazione della correzione del termine del femore e della pagina Informazioni; poi M4 (serve Blender) o M5.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
 - **In sospeso:** conferma in Blender dei polmoni di Z-Anatomy (l'utente installa Blender)
 
@@ -27,7 +27,7 @@
 | D16 | 2026-10-22 | 5 | Direzione visiva (sostituisce palette, caratteri e componenti di D10) | **A · Istologia** ([tavola](https://claude.ai/artifact/SXyNxdti76sUAxzmzWXs9b)). Palette da colorazione ematossilina-eosina: sala #16131f, vetrino #f4f1f5, inchiostro #221a33, eosina #b23d62 (selezione e azioni; #ef8fac sulla sala), nucleo #4a3c8c (termini e collegamenti). Caratteri: Bricolage Grotesque (titoli), Atkinson Hyperlegible Next (testo ed etichette in maiuscoletto); niente monospazio. Componenti: barra dei comandi orizzontale in basso al centro, mantenuta dal prototipo su richiesta dell'utente e adattata (segmenti Muscoli · Scheletro e organi · Scheletro, poi Sagoma e Vista iniziale; testo in Atkinson Hyperlegible Next maiuscoletto al posto del monospazio; fondo ematossilina pieno senza sfocatura, bordo sottile, angoli di 3 px; segmento attivo in vetrino con inchiostro; focus in eosina), al posto della stratigrafia verticale proposta; richiamo con linea dalla struttura al cartellino, cartellino ancorato al bordo destro a tutta altezza che si allarga nella scheda. Restano validi da D10: rosso e blu riservati ad arterie e vene, volo della telecamera, movimento ridotto, contrasto WCAG AA, comportamento su tablet e smartphone. |
 | D17 | 2026-10-22 | 6 | Contenuti | Approvati: processo in sei passi (affermazioni, fonti, verifica, scrittura, controllo automatico, approvazione dell'utente) con stati bozza → verificato → approvato; modello dati Struttura e Fonte; un file Markdown con intestazione YAML per struttura, bibliografia unica, rimandi `[@id]`; librerie `yaml` e `marked` solo in build; nomi italiani di ossa e muscoli derivati dal termine TA2 e dall'uso corrente, con metodo dichiarato. Contenuti pilota: cuore (cartellino e scheda), femore (cartellino), diaframma (cartellino). |
 | D18 | 2026-10-22 | 6 | Contenuti pilota | Approvati cuore, femore e diaframma (stato "approvato") e le scelte sulle incertezze: strati della parete secondo OpenStax e SEER con differenza dichiarata; termini latini da verificare sulla TA2 prima della pubblicazione; diaframma con funzione nell'apparato respiratorio e appartenenza al sistema muscolare; relazioni verso strutture senza contenuto come testo semplice. Fonti: NHLBI, NCI SEER, OpenStax A&P 2e (citata, mai riprodotta). |
-| D19 | 2026-10-22 | 7 | Piano di implementazione | Approvate le milestone M1 Fondazione, M2 Design Istologia, M3 Contenuti reali, M4 Polmoni, M5 Ciclo cardiaco, M6 Percorso "Un respiro", M7 Soglia, tour e Indice, M8 Pubblicazione; poi Fase 8. Approvata e avviata M1. M2 approvata il 2026-10-22. |
+| D19 | 2026-10-22 | 7 | Piano di implementazione | Approvate le milestone M1 Fondazione, M2 Design Istologia, M3 Contenuti reali, M4 Polmoni, M5 Ciclo cardiaco, M6 Percorso "Un respiro", M7 Soglia, tour e Indice, M8 Pubblicazione; poi Fase 8. Approvata e avviata M1. M2 approvata il 2026-10-22; M3 il 2026-10-24. |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -70,7 +70,7 @@
 | Collocazione di processi e animazioni (scheda organo e/o percorsi guidati). | Fase 1 |
 | Organi e processi della v1 (proposta: cuore, polmoni, encefalo, fegato, stomaco, reni; ciclo cardiaco e respirazione). | Fase 6 |
 | Criterio di selezione delle strutture "principali" cliccabili nella v1. | Fasi 3–6 |
-| Revisione dei contenuti: nessuno specialista; dichiarazione esplicita nel sito (da confermare). | Fase 6 |
+| Revisione dei contenuti: nessuno specialista; dichiarazione esplicita nel sito. Testo proposto nella pagina Informazioni (M3), in attesa di approvazione. | Fase 7 |
 | Codice sorgente open source: sì o no. | Non urgente |
 | Fonte autorevole per i nomi italiani di ossa e muscoli. | Fase 6 |
 
@@ -109,3 +109,24 @@
   - motore 3D in un pacchetto separato (D14): interfaccia 74,5 kB gzip invece di 349; il motore (277 kB) si carica in parallelo;
   - test: 23 unitari e di componente (Vitest, Testing Library), 5 end-to-end (Playwright, Chromium con SwiftShader) con controllo axe-core WCAG 2.1 AA senza violazioni.
 - **2026-10-22** — Decisioni minori della M2: niente numero davanti all'apparato nel cartellino (il mockup lo mostrava, ma non porta informazione); icone disegnate in SVG invece dei caratteri × e →; il bordo del pannello resta di 3 px in eosina come nella tavola approvata; l'avviso "Prototipo" in alto è sostituito da "Versione in sviluppo: nomi e testi sono in preparazione" sotto il titolo.
+- **2026-10-24** — M3 Contenuti reali completata. Risultati:
+  - plugin di build (`pipeline/plugin-contenuti.mjs`, `pipeline/contenuti.mjs`) che legge i file Markdown con `yaml` e `marked` e li controlla. La build si ferma se trova: una fonte citata ma inesistente; un paragrafo o una voce di elenco senza fonte; HTML grezzo; una sezione non prevista o fuori ordine; una relazione verso una struttura sconosciuta; un elemento 3D assente nel modello; un numero TA2 mancante; un campo obbligatorio mancante o scritto male;
+  - in produzione entrano solo i contenuti "approvato"; in sviluppo, e con `ATLANTE_BOZZE=1`, anche quelli in bozza, segnalati nell'interfaccia;
+  - ogni struttura è un pacchetto caricato su richiesta (cuore 2,6 kB gzip, diaframma 1,4 kB);
+  - cartellino con testo "In breve", rimandi numerati, Fa parte di e Collegato a con la fonte, note sulle fonti, elenco delle fonti; scheda del cuore con le sezioni del file, Collegamenti, Fonti, note e data di revisione;
+  - nuovi file `contenuti/riferimenti.yaml` (nomi di apparati e strutture senza contenuto) e `contenuti/pagine/informazioni.md`;
+  - pagine `/fonti` (generata da `fonti.yaml`) e `/informazioni` sopra l'atlante; la scena si ferma mentre sono aperte;
+  - un indirizzo diretto a una struttura di uno strato nascosto ora mostra quello strato invece di annullare la selezione;
+  - test: 36 unitari e di componente, 9 end-to-end con axe-core senza violazioni.
+- **2026-10-24** — Verifica dei termini latini sulla TA2 (TA2 Viewer ufficiale FIPAT/Open Anatomy, versione 2.07, https://ta2viewer.openanatomy.org/, consultato il 2026-10-24). Esiti:
+  - cuore: "cor", TA2 3932, confermato;
+  - diaframma: "diaphragma", TA2 2327, confermato;
+  - femore: nella TA2 "femur" (160) indica la coscia; l'osso è "os femoris" (1360). Il termine del femore è stato corretto. Per questo il file è tornato a "verificato": serve una nuova approvazione;
+  - aggiunte la fonte `fipat-ta2` in `fonti.yaml` e il campo obbligatorio `ta2` nelle strutture; il numero rimanda alla voce ufficiale.
+
+  Il sito fipat.library.dal.ca non era raggiungibile (errore DNS); la verifica usa il visualizzatore ufficiale, che la stessa FIPAT indica.
+- **2026-10-24** — Decisioni minori della M3:
+  - il femore mostra "Femore" sia per il destro sia per il sinistro, come nel contenuto approvato;
+  - le relazioni verso strutture senza contenuto restano testo semplice (D18);
+  - il numero TA2 compare accanto al termine latino;
+  - l'avviso "Versione in sviluppo" ora dice "alcuni nomi e testi sono in preparazione".

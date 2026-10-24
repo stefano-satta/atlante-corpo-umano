@@ -96,3 +96,13 @@ openstax-ap-22-3:
   anno: 2022
   url: https://openstax.org/books/anatomy-and-physiology-2e/pages/22-3-the-process-of-breathing
   consultata: 2026-10-22
+
+# Terminologia Anatomica, standard internazionale dei termini anatomici latini.
+# Usata per verificare il campo "termine" di ogni struttura (numero nel campo "ta2").
+# Ogni voce si apre con https://ta2viewer.openanatomy.org/?id=<numero>.
+fipat-ta2:
+  tipo: terminologia
+  titolo: "Terminologia Anatomica, 2nd edition (TA2), versione 2.07 — TA2 Viewer"
+  ente: Federative International Programme for Anatomical Terminology (FIPAT), International Federation of Associations of Anatomists (IFAA); Open Anatomy Project
+  url: https://ta2viewer.openanatomy.org/
+  consultata: 2026-10-24

@@ -5,6 +5,7 @@ strato: muscoli
 apparato: respiratorio
 nome: Diaframma
 termine: diaphragma
+ta2: 2327
 sinonimi: []
 elementi3d: { fma: [FMA13295] }
 relazioni:

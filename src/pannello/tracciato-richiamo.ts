@@ -48,6 +48,8 @@ export function aggiornaRichiamo(punto: { x: number; y: number } | null) {
     punto && bersaglio && pannello && innerWidth > LARGHEZZA_STRETTA
       ? (() => {
           const titolo = bersaglio.getBoundingClientRect();
+          // Se il titolo è scorso fuori dalla vista, la linea non ha dove arrivare.
+          if (titolo.bottom < 0 || titolo.top > innerHeight) return null;
           const bordo = pannello.getBoundingClientRect().left;
           return tracciato(punto.x, punto.y, bordo, titolo.top + titolo.height / 2);
         })()

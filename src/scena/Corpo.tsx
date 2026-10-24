@@ -58,10 +58,11 @@ export function Corpo() {
     uniformiCorpo.uHover.value = stato.hover ? (unita.get(stato.hover)?.indice ?? 0) : 0;
   }, [stato.hover, unita]);
 
-  // Una selezione che non appartiene agli strati visibili viene annullata.
   const visibili = STRATI_VISIBILI[stato.strato];
   useEffect(() => {
-    if (sel && !visibili.includes(sel.strato as never)) invia({ tipo: 'seleziona', id: null });
+    // Una struttura aperta da un indirizzo diretto può stare in uno strato nascosto: lo si mostra.
+    if (sel && !visibili.includes(sel.strato as never))
+      invia({ tipo: 'mostra-strato', strato: sel.strato === 'muscoli' ? 'muscoli' : 'organi' });
   }, [sel, visibili, invia]);
 
   // Selezione via GPU: si disegna l'id di ogni unità e si legge il pixel sotto il puntatore.

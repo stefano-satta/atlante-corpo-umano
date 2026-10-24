@@ -1,0 +1,25 @@
+# Nomi di servizio usati nell'interfaccia.
+#
+# apparati: etichetta mostrata in testa al cartellino per il campo "apparato".
+# nomi: nomi italiani delle strutture che compaiono nelle relazioni ma non hanno
+# ancora un contenuto proprio. Sono mostrati come testo semplice, senza collegamento (D18).
+
+apparati:
+  cardiovascolare: Apparato cardiovascolare
+  respiratorio: Apparato respiratorio
+  scheletrico: Apparato scheletrico
+  digerente: Apparato digerente
+  urinario: Apparato urinario
+  nervoso: Sistema nervoso
+  linfatico: Sistema linfatico
+
+nomi:
+  apparato-cardiovascolare: Apparato cardiovascolare
+  scheletro: Scheletro
+  sistema-muscolare: Sistema muscolare
+  polmoni: Polmoni
+  osso-dell-anca: Osso dell'anca
+  tibia: Tibia
+  rotula: Rotula
+  esofago: Esofago
+  nervo-frenico: Nervo frenico

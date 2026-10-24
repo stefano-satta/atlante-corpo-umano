@@ -4,7 +4,8 @@ tipo: osso
 strato: ossa
 apparato: scheletrico
 nome: Femore
-termine: femur
+termine: os femoris
+ta2: 1360
 sinonimi: []
 elementi3d: { fma: [FMA24474, FMA24475] }   # femore destro e sinistro
 relazioni:
@@ -15,9 +16,11 @@ relazioni:
 limiti: >
   Spesso il femore è descritto anche come l'osso più pesante del corpo, ma le
   fonti consultate non lo affermano: l'informazione non è stata inserita.
+  Nella Terminologia Anatomica il termine latino "femur" indica la coscia
+  (TA2 160); l'osso si chiama "os femoris" (TA2 1360).
 risorse: []
-stato: approvato
-revisione: 2026-10-22
+stato: verificato
+revisione: 2026-10-24
 ---
 
 ## In breve

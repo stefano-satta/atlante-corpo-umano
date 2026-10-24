@@ -99,10 +99,18 @@ function Misuratore() {
   return null;
 }
 
-export default function Scena({ pronta, onPronta }: { pronta: boolean; onPronta: () => void }) {
+interface Props {
+  pronta: boolean;
+  onPronta: () => void;
+  /** Falso quando una pagina di lettura copre la scena: niente disegno, niente consumo. */
+  attiva: boolean;
+}
+
+export default function Scena({ pronta, onPronta, attiva }: Props) {
   return (
     <Canvas
       className="scena"
+      frameloop={attiva ? 'always' : 'never'}
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       camera={{ fov: 32, near: 0.01, far: 50, position: [...POSIZIONE_INIZIALE] }}

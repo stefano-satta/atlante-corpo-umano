@@ -84,3 +84,64 @@ test('su schermo stretto il cartellino è un foglio dal basso e la barra si nasc
   await expect(page.locator('svg.richiamo')).toHaveAttribute('data-visibile', 'no');
   await accessibilita(page);
 });
+
+test('il cartellino mostra il testo verificato, i rimandi e le fonti', async ({ page }) => {
+  await page.goto('/esplora/cuore');
+  await attendiScena(page);
+  const pannello = page.getByRole('complementary');
+  await expect(pannello.getByText(/organo muscolare formato da quattro cavità/)).toBeVisible();
+  await expect(pannello.getByRole('link', { name: /TA2 3932/ })).toHaveAttribute(
+    'href',
+    'https://ta2viewer.openanatomy.org/?id=3932',
+  );
+  await expect(pannello.getByRole('region', { name: 'Fonti' }).getByRole('listitem')).toHaveCount(3);
+  await accessibilita(page);
+});
+
+test('un indirizzo diretto a un muscolo mostra lo strato dei muscoli', async ({ page }) => {
+  await page.goto('/esplora/FJ3131');
+  await attendiScena(page);
+  await expect(page.getByRole('heading', { name: 'Diaframma' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
+});
+
+test('la scheda del cuore ha tutte le sezioni, i collegamenti e le fonti', async ({ page }) => {
+  await page.goto('/organo/cuore');
+  await attendiScena(page);
+  const indice = page.getByRole('navigation', { name: 'Sezioni della scheda' }).getByRole('link');
+  await expect(indice).toHaveText([
+    'In breve',
+    'Dove si trova',
+    'Come è fatto',
+    'Cosa fa',
+    'Il processo',
+    'Collegamenti',
+    'Fonti',
+  ]);
+  await expect(page.locator('#sez-fonti li')).toHaveCount(6);
+  await accessibilita(page);
+});
+
+test('le pagine Fonti e Informazioni si aprono dal menu e si chiudono con Esc', async ({ page }) => {
+  await page.goto('/esplora/cuore');
+  await attendiScena(page);
+  await page.getByRole('button', { name: 'Fonti' }).click();
+  await expect(page).toHaveURL(/\/fonti$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Fonti' })).toBeFocused();
+  const pagina = page.getByRole('main');
+  await expect(pagina.getByRole('link', { name: /How the Heart Works: What the Heart Looks Like/ })).toBeVisible();
+  await expect(pagina.getByText(/Terminologia Anatomica, 2nd edition/)).toBeVisible();
+  await accessibilita(page);
+
+  await page.keyboard.press('Escape');
+  await expect(page).toHaveURL(/\/esplora\/cuore$/);
+  await expect(page.getByRole('button', { name: 'Fonti' })).toBeFocused();
+
+  await page.getByRole('button', { name: 'Informazioni' }).click();
+  await expect(page.getByRole('heading', { name: 'Avvertenze' })).toBeVisible();
+  await expect(page.getByText(/non sono stati rivisti da un medico/)).toBeVisible();
+  await accessibilita(page);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/esplora\/cuore$/);
+  await expect(page.getByRole('main')).toHaveCount(0);
+});

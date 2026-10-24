@@ -5,6 +5,7 @@ strato: organi
 apparato: cardiovascolare
 nome: Cuore
 termine: cor
+ta2: 3932
 sinonimi: []
 elementi3d: { gruppo: cuore }
 relazioni:

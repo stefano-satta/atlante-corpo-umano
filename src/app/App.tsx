@@ -1,18 +1,26 @@
-import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { haPagina } from '../contenuti/contenuti';
 import { ORGANI_PER_ID } from '../contenuti/organi';
 import { BarraComandi } from '../esplora/BarraComandi';
 import { PannelloMisure } from '../esplora/PannelloMisure';
-import { Pannello } from '../pannello/Pannello';
+import { Pagina } from '../pagine/Pagina';
+import { Pannello, useStrutturaSelezionata } from '../pannello/Pannello';
 import { Richiamo } from '../pannello/Richiamo';
 import { scenaApi, vistaIniziale } from '../scena/api';
 import { CONFIG } from './config';
-import { type Strato, useAtlante, useMovimentoRidotto } from './stato';
+import { type IdPagina, type Strato, useAtlante, useMovimentoRidotto } from './stato';
 
 // Il motore 3D (three.js e React Three Fiber) sta in un pacchetto separato: l'interfaccia
 // compare subito e il modello si carica in parallelo (D14).
 const Scena = lazy(() => import('../scena/Scena'));
 
-const VOCI = ['Percorsi', 'Indice', 'Fonti', 'Informazioni'];
+// Voci della barra in alto (D11). Percorsi e Indice arrivano con le milestone M6 e M7.
+const VOCI: Array<{ nome: string; pagina?: IdPagina }> = [
+  { nome: 'Percorsi' },
+  { nome: 'Indice' },
+  { nome: 'Fonti', pagina: 'fonti' },
+  { nome: 'Informazioni', pagina: 'informazioni' },
+];
 const TASTI_STRATO: Record<string, Strato> = { '1': 'muscoli', '2': 'organi', '3': 'scheletro' };
 
 function supportaWebGL() {
@@ -34,6 +42,11 @@ export function App() {
   useEffect(() => {
     const suTasto = (e: KeyboardEvent) => {
       if (e.target instanceof Element && e.target.closest('input, textarea')) return;
+      // Con una pagina di lettura aperta i tasti servono solo a chiuderla.
+      if (stato.pagina) {
+        if (e.key === 'Escape') invia({ tipo: 'pagina', pagina: null });
+        return;
+      }
       const c = scenaApi.controlli;
       const animata = !ridotto;
       switch (e.key) {
@@ -72,11 +85,19 @@ export function App() {
     };
     addEventListener('keydown', suTasto);
     return () => removeEventListener('keydown', suTasto);
-  }, [stato.scheda, invia, ridotto]);
+  }, [stato.scheda, stato.pagina, invia, ridotto]);
 
-  const u = stato.selezione ? scenaApi.unita.get(stato.selezione) : undefined;
-  const conScheda = stato.scheda && !!(u && ORGANI_PER_ID.get(u.id)?.scheda);
-  const annuncio = u ? `Selezionato: ${ORGANI_PER_ID.get(u.id)?.nome ?? u.nomeFma}` : '';
+  // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta.
+  const paginaPrecedente = useRef(stato.pagina);
+  useEffect(() => {
+    const prima = paginaPrecedente.current;
+    paginaPrecedente.current = stato.pagina;
+    if (prima && !stato.pagina) document.querySelector<HTMLElement>(`[data-pagina="${prima}"]`)?.focus();
+  }, [stato.pagina]);
+
+  const { unita: u, voce, scheda } = useStrutturaSelezionata();
+  const nome = voce?.nome ?? (u && (ORGANI_PER_ID.get(u.id)?.nome ?? u.nomeFma));
+  const annuncio = nome ? `Selezionato: ${nome}` : '';
 
   if (!supportaWebGL())
     return (
@@ -87,37 +108,55 @@ export function App() {
     );
 
   return (
-    <div className="atlante" data-pannello={u ? (conScheda ? 'scheda' : 'cartellino') : 'no'}>
-      <Suspense fallback={null}>
-        <Scena pronta={pronta} onPronta={onPronta} />
-      </Suspense>
-      <header className="barra-alta">
-        <span className="marchio">Atlante del corpo umano</span>
-        <nav aria-label="Sezioni">
-          {VOCI.map((v) => (
-            <button type="button" key={v} className="voce" aria-disabled="true" title="In preparazione">
-              {v}
-            </button>
-          ))}
-        </nav>
-      </header>
-      {!pronta && (
-        <div className="caricamento" role="status">
-          <span>Caricamento del modello 3D</span>
-          <span className="caricamento-linea" aria-hidden="true" />
-        </div>
-      )}
-      <Richiamo />
-      <Pannello />
-      {!conScheda && <BarraComandi />}
-      <footer className="piede">
-        <p>Versione in sviluppo: nomi e testi sono in preparazione.</p>
-        <p>Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0. Modelli derivati CC BY-SA 4.0.</p>
-      </footer>
-      <p className="solo-lettori" aria-live="polite">
-        {annuncio}
-      </p>
-      {CONFIG.misure && <PannelloMisure />}
+    <div className="atlante" data-pannello={u ? (scheda ? 'scheda' : 'cartellino') : 'no'}>
+      {/* Con una pagina di lettura aperta la vista resta montata ma inerte, e la scena smette di disegnare. */}
+      <div className="vista" inert={!!stato.pagina}>
+        <Suspense fallback={null}>
+          <Scena pronta={pronta} onPronta={onPronta} attiva={!stato.pagina} />
+        </Suspense>
+        <header className="barra-alta">
+          <span className="marchio">Atlante del corpo umano</span>
+          <nav aria-label="Sezioni">
+            {VOCI.map((v) =>
+              v.pagina && (v.pagina === 'fonti' || haPagina(v.pagina)) ? (
+                <button
+                  type="button"
+                  key={v.nome}
+                  className="voce"
+                  data-pagina={v.pagina}
+                  onClick={() => invia({ tipo: 'pagina', pagina: v.pagina ?? null })}
+                >
+                  {v.nome}
+                </button>
+              ) : (
+                <button type="button" key={v.nome} className="voce" aria-disabled="true" title="In preparazione">
+                  {v.nome}
+                </button>
+              ),
+            )}
+          </nav>
+        </header>
+        {!pronta && (
+          <div className="caricamento" role="status">
+            <span>Caricamento del modello 3D</span>
+            <span className="caricamento-linea" aria-hidden="true" />
+          </div>
+        )}
+        <Richiamo />
+        <Pannello />
+        {!scheda && <BarraComandi />}
+        <footer className="piede">
+          <p>Versione in sviluppo: alcuni nomi e testi sono in preparazione.</p>
+          <p>
+            Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0. Modelli derivati CC BY-SA 4.0.
+          </p>
+        </footer>
+        <p className="solo-lettori" aria-live="polite">
+          {annuncio}
+        </p>
+        {CONFIG.misure && <PannelloMisure />}
+      </div>
+      {stato.pagina && <Pagina key={stato.pagina} id={stato.pagina} />}
     </div>
   );
 }

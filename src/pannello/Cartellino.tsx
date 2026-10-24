@@ -1,24 +1,85 @@
 import { useLayoutEffect } from 'react';
 import { misure } from '../app/misure';
 import { useAtlante } from '../app/stato';
+import { contenutoDi, urlTa2, useStruttura } from '../contenuti/contenuti';
 import { NOMI_APPARATI, ORGANI_PER_ID } from '../contenuti/organi';
+import type { Relazione, Struttura } from '../contenuti/tipi';
 import type { Unita } from '../scena/modello';
+import { ElencoFonti, Testo } from './Fonti';
 import { IconaAvanti, IconaChiudi } from './icone';
 import { registraBersaglio } from './tracciato-richiamo';
 
 const FA_PARTE_DI = { ossa: 'Scheletro', muscoli: 'Sistema muscolare' } as const;
 
+/** Appartenenza mostrata per le strutture che non hanno ancora un contenuto. */
 export function appartenenza(u: Unita) {
   const organo = ORGANI_PER_ID.get(u.id);
   return organo ? NOMI_APPARATI[organo.apparato] : FA_PARTE_DI[u.strato as keyof typeof FA_PARTE_DI];
 }
 
+/** Nome di una struttura collegata, con il numero della fonte che documenta il collegamento. */
+export function NomeRelazione({ relazione: r }: { relazione: Relazione }) {
+  return (
+    <>
+      {r.nome}
+      {r.fonte && (
+        <sup className="rimando">
+          <span className="solo-lettori">fonte </span>
+          <a href={`#fonte-${r.fonte}`}>{r.fonte}</a>
+        </sup>
+      )}
+    </>
+  );
+}
+
+export function Relazioni({ struttura: s }: { struttura: Struttura }) {
+  const di = (tipo: Relazione['tipo']) => s.relazioni.filter((r) => r.tipo === tipo);
+  const voci = (elenco: Relazione[]) =>
+    elenco.map((r, i) => (
+      <span key={r.id}>
+        {i > 0 && ', '}
+        <NomeRelazione relazione={r} />
+      </span>
+    ));
+  return (
+    <dl className="relazioni">
+      <dt className="etichetta">Fa parte di</dt>
+      <dd>{voci(di('fa-parte-di'))}</dd>
+      {di('collegato-a').length > 0 && (
+        <>
+          <dt className="etichetta">Collegato a</dt>
+          <dd>{voci(di('collegato-a'))}</dd>
+        </>
+      )}
+    </dl>
+  );
+}
+
+/** Termine latino della Terminologia Anatomica, con il numero che rimanda alla voce ufficiale. */
+export function Termine({ termine, ta2 }: { termine: string; ta2: number }) {
+  return (
+    <p className="termine">
+      <span lang="la">{termine}</span>{' '}
+      <a className="ta2" href={urlTa2(ta2)} target="_blank" rel="noopener noreferrer">
+        <span className="solo-lettori">Terminologia Anatomica, voce </span>TA2 {ta2}
+      </a>
+    </p>
+  );
+}
+
+export function AvvisoStato({ stato }: { stato: Struttura['stato'] }) {
+  if (stato === 'approvato') return null;
+  return <p className="avviso-stato">Bozza ({stato}): testo non ancora approvato, visibile solo in sviluppo.</p>;
+}
+
 /** Contenuto del pannello per la struttura selezionata. */
 export function Cartellino({ unita: u }: { unita: Unita }) {
   const { invia } = useAtlante();
+  const voce = contenutoDi(u);
+  const { dato: struttura, errore } = useStruttura(voce?.id);
   const organo = ORGANI_PER_ID.get(u.id);
-  const gruppo = appartenenza(u);
-  const nome = organo ? organo.nome : u.nomeFma;
+  const nome = voce?.nome ?? organo?.nome ?? u.nomeFma;
+  const gruppo = voce?.nomeApparato ?? appartenenza(u);
 
   useLayoutEffect(() => {
     if (!misure.inizioSelezione) return;
@@ -28,6 +89,10 @@ export function Cartellino({ unita: u }: { unita: Unita }) {
       misure.latenzaSelezioneMs = Math.round(performance.now() - inizio);
     });
   }, []);
+
+  const breve = struttura?.sezioni[0];
+  const numeriRelazioni = new Set(struttura?.relazioni.map((r) => r.fonte));
+  const fonti = struttura?.fonti.filter((f) => f.n <= struttura.fontiBreve || numeriRelazioni.has(f.n)) ?? [];
 
   return (
     <div className="cartellino">
@@ -45,7 +110,9 @@ export function Cartellino({ unita: u }: { unita: Unita }) {
       <h2 id="pannello-nome" className={nome.length > 16 ? 'nome lungo' : 'nome'} ref={registraBersaglio}>
         {nome}
       </h2>
-      {organo ? (
+      {voce ? (
+        <Termine termine={voce.termine} ta2={voce.ta2} />
+      ) : organo ? (
         <p className="termine" lang="la">
           {organo.termine}
         </p>
@@ -55,25 +122,53 @@ export function Cartellino({ unita: u }: { unita: Unita }) {
           preparazione.
         </p>
       )}
-      <p className="testo in-preparazione">
-        <span className="etichetta">Testo in preparazione</span>
-        Qui comparirà una descrizione divulgativa di due-quattro frasi, verificata su fonti istituzionali e con i
-        riferimenti alle fonti.
-      </p>
-      <dl className="relazioni">
-        <dt className="etichetta">Fa parte di</dt>
-        <dd>{gruppo}</dd>
-        <dt className="etichetta">Collegato a</dt>
-        <dd className="assente">In preparazione</dd>
-      </dl>
-      {organo?.scheda ? (
+      {voce && <AvvisoStato stato={voce.stato} />}
+
+      {struttura && breve ? (
+        <>
+          <Testo className="testo" html={breve.html} />
+          <Relazioni struttura={struttura} />
+        </>
+      ) : voce && !errore ? (
+        <p className="testo in-preparazione" role="status">
+          Caricamento del testo…
+        </p>
+      ) : (
+        <>
+          <p className="testo in-preparazione">
+            <span className="etichetta">Testo in preparazione</span>
+            Per questa struttura non c'è ancora una descrizione verificata.
+          </p>
+          <dl className="relazioni">
+            <dt className="etichetta">Fa parte di</dt>
+            <dd>{gruppo}</dd>
+          </dl>
+        </>
+      )}
+
+      {voce?.scheda && (
         <button type="button" className="azione" onClick={() => invia({ tipo: 'scheda', aperta: true })}>
           Apri la scheda <IconaAvanti />
         </button>
-      ) : organo ? (
-        <p className="nota">Per ora la scheda completa è disponibile solo per il cuore.</p>
-      ) : null}
-      {!organo && u.fma && <p className="fonte">Identificativo FMA {u.fma.replace(/^FMA/, '')}</p>}
+      )}
+
+      {struttura?.limiti && (
+        <details className="note-fonti">
+          <summary>Note sulle fonti</summary>
+          <p>{struttura.limiti}</p>
+        </details>
+      )}
+      {fonti.length > 0 && (
+        <section className="fonti-cartellino" aria-labelledby="fonti-cartellino-titolo">
+          <h3 id="fonti-cartellino-titolo" className="etichetta">
+            Fonti
+          </h3>
+          <ElencoFonti fonti={fonti} />
+        </section>
+      )}
+      {!voce && u.fma && u.strato !== 'organi' && (
+        <p className="fonte">Identificativo FMA {u.fma.replace(/^FMA/, '')}</p>
+      )}
     </div>
   );
 }

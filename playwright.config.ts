@@ -14,7 +14,8 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } }],
   webServer: {
-    command: 'npm run build && npm run preview -- --port 4192 --strictPort',
+    // Con ATLANTE_BOZZE=1 la build include anche i testi in attesa di approvazione, per poterli provare.
+    command: 'ATLANTE_BOZZE=1 npm run build && npm run preview -- --port 4192 --strictPort',
     url: 'http://localhost:4192',
     reuseExistingServer: false,
     timeout: 120_000,

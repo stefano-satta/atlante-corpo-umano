@@ -9,8 +9,6 @@ export interface Organo {
   termine: string;
   apparato: Apparato;
   colore: string;
-  /** Nel prototipo solo il cuore ha la scheda. */
-  scheda?: boolean;
 }
 
 export const NOMI_APPARATI: Record<Apparato, string> = {
@@ -23,7 +21,7 @@ export const NOMI_APPARATI: Record<Apparato, string> = {
 };
 
 export const ORGANI: Organo[] = [
-  { id: 'cuore', nome: 'Cuore', termine: 'cor', apparato: 'cardiovascolare', colore: '#a9524b', scheda: true },
+  { id: 'cuore', nome: 'Cuore', termine: 'cor', apparato: 'cardiovascolare', colore: '#a9524b' },
   { id: 'encefalo', nome: 'Encefalo', termine: 'encephalon', apparato: 'nervoso', colore: '#c4aea2' },
   { id: 'fegato', nome: 'Fegato', termine: 'hepar', apparato: 'digerente', colore: '#7b3f37' },
   { id: 'colecisti', nome: 'Colecisti', termine: 'vesica biliaris', apparato: 'digerente', colore: '#6f7a4a' },

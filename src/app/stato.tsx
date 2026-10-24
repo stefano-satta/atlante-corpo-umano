@@ -1,6 +1,7 @@
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useReducer } from 'react';
 
 export type Strato = 'muscoli' | 'organi' | 'scheletro';
+export type IdPagina = 'fonti' | 'informazioni';
 
 export interface StatoAtlante {
   strato: Strato;
@@ -8,43 +9,60 @@ export interface StatoAtlante {
   /** Unità selezionata: id di un organo o di un elemento (osso, muscolo). */
   selezione: string | null;
   scheda: boolean;
+  /** Pagina di lettura aperta sopra l'atlante (Fonti, Informazioni). */
+  pagina: IdPagina | null;
   hover: string | null;
 }
 
 export type Azione =
   | { tipo: 'strato'; strato: Strato }
+  /** Mostra lo strato che contiene la struttura selezionata, senza perdere la selezione (indirizzo diretto). */
+  | { tipo: 'mostra-strato'; strato: Strato }
   | { tipo: 'pelle' }
   | { tipo: 'seleziona'; id: string | null }
   | { tipo: 'scheda'; aperta: boolean }
+  | { tipo: 'pagina'; pagina: IdPagina | null }
   | { tipo: 'hover'; id: string | null }
-  | { tipo: 'da-url'; selezione: string | null; scheda: boolean };
+  | { tipo: 'da-url'; selezione: string | null; scheda: boolean; pagina: IdPagina | null };
 
 export function riduttore(s: StatoAtlante, a: Azione): StatoAtlante {
   switch (a.tipo) {
     case 'strato':
       return { ...s, strato: a.strato, selezione: null, scheda: false };
+    case 'mostra-strato':
+      return { ...s, strato: a.strato };
     case 'pelle':
       return { ...s, pelle: !s.pelle };
     case 'seleziona':
       return { ...s, selezione: a.id, scheda: false };
     case 'scheda':
       return { ...s, scheda: a.aperta && s.selezione !== null };
+    case 'pagina':
+      return { ...s, pagina: a.pagina };
     case 'hover':
       return s.hover === a.id ? s : { ...s, hover: a.id };
     case 'da-url':
-      return { ...s, selezione: a.selezione, scheda: a.scheda };
+      // Aprendo una pagina dall'indirizzo la selezione resta quella che c'era.
+      return a.pagina ? { ...s, pagina: a.pagina } : { ...s, selezione: a.selezione, scheda: a.scheda, pagina: null };
   }
 }
 
-// Indirizzi del prototipo: /esplora/<id> e /organo/<id> (vedi D11).
-function leggiUrl(): { selezione: string | null; scheda: boolean } {
+// Indirizzi (D11): /esplora/<id>, /organo/<id>, /fonti, /informazioni.
+const PAGINE: IdPagina[] = ['fonti', 'informazioni'];
+
+function leggiUrl(): { selezione: string | null; scheda: boolean; pagina: IdPagina | null } {
+  const pagina = PAGINE.find((p) => location.pathname === `/${p}`) ?? null;
   const m = /^\/(esplora|organo)\/([^/]+)/.exec(location.pathname);
-  if (!m) return { selezione: null, scheda: false };
-  return { selezione: decodeURIComponent(m[2]), scheda: m[1] === 'organo' };
+  if (!m) return { selezione: null, scheda: false, pagina };
+  return { selezione: decodeURIComponent(m[2]), scheda: m[1] === 'organo', pagina };
 }
 
-function scriviUrl(selezione: string | null, scheda: boolean) {
-  const percorso = selezione ? `/${scheda ? 'organo' : 'esplora'}/${encodeURIComponent(selezione)}` : '/';
+function scriviUrl(selezione: string | null, scheda: boolean, pagina: IdPagina | null) {
+  const percorso = pagina
+    ? `/${pagina}`
+    : selezione
+      ? `/${scheda ? 'organo' : 'esplora'}/${encodeURIComponent(selezione)}`
+      : '/';
   if (percorso !== location.pathname) history.pushState(null, '', percorso + location.search);
 }
 
@@ -58,7 +76,10 @@ export function ProviderAtlante({ children }: { children: ReactNode }) {
     ...leggiUrl(),
   }));
 
-  useEffect(() => scriviUrl(stato.selezione, stato.scheda), [stato.selezione, stato.scheda]);
+  useEffect(
+    () => scriviUrl(stato.selezione, stato.scheda, stato.pagina),
+    [stato.selezione, stato.scheda, stato.pagina],
+  );
   useEffect(() => {
     const suPopstate = () => invia({ tipo: 'da-url', ...leggiUrl() });
     addEventListener('popstate', suPopstate);
