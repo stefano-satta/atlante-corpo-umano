@@ -8,11 +8,16 @@ import { RichText } from '@/components/features/glossary/RichText';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useStructure } from '@/hooks/useContent';
 import { useTextOnly } from '@/hooks/useTextOnly';
-import type { StructureSummary } from '@/models/content';
+import type { Relation, StructureSummary } from '@/models/content';
 import { registerCalloutTarget } from '@/utils/calloutPath';
 import { hasPage } from '@/utils/content';
 import { formatLongDate } from '@/utils/format';
-import { RelatedName } from './Relations';
+import { RelatedNames } from './Relations';
+
+const RELATION_TYPES: { type: Relation['tipo']; label: string }[] = [
+  { type: 'fa-parte-di', label: 'Fa parte di' },
+  { type: 'collegato-a', label: 'Collegato a' },
+];
 
 // L'animazione si scarica solo quando si apre la scheda che la contiene.
 const CardiacCycle = lazy(() => import('@/components/features/cardiac-cycle/CardiacCycle'));
@@ -98,12 +103,20 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
             <section id="sez-collegamenti" aria-labelledby="h-collegamenti">
               <h2 id="h-collegamenti">Collegamenti</h2>
               <ul className="links">
-                {s.relazioni.map((r) => (
-                  <li key={`${r.tipo}-${r.id}`}>
-                    <span className="label">{r.tipo === 'fa-parte-di' ? 'Fa parte di' : 'Collegato a'}</span>
-                    <RelatedName relation={r} />
-                  </li>
-                ))}
+                {/* Un'etichetta per tipo, seguita dall'elenco delle strutture. */}
+                {RELATION_TYPES.map(({ type, label }) => {
+                  const list = s.relazioni.filter((r) => r.tipo === type);
+                  return (
+                    list.length > 0 && (
+                      <li key={type}>
+                        <span className="label">{label}</span>
+                        <span>
+                          <RelatedNames relations={list} />
+                        </span>
+                      </li>
+                    )
+                  );
+                })}
               </ul>
             </section>
             <section id="sez-fonti" aria-labelledby="h-fonti">

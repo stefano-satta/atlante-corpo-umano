@@ -37,24 +37,31 @@ export function RelatedName({ relation: r }: { relation: Relation }) {
   );
 }
 
+/** Nomi delle strutture collegate, separati da virgola. */
+export function RelatedNames({ relations }: { relations: Relation[] }) {
+  return relations.map((r, i) => (
+    <span key={r.id}>
+      {i > 0 && ', '}
+      <RelatedName relation={r} />
+    </span>
+  ));
+}
+
 /** Appartenenza e collegamenti di una struttura, nel cartellino. */
 export function Relations({ structure: s }: { structure: Structure }) {
   const ofType = (type: Relation['tipo']) => s.relazioni.filter((r) => r.tipo === type);
-  const names = (list: Relation[]) =>
-    list.map((r, i) => (
-      <span key={r.id}>
-        {i > 0 && ', '}
-        <RelatedName relation={r} />
-      </span>
-    ));
   return (
     <dl className="relations">
       <dt className="label">Fa parte di</dt>
-      <dd>{names(ofType('fa-parte-di'))}</dd>
+      <dd>
+        <RelatedNames relations={ofType('fa-parte-di')} />
+      </dd>
       {ofType('collegato-a').length > 0 && (
         <>
           <dt className="label">Collegato a</dt>
-          <dd>{names(ofType('collegato-a'))}</dd>
+          <dd>
+            <RelatedNames relations={ofType('collegato-a')} />
+          </dd>
         </>
       )}
     </dl>

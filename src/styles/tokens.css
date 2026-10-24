@@ -25,7 +25,7 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --open-duration: 460ms;
   /* Larghezze del pannello: devono restare uguali a panelWidth() in src/utils/layout.ts. */
-  --w-card: clamp(320px, 30vw, 400px);
+  --w-card: clamp(300px, 33.333vw, 640px);
   --w-sheet: min(52vw, 760px);
   color-scheme: dark;
 }

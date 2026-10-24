@@ -9,5 +9,5 @@ export const NARROW_WIDTH = 760;
  */
 export function panelWidth(viewportWidth: number, sheet: boolean) {
   if (viewportWidth <= NARROW_WIDTH) return 0;
-  return sheet ? Math.min(viewportWidth * 0.52, 760) : Math.min(Math.max(viewportWidth * 0.3, 320), 400);
+  return sheet ? Math.min(viewportWidth * 0.52, 760) : Math.min(Math.max(viewportWidth / 3, 300), 640);
 }

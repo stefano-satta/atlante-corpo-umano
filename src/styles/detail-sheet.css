@@ -55,6 +55,12 @@
   display: grid;
   gap: 8px;
 }
+/* Un elenco lungo va a capo sotto i nomi, non sotto l'etichetta. */
+.links li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: baseline;
+}
 .links .label {
   display: inline-block;
   min-width: 112px;
