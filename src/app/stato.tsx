@@ -1,7 +1,7 @@
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useMemo, useReducer } from 'react';
 
 export type Strato = 'muscoli' | 'organi' | 'scheletro';
-export type IdPagina = 'fonti' | 'informazioni';
+export type IdPagina = 'indice' | 'fonti' | 'informazioni';
 
 export interface StatoAtlante {
   strato: Strato;
@@ -9,8 +9,12 @@ export interface StatoAtlante {
   /** Unità selezionata: id di un organo o di un elemento (osso, muscolo). */
   selezione: string | null;
   scheda: boolean;
-  /** Pagina di lettura aperta sopra l'atlante (Fonti, Informazioni). */
+  /** Pagina di lettura aperta sopra l'atlante (Indice, Fonti, Informazioni). */
   pagina: IdPagina | null;
+  /** Soglia d'ingresso (D26): aperta arrivando sull'indirizzo `/`, si chiude scegliendo come entrare. */
+  soglia: boolean;
+  /** Passo del tour iniziale in corso, contato da 0. */
+  tour: number | null;
   /**
    * Percorso guidato in corso (D24), con il passo contato da 0. Resta attivo mentre si
    * esplora una struttura, così si può tornare al passo da cui si era partiti.
@@ -34,6 +38,8 @@ export type Azione =
   | { tipo: 'pagina'; pagina: IdPagina | null }
   | { tipo: 'percorso'; percorso: PercorsoAttivo | null }
   | { tipo: 'hover'; id: string | null }
+  | { tipo: 'soglia'; aperta: boolean }
+  | { tipo: 'tour'; passo: number | null }
   | ({ tipo: 'da-url' } & DaUrl);
 
 type DaUrl = Pick<StatoAtlante, 'selezione' | 'scheda' | 'pagina' | 'percorso'>;
@@ -47,22 +53,28 @@ export function riduttore(s: StatoAtlante, a: Azione): StatoAtlante {
     case 'pelle':
       return { ...s, pelle: !s.pelle };
     case 'seleziona':
-      return { ...s, selezione: a.id, scheda: false };
+      return { ...s, selezione: a.id, scheda: false, soglia: s.soglia && !a.id };
     case 'scheda':
       return { ...s, scheda: a.aperta && s.selezione !== null };
     case 'pagina':
       return { ...s, pagina: a.pagina };
     case 'percorso':
       // Scegliere un passo chiude la struttura che si stava esplorando.
-      return { ...s, percorso: a.percorso, selezione: null, scheda: false };
+      return { ...s, percorso: a.percorso, selezione: null, scheda: false, soglia: s.soglia && !a.percorso };
     case 'hover':
       return s.hover === a.id ? s : { ...s, hover: a.id };
+    case 'soglia':
+      return { ...s, soglia: a.aperta };
+    case 'tour':
+      return { ...s, tour: a.passo };
     case 'da-url':
       // Aprendo una pagina dall'indirizzo la selezione resta quella che c'era.
       if (a.pagina) return { ...s, pagina: a.pagina };
       // Un indirizzo di struttura lascia attivo il percorso in corso; uno di percorso lo imposta.
+      // Tornando indietro su `/` la soglia resta com'era: chiusa, se si era già entrati.
       return {
         ...s,
+        soglia: s.soglia && !a.selezione && !a.percorso,
         selezione: a.selezione,
         scheda: a.scheda,
         pagina: null,
@@ -71,9 +83,9 @@ export function riduttore(s: StatoAtlante, a: Azione): StatoAtlante {
   }
 }
 
-// Indirizzi (D11): /esplora/<id>, /organo/<id>, /percorsi/<id>/<passo>, /fonti, /informazioni.
+// Indirizzi (D11): /esplora/<id>, /organo/<id>, /percorsi/<id>/<passo>, /indice, /fonti, /informazioni.
 // Nell'indirizzo il passo si conta da 1.
-const PAGINE: IdPagina[] = ['fonti', 'informazioni'];
+const PAGINE: IdPagina[] = ['indice', 'fonti', 'informazioni'];
 
 export function leggiUrl(pathname = location.pathname): DaUrl {
   const pagina = PAGINE.find((p) => pathname === `/${p}`) ?? null;
@@ -108,6 +120,8 @@ export function ProviderAtlante({ children }: { children: ReactNode }) {
     strato: 'organi' as Strato,
     pelle: true,
     hover: null,
+    soglia: location.pathname === '/',
+    tour: null,
     ...leggiUrl(),
   }));
 

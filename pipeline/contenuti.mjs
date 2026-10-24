@@ -1,8 +1,8 @@
 // Lettura, controllo e compilazione dei contenuti (D17).
 //
 // Ogni struttura è un file Markdown in contenuti/strutture/ con intestazione YAML;
-// le fonti stanno in contenuti/fonti.yaml e i nomi delle strutture senza scheda in
-// contenuti/riferimenti.yaml. Il controllo automatico ferma la build se trova un
+// le fonti stanno in contenuti/fonti.yaml, i nomi delle strutture senza scheda in
+// contenuti/riferimenti.yaml e le definizioni del glossario in contenuti/glossario.yaml. Il controllo automatico ferma la build se trova un
 // errore: una citazione senza fonte, un paragrafo senza rimando, una relazione verso
 // una struttura sconosciuta, un elemento 3D che non esiste nel modello.
 //
@@ -43,6 +43,9 @@ const DATA = /^\d{4}-\d{2}-\d{2}$/;
 const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const CITAZIONE = /\[@([^\]\s]+)\]/g;
 const GRUPPO_CITAZIONI = /(?:\s*\[@[^\]\s]+\])+/g;
+// Termine del glossario nel testo: [[alveoli|alveolo]] mostra "alveoli" e rimanda alla voce "alveolo";
+// [[alveolo]] usa la voce con lo stesso nome.
+const SEGNO_GLOSSARIO = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
 
 export function separaIntestazione(testo) {
   const m = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/.exec(testo.replace(/\r\n/g, '\n'));
@@ -137,6 +140,26 @@ function numeratore(fonti, errore) {
   return { ordine, numero, rimandi, elenco };
 }
 
+/**
+ * Trasforma i segni [[testo|voce]] in collegamenti alla voce del glossario, che l'interfaccia
+ * apre sul posto. Una voce che non esiste nel glossario è un errore.
+ */
+function segniGlossario(voci, errore) {
+  return (testo) =>
+    testo.replace(SEGNO_GLOSSARIO, (_, mostrato, voce) => {
+      const id = (voce ?? mostrato).trim().toLowerCase().replace(/\s+/g, '-');
+      if (!voci.has(id)) errore(`termine del glossario inesistente: [[${mostrato}${voce ? `|${voce}` : ''}]]`);
+      return `[${mostrato.trim()}](/indice#glossario-${id})`;
+    });
+}
+
+/** Aggiunge classe e voce ai collegamenti del glossario prodotti da marked. */
+const marcaGlossario = (html) =>
+  html.replace(
+    /<a href="\/indice#glossario-([a-z0-9-]+)">/g,
+    '<a class="glossario" href="/indice#glossario-$1" data-glossario="$1">',
+  );
+
 function controllaFonte(id, f, errore) {
   if (!ID.test(id)) errore(`identificativo non valido: ${id}`);
   if (!TIPI_FONTE.includes(f?.tipo)) errore(`${id}: tipo deve essere uno tra ${TIPI_FONTE.join(', ')}`);
@@ -169,6 +192,42 @@ export function leggiContenuti(cartella, modello) {
 
   const marked = new Marked({ gfm: true, breaks: false });
   const lexer = (testo) => marked.lexer(testo);
+
+  // Glossario (D26): una voce per termine, con una definizione breve che cita le sue fonti.
+  const glossario = [];
+  const fileGlossario = path.join(cartella, 'glossario.yaml');
+  const vociGlossario = fs.existsSync(fileGlossario) ? (leggiYaml(fs.readFileSync(fileGlossario, 'utf8')) ?? {}) : {};
+  for (const [id, v] of Object.entries(vociGlossario)) {
+    const errore = (m) => errori.push(`glossario.yaml: ${id}: ${m}`);
+    if (!ID.test(id)) errore('identificativo non valido');
+    if (typeof v?.termine !== 'string' || !v.termine) errore('manca il termine');
+    if (v?.varianti !== undefined && !(Array.isArray(v.varianti) && v.varianti.every((x) => typeof x === 'string')))
+      errore('varianti deve essere un elenco di parole');
+    if (!STATI.includes(v?.stato)) errore(`stato deve essere uno tra ${STATI.join(', ')}`);
+    if (!DATA.test(String(v?.revisione))) errore('manca la data di revisione (AAAA-MM-GG)');
+    const definizione = typeof v?.definizione === 'string' ? v.definizione.trim() : '';
+    if (!definizione) errore('manca la definizione');
+    const citate = [...definizione.matchAll(CITAZIONE)].map((m) => m[1]);
+    if (definizione && !citate.length) errore('la definizione non cita nessuna fonte');
+    for (const f of citate) if (!fonti[f]) errore(`citazione di una fonte inesistente: [@${f}]`);
+    controllaHtml(lexer(definizione), errore);
+    if (SEGNO_GLOSSARIO.test(definizione)) errore('una definizione non può rimandare ad altre voci');
+    SEGNO_GLOSSARIO.lastIndex = 0;
+    glossario.push({
+      id,
+      termine: v?.termine ?? id,
+      varianti: v?.varianti ?? [],
+      html: marked.parseInline(definizione.replace(GRUPPO_CITAZIONI, '').trim()),
+      fonti: [...new Set(citate)].filter((f) => fonti[f]).map((f) => ({ id: f, ...fonti[f] })),
+      stato: v?.stato,
+      revisione: String(v?.revisione),
+    });
+  }
+  glossario.sort((a, b) => a.termine.localeCompare(b.termine, 'it'));
+  const idGlossario = new Set(glossario.map((v) => v.id));
+  // Testo Markdown di un contenuto → HTML, con i rimandi alle fonti e i termini del glossario.
+  const compila = (testo, rimandi, errore) =>
+    marcaGlossario(marked.parse(rimandi(segniGlossario(idGlossario, errore)(testo))));
 
   // Prima passata: intestazioni, per poter risolvere le relazioni tra strutture.
   const cartellaStrutture = path.join(cartella, 'strutture');
@@ -256,7 +315,7 @@ export function leggiContenuti(cartella, modello) {
     let fontiBreve = 0;
     const compilate = sezioni.map((s, i) => {
       controllaRimandi(lexer, s.testo, errore);
-      const html = marked.parse(rimandi(s.testo));
+      const html = compila(s.testo, rimandi, errore);
       if (i === 0) fontiBreve = ordine.length;
       return { chiave: s.chiave, titolo: s.titolo, ancora: ancora(s.chiave), html };
     });
@@ -287,7 +346,7 @@ export function leggiContenuti(cartella, modello) {
         controllaRimandi(lexer, testo, p.errore);
         return {
           titolo: p.testi[i]?.titolo ?? '',
-          html: marked.parse(rimandi(testo)),
+          html: compila(testo, rimandi, p.errore),
           ...Object.fromEntries(Object.keys(CAMPI_PASSO).map((c) => [c, passo[c]])),
           flussi: passo.flussi ?? [],
         };
@@ -305,6 +364,8 @@ export function leggiContenuti(cartella, modello) {
       ta2: d.ta2,
       sinonimi: d.sinonimi ?? [],
       elementi3d: { gruppo: d.elementi3d?.gruppo ?? null, fma: d.elementi3d?.fma ?? [] },
+      // Unità del modello da selezionare per mostrare la struttura (Indice, indirizzi senza 3D).
+      unita: d.elementi3d?.gruppo ?? modello.unita?.get(d.elementi3d?.fma?.[0]) ?? null,
       stato: d.stato,
       revisione: String(d.revisione),
       limiti: typeof d.limiti === 'string' ? d.limiti.trim() : null,
@@ -393,7 +454,7 @@ export function leggiContenuti(cartella, modello) {
       controllaRimandi(lexer, testo, errore);
       return {
         titolo: testi[i]?.titolo ?? '',
-        html: marked.parse(rimandi(testo)),
+        html: compila(testo, rimandi, errore),
         strato: passo?.strato,
         evidenzia: elementi(passo?.evidenzia, 'evidenzia', i),
         inquadra: passo?.inquadra ? elementi(passo.inquadra, 'inquadra', i) : null,
@@ -416,10 +477,13 @@ export function leggiContenuti(cartella, modello) {
     ...percorsi
       .filter((p) => p.fonti.some((f) => f.id === idFonte))
       .map((p) => ({ id: `percorsi/${p.id}`, nome: `percorso “${p.titolo}”` })),
+    ...glossario
+      .filter((v) => v.fonti.some((f) => f.id === idFonte))
+      .map((v) => ({ id: `glossario/${v.id}`, nome: 'glossario' })),
   ];
   const elencoFonti = Object.entries(fonti).map(([id, f]) => ({ id, ...f, citataDa: citataDa(id) }));
 
-  return { strutture, pagine, percorsi, fonti: elencoFonti, errori };
+  return { strutture, pagine, percorsi, glossario, fonti: elencoFonti, errori };
 }
 
 /** Strutture e gruppi presenti nel modello 3D, da public/modelli/strutture.json. */
@@ -428,5 +492,7 @@ export function leggiModello(file) {
   return {
     gruppi: new Set(elementi.map((e) => e.gruppo).filter(Boolean)),
     fma: new Set(elementi.map((e) => e.fma).filter(Boolean)),
+    // FMA → unità selezionabile: il gruppo per gli organi, l'elemento stesso per ossa e muscoli.
+    unita: new Map(elementi.filter((e) => e.fma).map((e) => [e.fma, e.gruppo ?? e.id])),
   };
 }

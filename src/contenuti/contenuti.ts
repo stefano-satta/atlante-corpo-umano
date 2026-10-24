@@ -1,8 +1,18 @@
-import { caricaFonti, caricaPagina, caricaPercorso, caricaStruttura, PERCORSI, STRUTTURE } from 'virtual:contenuti';
+import {
+  caricaFonti,
+  caricaGlossario,
+  caricaPagina,
+  caricaPercorso,
+  caricaStruttura,
+  GLOSSARIO,
+  PERCORSI,
+  PROCESSI,
+  STRUTTURE,
+} from 'virtual:contenuti';
 import { useEffect, useState } from 'react';
-import type { FonteCitata, Pagina, Percorso, Struttura, VoceIndice } from './tipi';
+import type { DefinizioneGlossario, FonteCitata, Pagina, Percorso, Struttura, VoceIndice } from './tipi';
 
-export { PERCORSI, STRUTTURE };
+export { GLOSSARIO, PERCORSI, PROCESSI, STRUTTURE };
 
 const perGruppo = new Map<string, VoceIndice>();
 const perFma = new Map<string, VoceIndice>();
@@ -49,6 +59,8 @@ export const useStruttura = (id: string | undefined) =>
 export const usePagina = (id: string) => useCaricato<Pagina>(`pagina/${id}`, caricaPagina[id]);
 export const usePercorso = (id: string | undefined) =>
   useCaricato<Percorso>(id && `percorso/${id}`, id ? caricaPercorso[id] : undefined);
+export const useGlossario = (attivo = true) =>
+  useCaricato<DefinizioneGlossario[]>(attivo ? 'glossario' : undefined, caricaGlossario);
 export const useFonti = () => useCaricato<FonteCitata[]>('fonti', caricaFonti);
 
 const MESI = [

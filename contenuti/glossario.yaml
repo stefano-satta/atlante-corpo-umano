@@ -1,0 +1,228 @@
+# Glossario (D26): una voce per termine usato nei testi, con una definizione breve e le sue fonti.
+#
+# termine: come compare nel titolo della voce; varianti: altre forme cercate nell'Indice (plurali).
+# Nei testi un termine rimanda alla voce con [[parola mostrata|id-della-voce]].
+# Ogni definizione cita almeno una fonte di fonti.yaml; stati e date come per le strutture (D17).
+# Definizioni verificate il 2026-10-24 sul testo delle fonti citate.
+
+alveolo:
+  termine: alveolo
+  varianti: [alveoli]
+  definizione: >
+    Minuscola sacca d'aria, simile a un acino d'uva, in cui finiscono le vie aeree dei polmoni. Negli
+    alveoli avviene lo scambio dei gas tra l'aria e il sangue [@nhlbi-polmoni-sistema] [@openstax-ap-22-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+aorta:
+  termine: aorta
+  definizione: >
+    La grande arteria in cui il ventricolo sinistro spinge il sangue ricco di ossigeno, diretto a
+    tutto il corpo [@nhlbi-cuore-flusso] [@openstax-ap-19-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+arteria-polmonare:
+  termine: arteria polmonare
+  varianti: [arterie polmonari]
+  definizione: >
+    L'arteria che porta dal cuore ai polmoni il sangue povero di ossigeno; i suoi rami arrivano ai
+    capillari attorno agli alveoli [@nhlbi-cuore-flusso] [@nhlbi-polmoni-sistema].
+  stato: bozza
+  revisione: 2026-10-24
+
+atrio:
+  termine: atrio
+  varianti: [atri]
+  definizione: >
+    Ciascuna delle due cavità superiori del cuore. Raccoglie il sangue che arriva al cuore e,
+    contraendosi, lo spinge nel ventricolo sottostante [@nhlbi-cuore-anatomia] [@openstax-ap-19-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+bronchiolo:
+  termine: bronchiolo
+  varianti: [bronchioli]
+  definizione: >
+    Ciascuno dei tubi più sottili in cui si ramificano i bronchi dentro i polmoni. Misura circa un
+    millimetro di diametro e, a differenza dei bronchi, non ha cartilagine nella parete
+    [@nhlbi-polmoni-sistema] [@openstax-ap-22-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+bronco:
+  termine: bronco
+  varianti: [bronchi]
+  definizione: >
+    Ciascuno dei due tubi, destro e sinistro, in cui si divide la trachea e che portano l'aria ai
+    polmoni, dove continuano a ramificarsi. Anelli di cartilagine li sostengono e impediscono che si
+    chiudano [@nhlbi-polmoni-sistema] [@openstax-ap-22-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+capillare:
+  termine: capillare
+  varianti: [capillari]
+  definizione: >
+    Vaso sanguigno sottilissimo. Attorno agli alveoli i capillari formano una rete, e la loro parete,
+    unita a quella dell'alveolo, forma la membrana che i gas attraversano [@nhlbi-polmoni-sistema]
+    [@openstax-ap-22-2].
+  stato: bozza
+  revisione: 2026-10-24
+
+diastole:
+  termine: diastole
+  definizione: >
+    La fase del ciclo cardiaco in cui il cuore si rilassa e le sue cavità si riempiono di sangue
+    [@openstax-ap-19-3].
+  stato: bozza
+  revisione: 2026-10-24
+
+diffusione:
+  termine: diffusione
+  definizione: >
+    Il passaggio di un gas da dove la sua pressione parziale è più alta a dove è più bassa, senza
+    bisogno di energia. Così, negli alveoli, l'ossigeno passa dall'aria al sangue e l'anidride
+    carbonica dal sangue all'aria [@openstax-ap-22-4] [@openstax-ap-22-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+espirazione:
+  termine: espirazione
+  definizione: >
+    Il processo che fa uscire l'aria dai polmoni. Nella respirazione tranquilla è passiva: i muscoli
+    si rilasciano e il tessuto elastico dei polmoni li fa tornare indietro [@openstax-ap-22-3].
+  stato: bozza
+  revisione: 2026-10-24
+
+ilo:
+  termine: ilo polmonare
+  varianti: [ilo]
+  definizione: >
+    La zona incavata di ogni polmone da cui entra il bronco principale, insieme a vasi sanguigni,
+    vasi linfatici e nervi [@openstax-ap-22-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+inspirazione:
+  termine: inspirazione
+  definizione: >
+    Il processo che fa entrare l'aria nei polmoni. Nella respirazione tranquilla lo producono il
+    diaframma e i muscoli intercostali esterni [@openstax-ap-22-3].
+  stato: bozza
+  revisione: 2026-10-24
+
+lobo:
+  termine: lobo polmonare
+  varianti: [lobo, lobi]
+  definizione: >
+    Ciascuna delle parti in cui è diviso un polmone, separate da scissure: tre nel polmone destro
+    (superiore, medio e inferiore), due nel sinistro (superiore e inferiore) [@openstax-ap-22-2].
+  stato: bozza
+  revisione: 2026-10-24
+
+mediastino:
+  termine: mediastino
+  definizione: >
+    Lo spazio al centro della cavità toracica, tra i due polmoni, in cui si trova il cuore
+    [@openstax-ap-19-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+miocardio:
+  termine: miocardio
+  definizione: >
+    Lo strato intermedio e più spesso della parete del cuore, formato soprattutto da cellule
+    muscolari cardiache. Contraendosi, spinge il sangue fuori dal cuore [@openstax-ap-19-1]
+    [@nhlbi-cuore-anatomia].
+  stato: bozza
+  revisione: 2026-10-24
+
+nodo-atrioventricolare:
+  termine: nodo atrioventricolare
+  definizione: >
+    Gruppo di cellule tra gli atri e i ventricoli in cui il segnale elettrico del battito rallenta
+    leggermente, così i ventricoli hanno il tempo di finire di riempirsi [@nhlbi-cuore-battito].
+  stato: bozza
+  revisione: 2026-10-24
+
+nodo-senoatriale:
+  termine: nodo senoatriale
+  definizione: >
+    Gruppo di cellule nell'atrio destro, chiamate cellule pacemaker, da cui parte il segnale
+    elettrico di ogni battito [@nhlbi-cuore-battito].
+  stato: bozza
+  revisione: 2026-10-24
+
+pericardio:
+  termine: pericardio
+  definizione: >
+    Il sacco di sottili strati di tessuto che avvolge il cuore, lo tiene in posizione e lo protegge.
+    Un po' di liquido tra gli strati riduce l'attrito mentre il cuore batte [@nhlbi-cuore-anatomia]
+    [@openstax-ap-19-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+pleura:
+  termine: pleura
+  definizione: >
+    Membrana a due foglietti che avvolge ogni polmone: quello interno aderisce al polmone, quello
+    esterno alla parete del torace, al mediastino e al diaframma. Lo spazio tra i due, la cavità
+    pleurica, contiene il liquido pleurico, che riduce l'attrito durante il respiro [@openstax-ap-22-2]
+    [@nhlbi-polmoni-sistema].
+  stato: bozza
+  revisione: 2026-10-24
+
+scissura:
+  termine: scissura
+  varianti: [scissure]
+  definizione: >
+    Solco profondo che separa i lobi di un polmone, rivestito dal foglietto interno della pleura
+    [@openstax-ap-22-2].
+  stato: bozza
+  revisione: 2026-10-24
+
+sistole:
+  termine: sistole
+  definizione: >
+    La fase del ciclo cardiaco in cui il cuore si contrae e spinge il sangue in circolo
+    [@openstax-ap-19-3].
+  stato: bozza
+  revisione: 2026-10-24
+
+trachea:
+  termine: trachea
+  definizione: >
+    Il tubo che porta l'aria dalla laringe verso i polmoni. È sostenuto da 16-20 pezzi di cartilagine
+    a forma di C e in basso si divide nei bronchi destro e sinistro [@openstax-ap-22-1].
+  stato: bozza
+  revisione: 2026-10-24
+
+valvola:
+  termine: valvola cardiaca
+  varianti: [valvola, valvole]
+  definizione: >
+    Struttura che separa le cavità del cuore, o il cuore dalle grandi arterie, e fa scorrere il
+    sangue in una sola direzione, impedendogli di tornare indietro [@nhlbi-cuore-anatomia]
+    [@nhlbi-cuore-flusso].
+  stato: bozza
+  revisione: 2026-10-24
+
+vene-polmonari:
+  termine: vene polmonari
+  varianti: [vena polmonare]
+  definizione: >
+    Le vene che riportano al cuore, nell'atrio sinistro, il sangue ricco di ossigeno che arriva dai
+    polmoni [@nhlbi-cuore-flusso] [@openstax-ap-19-3].
+  stato: bozza
+  revisione: 2026-10-24
+
+ventricolo:
+  termine: ventricolo
+  varianti: [ventricoli]
+  definizione: >
+    Ciascuna delle due cavità inferiori del cuore, che sono le sue principali camere di pompaggio: il
+    destro spinge il sangue verso i polmoni, il sinistro verso il resto del corpo [@openstax-ap-19-1]
+    [@nhlbi-cuore-anatomia].
+  stato: bozza
+  revisione: 2026-10-24

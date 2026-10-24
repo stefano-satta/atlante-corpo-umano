@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useRef } from 'react';
+import { useSenza3d } from '../app/senza3d';
 import { useAtlante } from '../app/stato';
 import { dataEstesa, haPagina, useStruttura } from '../contenuti/contenuti';
 import type { VoceIndice } from '../contenuti/tipi';
@@ -15,14 +16,16 @@ import { registraBersaglio } from './tracciato-richiamo';
 /** Contenuto del pannello allargato: la scheda completa di un organo (sezioni di D11). */
 export function Scheda({ voce }: { voce: VoceIndice }) {
   const { invia } = useAtlante();
+  const senza3d = useSenza3d();
   const { dato: s } = useStruttura(voce.id);
   const titolo = useRef<HTMLHeadingElement>(null);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a ogni nuova struttura la lettura torna in cima
   useEffect(() => {
-    const pannello = titolo.current?.closest('.pannello');
+    const pannello = titolo.current?.closest('.pannello, .pagina');
     if (pannello) pannello.scrollTop = 0;
     titolo.current?.focus({ preventScroll: true });
-  }, []);
+  }, [voce.id]);
 
   const indice = [
     ...(s?.sezioni.map((x) => ({ ancora: x.ancora, titolo: x.chiave })) ?? []),
@@ -34,9 +37,15 @@ export function Scheda({ voce }: { voce: VoceIndice }) {
     <article className="scheda" aria-labelledby="scheda-titolo">
       <header className="scheda-testa">
         <div className="pannello-testa">
-          <button type="button" className="indietro" onClick={() => invia({ tipo: 'scheda', aperta: false })}>
-            <IconaIndietro /> Torna al cartellino
-          </button>
+          {senza3d ? (
+            <button type="button" className="indietro" onClick={() => invia({ tipo: 'seleziona', id: null })}>
+              <IconaIndietro /> Torna all'indice
+            </button>
+          ) : (
+            <button type="button" className="indietro" onClick={() => invia({ tipo: 'scheda', aperta: false })}>
+              <IconaIndietro /> Torna al cartellino
+            </button>
+          )}
         </div>
         <span className="etichetta">{voce.nomeApparato}</span>
         <h1
@@ -45,7 +54,7 @@ export function Scheda({ voce }: { voce: VoceIndice }) {
           tabIndex={-1}
           ref={(el) => {
             titolo.current = el;
-            registraBersaglio(el);
+            if (!senza3d) registraBersaglio(el);
           }}
         >
           {voce.nome}

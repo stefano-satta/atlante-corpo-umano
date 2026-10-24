@@ -48,6 +48,18 @@ export function BarraComandi() {
           Inizio
         </span>
       </button>
+      <button
+        type="button"
+        className="comando comando-aiuto"
+        aria-keyshortcuts="?"
+        aria-label="Aiuto"
+        onClick={() => invia({ tipo: 'tour', passo: 0 })}
+      >
+        <span className="esteso">Aiuto</span>
+        <span className="breve" aria-hidden="true">
+          ?
+        </span>
+      </button>
     </div>
   );
 }

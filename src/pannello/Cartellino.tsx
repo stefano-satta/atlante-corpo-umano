@@ -1,5 +1,6 @@
 import { useLayoutEffect } from 'react';
 import { misure } from '../app/misure';
+import { useSenza3d } from '../app/senza3d';
 import { useAtlante } from '../app/stato';
 import { contenutoDi, haPercorso, PERCORSI, STRUTTURE, urlTa2, useStruttura } from '../contenuti/contenuti';
 import { NOMI_APPARATI, ORGANI_PER_ID } from '../contenuti/organi';
@@ -33,7 +34,9 @@ function unitaDelContenuto(id: string) {
  */
 export function NomeRelazione({ relazione: r }: { relazione: Relazione }) {
   const { invia } = useAtlante();
-  const unita = r.conContenuto ? unitaDelContenuto(r.id) : undefined;
+  const senza3d = useSenza3d();
+  // Nella versione testuale si seleziona il contenuto stesso, che si apre come pagina.
+  const unita = r.conContenuto ? (senza3d ? r.id : unitaDelContenuto(r.id)) : undefined;
   return (
     <>
       {unita ? (

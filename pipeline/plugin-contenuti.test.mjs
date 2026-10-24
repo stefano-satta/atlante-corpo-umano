@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { contenuti } from './plugin-contenuti.mjs';
+import { contenuti, senzaVociMancanti } from './plugin-contenuti.mjs';
 
 // Copia dei contenuti reali con stati fissati, per provare il filtro di pubblicazione senza
 // dipendere da quali testi sono approvati oggi: femore in bozza, cuore e Informazioni approvati,
@@ -45,6 +45,20 @@ describe('pubblicazione dei contenuti', () => {
     expect(indice).toContain('virtual:contenuti/pagina/informazioni');
     expect(indice).not.toContain('"id":"femore"');
     expect(indice).toContain('export const PERCORSI = [];');
+  });
+
+  it('toglie i collegamenti ai termini del glossario non pubblicati, lasciando la parola', () => {
+    const html =
+      '<p>Gli <a class="glossario" href="/indice#glossario-alveolo" data-glossario="alveolo">alveoli</a>.</p>';
+    expect(senzaVociMancanti({ sezioni: [{ html }] }, new Set())).toEqual({
+      sezioni: [{ html: '<p>Gli alveoli.</p>' }],
+    });
+    expect(senzaVociMancanti({ html }, new Set(['alveolo']))).toEqual({ html });
+  });
+
+  it('in produzione il glossario contiene solo le voci approvate', () => {
+    expect(caricaIndice('build')).not.toMatch(/GLOSSARIO = \[\{/);
+    expect(caricaIndice('serve')).toMatch(/GLOSSARIO = \[\{"id":"alveolo"/);
   });
 
   it('in sviluppo include anche bozze e testi verificati', () => {

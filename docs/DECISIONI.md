@@ -2,9 +2,9 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. M6 Percorso "Un respiro" completata e approvata. Restano M7 e M8.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni completata e approvata. M6 Percorso "Un respiro" completata e approvata. M7 Soglia, tour e Indice implementata; il glossario attende l'approvazione del testo. Resta M8.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
-- **In sospeso:** nessuna decisione; prossima milestone da scegliere tra M7 e M8
+- **In sospeso:** approvazione del testo del glossario (25 voci, stato "bozza"), che completa la M7
 
 ## 2. Decisioni approvate
 
@@ -34,6 +34,7 @@
 | D23 | 2026-10-24 | 7 | M4 Polmoni | Approvati forma e posizione dei polmoni di Z-Anatomy allineati a BodyParts3D, il testo dei polmoni (cartellino e scheda; fonti NHLBI e OpenStax 22.2; termine *pulmones*, TA2 3265) e la nuova versione della pagina Informazioni (origine dei polmoni e crediti di Z-Anatomy). Polmoni e Informazioni passano allo stato "approvato" e tornano nella build di produzione. |
 | D24 | 2026-10-24 | 7 | M6 Percorso "Un respiro" | Approvato il piano con le scelte A1–F1: corpo 3D fermo con telecamera che inquadra ed evidenzia, movimento in uno schema 2D del torace e dell'alveolo (A1); percorso nel pannello a destra, foglio in basso su smartphone (B1); esplorazione libera con "Torna al percorso" dopo la selezione di una struttura (C1); ogni passo sceglie lo strato e può aggiungere singole strutture di un altro strato (D1); indirizzi `/percorsi/respirazione/1`…`6` e voce Percorsi attiva che apre il passo 1 (E1); con il movimento ridotto niente volo della telecamera, schema fermo e niente Riproduci (F1). Sei passi: Un respiro, Le vie dell'aria, I bronchi, Inspirazione, Negli alveoli, Espirazione. |
 | D25 | 2026-10-24 | 7 | Contenuti | Approvato il testo del percorso "Un respiro" (6 passi; fonti OpenStax 22.1, 22.3, 22.4 e NHLBI). Il percorso passa allo stato "approvato" ed entra nella build di produzione. M6 completata. |
+| D26 | 2026-10-24 | 7 | M7 Soglia, tour e Indice | Approvato il piano con le scelte A1, B1, C1, D1, E1: soglia d'ingresso sopra l'atlante su `/`, con "Esplora il corpo", "Segui un percorso", Indice, Informazioni e l'avvertenza già approvata, mentre il modello si carica dietro (A1); tour di 4 passi sugli elementi veri, automatico alla prima visita dopo "Esplora il corpo", con "Salta", ricordato nel browser e riaperto dal nuovo pulsante Aiuto (B1); Indice `/indice` con ricerca, strutture con testo, percorsi, processi e organi del modello per apparato; ossa e muscoli senza testo esclusi, con nota (C1); glossario in `contenuti/glossario.yaml` con fonti e stati, sezione dell'Indice e definizioni sul posto con il segno `[[testo\|termine]]`, testo da approvare a parte (D1); senza WebGL 2 si apre l'Indice con lettura dei testi, del ciclo cardiaco e del percorso (E1). |
 | D8 | 2026-10-22 | 1 | Modelli 3D | Autorizzato l'uso di BodyParts3D / Z-Anatomy (o equivalenti) purché gratuiti e con licenza aperta verificata e compatibile con D6. |
 
 ## 2b. Verifica di fattibilità dei modelli 3D (2026-10-22)
@@ -244,3 +245,18 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - su smartphone il foglio del percorso occupa metà schermo e la telecamera inquadra le strutture nella metà alta;
   - anche durante il percorso le strutture attenuate si possono selezionare, come accade già con la selezione.
 - **2026-10-24** — Registrata D25: testo del percorso "Un respiro" approvato e incluso nella build di produzione. M6 completata.
+- **2026-10-24** — Registrata D26 e implementata la M7. Risultati:
+  - **Soglia** su `/`: titolo, presentazione, "Esplora il corpo" (attivo a modello caricato), "Segui un percorso", Indice, Informazioni, avvertenza e crediti. Il corpo gira piano dietro il testo, spostato a destra su schermo largo; con il movimento ridotto resta fermo. Gli indirizzi diretti non passano dalla soglia, e tornando indietro su `/` non ricompare.
+  - **Tour** di 4 passi (Ruota e avvicinati, Scegli una struttura, Strati e sagoma, Percorsi, Indice e Fonti), con riquadro sull'elemento indicato. Parte alla prima visita dopo "Esplora il corpo", si ricorda nella memoria del browser e si riapre con il nuovo pulsante Aiuto o con il tasto `?`.
+  - **Indice** `/indice`: ricerca senza librerie (maiuscole, accenti, inizio di parola), percorsi, processi, organi e strutture con testo per apparato, glossario. La voce Indice del menu è attiva.
+  - **Glossario**: `contenuti/glossario.yaml` controllato a ogni build (fonte obbligatoria, fonti esistenti, niente HTML). Nei testi i termini segnati con `[[parola|voce]]` aprono la definizione sul posto; in produzione le voci non approvate tornano testo semplice. Le fonti citate dal glossario compaiono nella pagina Fonti.
+  - **Versione testuale** senza WebGL 2: Indice, schede delle strutture con il ciclo cardiaco, percorso con testo e schemi, Fonti e Informazioni, con gli stessi indirizzi.
+  - **Test:** 71 unitari e di componente, 19 end-to-end con axe-core senza violazioni.
+- **2026-10-24** — Decisioni minori della M7:
+  - testi dell'interfaccia di soglia e tour scritti per l'atlante; l'avvertenza della soglia è la frase già approvata della pagina Informazioni;
+  - su smartphone il menu in alto resta visibile in una riga sotto il titolo (prima era nascosto, e Indice e Percorsi non erano raggiungibili);
+  - il pulsante Aiuto è "?" su schermo stretto; sotto i 380 px la barra dei comandi si stringe per stare su una riga;
+  - le ossa e i muscoli con testo (femore, diaframma) compaiono nell'Indice nel loro apparato;
+  - nei testi approvati (cuore, ciclo cardiaco, polmoni, percorso "Un respiro") sono stati aggiunti solo i segni del glossario: senza i segni il testo è identico parola per parola, verificato automaticamente; gli stati restano "approvato";
+  - un termine è segnato una sola volta per sezione o passo;
+  - l'avviso grigio su fondo grigio aveva contrasto insufficiente: il testo ora è in inchiostro pieno.

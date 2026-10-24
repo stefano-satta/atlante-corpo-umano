@@ -52,6 +52,8 @@ export interface VoceIndice {
   ta2: number;
   sinonimi: string[];
   elementi3d: { gruppo: string | null; fma: string[] };
+  /** Unità del modello da selezionare per mostrare la struttura. */
+  unita: string | null;
   stato: Stato;
   revisione: string;
   scheda: boolean;
@@ -134,4 +136,27 @@ export interface Percorso {
   limiti: string | null;
   passi: PassoPercorso[];
   fonti: FonteNumerata[];
+}
+
+/** Processo animato nell'Indice: si apre nella scheda della sua struttura. */
+export interface VoceProcesso {
+  id: string;
+  titolo: string;
+  stato: Stato;
+  struttura: string;
+}
+
+/** Voce del glossario nell'indice leggero: basta per la ricerca e per sapere che esiste. */
+export interface VoceGlossario {
+  id: string;
+  termine: string;
+  varianti: string[];
+}
+
+/** Voce completa del glossario (D26): definizione breve con le sue fonti. */
+export interface DefinizioneGlossario extends VoceGlossario {
+  html: string;
+  fonti: Fonte[];
+  stato: Stato;
+  revisione: string;
 }

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useSenza3d } from '../app/senza3d';
 import { useAtlante, useMovimentoRidotto } from '../app/stato';
 import type { PassoPercorso } from '../contenuti/tipi';
 import { AvvisoStato } from '../pannello/Cartellino';
@@ -71,6 +72,7 @@ function Schema({ passo }: { passo: PassoPercorso }) {
  */
 export default function PannelloPercorso() {
   const { invia } = useAtlante();
+  const senza3d = useSenza3d();
   const { percorso, passo, numero, errore } = usePassoAttivo();
   const titolo = useRef<HTMLHeadingElement>(null);
   const totale = percorso?.passi.length ?? 0;
@@ -87,7 +89,7 @@ export default function PannelloPercorso() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: a ogni nuovo passo il pannello torna in cima
   useEffect(() => {
-    const pannello = titolo.current?.closest('.pannello');
+    const pannello = titolo.current?.closest('.pannello, .pagina');
     if (pannello) pannello.scrollTop = 0;
   }, [numero]);
 
@@ -134,7 +136,7 @@ export default function PannelloPercorso() {
         </button>
         {ultimo ? (
           <button type="button" className="azione" onClick={chiudi}>
-            Esplora liberamente <IconaAvanti />
+            {senza3d ? "Torna all'indice" : 'Esplora liberamente'} <IconaAvanti />
           </button>
         ) : (
           <button type="button" className="azione" onClick={() => vai(numero + 1)}>
@@ -156,7 +158,13 @@ export default function PannelloPercorso() {
           ))}
         </ol>
       </nav>
-      <p className="nota">Puoi ruotare il corpo e scegliere una struttura in ogni momento, poi tornare al percorso.</p>
+      {senza3d ? (
+        <p className="nota">Nella versione testuale il corpo 3D non c'è: restano il testo e gli schemi.</p>
+      ) : (
+        <p className="nota">
+          Puoi ruotare il corpo e scegliere una struttura in ogni momento, poi tornare al percorso.
+        </p>
+      )}
 
       {percorso.limiti && (
         <details className="note-fonti">

@@ -209,3 +209,52 @@ ${corpo}`;
     expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
   });
 });
+
+describe('glossario', () => {
+  const GLOSSARIO = `
+alveolo:
+  termine: alveolo
+  varianti: [alveoli]
+  definizione: Piccola sacca d'aria [@a].
+  stato: approvato
+  revisione: 2026-10-24
+`;
+  const conGlossario = (glossario, corpo) => {
+    cartella = fs.mkdtempSync(path.join(os.tmpdir(), 'contenuti-'));
+    cartelle.push(cartella);
+    fs.mkdirSync(path.join(cartella, 'strutture'));
+    fs.writeFileSync(path.join(cartella, 'fonti.yaml'), FONTI);
+    fs.writeFileSync(path.join(cartella, 'riferimenti.yaml'), RIFERIMENTI);
+    fs.writeFileSync(path.join(cartella, 'glossario.yaml'), glossario);
+    fs.writeFileSync(path.join(cartella, 'strutture', 'cuore.md'), intestazione() + corpo);
+    return leggiContenuti(cartella, MODELLO);
+  };
+
+  it('compila le definizioni con le fonti e trasforma i segni nei testi in collegamenti', () => {
+    const r = conGlossario(GLOSSARIO, '## In breve\n\nGli [[alveoli|alveolo]] e l’[[alveolo]] [@a].\n');
+    expect(r.errori).toEqual([]);
+    expect(r.glossario[0]).toMatchObject({ id: 'alveolo', html: 'Piccola sacca d&#39;aria.', fonti: [{ id: 'a' }] });
+    expect(r.strutture[0].sezioni[0].html).toContain(
+      'Gli <a class="glossario" href="/indice#glossario-alveolo" data-glossario="alveolo">alveoli</a>',
+    );
+    expect(r.fonti.find((f) => f.id === 'a').citataDa).toContainEqual({ id: 'glossario/alveolo', nome: 'glossario' });
+  });
+
+  it('rifiuta voci senza fonte, fonti inesistenti e segni verso voci che non esistono', () => {
+    const r = conGlossario(
+      `${GLOSSARIO}senza:\n  termine: senza\n  definizione: Nessuna fonte.\n  stato: bozza\n  revisione: 2026-10-24\nfalsa:\n  termine: falsa\n  definizione: Testo [@zeta].\n  stato: bozza\n  revisione: 2026-10-24\n`,
+      '## In breve\n\nIl [[bronco]] [@a].\n',
+    );
+    const errori = r.errori.join('\n');
+    expect(errori).toContain('senza: la definizione non cita nessuna fonte');
+    expect(errori).toContain('falsa: citazione di una fonte inesistente: [@zeta]');
+    expect(errori).toContain('termine del glossario inesistente: [[bronco]]');
+  });
+
+  it('il glossario reale supera il controllo e ogni segno nei testi ha la sua voce', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    expect(r.errori).toEqual([]);
+    expect(r.glossario.length).toBeGreaterThanOrEqual(20);
+    expect(r.glossario.every((v) => v.fonti.length > 0)).toBe(true);
+  });
+});

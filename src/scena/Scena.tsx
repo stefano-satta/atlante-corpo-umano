@@ -23,6 +23,8 @@ function registraControlli(c: CameraControls) {
 // di percorso sono un insieme più grande e chiedono meno margine.
 const MARGINE_INQUADRATURA = 1.9;
 const MARGINE_PERCORSO = 1.25;
+/** Spostamento del corpo verso destra sotto la soglia, in frazioni di mezza larghezza della vista. */
+const SPOSTAMENTO_SOGLIA = 0.42;
 // Nei percorsi la telecamera guarda il corpo di fronte, appena dall'alto.
 const POLARE_PERCORSO = Math.PI / 2 - 0.12;
 
@@ -58,12 +60,15 @@ function Regia({ pronta }: { pronta: boolean }) {
       sfera.radius = Math.max(sfera.radius, 0.05) * MARGINE_PERCORSO * (larghezza <= LARGHEZZA_STRETTA ? 1.7 : 1);
       c.rotateTo(0, POLARE_PERCORSO, animata);
     } else {
-      c.setFocalOffset(0, 0, 0, animata);
+      // Sotto la soglia, su schermo largo, il corpo sta a destra del testo d'ingresso (D26).
+      const semilarghezza = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * c.distance * camera.aspect;
+      const spostamento = stato.soglia && larghezza > LARGHEZZA_STRETTA ? -semilarghezza * SPOSTAMENTO_SOGLIA : 0;
+      c.setFocalOffset(spostamento, 0, 0, animata);
       return;
     }
     distanza.current = sfera.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2));
     c.fitToSphere(sfera, animata);
-  }, [stato.selezione, passo, ridotto, pronta, camera, larghezza]);
+  }, [stato.selezione, stato.soglia, passo, ridotto, pronta, camera, larghezza]);
 
   useEffect(() => {
     const c = scenaApi.controlli;

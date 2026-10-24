@@ -16,15 +16,15 @@ revisione: 2026-10-24
 
 ## Le cavità si riempiono
 
-Nella diastole il cuore è rilassato e le sue cavità si riempiono [@openstax-ap-19-3]. Il sangue povero di ossigeno arriva all'atrio destro dalle vene cave, quello ricco di ossigeno arriva all'atrio sinistro dalle vene polmonari [@nhlbi-cuore-flusso]. La pressione nei ventricoli è più bassa che negli atri: le valvole tra atri e ventricoli si aprono e il sangue scende nei ventricoli [@openstax-ap-19-3].
+Nella [[diastole]] il cuore è rilassato e le sue cavità si riempiono [@openstax-ap-19-3]. Il sangue povero di ossigeno arriva all'atrio destro dalle vene cave, quello ricco di ossigeno arriva all'atrio sinistro dalle vene polmonari [@nhlbi-cuore-flusso]. La pressione nei ventricoli è più bassa che negli atri: le valvole tra atri e ventricoli si aprono e il sangue scende nei ventricoli [@openstax-ap-19-3].
 
 ## Parte il segnale
 
-Ogni battito comincia con un segnale elettrico prodotto da un gruppo di cellule nel nodo senoatriale, nell'atrio destro [@nhlbi-cuore-battito].
+Ogni battito comincia con un segnale elettrico prodotto da un gruppo di cellule nel [[nodo senoatriale|nodo-senoatriale]], nell'atrio destro [@nhlbi-cuore-battito].
 
 ## Si contraggono gli atri
 
-Il segnale fa contrarre gli atri [@nhlbi-cuore-battito], che spingono nei ventricoli l'ultima parte del sangue [@openstax-ap-19-3]. Raggiunto il nodo atrioventricolare, il segnale rallenta leggermente, e i ventricoli hanno il tempo di finire di riempirsi [@nhlbi-cuore-battito].
+Il segnale fa contrarre gli atri [@nhlbi-cuore-battito], che spingono nei ventricoli l'ultima parte del sangue [@openstax-ap-19-3]. Raggiunto il [[nodo atrioventricolare|nodo-atrioventricolare]], il segnale rallenta leggermente, e i ventricoli hanno il tempo di finire di riempirsi [@nhlbi-cuore-battito].
 
 ## Si contraggono i ventricoli
 

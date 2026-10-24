@@ -9,7 +9,41 @@ const base: StatoAtlante = {
   pagina: null,
   percorso: null,
   hover: null,
+  soglia: false,
+  tour: null,
 };
+
+describe("soglia d'ingresso", () => {
+  const aperta = { ...base, soglia: true };
+
+  it('si chiude scegliendo una struttura o un percorso', () => {
+    expect(riduttore(aperta, { tipo: 'seleziona', id: 'cuore' }).soglia).toBe(false);
+    expect(riduttore(aperta, { tipo: 'percorso', percorso: { id: 'respirazione', passo: 0 } }).soglia).toBe(false);
+  });
+
+  it('resta aperta sotto una pagina di lettura e tornando indietro su /', () => {
+    const conIndice = riduttore(aperta, { tipo: 'pagina', pagina: 'indice' });
+    expect(conIndice.soglia).toBe(true);
+    const indietro = riduttore(conIndice, {
+      tipo: 'da-url',
+      selezione: null,
+      scheda: false,
+      pagina: null,
+      percorso: null,
+    });
+    expect(indietro).toMatchObject({ soglia: true, pagina: null });
+  });
+
+  it('una volta chiusa non si riapre tornando su /', () => {
+    const s = riduttore(base, { tipo: 'da-url', selezione: null, scheda: false, pagina: null, percorso: null });
+    expect(s.soglia).toBe(false);
+  });
+
+  it("l'Indice ha il suo indirizzo", () => {
+    expect(leggiUrl('/indice').pagina).toBe('indice');
+    expect(indirizzo({ selezione: null, scheda: false, pagina: 'indice', percorso: null })).toBe('/indice');
+  });
+});
 
 describe('riduttore dello stato', () => {
   it('cambiando strato annulla selezione e scheda', () => {

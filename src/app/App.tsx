@@ -3,10 +3,13 @@ import { haPagina, PERCORSI } from '../contenuti/contenuti';
 import { ORGANI_PER_ID } from '../contenuti/organi';
 import { BarraComandi } from '../esplora/BarraComandi';
 import { PannelloMisure } from '../esplora/PannelloMisure';
+import { AtlanteTestuale } from '../indice/AtlanteTestuale';
 import { Pagina } from '../pagine/Pagina';
 import { Pannello, usePercorsoAperto, useStrutturaSelezionata } from '../pannello/Pannello';
 import { Richiamo } from '../pannello/Richiamo';
 import { scenaApi, vistaIniziale } from '../scena/api';
+import { Soglia } from '../soglia/Soglia';
+import { chiudiTour, Tour } from '../tour/Tour';
 import { CONFIG } from './config';
 import { type IdPagina, type Strato, useAtlante, useMovimentoRidotto } from './stato';
 
@@ -14,9 +17,9 @@ import { type IdPagina, type Strato, useAtlante, useMovimentoRidotto } from './s
 // compare subito e il modello si carica in parallelo (D14).
 const Scena = lazy(() => import('../scena/Scena'));
 
-// Voci della barra in alto (D11). L'Indice arriva con la M7.
+// Voci della barra in alto (D11).
 const VOCI: Array<{ nome: string; pagina?: IdPagina }> = [
-  { nome: 'Indice' },
+  { nome: 'Indice', pagina: 'indice' },
   { nome: 'Fonti', pagina: 'fonti' },
   { nome: 'Informazioni', pagina: 'informazioni' },
 ];
@@ -53,6 +56,17 @@ export function App() {
       // Con una pagina di lettura aperta i tasti servono solo a chiuderla.
       if (stato.pagina) {
         if (e.key === 'Escape') invia({ tipo: 'pagina', pagina: null });
+        return;
+      }
+      // Sulla soglia il corpo gira da solo: i comandi della vista arrivano dopo l'ingresso.
+      if (stato.soglia) return;
+      if (e.key === 'Escape' && stato.tour !== null) {
+        chiudiTour(invia);
+        return;
+      }
+      if (e.key === '?') {
+        invia({ tipo: 'tour', passo: 0 });
+        e.preventDefault();
         return;
       }
       const c = scenaApi.controlli;
@@ -94,7 +108,7 @@ export function App() {
     };
     addEventListener('keydown', suTasto);
     return () => removeEventListener('keydown', suTasto);
-  }, [stato.scheda, stato.pagina, stato.selezione, stato.percorso, invia, ridotto]);
+  }, [stato.scheda, stato.pagina, stato.selezione, stato.percorso, stato.soglia, stato.tour, invia, ridotto]);
 
   // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta.
   const paginaPrecedente = useRef(stato.pagina);
@@ -111,18 +125,17 @@ export function App() {
   const nome = voce?.nome ?? (u && (ORGANI_PER_ID.get(u.id)?.nome ?? u.nomeFma));
   const annuncio = nome ? `Selezionato: ${nome}` : '';
 
-  if (!supportaWebGL())
-    return (
-      <main className="senza-webgl">
-        <h1>Atlante del corpo umano</h1>
-        <p>Questo browser non supporta la grafica 3D (WebGL 2). Nella versione completa si aprirà l'Indice testuale.</p>
-      </main>
-    );
+  if (!supportaWebGL()) return <AtlanteTestuale />;
 
   return (
-    <div className="atlante" data-pannello={u ? (scheda ? 'scheda' : 'cartellino') : percorso ? 'percorso' : 'no'}>
-      {/* Con una pagina di lettura aperta la vista resta montata ma inerte, e la scena smette di disegnare. */}
-      <div className="vista" inert={!!stato.pagina}>
+    <div
+      className="atlante"
+      data-pannello={u ? (scheda ? 'scheda' : 'cartellino') : percorso ? 'percorso' : 'no'}
+      data-soglia={stato.soglia ? 'si' : undefined}
+    >
+      {/* Con una pagina di lettura aperta la vista resta montata ma inerte, e la scena smette di disegnare.
+          Sotto la soglia la scena continua a disegnare: il corpo si carica e gira dietro il testo. */}
+      <div className="vista" inert={!!stato.pagina || stato.soglia}>
         <Suspense fallback={null}>
           <Scena pronta={pronta} onPronta={onPronta} attiva={!stato.pagina} />
         </Suspense>
@@ -144,7 +157,7 @@ export function App() {
               </button>
             )}
             {VOCI.map((v) =>
-              v.pagina && (v.pagina === 'fonti' || haPagina(v.pagina)) ? (
+              v.pagina && (v.pagina !== 'informazioni' || haPagina(v.pagina)) ? (
                 <button
                   type="button"
                   key={v.nome}
@@ -162,7 +175,7 @@ export function App() {
             )}
           </nav>
         </header>
-        {!pronta && (
+        {!pronta && !stato.soglia && (
           <div className="caricamento" role="status">
             <span>Caricamento del modello 3D</span>
             <span className="caricamento-linea" aria-hidden="true" />
@@ -183,6 +196,8 @@ export function App() {
         </p>
         {CONFIG.misure && <PannelloMisure />}
       </div>
+      {stato.tour !== null && !stato.soglia && !stato.pagina && <Tour />}
+      {stato.soglia && <Soglia pronta={pronta} />}
       {stato.pagina && <Pagina key={stato.pagina} id={stato.pagina} />}
     </div>
   );

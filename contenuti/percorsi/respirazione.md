@@ -26,7 +26,7 @@ revisione: 2026-10-24
 
 ## Un respiro
 
-Respirare vuol dire far entrare l'aria nei polmoni e farla uscire. Un'inspirazione, quando l'aria entra, e un'espirazione, quando esce, formano un ciclo respiratorio [@openstax-ap-22-3].
+Respirare vuol dire far entrare l'aria nei polmoni e farla uscire. Un'[[inspirazione]], quando l'aria entra, e un'[[espirazione]], quando esce, formano un ciclo respiratorio [@openstax-ap-22-3].
 
 Il respiro serve a portare ossigeno ai tessuti del corpo e a eliminare l'anidride carbonica, una sostanza di scarto [@openstax-ap-22-1]. I polmoni sono gli organi principali dell'apparato respiratorio [@nhlbi-polmoni-sistema]. Non possono allargarsi da soli: a far entrare l'aria sono i muscoli, soprattutto il diaframma [@nhlbi-respirazione].
 
@@ -34,17 +34,17 @@ Il respiro serve a portare ossigeno ai tessuti del corpo e a eliminare l'anidrid
 
 L'aria entra dal naso o dalla bocca, che la inumidiscono e la riscaldano [@nhlbi-polmoni-sistema]. Il naso è la via principale di ingresso e di uscita [@openstax-ap-22-1].
 
-Dalla cavità nasale l'aria passa nella faringe, poi nella laringe e infine nella trachea, che scende verso i polmoni. Lungo queste vie l'aria viene riscaldata e inumidita, e il muco trattiene polvere e germi [@openstax-ap-22-1].
+Dalla cavità nasale l'aria passa nella faringe, poi nella laringe e infine nella [[trachea]], che scende verso i polmoni. Lungo queste vie l'aria viene riscaldata e inumidita, e il muco trattiene polvere e germi [@openstax-ap-22-1].
 
 Nel corpo sono evidenziate la trachea e i bronchi, le ossa nasali, che stanno sotto la parte alta del naso, e le conche nasali inferiori, sporgenze ossee delle pareti della cavità nasale [@openstax-ap-22-1].
 
 ## I bronchi
 
-In basso la trachea si divide nei bronchi principali, destro e sinistro, che entrano nei polmoni dall'ilo [@openstax-ap-22-1].
+In basso la trachea si divide nei [[bronchi|bronco]] principali, destro e sinistro, che entrano nei polmoni dall'[[ilo]] [@openstax-ap-22-1].
 
 Dentro i polmoni i bronchi continuano a ramificarsi e formano l'albero bronchiale. Anelli di cartilagine li sostengono e impediscono che si chiudano [@openstax-ap-22-1].
 
-I rami più sottili sono i bronchioli, che non hanno cartilagine [@openstax-ap-22-1]. Finiscono in grappoli di minuscole sacche d'aria, gli alveoli [@nhlbi-polmoni-sistema].
+I rami più sottili sono i [[bronchioli|bronchiolo]], che non hanno cartilagine [@openstax-ap-22-1]. Finiscono in grappoli di minuscole sacche d'aria, gli [[alveoli|alveolo]] [@nhlbi-polmoni-sistema].
 
 ## Inspirazione
 
@@ -56,11 +56,11 @@ Il liquido pleurico fa aderire i polmoni alla parete del torace, che allargandos
 
 ## Negli alveoli
 
-Gli alveoli sono avvolti da una rete di capillari, vasi sanguigni sottilissimi [@nhlbi-polmoni-sistema]. La parete dell'alveolo e quella del capillare formano insieme una membrana molto sottile, che i gas attraversano per semplice diffusione [@openstax-ap-22-1].
+Gli alveoli sono avvolti da una rete di [[capillari|capillare]], vasi sanguigni sottilissimi [@nhlbi-polmoni-sistema]. La parete dell'alveolo e quella del capillare formano insieme una membrana molto sottile, che i gas attraversano per semplice [[diffusione]] [@openstax-ap-22-1].
 
-Il sangue che arriva ai capillari con l'arteria polmonare è povero di ossigeno e ricco di anidride carbonica. L'anidride carbonica passa dal sangue all'aria degli alveoli e, nello stesso momento, l'ossigeno passa dall'aria al sangue [@nhlbi-polmoni-sistema].
+Il sangue che arriva ai capillari con l'[[arteria polmonare|arteria-polmonare]] è povero di ossigeno e ricco di anidride carbonica. L'anidride carbonica passa dal sangue all'aria degli alveoli e, nello stesso momento, l'ossigeno passa dall'aria al sangue [@nhlbi-polmoni-sistema].
 
-Il passaggio non richiede energia: ogni gas si sposta da dove la sua pressione parziale è più alta a dove è più bassa. Il sangue ricco di ossigeno torna al cuore con le vene polmonari [@openstax-ap-22-4].
+Il passaggio non richiede energia: ogni gas si sposta da dove la sua pressione parziale è più alta a dove è più bassa. Il sangue ricco di ossigeno torna al cuore con le [[vene polmonari|vene-polmonari]] [@openstax-ap-22-4].
 
 ## Espirazione
 
