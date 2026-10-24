@@ -4,7 +4,7 @@
 
 - **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata. Restano M4 (serve Blender), M6, M7, M8.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
-- **In sospeso:** conferma in Blender dei polmoni di Z-Anatomy (l'utente installa Blender)
+- **In sospeso:** conferma dell'utente sulla forma e sulla posizione dei polmoni di Z-Anatomy (M4, ispezione del 2026-10-24)
 
 ## 2. Decisioni approvate
 
@@ -54,6 +54,36 @@
 **Z-Anatomy (verifica 2026-10-22):** progetto attivo (ultimo commit 2026-10-21). Pacchetto Z-Anatomy.zip di 87 MB (template Blender) più TA2.csv (1,5 MB, Terminologia Anatomica 2). Ispezionarlo richiede Blender, non installato su questa macchina.
 
 **Ispezione di Z-Anatomy.zip (scaricato il 2026-10-22):** contiene un unico Startup.blend (307 MB, Blender 3.5, file datato 2023-05-02) con circa 7.400 oggetti nominati in inglese secondo la Terminologia Anatomica. Dall'analisi dei nomi degli oggetti (senza Blender) risultano: lobi superiore e inferiore del polmone sinistro, lobi superiore, medio e inferiore del polmone destro, pleura, segmenti broncopolmonari, scissure. Nessun nome italiano nel pacchetto. **Da confermare in Blender:** che questi oggetti siano mesh e che siano allineati al resto del corpo.
+
+**Ispezione in Blender dei polmoni di Z-Anatomy (2026-10-24, Blender 5.2.3 LTS, script `pipeline/esporta-polmoni.py`, script interni del file disattivati):**
+
+*Il file*
+- Z-Anatomy.zip riscaricato dal repository ufficiale (86,7 MB); impronta git verificata uguale a quella pubblicata (f43cabc…).
+- I cinque lobi sono mesh vere, ciascuna con un modificatore di suddivisione e 7.400–9.300 triangoli dopo la suddivisione: lobi superiore, medio e inferiore del polmone destro; superiore e inferiore del sinistro.
+- Le superfici morbide e poco dense fanno pensare a forme modellate a mano dal progetto Z-Anatomy (Gauthier Kervyn), non a dati misurati. È una deduzione: il file non lo dice.
+
+*Licenza*
+- I polmoni non compaiono tra i modelli di terzi che Z-Anatomy dichiara di aver incluso. Quindi ricadono nella licenza del progetto, CC BY-SA 4.0.
+- Due modelli inclusi hanno licenza NonCommercial: l'orecchio interno (CC BY-NC-SA) e un rene (CC BY-NC). **Non vanno mai estratti** (D6).
+
+*Allineamento*
+- Z-Anatomy usa lo stesso corpo di BodyParts3D, con la stessa convenzione destra/sinistra. È però spostato di circa 10 cm in verticale e circa 7 cm in profondità, e ingrandito di circa il 4%. Inoltre molte strutture sono rese simmetriche con una copia specchiata.
+- La trasformazione unica è stata stimata su sette strutture di riferimento: trachea, corpo dello sterno, quinte coste destra e sinistra, clavicola e scapola destre, diaframma.
+  - Valori: scala 0,960, rotazione 0,8°, traslazione (−11,8; −102,1; −17,2) mm.
+  - Scarto residuo medio: 2,4–3,7 mm per struttura.
+
+*Controlli sui polmoni allineati, rispetto a BodyParts3D*
+
+| Struttura | Esito |
+|---|---|
+| Alberi bronchiali segmentali | Il 92,5% dei punti è dentro i polmoni |
+| Coste | Lo 0,9% dei punti è dentro, per al massimo 2 mm |
+| Pareti del cuore | Il 15% dei punti è dentro, per al massimo 8 mm (mediana 1 mm) |
+| Fegato | La cupola entra nella base del polmone destro (mediana 18 mm, massimo 89 mm) |
+
+La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea di contatto pulita. Diventerebbe visibile solo con i polmoni trasparenti.
+
+*Immagini di controllo:* `dati-sorgente/z-anatomy/controllo/`, fuori da git.
 
 **Possibili fonti per i polmoni, ancora da verificare:** Z-Anatomy (stesso corpo di origine, quindi allineamento automatico, se li contiene); dataset TotalSegmentator (CC BY 4.0 secondo fonti secondarie, da confermare sul record Zenodo ufficiale; soggetto diverso, richiede allineamento).
 
@@ -157,3 +187,4 @@
 - **2026-10-24** — Corretto un difetto segnalato dall'utente ("Too many active WebGL contexts", poi "Context Lost"). Il controllo del supporto WebGL creava un contesto di prova a ogni aggiornamento dell'interfaccia e non lo rilasciava mai. Dopo circa 16 contesti il browser chiudeva il più vecchio, quello della scena 3D.
   - Ora il controllo si fa una volta sola e il contesto di prova viene rilasciato subito.
   - Aggiunto un test end-to-end che conta i contesti creati durante l'uso. Con il codice precedente, 30 cambi di strato creavano 30 contesti in più.
+- **2026-10-24** — M4: riscaricato Z-Anatomy, installato Blender (dall'utente), ispezionati e allineati i polmoni. Esito nella sezione 2b; in attesa della conferma dell'utente.
