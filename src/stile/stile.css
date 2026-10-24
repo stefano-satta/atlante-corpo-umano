@@ -1582,7 +1582,7 @@ button {
   background: var(--vetrino);
   color: var(--inchiostro);
   border-top: 3px solid var(--eosina);
-  border-radius: 3px;
+  border-radius: 0 0 3px 3px;
   box-shadow: 0 18px 48px rgb(0 0 0 / 0.45);
   color-scheme: light;
   animation: compare 280ms var(--curva);
@@ -1813,7 +1813,7 @@ span.nome-voce {
   color: var(--inchiostro);
   border: 1px solid var(--vetrino-bordo);
   border-top: 3px solid var(--nucleo);
-  border-radius: 3px;
+  border-radius: 0 0 3px 3px;
   box-shadow: 0 14px 40px rgb(22 19 31 / 0.32);
   font-size: 15px;
   line-height: 1.5;
