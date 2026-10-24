@@ -109,7 +109,7 @@ describe('contenuti reali dell’atlante', () => {
   it('superano il controllo automatico', () => {
     const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
     expect(r.errori).toEqual([]);
-    expect(r.strutture.map((s) => s.id)).toEqual(['cuore', 'diaframma', 'femore']);
+    expect(r.strutture.map((s) => s.id)).toEqual(['cuore', 'diaframma', 'femore', 'polmoni']);
   });
 });
 

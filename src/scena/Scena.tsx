@@ -64,7 +64,7 @@ function Regia({ pronta }: { pronta: boolean }) {
   return null;
 }
 
-/** Proietta il centro della struttura selezionata sullo schermo per la linea di richiamo. */
+/** Proietta il punto di ancoraggio della struttura selezionata sullo schermo per la linea di richiamo. */
 function Richiamo() {
   const { stato } = useAtlante();
   const camera = useThree((s) => s.camera);
@@ -72,7 +72,7 @@ function Richiamo() {
   useFrame(() => {
     const u = stato.selezione ? scenaApi.unita.get(stato.selezione) : undefined;
     if (!u) return aggiornaRichiamo(null);
-    const p = u.box.getCenter(punto.current).project(camera);
+    const p = punto.current.copy(u.ancora).project(camera);
     if (p.z > 1) return aggiornaRichiamo(null);
     aggiornaRichiamo({ x: ((p.x + 1) / 2) * innerWidth, y: ((1 - p.y) / 2) * innerHeight });
   });

@@ -1,6 +1,7 @@
 {
   "ratio": 0.1,
   "ratioPelle": 0.05,
+  "ratioPolmoni": 0.3,
   "errore": 0.01,
   "riepilogo": {
     "ossa": {
@@ -16,10 +17,10 @@
       "kB": 1020
     },
     "organi": {
-      "strutture": 266,
-      "triangoliPrima": 718084,
-      "triangoliDopo": 97544,
-      "kB": 597
+      "strutture": 271,
+      "triangoliPrima": 760228,
+      "triangoliDopo": 110182,
+      "kB": 649
     },
     "pelle": {
       "strutture": 1,

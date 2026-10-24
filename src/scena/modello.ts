@@ -21,6 +21,8 @@ export interface Unita {
   nomeFma: string;
   fma: string | null;
   box: THREE.Box3;
+  /** Punto della superficie a cui arriva la linea di richiamo (vedi `ancoraRichiamo`). */
+  ancora: THREE.Vector3;
 }
 
 const COLORI_STRATO: Record<StratoModello, string> = {
@@ -42,9 +44,41 @@ export function creaUnita(elementi: Elemento[]) {
         nomeFma: e.nome,
         fma: e.fma,
         box: new THREE.Box3(),
+        ancora: new THREE.Vector3(),
       });
   }
   return unita;
+}
+
+/**
+ * Punto della superficie rivolta in avanti più vicino al centro dell'ingombro visto di fronte.
+ * Il centro dell'ingombro non basta: negli organi doppi, come i polmoni, cade nello
+ * spazio fra le due parti, cioè su un'altra struttura.
+ */
+export function ancoraRichiamo(
+  posizioni: ArrayLike<number>,
+  normali: ArrayLike<number>,
+  box: THREE.Box3,
+  ancora: THREE.Vector3,
+) {
+  const c = box.getCenter(new THREE.Vector3());
+  const profondita = box.max.z - box.min.z || 1;
+  // Solo le facce rivolte verso chi guarda (il davanti del corpo è verso +Z); se non ce ne sono, tutte.
+  let soglia = 0.6;
+  if (![...Array(posizioni.length / 3).keys()].some((k) => normali[k * 3 + 2] > soglia)) soglia = -1;
+  let migliore = Number.POSITIVE_INFINITY;
+  for (let i = 0; i < posizioni.length; i += 3) {
+    if (normali[i + 2] <= soglia) continue;
+    const dx = posizioni[i] - c.x;
+    const dy = posizioni[i + 1] - c.y;
+    const dz = (box.max.z - posizioni[i + 2]) / profondita;
+    const punteggio = dx * dx + dy * dy + 0.01 * dz * dz;
+    if (punteggio < migliore) {
+      migliore = punteggio;
+      ancora.set(posizioni[i], posizioni[i + 1], posizioni[i + 2]);
+    }
+  }
+  return ancora;
 }
 
 /**
@@ -59,6 +93,7 @@ export function preparaStrato(
 ): THREE.BufferGeometry | null {
   scena.updateMatrixWorld(true);
   const geometrie: THREE.BufferGeometry[] = [];
+  const parti = new Map<Unita, THREE.BufferGeometry[]>();
   const v = new THREE.Vector3();
   const colore = new THREE.Color();
 
@@ -80,6 +115,7 @@ export function preparaStrato(
     g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
     g.setIndex(new THREE.BufferAttribute(Uint32Array.from(mesh.geometry.index.array), 1));
     g.computeVertexNormals();
+    parti.set(u, [...(parti.get(u) ?? []), g]);
     g.setAttribute('aUnit', new THREE.BufferAttribute(new Float32Array(n).fill(u.indice), 1));
     colore.set(ORGANI_PER_ID.get(u.id)?.colore ?? COLORI_STRATO[el.strato]);
     const col = new Float32Array(n * 3);
@@ -87,6 +123,12 @@ export function preparaStrato(
     g.setAttribute('color', new THREE.BufferAttribute(col, 3));
     geometrie.push(g);
   });
+
+  for (const [u, gs] of parti) {
+    const unione = gs.length > 1 ? mergeGeometries(gs) : gs[0];
+    ancoraRichiamo(unione.getAttribute('position').array, unione.getAttribute('normal').array, u.box, u.ancora);
+    if (unione !== gs[0]) unione.dispose();
+  }
 
   const unita1 = mergeGeometries(geometrie);
   for (const g of geometrie) g.dispose();

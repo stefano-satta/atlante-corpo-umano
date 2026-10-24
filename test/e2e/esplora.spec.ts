@@ -191,3 +191,23 @@ test("l'uso prolungato non crea nuovi contesti WebGL e la scena resta viva", asy
   expect(await page.evaluate(() => (window as unknown as { contesti: number }).contesti)).toBe(iniziali);
   expect(avvisi).toEqual([]);
 });
+
+test('i polmoni si selezionano, hanno il loro testo e si raggiungono dal cuore', async ({ page }) => {
+  await page.goto('/esplora/cuore');
+  await attendiScena(page);
+  const pannello = page.getByRole('complementary');
+  await pannello.getByRole('link', { name: 'Polmoni', exact: true }).click();
+  await expect(page).toHaveURL(/\/esplora\/polmoni$/);
+  await expect(pannello.getByRole('heading', { name: 'Polmoni' })).toBeVisible();
+  await expect(pannello.getByText(/principali organi dell'apparato respiratorio/)).toBeVisible();
+  await expect(pannello.getByRole('link', { name: /TA2 3265/ })).toHaveAttribute(
+    'href',
+    'https://ta2viewer.openanatomy.org/?id=3265',
+  );
+  await expect(page.locator('svg.richiamo')).toHaveAttribute('data-visibile', 'si');
+  await accessibilita(page);
+  await pannello.getByRole('button', { name: 'Apri la scheda' }).click();
+  for (const titolo of ['Dove si trova', 'Come è fatto', 'Cosa fa'])
+    await expect(page.getByRole('heading', { name: titolo })).toBeVisible();
+  await accessibilita(page);
+});

@@ -1,9 +1,10 @@
 import { useLayoutEffect } from 'react';
 import { misure } from '../app/misure';
 import { useAtlante } from '../app/stato';
-import { contenutoDi, urlTa2, useStruttura } from '../contenuti/contenuti';
+import { contenutoDi, STRUTTURE, urlTa2, useStruttura } from '../contenuti/contenuti';
 import { NOMI_APPARATI, ORGANI_PER_ID } from '../contenuti/organi';
 import type { Relazione, Struttura } from '../contenuti/tipi';
+import { scenaApi } from '../scena/api';
 import type { Unita } from '../scena/modello';
 import { ElencoFonti, Testo } from './Fonti';
 import { IconaAvanti, IconaChiudi } from './icone';
@@ -17,11 +18,37 @@ export function appartenenza(u: Unita) {
   return organo ? NOMI_APPARATI[organo.apparato] : FA_PARTE_DI[u.strato as keyof typeof FA_PARTE_DI];
 }
 
-/** Nome di una struttura collegata, con il numero della fonte che documenta il collegamento. */
+/** Unità del modello 3D che mostra un contenuto: l'organo per gruppo, altrimenti l'osso o il muscolo per FMA. */
+function unitaDelContenuto(id: string) {
+  const voce = STRUTTURE.find((s) => s.id === id);
+  if (!voce) return undefined;
+  if (voce.elementi3d.gruppo) return scenaApi.unita.has(voce.elementi3d.gruppo) ? voce.elementi3d.gruppo : undefined;
+  for (const u of scenaApi.unita.values()) if (u.fma && voce.elementi3d.fma.includes(u.fma)) return u.id;
+  return undefined;
+}
+
+/**
+ * Nome di una struttura collegata, con il numero della fonte che documenta il collegamento.
+ * Se la struttura ha un contenuto ed è nel modello, il nome la seleziona nel corpo (D18).
+ */
 export function NomeRelazione({ relazione: r }: { relazione: Relazione }) {
+  const { invia } = useAtlante();
+  const unita = r.conContenuto ? unitaDelContenuto(r.id) : undefined;
   return (
     <>
-      {r.nome}
+      {unita ? (
+        <a
+          href={`/esplora/${unita}`}
+          onClick={(e) => {
+            e.preventDefault();
+            invia({ tipo: 'seleziona', id: unita });
+          }}
+        >
+          {r.nome}
+        </a>
+      ) : (
+        r.nome
+      )}
       {r.fonte && (
         <sup className="rimando">
           <span className="solo-lettori">fonte </span>

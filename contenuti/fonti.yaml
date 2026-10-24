@@ -25,6 +25,14 @@ nhlbi-cuore-battito:
   url: https://www.nhlbi.nih.gov/health/heart/heart-beats
   consultata: 2026-10-22
 
+nhlbi-polmoni-sistema:
+  tipo: istituzionale
+  titolo: "How the Lungs Work: The Respiratory System"
+  ente: National Heart, Lung, and Blood Institute (NHLBI), National Institutes of Health
+  aggiornata: 2022-03-24
+  url: https://www.nhlbi.nih.gov/health/lungs/respiratory-system
+  consultata: 2026-10-24
+
 nhlbi-respirazione:
   tipo: istituzionale
   titolo: "How the Lungs Work: How Your Body Controls Breathing"
@@ -87,6 +95,15 @@ openstax-ap-13-4:
   anno: 2022
   url: https://openstax.org/books/anatomy-and-physiology-2e/pages/13-4-the-peripheral-nervous-system
   consultata: 2026-10-22
+
+openstax-ap-22-2:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 22.2 The Lungs"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/22-2-the-lungs
+  consultata: 2026-10-24
 
 openstax-ap-22-3:
   tipo: manuale

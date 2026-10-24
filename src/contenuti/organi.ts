@@ -53,6 +53,8 @@ export const ORGANI: Organo[] = [
     apparato: 'respiratorio',
     colore: '#cfc4b6',
   },
+  // Polmoni da Z-Anatomy (M4): rosa tenue, distinto dal cuore e lontano da rosso e blu dei vasi.
+  { id: 'polmoni', nome: 'Polmoni', termine: 'pulmones', apparato: 'respiratorio', colore: '#c99ea4' },
 ];
 
 export const ORGANI_PER_ID = new Map(ORGANI.map((o) => [o.id, o]));

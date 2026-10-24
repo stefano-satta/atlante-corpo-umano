@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useRef } from 'react';
 import { type IdPagina, useAtlante } from '../app/stato';
-import { dataEstesa, STRUTTURE, useFonti, usePagina } from '../contenuti/contenuti';
+import { dataEstesa, haPagina, STRUTTURE, useFonti, usePagina } from '../contenuti/contenuti';
 import type { FonteCitata } from '../contenuti/tipi';
 import { Riferimento, Testo } from '../pannello/Fonti';
 import { IconaIndietro } from '../pannello/icone';
@@ -8,6 +8,8 @@ import { IconaIndietro } from '../pannello/icone';
 /** Collegamento interno a una pagina di lettura, senza ricaricare l'atlante. */
 export function LinkPagina({ pagina, children }: { pagina: IdPagina; children: ReactNode }) {
   const { invia } = useAtlante();
+  // Una pagina non ancora approvata manca dalla build di produzione: resta il testo, senza collegamento.
+  if (pagina !== 'fonti' && !haPagina(pagina)) return <>{children}</>;
   return (
     <a
       href={`/${pagina}`}

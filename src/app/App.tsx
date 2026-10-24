@@ -157,7 +157,8 @@ export function App() {
         <footer className="piede">
           <p>Versione in sviluppo: alcuni nomi e testi sono in preparazione.</p>
           <p>
-            Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0. Modelli derivati CC BY-SA 4.0.
+            Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni: Z-Anatomy, CC BY-SA 4.0.
+            Modelli derivati CC BY-SA 4.0.
           </p>
         </footer>
         <p className="solo-lettori" aria-live="polite">

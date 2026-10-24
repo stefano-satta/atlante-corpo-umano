@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import '../../test/ambiente-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { Box3 } from 'three';
+import { Box3, Vector3 } from 'three';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { ProviderAtlante } from '../app/stato';
 import { scenaApi } from '../scena/api';
@@ -9,7 +9,16 @@ import { Pannello } from './Pannello';
 
 beforeAll(() => {
   const box = new Box3();
-  scenaApi.unita.set('cuore', { indice: 1, id: 'cuore', strato: 'organi', nomeFma: 'Heart', fma: 'FMA7088', box });
+  const ancora = new Vector3();
+  scenaApi.unita.set('cuore', {
+    indice: 1,
+    id: 'cuore',
+    strato: 'organi',
+    nomeFma: 'Heart',
+    fma: 'FMA7088',
+    box,
+    ancora,
+  });
   scenaApi.unita.set('FJ3259', {
     indice: 2,
     id: 'FJ3259',
@@ -17,8 +26,17 @@ beforeAll(() => {
     nomeFma: 'Left femur',
     fma: 'FMA24475',
     box,
+    ancora,
   });
-  scenaApi.unita.set('FJ1', { indice: 3, id: 'FJ1', strato: 'muscoli', nomeFma: 'Left biceps', fma: 'FMA1', box });
+  scenaApi.unita.set('FJ1', {
+    indice: 3,
+    id: 'FJ1',
+    strato: 'muscoli',
+    nomeFma: 'Left biceps',
+    fma: 'FMA1',
+    box,
+    ancora,
+  });
 });
 
 const apri = (percorso: string) => {

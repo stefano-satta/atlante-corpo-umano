@@ -25,6 +25,13 @@ describe('classifica', () => {
     expect(classifica('C', 'Left superior frontal gyrus', ossa, muscoli)?.gruppo).toBe('encefalo');
   });
 
+  it('riunisce i cinque lobi di Z-Anatomy nei polmoni, senza confonderli con le loro parti', () => {
+    for (const lobo of ['Superior', 'Middle', 'Inferior'])
+      expect(classifica('Z', `${lobo} lobe of right lung`, ossa, muscoli)?.gruppo).toBe('polmoni');
+    expect(classifica('Z', 'Inferior lobe of left lung', ossa, muscoli)?.gruppo).toBe('polmoni');
+    expect(classifica('Z', 'Apical segment of right lung (SI)', ossa, muscoli)).toBeNull();
+  });
+
   it('esclude vasi e nervi anche se il nome cita un organo', () => {
     expect(classifica('D', 'Branch of left middle cerebral artery to left angular gyrus', ossa, muscoli)).toBeNull();
   });

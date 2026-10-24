@@ -2,9 +2,9 @@
 
 ## 1. Stato del progetto
 
-- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata. Restano M4 (serve Blender), M6, M7, M8.
+- **Fase corrente:** Fase 7 — Implementazione incrementale. M1, M2 e M3 completate e approvate; M5 Ciclo cardiaco completata e approvata; M4 Polmoni implementata, in attesa dell'approvazione dei testi. Restano M6, M7, M8.
 - **Fasi completate:** Fasi 0–6 (tutte il 2026-10-22)
-- **In sospeso:** conferma dell'utente sulla forma e sulla posizione dei polmoni di Z-Anatomy (M4, ispezione del 2026-10-24)
+- **In sospeso:** approvazione del testo dei polmoni e della nuova versione della pagina Informazioni (M4); entrambi in stato "verificato", quindi fuori dalla build di produzione
 
 ## 2. Decisioni approvate
 
@@ -188,3 +188,17 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - Ora il controllo si fa una volta sola e il contesto di prova viene rilasciato subito.
   - Aggiunto un test end-to-end che conta i contesti creati durante l'uso. Con il codice precedente, 30 cambi di strato creavano 30 contesti in più.
 - **2026-10-24** — M4: riscaricato Z-Anatomy, installato Blender (dall'utente), ispezionati e allineati i polmoni. Esito nella sezione 2b; in attesa della conferma dell'utente.
+- **2026-10-24** — L'utente conferma forma e posizione dei polmoni.
+- **2026-10-24** — M4 implementata:
+  - **Pipeline:** `npm run modelli:polmoni` scarica Z-Anatomy, ne controlla l'impronta, esporta e allinea i lobi in Blender; `prepara-modelli.mjs` li aggiunge allo strato Organi come gruppo `polmoni`.
+  - **Testo dei polmoni:** cartellino e scheda (In breve, Dove si trova, Come è fatto, Cosa fa), con due fonti nuove lette il 2026-10-24: NHLBI "The Respiratory System" e OpenStax 22.2. Termine *pulmones* verificato nel visualizzatore TA2 (numero 3265). Il testo è in stato "verificato".
+  - **Pagina Informazioni:** aggiornata (origine dei polmoni e crediti di Z-Anatomy) e riportata in stato "verificato" fino all'approvazione. Nel frattempo manca dalla build di produzione.
+  - **Licenze:** LICENZE.md dei modelli e piè di pagina citano Z-Anatomy (CC BY-SA 4.0) da subito, perché il modello 3D dei polmoni è già incluso.
+- **2026-10-24** — Decisioni minori della M4:
+  - colore dei polmoni #c99ea4, rosa tenue distinto dal cuore e lontano da rosso e blu dei vasi;
+  - lobi semplificati al 30% e non al 10%, perché sono già superfici leggere. Pesano 52 kB in più su organi.glb, sotto il limite di 150 kB del piano;
+  - la linea di richiamo arriva a un punto della superficie rivolta verso chi guarda, vicino al centro della struttura, e non più al centro dell'ingombro: nei polmoni il centro cadeva sul cuore;
+  - nei cartellini e nelle schede, un collegamento verso una struttura che ha un testo è un link che la seleziona nel corpo (completa D18);
+  - il link alla pagina Informazioni nelle schede diventa testo semplice se la pagina non è pubblicata;
+  - i test della pubblicazione fissano gli stati dei contenuti nella copia di prova, così non dipendono da quali testi sono approvati.
+

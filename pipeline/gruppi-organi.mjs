@@ -1,6 +1,6 @@
 // Raggruppa gli elementi di BodyParts3D negli organi selezionabili del prototipo,
 // in base al nome inglese (FMA) riportato nell'intestazione di ogni OBJ.
-// I polmoni mancano in BodyParts3D: arriveranno da Z-Anatomy.
+// I polmoni mancano in BodyParts3D: arrivano da Z-Anatomy (esporta-polmoni.py), un lobo per file.
 
 export const GRUPPI_ORGANI = [
   {
@@ -29,4 +29,5 @@ export const GRUPPI_ORGANI = [
     elementi:
       /^(Trachea|Left main bronchus|Right main bronchus proper|.*segmental bronchial tree|.*lingular bronchial tree)$/,
   },
+  { id: 'polmoni', elementi: /^(Superior|Middle|Inferior) lobe of (right|left) lung$/ },
 ];

@@ -4,20 +4,22 @@
 //
 // Opzioni: --bp3d <cartella> (predefinita dati-sorgente/bodyparts3d, che deve
 // contenere isa_element_parts.txt e la sottocartella isa_BP3D_4.0_obj_99/),
-// --obj <cartella degli OBJ>, --ratio 0.1 (D13), --out public/modelli.
+// --obj <cartella degli OBJ>, --ratio 0.1 (D13), --out public/modelli,
+// --polmoni <cartella> (predefinita dati-sorgente/z-anatomy/polmoni, prodotta da
+// npm run modelli:polmoni), --ratio-polmoni 0.3.
 //
 // Produce un file .glb per strato (ossa, muscoli, organi, pelle) e strutture.json
 // con i metadati di ogni struttura (classificazione e coordinate: classifica.mjs).
 //
 // Licenza dei dati di origine: BodyParts3D, © The Database Center for Life Science,
-// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP). I modelli derivati
-// sono distribuiti con licenza CC BY-SA 4.0.
+// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni da Z-Anatomy,
+// CC BY-SA 4.0. I modelli derivati sono distribuiti con licenza CC BY-SA 4.0.
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { Document, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
-import { meshopt, prune, simplify, weld } from '@gltf-transform/functions';
+import { meshopt, prune, simplifyPrimitive, weld } from '@gltf-transform/functions';
 import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
 import { classifica, convertiVertice } from './classifica.mjs';
 
@@ -32,9 +34,17 @@ const ratioPelle = Number(arg('ratio-pelle', String(ratio / 2)));
 const errore = Number(arg('errore', '0.01'));
 const uscita = arg('out', 'public/modelli');
 const cartellaObj = arg('obj', path.join(cartella, 'isa_BP3D_4.0_obj_99'));
-if (!fs.existsSync(cartellaObj)) {
-  console.error(`Mancano i dati di BodyParts3D in ${cartellaObj}: eseguire prima npm run modelli:scarica`);
-  process.exit(1);
+// I polmoni di Z-Anatomy sono già semplici superfici suddivise: si riducono meno degli OBJ di BodyParts3D.
+const cartellaPolmoni = arg('polmoni', 'dati-sorgente/z-anatomy/polmoni');
+const ratioPolmoni = Number(arg('ratio-polmoni', '0.3'));
+for (const [cartellaDati, comando] of [
+  [cartellaObj, 'npm run modelli:scarica'],
+  [cartellaPolmoni, 'npm run modelli:polmoni'],
+]) {
+  if (!fs.existsSync(cartellaDati)) {
+    console.error(`Mancano i dati in ${cartellaDati}: eseguire prima ${comando}`);
+    process.exit(1);
+  }
 }
 
 // Legge solo l'intestazione di un OBJ per ricavarne nome e concetto FMA.
@@ -49,8 +59,8 @@ function leggiIntestazione(id) {
   return { nome, fma };
 }
 
-function leggiObj(id) {
-  const righe = fs.readFileSync(path.join(cartellaObj, `${id}.obj`), 'utf8').split('\n');
+function leggiObj(file) {
+  const righe = fs.readFileSync(file, 'utf8').split('\n');
   const posizioni = [];
   const indici = [];
   for (const riga of righe) {
@@ -102,6 +112,19 @@ for (const id of tutti) {
   const c = classifica(id, nome, ossa, muscoli);
   if (c) strutture.push({ id, nome, fma, ...c });
 }
+const fileObj = new Map(strutture.map((s) => [s.id, path.join(cartellaObj, `${s.id}.obj`)]));
+
+// Polmoni di Z-Anatomy, già allineati alle coordinate di BodyParts3D da esporta-polmoni.py.
+// Non hanno un identificativo FMA nel file di origine: il campo resta vuoto.
+for (const f of fs.readdirSync(cartellaPolmoni).filter((f) => f.endsWith('.obj'))) {
+  const file = path.join(cartellaPolmoni, f);
+  const nome = /# English name : (.+)/.exec(fs.readFileSync(file, 'utf8').slice(0, 1000))?.[1].trim();
+  const c = nome && classifica(f, nome, new Set(), new Set());
+  if (c?.gruppo !== 'polmoni') throw new Error(`${f}: lobo polmonare non riconosciuto (${nome})`);
+  const id = `ZA-${f.slice(0, -4).toLowerCase().replaceAll('_', '-')}`;
+  strutture.push({ id, nome, fma: null, ...c });
+  fileObj.set(id, file);
+}
 
 fs.mkdirSync(uscita, { recursive: true });
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.encoder': MeshoptEncoder });
@@ -115,7 +138,7 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle']) {
   const scena = doc.createScene(strato);
   let triangoliPrima = 0;
   for (const s of strutture.filter((s) => s.strato === strato)) {
-    const { posizioni, indici } = leggiObj(s.id);
+    const { posizioni, indici } = leggiObj(fileObj.get(s.id));
     triangoliPrima += indici.length / 3;
     const prim = doc
       .createPrimitive()
@@ -124,12 +147,13 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle']) {
     const mesh = doc.createMesh(s.id).addPrimitive(prim);
     scena.addChild(doc.createNode(s.id).setMesh(mesh));
   }
-  await doc.transform(
-    weld(),
-    simplify({ simplifier: MeshoptSimplifier, ratio: strato === 'pelle' ? ratioPelle : ratio, error: errore }),
-    prune(),
-    meshopt({ encoder: MeshoptEncoder, level: 'medium' }),
-  );
+  await doc.transform(weld());
+  for (const m of doc.getRoot().listMeshes()) {
+    const r = strato === 'pelle' ? ratioPelle : m.getName().startsWith('ZA-') ? ratioPolmoni : ratio;
+    for (const p of m.listPrimitives())
+      simplifyPrimitive(p, { simplifier: MeshoptSimplifier, ratio: r, error: errore });
+  }
+  await doc.transform(prune(), meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
   let triangoliDopo = 0;
   for (const m of doc.getRoot().listMeshes())
     for (const p of m.listPrimitives()) triangoliDopo += p.getIndices().getCount() / 3;
@@ -146,6 +170,6 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle']) {
 fs.writeFileSync(path.join(uscita, 'strutture.json'), JSON.stringify(strutture));
 fs.writeFileSync(
   path.join(uscita, 'riepilogo.json'),
-  JSON.stringify({ ratio, ratioPelle, errore, riepilogo }, null, 2),
+  JSON.stringify({ ratio, ratioPelle, ratioPolmoni, errore, riepilogo }, null, 2),
 );
 console.table(riepilogo);
