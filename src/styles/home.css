@@ -1,0 +1,151 @@
+/* Soglia d'ingresso (D26): sopra la scena, che si carica e gira dietro il testo. */
+.home {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 32px;
+  padding: calc(32px + env(safe-area-inset-top, 0px)) 32px calc(24px + env(safe-area-inset-bottom, 0px)) max(32px, 7vw);
+  overflow-y: auto;
+  background: linear-gradient(90deg, rgb(22 19 31 / 0.95) 0%, rgb(22 19 31 / 0.82) 36%, rgb(22 19 31 / 0) 64%);
+}
+.home-column {
+  align-self: center;
+  max-width: 34rem;
+  animation: fade-in 700ms var(--ease-out);
+}
+.home-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 22px;
+  font-size: 16px;
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+  color: var(--eosin-room);
+}
+/* Il segno del vetrino: una linea corta prima del nome, come l'etichetta di un preparato. */
+.home-brand::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: currentColor;
+}
+.home h1 {
+  margin: 0 0 24px;
+  font: 600 clamp(46px, 5.4vw, 82px) / 0.98 var(--font-display);
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.home-intro {
+  max-width: 31rem;
+  margin: 0 0 36px;
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--room-muted);
+}
+.home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 12px;
+}
+.home .action {
+  margin: 0;
+  padding: 0 22px;
+  min-height: 56px;
+  font-size: 16px;
+}
+.home-explore[aria-disabled="true"] {
+  background: var(--room-high);
+  color: var(--room-muted);
+  cursor: progress;
+}
+.home-path {
+  display: grid;
+  align-content: center;
+  gap: 3px;
+  min-height: 56px;
+  padding: 8px 20px;
+  background: none;
+  border: 1px solid var(--room-border);
+  border-radius: 3px;
+  text-align: left;
+  transition:
+    border-color 180ms ease-out,
+    background-color 180ms ease-out;
+}
+.home-path:hover {
+  border-color: var(--eosin-room);
+  background: var(--room-raised);
+}
+.home-path-name {
+  font-weight: 700;
+  line-height: 1.1;
+}
+.home-path-detail {
+  font-size: 13px;
+  color: var(--room-muted);
+}
+.home-status {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 21px;
+  margin: 16px 0 0;
+  font-size: 14px;
+  color: var(--room-dim);
+}
+.home-status .loading-bar {
+  width: 56px;
+}
+.home-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  margin-top: 40px;
+  padding-top: 18px;
+  border-top: 1px solid var(--room-border);
+}
+.home-links .nav-item {
+  color: var(--room-muted);
+}
+.home-links .nav-item:hover {
+  color: var(--room-text);
+}
+.home-footer {
+  max-width: 62ch;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--room-dim);
+}
+.home-note {
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .home {
+    padding: calc(24px + env(safe-area-inset-top, 0px)) 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(0deg, rgb(22 19 31 / 0.97) 0%, rgb(22 19 31 / 0.88) 52%, rgb(22 19 31 / 0.1) 82%);
+  }
+  .home-column {
+    align-self: end;
+  }
+  .home h1 {
+    font-size: clamp(38px, 11vw, 48px);
+    margin-bottom: 16px;
+  }
+  .home-intro {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+  .home-actions > * {
+    flex: 1 1 100%;
+  }
+  .home-links {
+    margin-top: 24px;
+  }
+}

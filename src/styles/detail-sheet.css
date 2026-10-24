@@ -1,0 +1,88 @@
+/* Scheda organo: il pannello si allarga */
+.detail-sheet {
+  min-height: 100%;
+  animation: fade-in 360ms var(--ease-out) 80ms backwards;
+}
+.sheet-header {
+  display: grid;
+  gap: 4px;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 48px 12px;
+}
+.detail-sheet .name {
+  font-size: clamp(44px, 5vw, 72px);
+  margin: 20px 0 4px;
+}
+.sheet-toc {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 20px;
+  padding: 12px 48px;
+  background: var(--slide);
+  border-bottom: 1px solid var(--slide-border);
+}
+.sheet-toc a {
+  padding: 2px 0;
+  font-size: 15px;
+  color: var(--nucleus);
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+.sheet-toc a:hover {
+  text-decoration: underline;
+}
+.sheet-body {
+  display: grid;
+  gap: 40px;
+  max-width: 70ch;
+  padding: 24px 48px 80px;
+}
+.sheet-body section {
+  scroll-margin-top: 64px;
+}
+.sheet-body h2 {
+  margin: 0 0 14px;
+  font: 600 27px / 1.15 var(--font-display);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.015em;
+}
+.links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.links .label {
+  display: inline-block;
+  min-width: 112px;
+  color: var(--ink-muted);
+}
+.sheet-body .text {
+  margin-top: 0;
+}
+.sheet-body h3 {
+  margin: 24px 0 6px;
+  font-size: 16px;
+}
+.sheet-body .notes,
+.revision {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+.revision {
+  margin-top: 20px;
+}
+
+@media (max-width: 760px) {
+  .sheet-header,
+  .sheet-body,
+  .sheet-toc {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

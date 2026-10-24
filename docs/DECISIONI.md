@@ -263,3 +263,9 @@ La compenetrazione con il fegato resta nascosta: dall'esterno si vede una linea 
   - l'avviso grigio su fondo grigio aveva contrasto insufficiente: il testo ora è in inchiostro pieno.
 - **2026-10-24** — Angoli superiori squadrati sotto la barra d'accento della guida e della definizione del glossario (correzione visiva).
 - **2026-10-24** — Registrata D27: glossario approvato (25 voci) e incluso nella build di produzione. M7 completata.
+- **2026-10-24** — Riorganizzazione del codice di `src/` con nomi inglesi, senza cambiare il comportamento:
+  - cartelle `pages/`, `components/common/`, `components/features/<area>/`, `contexts/`, `hooks/`, `models/`, `utils/`, `styles/`, al posto di `app/`, `scena/`, `esplora/`, `pannello/`, `indice/`, `glossario/`, `contenuti/`, `stile/`…; alias `@/` per `src/`;
+  - nomi di file, componenti, funzioni e variabili in inglese; commenti e testi restano in italiano, la pipeline (`pipeline/`, `contenuti/`) resta in italiano;
+  - un foglio di stile per area in `src/styles/` (token in `tokens.css`) al posto di `stile.css`; segno del glossario `glossary-term`/`data-term` e classi `citation`/`visually-hidden`;
+  - `test/ambiente-dom.ts` → `test/dom-setup.ts`, `test/e2e/esplora.spec.ts` → `test/e2e/atlas.spec.ts`;
+  - `CLAUDE.md` aggiornato alla nuova struttura. Verifica: build, 71 test unitari e di componente, Biome senza errori.

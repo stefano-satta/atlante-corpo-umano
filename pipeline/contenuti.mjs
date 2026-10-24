@@ -134,7 +134,7 @@ function numeratore(fonti, errore) {
     testo.replace(GRUPPO_CITAZIONI, (gruppo) => {
       const numeri = [...gruppo.matchAll(CITAZIONE)].map((m) => numero(m[1]));
       const link = numeri.map((n) => `<a href="#fonte-${n}">${n}</a>`).join(', ');
-      return `<sup class="rimando"><span class="solo-lettori">fonti </span>${link}</sup>`;
+      return `<sup class="citation"><span class="visually-hidden">fonti </span>${link}</sup>`;
     });
   const elenco = () => ordine.map((id, i) => ({ n: i + 1, id, ...fonti[id] }));
   return { ordine, numero, rimandi, elenco };
@@ -157,7 +157,7 @@ function segniGlossario(voci, errore) {
 const marcaGlossario = (html) =>
   html.replace(
     /<a href="\/indice#glossario-([a-z0-9-]+)">/g,
-    '<a class="glossario" href="/indice#glossario-$1" data-glossario="$1">',
+    '<a class="glossary-term" href="/indice#glossario-$1" data-term="$1">',
   );
 
 function controllaFonte(id, f, errore) {

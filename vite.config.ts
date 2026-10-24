@@ -4,4 +4,6 @@ import { contenuti } from './pipeline/plugin-contenuti.mjs';
 
 export default defineConfig({
   plugins: [react(), contenuti()],
+  // '@/…' indica la cartella src, come in tsconfig.json.
+  resolve: { alias: { '@': '/src' } },
 });

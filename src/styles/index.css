@@ -1,0 +1,21 @@
+/*
+ * Fogli di stile dell'atlante, nell'ordine in cui si applicano: prima token e regole generali,
+ * poi un foglio per area dell'interfaccia. A parità di specificità vince il foglio importato dopo.
+ */
+@import "./tokens.css";
+@import "./base.css";
+@import "./controls.css";
+@import "./atlas.css";
+@import "./top-bar.css";
+@import "./toolbar.css";
+@import "./callout.css";
+@import "./panel.css";
+@import "./content.css";
+@import "./detail-sheet.css";
+@import "./reading-page.css";
+@import "./cardiac-cycle.css";
+@import "./guided-path.css";
+@import "./home.css";
+@import "./tour.css";
+@import "./atlas-index.css";
+@import "./glossary.css";

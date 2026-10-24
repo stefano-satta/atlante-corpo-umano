@@ -235,7 +235,7 @@ alveolo:
     expect(r.errori).toEqual([]);
     expect(r.glossario[0]).toMatchObject({ id: 'alveolo', html: 'Piccola sacca d&#39;aria.', fonti: [{ id: 'a' }] });
     expect(r.strutture[0].sezioni[0].html).toContain(
-      'Gli <a class="glossario" href="/indice#glossario-alveolo" data-glossario="alveolo">alveoli</a>',
+      'Gli <a class="glossary-term" href="/indice#glossario-alveolo" data-term="alveolo">alveoli</a>',
     );
     expect(r.fonti.find((f) => f.id === 'a').citataDa).toContainEqual({ id: 'glossario/alveolo', nome: 'glossario' });
   });

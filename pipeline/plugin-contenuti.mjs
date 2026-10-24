@@ -27,7 +27,7 @@ export function senzaVociMancanti(valore, pubblicate) {
       k,
       k === 'html' && typeof v === 'string'
         ? v.replace(
-            /<a class="glossario" href="[^"]*" data-glossario="([a-z0-9-]+)">([\s\S]*?)<\/a>/g,
+            /<a class="glossary-term" href="[^"]*" data-term="([a-z0-9-]+)">([\s\S]*?)<\/a>/g,
             (tutto, id, testo) => (pubblicate.has(id) ? tutto : testo),
           )
         : senzaVociMancanti(v, pubblicate),

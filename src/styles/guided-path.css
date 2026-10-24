@@ -1,0 +1,244 @@
+/* Percorso guidato nel pannello (D24) */
+.guided-path {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 32px calc(28px + env(safe-area-inset-bottom, 0px));
+  animation: fade-in 280ms var(--ease-out);
+}
+.path-count {
+  margin: 20px 0 0;
+}
+.guided-path .name {
+  margin-top: 4px;
+}
+.guided-path .text p {
+  margin: 0 0 12px;
+}
+.path-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 12px;
+  padding-top: 18px;
+  border-top: 1px solid var(--slide-border);
+}
+.path-controls .action {
+  margin: 0;
+}
+.path-steps {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.path-steps button {
+  min-width: 34px;
+  height: 34px;
+  border: 1px solid var(--slide-border);
+  border-radius: 2px;
+  background: none;
+  color: var(--ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  transition: background-color 180ms ease-out;
+}
+.path-steps button:hover {
+  background: var(--slide-veil);
+}
+.path-steps button[aria-current="step"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--slide);
+}
+.cycle.breathing {
+  margin: 18px 0 4px;
+}
+
+/* Schemi del respiro: torace e alveolo */
+.breathing-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  --air: #cfc4b6;
+  --bone: #d9d2c5;
+  --muscle: #c96b5f;
+  font-family: var(--font-text);
+}
+.breathing-diagram .labels text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.breathing-diagram .labels .minor {
+  fill: var(--room-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+.breathing-diagram .orientation {
+  fill: var(--room-muted);
+  font-size: 12px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.breathing-diagram .arrowhead {
+  fill: var(--slide);
+}
+.chest-diagram .lung {
+  fill: #c99ea4;
+  stroke: var(--room-text);
+  stroke-width: 1.5;
+}
+.chest-diagram .lungs,
+.chest-diagram .diaphragm,
+.chest-diagram .ribs {
+  transform-box: view-box;
+  transition: transform 1600ms cubic-bezier(0.45, 0, 0.25, 1);
+}
+.chest-diagram .lungs {
+  transform-origin: 180px 64px;
+}
+.chest-diagram .airways path {
+  fill: none;
+  stroke: var(--air);
+  stroke-linecap: round;
+  stroke-width: 12;
+}
+.chest-diagram .airways .bronchi {
+  stroke-width: 8;
+}
+.chest-diagram .ribs path {
+  fill: none;
+  stroke: var(--bone);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+.chest-diagram .ribs-right {
+  transform-origin: 172px 140px;
+}
+.chest-diagram .ribs-left {
+  transform-origin: 188px 140px;
+}
+.chest-diagram .diaphragm {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 7;
+  stroke-linecap: round;
+  transform-origin: 180px 254px;
+}
+/* Inspirazione: il diaframma si abbassa e si appiattisce, le costole salgono e si allargano, i polmoni seguono. */
+.chest-diagram[data-phase="inhale"] .diaphragm {
+  transform: translateY(14px) scaleY(0.62);
+}
+.chest-diagram[data-phase="inhale"] .lungs {
+  transform: scale(1.05, 1.06);
+}
+.chest-diagram[data-phase="inhale"] .ribs-right {
+  transform: translateX(-7px) rotate(5deg);
+}
+.chest-diagram[data-phase="inhale"] .ribs-left {
+  transform: translateX(7px) rotate(-5deg);
+}
+.breathing-diagram .arrows path,
+.alveolus-diagram .gas {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.chest-diagram .arrows {
+  opacity: 0;
+  transition: opacity 320ms ease-out;
+}
+.chest-diagram[data-phase="inhale"] .arrows-inhale,
+.chest-diagram[data-phase="exhale"] .arrows-exhale {
+  opacity: 0.95;
+}
+.alveolus-diagram .bronchiole {
+  fill: none;
+  stroke: var(--air);
+  stroke-width: 22;
+}
+.alveolus-diagram .alveolus {
+  fill: rgb(207 196 182 / 0.16);
+  stroke: var(--air);
+  stroke-width: 2.5;
+}
+.alveolus-diagram .capillary {
+  fill: none;
+  stroke: url(#capillary-blood);
+  stroke-width: 20;
+  stroke-linecap: round;
+}
+.alveolus-diagram .stop-poor {
+  stop-color: var(--blood-poor);
+}
+.alveolus-diagram .stop-rich {
+  stop-color: var(--blood-rich);
+}
+.alveolus-diagram .current {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2;
+  stroke-dasharray: 6 8;
+  opacity: 0.8;
+}
+.alveolus-diagram .gas {
+  stroke-width: 3;
+  stroke-dasharray: 5 5;
+}
+.alveolus-diagram .oxygen,
+.swatch.oxygen {
+  stroke: var(--gas-oxygen);
+  background: var(--gas-oxygen);
+}
+.alveolus-diagram .co2,
+.swatch.co2 {
+  stroke: var(--gas-co2);
+  background: var(--gas-co2);
+}
+.alveolus-diagram .arrowhead-oxygen {
+  fill: var(--gas-oxygen);
+}
+.alveolus-diagram .arrowhead-co2 {
+  fill: var(--gas-co2);
+}
+.breathing {
+  --gas-oxygen: #8fd3c3;
+  --gas-co2: #e3b45c;
+}
+/* La fase del respiro sta nell'angolo in basso a sinistra, lontana da diaframma e frecce. */
+.cycle-badge.phase-badge {
+  left: 0;
+  bottom: 0;
+  transform: none;
+}
+.path-controls {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  padding-bottom: 14px;
+  background: var(--slide);
+}
+.cycle-diagram[data-playing="true"] .alveolus-diagram .current,
+.cycle-diagram[data-playing="true"] .alveolus-diagram .gas {
+  animation: flow-dash 900ms linear infinite;
+}
+
+@media (max-width: 760px) {
+  .guided-path {
+    padding: 16px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+  .breathing-diagram .labels text,
+  .breathing-diagram .orientation {
+    font-size: 16px;
+  }
+  .breathing-diagram .labels .minor {
+    font-size: 14px;
+  }
+}

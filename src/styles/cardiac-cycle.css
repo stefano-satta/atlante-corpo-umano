@@ -1,0 +1,293 @@
+/* Animazione del ciclo cardiaco (M5). Rosso e blu solo per il sangue (D10). */
+.cycle {
+  --blood-poor: #4362a8;
+  --blood-rich: #b8434b;
+  --signal: #f2c14e;
+  --nucleus-room: #c3baf2;
+  margin: 24px 0 0;
+  padding: 18px 20px 20px;
+  display: grid;
+  gap: 14px;
+  background: var(--room);
+  color: var(--room-text);
+  border-radius: 3px;
+}
+.cycle :focus-visible {
+  outline-color: var(--eosin-room);
+}
+.cycle-title {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--room-muted);
+}
+.cycle-diagram {
+  position: relative;
+}
+.heart-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.heart-diagram .vessel {
+  fill: none;
+  stroke-width: 24;
+  opacity: 0.85;
+}
+.heart-diagram .vessel.poor,
+.swatch.poor {
+  stroke: var(--blood-poor);
+  background: var(--blood-poor);
+}
+.heart-diagram .vessel.rich,
+.swatch.rich {
+  stroke: var(--blood-rich);
+  background: var(--blood-rich);
+}
+.heart-diagram .chamber > * {
+  stroke: var(--room-text);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 420ms var(--ease-out),
+    stroke 260ms ease-out;
+}
+.heart-diagram .chamber.poor > * {
+  fill: var(--blood-poor);
+}
+.heart-diagram .chamber.rich > * {
+  fill: var(--blood-rich);
+}
+.heart-diagram[data-atria="contratti"] .atrium > * {
+  transform: scale(0.9);
+}
+.heart-diagram[data-ventricles="contratti"] .ventricle > * {
+  transform: scale(0.88);
+}
+/* Il segnale elettrico colora la parete delle cavità che sta raggiungendo. */
+.heart-diagram[data-signal="atrioventricolare"] .atrium > *,
+.heart-diagram[data-signal="ventricoli"] .ventricle > * {
+  stroke: var(--signal);
+  stroke-width: 3;
+}
+.heart-diagram .leaflet {
+  stroke: var(--slide);
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: transform 320ms var(--ease-out);
+}
+.heart-diagram[data-av="aperte"] .av .leaflet {
+  transform: rotate(calc(var(--direction) * 62deg));
+}
+.heart-diagram[data-semilunar="aperte"] .semilunar .leaflet {
+  transform: rotate(calc(var(--direction) * -80deg));
+}
+.heart-diagram .flow {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2.5;
+  stroke-dasharray: 6 8;
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+.heart-diagram .arrowhead {
+  fill: var(--slide);
+}
+.flows[data-active~="vene-atri"] [data-flow="vene-atri"],
+.flows[data-active~="atri-ventricoli"] [data-flow="atri-ventricoli"],
+.flows[data-active~="ventricoli-arterie"] [data-flow="ventricoli-arterie"] {
+  opacity: 0.95;
+}
+/* Il tratteggio scorre solo durante la riproduzione: in pausa le frecce restano ferme. */
+.cycle-diagram[data-playing="true"] .flow {
+  animation: flow-dash 900ms linear infinite;
+}
+@keyframes flow-dash {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+.heart-diagram .node {
+  fill: var(--room-high);
+  stroke: var(--room-text);
+  stroke-width: 1.5;
+  transition: fill 240ms ease-out;
+}
+.heart-diagram .node-halo {
+  fill: none;
+  stroke: var(--signal);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.heart-diagram[data-signal="senoatriale"] .node-sa,
+.heart-diagram[data-signal="atrioventricolare"] .node-av {
+  fill: var(--signal);
+}
+.heart-diagram[data-signal="senoatriale"] .node-halo.node-sa,
+.heart-diagram[data-signal="atrioventricolare"] .node-halo.node-av {
+  animation: pulse 1100ms var(--ease-out) 2;
+}
+@keyframes pulse {
+  from {
+    opacity: 0.9;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(4.5);
+  }
+}
+.heart-diagram text {
+  font-family: var(--font-text);
+}
+.heart-diagram .labels text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.heart-diagram .labels .minor {
+  fill: var(--room-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+.heart-diagram .labels .node-label {
+  fill: #fff;
+  font-size: 10px;
+  font-weight: 500;
+}
+.heart-diagram .orientation {
+  fill: var(--room-muted);
+  font-size: 12px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.cycle-badge {
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  transform: translateX(-50%);
+  padding: 4px 10px;
+  border-radius: 2px;
+  background: var(--slide);
+  color: var(--ink);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  font-size: 15px;
+  white-space: nowrap;
+  animation: fade-in 280ms var(--ease-out);
+}
+.cycle-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.cycle-button,
+.cycle-steps button {
+  display: inline-grid;
+  place-items: center;
+  min-width: 36px;
+  height: 36px;
+  border: 1px solid var(--room-border);
+  border-radius: 2px;
+  background: var(--room-raised);
+  color: var(--room-text);
+  transition: background-color 180ms ease-out;
+}
+.cycle-button:hover,
+.cycle-steps button:hover {
+  background: var(--room-high);
+}
+.cycle-button.play {
+  display: inline-flex;
+  gap: 8px;
+  padding: 0 14px;
+  font-weight: 700;
+  font-size: 15px;
+}
+.cycle-steps {
+  display: flex;
+  gap: 4px;
+  margin: 0 0 0 auto;
+  padding: 0;
+  list-style: none;
+}
+.cycle-steps button {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+.cycle-steps button[aria-current="step"] {
+  background: var(--slide);
+  border-color: var(--slide);
+  color: var(--ink);
+}
+.cycle-caption {
+  min-height: 11em;
+}
+.cycle-caption .cycle-count {
+  margin: 0;
+  font-size: 15px;
+  color: var(--room-muted);
+}
+.cycle-caption h3 {
+  margin: 2px 0 8px;
+  font: 600 22px / 1.15 var(--font-display);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.01em;
+}
+.cycle .text p {
+  margin: 0;
+}
+.cycle .citation a {
+  color: var(--nucleus-room);
+}
+.cycle-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: var(--room-muted);
+}
+.legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+.swatch.signal {
+  background: var(--signal);
+}
+.cycle-disclaimer {
+  margin: 0;
+  font-size: 13px;
+  color: var(--room-muted);
+}
+
+@media (max-width: 760px) {
+  /* Sullo schermo stretto il disegno si rimpicciolisce: etichette più grandi, nodi solo nella didascalia. */
+  .heart-diagram .labels text {
+    font-size: 16px;
+  }
+  .heart-diagram .labels .minor {
+    font-size: 14px;
+  }
+  .heart-diagram .labels .node-label {
+    display: none;
+  }
+  .heart-diagram .orientation {
+    font-size: 16px;
+  }
+}

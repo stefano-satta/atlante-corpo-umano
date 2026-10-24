@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-Atlante interattivo del corpo umano: sito statico (Vite + React 19 + TypeScript + three.js/R3F + camera-controls), a costo zero, con testi scientifici citati. Codice, commenti, commit e risposte all'utente sono in **italiano**; i nomi di file, funzioni e variabili seguono la stessa lingua (`stato`, `invia`, `seleziona`, `Scheda`…).
+Atlante interattivo del corpo umano: sito statico (Vite + React 19 + TypeScript + three.js/R3F + camera-controls), a costo zero, con testi scientifici citati. Commenti, testi, commit e risposte all'utente sono in **italiano**. In `src/` i nomi di file, componenti, funzioni e variabili sono in **inglese** (`AtlasPage`, `atlasReducer`, `selection`, `dispatch`…); la pipeline (`pipeline/`, `contenuti/`, moduli `virtual:contenuti/…`, campo `stato`) resta in italiano.
 
 ## Comandi
 
@@ -10,7 +10,7 @@ Atlante interattivo del corpo umano: sito statico (Vite + React 19 + TypeScript 
 npm run dev            # sviluppo: include bozze e testi verificati
 npm run build          # tsc --noEmit + vite build: in produzione solo contenuti "approvato"
 npm test               # Vitest (src/**/*.test.ts[x] e pipeline/**/*.test.mjs)
-npx vitest run src/indice/ricerca.test.ts      # un singolo file
+npx vitest run src/utils/search.test.ts        # un singolo file
 npx vitest run -t "nome del test"              # un singolo test
 npm run controlla      # Biome (lint + formato); correggere con: npx biome check --write .
 npm run test:e2e       # Playwright: costruisce con ATLANTE_BOZZE=1 e serve su :4192 (SwiftShader)
@@ -39,48 +39,51 @@ Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `pub
   - relazioni verso strutture sconosciute;
   - elementi 3D assenti da `public/modelli/strutture.json`;
   - voci del glossario sconosciute.
-- **Plugin Vite:** `pipeline/plugin-contenuti.mjs` (usato anche da Vitest) espone moduli virtuali. `virtual:contenuti` è un indice leggero con i caricatori; `virtual:contenuti/struttura/<id>`, `/fonti`, `/pagina/<id>`, `/percorso/<id>` e `/glossario` si caricano su richiesta. I tipi sono in `src/contenuti/virtuali.d.ts` e `tipi.ts`; l'accesso passa da `src/contenuti/contenuti.ts`.
+- **Plugin Vite:** `pipeline/plugin-contenuti.mjs` (usato anche da Vitest) espone moduli virtuali. `virtual:contenuti` è un indice leggero con i caricatori; `virtual:contenuti/struttura/<id>`, `/fonti`, `/pagina/<id>`, `/percorso/<id>` e `/glossario` si caricano su richiesta. I tipi sono in `src/models/virtual-content.d.ts` e `src/models/content.ts`; l'accesso passa da `src/utils/content.ts` e dall'hook `useContent`.
 - **Stati** `bozza` → `verificato` → `approvato`: in produzione entra solo `approvato`, in `serve` o con `ATLANTE_BOZZE=1` entra tutto. `senzaVociMancanti` trasforma in testo semplice i link a voci del glossario non pubblicate.
-- **Glossario:** nei testi si scrive `[[parola mostrata|id-voce]]`, che diventa `<a class="glossario" data-glossario="id">`. `src/pannello/Fonti.tsx` (`Testo`) intercetta il clic e apre `src/glossario/Definizione.tsx`.
+- **Glossario:** nei testi si scrive `[[parola mostrata|id-voce]]`, che diventa `<a class="glossary-term" data-term="id">`. `components/features/glossary/RichText.tsx` intercetta il clic e apre `GlossaryDefinition.tsx`.
+
+### Struttura di `src/`
+
+Alias `@/` → `src/` (in `tsconfig.json`, `vite.config.ts` e `vitest.config.ts`).
+
+| Cartella | Contenuto |
+|---|---|
+| `pages/` | Una "pagina" per stato: `HomePage` (soglia), `AtlasPage`, `IndexPage`, `SourcesPage`, `InfoPage`, `ReadingPage`, `TextOnlyAtlasPage` |
+| `components/common/` | UI generica (icone, fonti, avviso bozza, barra di caricamento…) |
+| `components/features/<area>/` | `scene`, `panel`, `toolbar`, `tour`, `guided-path`, `cardiac-cycle`, `glossary`, `atlas-index`, `layout` |
+| `contexts/` | `AtlasContext` (stato) e `TextOnlyContext` (versione senza 3D) |
+| `hooks/` | Tutti gli hook (`useAtlas`, `useContent`, `useReducedMotion`, `useKeyboardShortcuts`…) |
+| `models/` | Tipi condivisi |
+| `utils/` | Logica pura senza React: reducer, URL, ricerca, scena, tour… (con i test accanto) |
+| `styles/` | Un foglio per area, importati in ordine da `index.css`; token in `tokens.css` |
 
 ### Stato e indirizzi
 
-`src/app/stato.tsx` contiene un reducer unico (`useAtlante()` → `{stato, invia}`) sincronizzato con l'URL tramite `leggiUrl` e `indirizzo`. Rotte principali:
+`contexts/AtlasContext.tsx` contiene un reducer unico (`utils/atlasReducer.ts`; dalla UI `useAtlas()` → `{state, dispatch}`), sincronizzato con l'URL tramite `readUrl` e `writeUrl` in `utils/url.ts` (D11). Rotte principali:
 
 - `/` (soglia d'ingresso);
 - `/esplora/<unità>` o `/organo/<id>`;
-- `/percorsi/<id>/<passo>`;
-- `/indice`, `/fonti`, `/informazioni`.
+- `/percorsi/<id>/<passo>` (passo contato da 1);
+- `/indice`, `/fonti`, `/informazioni` (`PAGE_IDS` in `utils/pages.ts`).
 
 L'app è a pagina unica: le "pagine" sono stati, non router.
 
 ### Scena 3D
 
-`src/scena/` è il motore 3D, caricato in un pacchetto separato: l'interfaccia deve restare leggera. La UI non deve importarlo.
+`components/features/scene/` è il motore 3D (three.js, R3F, camera-controls). `AtlasPage` lo carica con `lazy()` in un pacchetto separato: l'interfaccia deve restare leggera e non deve importarlo.
 
-- **Accesso dalla UI:** `src/scena/api.ts` (`scenaApi`, `vistaIniziale`) dà accesso alla telecamera senza React.
-- **Inquadrature:** `Regia` in `Scena.tsx` gestisce telecamera e offset focale per selezione, percorso e soglia.
-- **Modelli:** un `.glb` per strato (ossa, muscoli, organi, pelle). `strutture.json` mappa le unità del modello agli id FMA e ai gruppi; `VoceIndice.unita` collega un testo all'unità 3D.
+- **Accesso dalla UI:** `utils/sceneApi.ts` (`sceneApi`, `resetView`, `INITIAL_TARGET`/`INITIAL_POSITION`) dà accesso alla telecamera senza React.
+- **Inquadrature:** `CameraDirector` in `Scene.tsx` gestisce telecamera e offset focale per selezione, percorso e soglia; `CalloutTracker` aggiorna la linea di richiamo verso il cartellino.
+- **Modelli:** un `.glb` per strato (ossa, muscoli, organi, pelle). `strutture.json` mappa le unità del modello agli id FMA e ai gruppi; la logica sta in `utils/sceneModel.ts` e `utils/sceneMaterials.ts`.
 
 ### Interfaccia
 
-Le cartelle di `src/` seguono le funzioni dell'interfaccia:
-
-| Cartella | Funzione |
-|---|---|
-| `soglia/` | Ingresso |
-| `tour/` | Guida iniziale (ricordata in `localStorage` `atlante.tour`) |
-| `esplora/` | Barra dei comandi |
-| `pannello/` | Cartellino e scheda |
-| `processi/` | Ciclo cardiaco animato |
-| `percorsi/` | Percorso guidato |
-| `indice/` | Indice con ricerca |
-| `pagine/` | Fonti e Informazioni |
-
-- **Versione solo testo:** senza WebGL 2, `App.tsx` mostra `indice/AtlanteTestuale.tsx`, che usa gli stessi componenti con il contesto `Senza3d` (`src/app/senza3d.ts`).
-- **Stili:** tutti in `src/stile/stile.css`, con token su `:root`. La direzione visiva "Istologia" (D16) usa colori come `--eosina`, `--nucleo`, `--vetrino` e `--inchiostro`, con i caratteri Bricolage Grotesque e Atkinson Hyperlegible Next.
+- **Versione solo testo:** senza WebGL 2 (`utils/webgl.ts`), `App.tsx` mostra `TextOnlyAtlasPage`, che usa gli stessi componenti con `TextOnlyContext` (D26).
+- **Tour:** ricordato in `localStorage` (`atlante.tour`, `utils/tour.ts`).
+- **Stili:** token su `:root` in `styles/tokens.css`. La direzione visiva "Istologia" (D16) usa colori come `--eosin`, `--nucleus`, `--slide`, `--room` e `--ink`, con i caratteri Bricolage Grotesque e Atkinson Hyperlegible Next.
 
 ### Test
 
-- **Unitari e di componente:** accanto ai file; i test della pipeline sono in `pipeline/*.test.mjs` e lavorano su una copia temporanea di `contenuti/` con stati fissati, per non dipendere dalle approvazioni reali.
-- **End-to-end:** `test/e2e/esplora.spec.ts` gira sulla build di produzione con axe-core. L'helper `entra(page, {tour})` supera la soglia.
+- **Unitari e di componente:** accanto ai file (`utils/*.test.ts`, `components/features/*/*.test.tsx`); i test della pipeline sono in `pipeline/*.test.mjs` e lavorano su una copia temporanea di `contenuti/` con stati fissati, per non dipendere dalle approvazioni reali.
+- **End-to-end:** `test/e2e/atlas.spec.ts` gira sulla build di produzione con axe-core.

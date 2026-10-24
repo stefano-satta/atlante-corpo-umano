@@ -1,0 +1,51 @@
+/* Barra in alto */
+.top-bar {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: var(--occupied);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 28px 0 max(28px, env(safe-area-inset-left, 0px));
+  pointer-events: none;
+}
+.top-bar > * {
+  pointer-events: auto;
+}
+.brand {
+  font: 600 21px / 1 var(--font-display);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.015em;
+}
+.top-bar nav {
+  display: flex;
+  gap: 20px;
+}
+.nav-item {
+  background: none;
+  border: 0;
+  padding: 4px 0;
+  font-size: 15px;
+  color: var(--room-dim);
+}
+.nav-item[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+.nav-item[aria-current="true"] {
+  color: var(--room-text);
+  box-shadow: inset 0 -2px var(--eosin-room);
+}
+
+@media (max-width: 760px) {
+  .top-bar {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .top-bar nav {
+    width: 100%;
+    gap: 18px;
+  }
+}

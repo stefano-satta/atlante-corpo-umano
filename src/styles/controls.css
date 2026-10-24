@@ -1,0 +1,118 @@
+/* Controlli e avvisi comuni: chiusura, azione principale, ritorno, avvisi e caricamento. */
+.close {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-right: -8px;
+  background: none;
+  border: 0;
+  border-radius: 3px;
+  color: var(--ink-muted);
+}
+.close:hover {
+  background: var(--slide-veil);
+  color: var(--ink);
+}
+.action {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 12px 16px;
+  background: var(--eosin);
+  color: #fff;
+  border: 0;
+  border-radius: 3px;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1;
+  transition: background-color 180ms ease-out;
+}
+.action svg {
+  transition: transform 240ms var(--ease-out);
+}
+.action:hover {
+  background: var(--eosin-dark);
+}
+.action:hover svg {
+  transform: translateX(3px);
+}
+.note {
+  margin: 24px 0 0;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  background: none;
+  border: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--eosin);
+}
+.back:hover {
+  color: var(--eosin-dark);
+}
+.back:disabled {
+  color: var(--ink-muted);
+  opacity: 0.5;
+  cursor: default;
+}
+.notice {
+  margin: 0;
+  padding: 12px 14px;
+  background: var(--slide-veil);
+  border-radius: 3px;
+  font-size: 15px;
+  color: var(--ink);
+}
+.draft-notice {
+  margin: 14px 0 0;
+  padding: 8px 12px;
+  border: 1px dashed var(--eosin);
+  border-radius: 3px;
+  font-size: 14px;
+  color: var(--eosin-dark);
+}
+
+/* Caricamento e servizio */
+.loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  font-size: 15px;
+  color: var(--room-muted);
+  white-space: nowrap;
+}
+.loading-bar {
+  position: relative;
+  width: 140px;
+  height: 1px;
+  background: var(--room-border);
+  overflow: hidden;
+}
+.loading-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: var(--eosin-room);
+  animation: loading-slide 1.4s var(--ease-out) infinite;
+}
+@keyframes loading-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}

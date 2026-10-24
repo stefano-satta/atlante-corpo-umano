@@ -1,0 +1,93 @@
+/* Pagine di lettura (Indice, Fonti, Informazioni) sopra l'atlante */
+.reading-page {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--slide);
+  color: var(--ink);
+  scrollbar-color: var(--slide-border) transparent;
+  animation: fade-in 280ms var(--ease-out);
+  color-scheme: light;
+}
+.reading-page .draft-notice {
+  margin: 0 0 32px;
+}
+.reading-page :focus-visible {
+  outline-color: var(--eosin);
+}
+.reading-column {
+  max-width: 72ch;
+  padding: calc(28px + env(safe-area-inset-top, 0px)) 32px 96px max(32px, 8vw);
+}
+.reading-page h1 {
+  margin: 28px 0 24px;
+  font: 600 clamp(44px, 6vw, 80px) / 1 var(--font-display);
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.03em;
+  outline: none;
+}
+.reading-page h2 {
+  margin: 44px 0 10px;
+  font: 600 27px / 1.15 var(--font-display);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.015em;
+}
+.reading-page .intro {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.55;
+}
+.group-description {
+  margin: 0 0 16px;
+  color: var(--ink-muted);
+}
+.bibliography {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-muted);
+}
+.bibliography .source-title {
+  font-size: 16px;
+}
+
+/* Versione testuale senza WebGL (D26) */
+.text-header {
+  display: grid;
+  gap: 12px;
+  padding-bottom: 20px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid var(--slide-border);
+}
+.text-header nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.text-header .nav-item {
+  color: var(--ink-muted);
+}
+.text-header .nav-item[aria-current="page"] {
+  color: var(--ink);
+  box-shadow: inset 0 -2px var(--eosin);
+}
+.text-reading .sheet-header,
+.text-reading .sheet-body,
+.text-reading .sheet-toc,
+.text-reading .guided-path {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 760px) {
+  .reading-column {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}

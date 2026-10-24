@@ -1,0 +1,73 @@
+/* Glossario: elenco nell'Indice e definizione sul posto accanto al termine. */
+.glossary {
+  margin: 0;
+  border-top: 1px solid var(--slide-border);
+}
+.glossary-entry {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--slide-border);
+  scroll-margin-top: 140px;
+  outline: none;
+}
+.glossary-entry:focus {
+  background: linear-gradient(90deg, var(--slide-veil), transparent);
+}
+.glossary-entry dt {
+  font: 600 20px / 1.2 var(--font-display);
+  font-variation-settings: "opsz" 32;
+}
+.glossary-entry dd {
+  margin: 6px 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.entry-sources {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+.glossary-popover {
+  position: fixed;
+  z-index: 10;
+  width: min(340px, calc(100vw - 32px));
+  padding: 10px 16px 14px;
+  background: var(--slide);
+  color: var(--ink);
+  border: 1px solid var(--slide-border);
+  border-top: 3px solid var(--nucleus);
+  border-radius: 0 0 3px 3px;
+  box-shadow: 0 14px 40px rgb(22 19 31 / 0.32);
+  font-size: 15px;
+  line-height: 1.5;
+  color-scheme: light;
+  outline: none;
+  animation: fade-in 200ms var(--ease-out);
+}
+.glossary-popover :focus-visible {
+  outline-color: var(--eosin);
+}
+.popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.popover-header .label {
+  font-size: 14px;
+  color: var(--nucleus);
+}
+.popover-term {
+  margin: 0 0 6px;
+  font: 600 21px / 1.15 var(--font-display);
+  font-variation-settings: "opsz" 32;
+}
+.popover-all {
+  display: inline-block;
+  margin-top: 10px;
+  font-weight: 700;
+}
+.glossary-popover .entry-sources a,
+.glossary-popover .popover-all {
+  color: var(--nucleus);
+  text-underline-offset: 3px;
+}

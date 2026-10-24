@@ -1,0 +1,149 @@
+/* Testi compilati dai contenuti: paragrafi, rimandi alle fonti, elenchi delle fonti, termini del glossario. */
+.text {
+  margin: 22px 0 0;
+  font-size: 16px;
+  line-height: 1.55;
+}
+.text.pending {
+  color: var(--ink-muted);
+}
+.text .label {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--nucleus);
+}
+.text > :first-child {
+  margin-top: 0;
+}
+.text p,
+.text ul,
+.text ol {
+  margin: 0 0 12px;
+}
+.text ul,
+.text ol {
+  padding-left: 22px;
+}
+.text li + li {
+  margin-top: 4px;
+}
+.text li::marker {
+  color: var(--ink-muted);
+}
+.citation {
+  font-size: 0.72em;
+  line-height: 0;
+  margin-left: 1px;
+  font-variant-numeric: tabular-nums;
+}
+.citation a,
+.ta2,
+.panel a,
+.reading-page a {
+  color: var(--nucleus);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.citation a {
+  text-decoration: none;
+  padding: 0 1px;
+}
+.citation a:hover {
+  text-decoration: underline;
+}
+.source-notes {
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--ink-muted);
+}
+.source-notes summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  font-weight: 700;
+  color: var(--ink);
+}
+.source-notes summary::-webkit-details-marker {
+  display: none;
+}
+/* Freccia disegnata con i bordi: ruota quando le note si aprono. */
+.source-notes summary::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 200ms var(--ease-out);
+}
+.source-notes[open] summary::before {
+  transform: rotate(45deg);
+}
+.source-notes p {
+  margin: 8px 0 0;
+  line-height: 1.5;
+}
+.source-list {
+  margin: 0;
+  padding-left: 22px;
+  display: grid;
+  gap: 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+.source-list li::marker {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+.source-list li:target {
+  background: var(--slide-veil);
+  outline: 4px solid var(--slide-veil);
+}
+.source-title,
+.source-author,
+.source-dates,
+.source-note,
+.cited-by {
+  display: block;
+}
+.source-title {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+.source-note,
+.cited-by {
+  font-style: italic;
+}
+.page-text {
+  font-size: 17px;
+  line-height: 1.6;
+}
+.page-text h2:first-child {
+  margin-top: 0;
+}
+.page-text p,
+.page-text ul,
+.page-text ol {
+  margin: 0 0 14px;
+}
+.page-text li + li {
+  margin-top: 6px;
+}
+
+/* Glossario sul posto: il termine è sottolineato a punti, la definizione si apre accanto. */
+.text a.glossary-term,
+.page-text a.glossary-term {
+  color: inherit;
+  text-decoration: underline dotted var(--nucleus);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 4px;
+  cursor: help;
+}
+.text a.glossary-term:hover,
+.text a.glossary-term[aria-expanded="true"] {
+  color: var(--nucleus);
+  text-decoration-style: solid;
+}

@@ -1,0 +1,112 @@
+/* Barra dei comandi: in basso, centrata nello spazio libero della scena */
+.toolbar {
+  position: absolute;
+  left: calc((100% - var(--occupied)) / 2);
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  background: var(--room-raised);
+  border: 1px solid var(--room-border);
+  border-radius: 3px;
+  max-width: calc(100% - var(--occupied) - 32px);
+  overflow-x: auto;
+  transition: left var(--open-duration) var(--ease-out);
+  z-index: 2;
+}
+.layer-group {
+  display: flex;
+  gap: 2px;
+}
+.layer,
+.command {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  padding: 8px 14px 9px;
+  white-space: nowrap;
+  font-size: 15px;
+  line-height: 1;
+  color: var(--room-text);
+  transition:
+    background-color 180ms ease-out,
+    color 180ms ease-out;
+}
+.layer:hover,
+.command:hover {
+  background: var(--room-high);
+}
+.layer[aria-checked="true"] {
+  background: var(--slide);
+  color: var(--ink);
+}
+.layer:focus-visible,
+.command:focus-visible {
+  outline-offset: -1px;
+}
+/* Interruttore della sagoma: un cerchio pieno quando la pelle è visibile. */
+.command[aria-pressed]::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+}
+.command[aria-pressed="true"]::before {
+  background: var(--eosin-room);
+  border-color: var(--eosin-room);
+}
+.separator {
+  width: 1px;
+  align-self: stretch;
+  background: var(--room-border);
+  margin: 4px 6px;
+}
+.short {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .toolbar {
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    max-width: calc(100% - 16px);
+  }
+  .atlas[data-panel="card"] .toolbar,
+  .atlas[data-panel="path"] .toolbar {
+    display: none;
+  }
+  .layer,
+  .command {
+    padding: 8px 6px 9px;
+    font-size: 14px;
+  }
+  .command[aria-pressed] {
+    gap: 6px;
+  }
+  .separator {
+    margin: 4px 2px;
+  }
+  .full {
+    display: none;
+  }
+  .short {
+    display: inline;
+  }
+}
+
+/* Telefoni più stretti: la barra dei comandi resta su una riga, senza scorrere. */
+@media (max-width: 380px) {
+  .layer,
+  .command {
+    padding: 8px 4px 9px;
+    font-size: 13px;
+  }
+  .separator {
+    margin: 4px 1px;
+  }
+}

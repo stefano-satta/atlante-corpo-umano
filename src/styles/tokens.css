@@ -1,0 +1,31 @@
+/*
+ * Direzione A · Istologia (D16). I colori vengono dalla colorazione ematossilina-eosina:
+ * la sala ha il viola-nero dell'ematossilina, il pannello è il vetrino chiaro, l'eosina
+ * segna solo selezione e azioni, il nucleo i termini e i collegamenti.
+ */
+:root {
+  --room: #16131f;
+  --room-raised: #1d1928;
+  --room-high: #29233a;
+  --room-border: #3a3446;
+  --room-text: #e9e4ef;
+  --room-muted: #a59db3;
+  --room-dim: #8a8296;
+  --slide: #f4f1f5;
+  --slide-veil: #ebe5ee;
+  --slide-border: #ddd6e2;
+  --ink: #221a33;
+  --ink-muted: #6a6178;
+  --eosin: #b23d62;
+  --eosin-dark: #962f50;
+  --eosin-room: #ef8fac;
+  --nucleus: #4a3c8c;
+  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", system-ui, sans-serif;
+  --font-text: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --open-duration: 460ms;
+  /* Larghezze del pannello: devono restare uguali a panelWidth() in src/utils/layout.ts. */
+  --w-card: clamp(320px, 30vw, 400px);
+  --w-sheet: min(52vw, 760px);
+  color-scheme: dark;
+}

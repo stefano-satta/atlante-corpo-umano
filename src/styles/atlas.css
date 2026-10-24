@@ -1,0 +1,63 @@
+/* Vista dell'atlante: scena a tutto schermo, velo in alto, crediti. */
+.atlas {
+  position: fixed;
+  inset: 0;
+  --occupied: 0px;
+}
+.atlas[data-panel="card"],
+.atlas[data-panel="path"] {
+  --occupied: var(--w-card);
+}
+/* Velo in alto: tiene leggibili titolo, menu e crediti quando il corpo passa sotto. */
+.atlas::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 150px;
+  background: linear-gradient(rgb(22 19 31 / 0.88), rgb(22 19 31 / 0.6) 55%, rgb(22 19 31 / 0));
+  pointer-events: none;
+  z-index: 1;
+}
+.scene {
+  /* biome-ignore lint/complexity/noImportantStyles: il Canvas di React Three Fiber imposta position nello stile in linea */
+  position: absolute !important;
+  inset: 0;
+  touch-action: none;
+}
+.view {
+  position: absolute;
+  inset: 0;
+}
+.footer {
+  position: absolute;
+  z-index: 1;
+  left: max(28px, env(safe-area-inset-left, 0px));
+  top: calc(56px + env(safe-area-inset-top, 0px));
+  max-width: 44ch;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--room-dim);
+  pointer-events: none;
+}
+.footer p {
+  margin: 0;
+}
+
+/* Sotto la soglia d'ingresso (D26) barre e crediti si nascondono: resta il corpo che gira. */
+.atlas[data-home] .top-bar,
+.atlas[data-home] .footer,
+.atlas[data-home] .toolbar {
+  visibility: hidden;
+}
+@media (max-width: 760px) {
+  .atlas[data-panel="card"],
+  .atlas[data-panel="path"] {
+    --occupied: 0px;
+  }
+  .footer {
+    left: 20px;
+    top: calc(86px + env(safe-area-inset-top, 0px));
+    font-size: 11px;
+    max-width: 36ch;
+  }
+}

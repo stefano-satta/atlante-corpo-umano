@@ -1,0 +1,71 @@
+/* Regole generali: impostazioni del documento, fuoco, etichette in maiuscoletto, movimento ridotto. */
+* {
+  box-sizing: border-box;
+}
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+body {
+  background: radial-gradient(ellipse 70% 85% at 42% 50%, #221d2e 0%, var(--room) 72%);
+  background-color: var(--room);
+  color: var(--room-text);
+  font: 16px / 1.5 var(--font-text);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: var(--eosin);
+  color: #fff;
+}
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+:focus-visible {
+  outline: 2px solid var(--eosin-room);
+  outline-offset: 2px;
+}
+
+/* Etichette: maiuscoletto del carattere di testo, mai il monospazio. */
+.label,
+.nav-item,
+.layer,
+.command,
+.sheet-toc a,
+.loading {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+/* Testo solo per i lettori di schermo. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    /* biome-ignore lint/complexity/noImportantStyles: con il movimento ridotto le animazioni vanno annullate ovunque */
+    animation-duration: 1ms !important;
+    /* biome-ignore lint/complexity/noImportantStyles: un'animazione infinita ridotta a 1 ms lampeggerebbe */
+    animation-iteration-count: 1 !important;
+    /* biome-ignore lint/complexity/noImportantStyles: come sopra, per le transizioni */
+    transition-duration: 1ms !important;
+  }
+}
