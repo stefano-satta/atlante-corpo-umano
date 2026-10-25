@@ -1,0 +1,214 @@
+/* Schemi animati degli apparati genitali, nel riquadro dei processi (.cycle). */
+.cycle {
+  --organ: #3d3550;
+  --organ-active: #b23d62;
+  --organ-active-line: #ef8fac;
+  --cell: #f2c14e;
+}
+.apparatus-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.apparatus-diagram .context {
+  fill: none;
+  stroke: var(--room-border);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+}
+.apparatus-diagram .context-line {
+  fill: none;
+  stroke: var(--room-border);
+  stroke-width: 3;
+}
+.apparatus-diagram .organ > * {
+  fill: var(--organ);
+  stroke: var(--room-muted);
+  stroke-width: 1.5;
+  transition:
+    fill 320ms ease-out,
+    stroke 320ms ease-out;
+}
+.apparatus-diagram .organ[data-active="true"] > * {
+  fill: var(--organ-active);
+  stroke: var(--organ-active-line);
+}
+.apparatus-diagram .organ.duct > * {
+  fill: none;
+  stroke: var(--room-muted);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.apparatus-diagram .organ.duct.thin > * {
+  stroke-width: 4;
+}
+.apparatus-diagram .organ.duct .fimbriae {
+  stroke-width: 3;
+}
+.apparatus-diagram .organ.duct[data-active="true"] > * {
+  fill: none;
+  stroke: var(--organ-active-line);
+}
+/* L'organo della scheda aperta: contorno chiaro, con o senza colore di attività. */
+.apparatus-diagram .organ[data-current="true"]:not(.duct) > * {
+  stroke: var(--slide);
+  stroke-width: 3;
+}
+.apparatus-diagram .organ.duct[data-current="true"] > * {
+  filter: drop-shadow(0 0 1.5px var(--slide)) drop-shadow(0 0 1.5px var(--slide));
+}
+.cycle-diagram[data-playing="true"] .organ[data-active="true"] > * {
+  animation: organ-glow 1600ms ease-in-out infinite alternate;
+}
+@keyframes organ-glow {
+  to {
+    opacity: 0.78;
+  }
+}
+
+.apparatus-diagram .cells circle,
+.apparatus-diagram .oocyte circle {
+  fill: var(--cell);
+  stroke: var(--room);
+  stroke-width: 1;
+}
+.apparatus-diagram .cells {
+  opacity: 0;
+  transition: opacity 320ms ease-out;
+}
+.apparatus-diagram .cells[data-visible="true"] {
+  opacity: 1;
+}
+.apparatus-diagram .oocyte {
+  transition:
+    transform 700ms var(--ease-out),
+    opacity 320ms ease-out;
+}
+.apparatus-diagram .oocyte[data-visible="false"] {
+  opacity: 0;
+}
+
+/* Follicolo che cresce, corpo luteo che resta dopo l'ovulazione. */
+.apparatus-diagram .follicle,
+.apparatus-diagram .corpus-luteum {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 500ms var(--ease-out),
+    opacity 320ms ease-out;
+  opacity: 0;
+}
+.apparatus-diagram .follicle {
+  fill: var(--room);
+  stroke: var(--cell);
+  stroke-width: 1.5;
+}
+.apparatus-diagram .corpus-luteum {
+  fill: var(--cell);
+  fill-opacity: 0.45;
+  stroke: var(--cell);
+  stroke-width: 1.5;
+}
+.apparatus-diagram[data-phase="follicolo"] .follicle {
+  opacity: 1;
+}
+.apparatus-diagram[data-phase="endometrio"] .corpus-luteum {
+  opacity: 1;
+}
+.apparatus-diagram[data-phase="mestruazioni"] .corpus-luteum {
+  opacity: 0.35;
+  transform: scale(0.55);
+}
+.apparatus-diagram .follicle-label,
+.apparatus-diagram .luteum-label {
+  opacity: 0;
+  transition: opacity 320ms ease-out;
+}
+.apparatus-diagram[data-phase="follicolo"] .follicle-label,
+.apparatus-diagram[data-phase="endometrio"] .luteum-label {
+  opacity: 1;
+}
+
+/* Endometrio: sottile, poi spesso prima dell'impianto, poi si sfalda. */
+.apparatus-diagram .endometrium path {
+  fill: var(--organ-active-line);
+  fill-opacity: 0.85;
+  transform-box: fill-box;
+  transform-origin: 50% 0;
+  transform: scale(0.72, 0.8);
+  transition: transform 600ms var(--ease-out);
+}
+.apparatus-diagram[data-phase="endometrio"] .endometrium path {
+  transform: scale(1.18, 1.05);
+}
+.apparatus-diagram[data-phase="mestruazioni"] .endometrium path {
+  transform: scale(0.5, 0.6);
+}
+
+.apparatus-diagram .flow {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2.5;
+  stroke-dasharray: 6 8;
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+.apparatus-diagram .flow[data-on="true"] {
+  opacity: 0.95;
+}
+.apparatus-diagram .arrowhead {
+  fill: var(--slide);
+}
+
+.apparatus-diagram text {
+  font-family: var(--font-text);
+}
+.apparatus-diagram .labels text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.apparatus-diagram .labels .minor {
+  fill: var(--room-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+.apparatus-diagram .labels .small {
+  font-size: 10px;
+}
+.apparatus-diagram .leader {
+  stroke: var(--room-muted);
+  stroke-width: 1;
+}
+.apparatus-diagram .orientation {
+  fill: var(--room-muted);
+  font-size: 12px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.swatch.organ-active {
+  background: var(--organ-active);
+  box-shadow: inset 0 0 0 1.5px var(--organ-active-line);
+}
+.swatch.organ-current {
+  background: var(--organ);
+  box-shadow: inset 0 0 0 2px var(--slide);
+}
+.swatch.cell {
+  background: var(--cell);
+  border-radius: 50%;
+}
+
+@media (max-width: 760px) {
+  .apparatus-diagram .labels text {
+    font-size: 15px;
+  }
+  .apparatus-diagram .labels .minor {
+    font-size: 13px;
+  }
+  .apparatus-diagram .orientation {
+    font-size: 15px;
+  }
+}

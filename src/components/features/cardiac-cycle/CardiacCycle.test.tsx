@@ -4,13 +4,13 @@ import { caricaStruttura } from 'virtual:contenuti';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { STEP_DURATION_MS } from '@/hooks/usePlayback';
-import type { Process } from '@/models/content';
+import type { HeartProcess } from '@/models/content';
 import { wrapStep } from '@/utils/steps';
 import CardiacCycle from './CardiacCycle';
 
-let heartCycle: Process;
+let heartCycle: HeartProcess;
 beforeAll(async () => {
-  heartCycle = (await caricaStruttura.cuore()).default.processi[0];
+  heartCycle = (await caricaStruttura.cuore()).default.processi[0] as HeartProcess;
 });
 afterEach(() => vi.useRealTimers());
 

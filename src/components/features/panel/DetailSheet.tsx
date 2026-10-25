@@ -8,7 +8,7 @@ import { RichText } from '@/components/features/glossary/RichText';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useStructure } from '@/hooks/useContent';
 import { useTextOnly } from '@/hooks/useTextOnly';
-import type { Relation, StructureSummary } from '@/models/content';
+import type { Process, Relation, StructureSummary } from '@/models/content';
 import { registerCalloutTarget } from '@/utils/calloutPath';
 import { hasPage } from '@/utils/content';
 import { formatLongDate } from '@/utils/format';
@@ -19,8 +19,23 @@ const RELATION_TYPES: { type: Relation['tipo']; label: string }[] = [
   { type: 'collegato-a', label: 'Collegato a' },
 ];
 
-// L'animazione si scarica solo quando si apre la scheda che la contiene.
+// Le animazioni si scaricano solo quando si apre la scheda che le contiene.
 const CardiacCycle = lazy(() => import('@/components/features/cardiac-cycle/CardiacCycle'));
+const ReproductiveProcess = lazy(() => import('@/components/features/reproductive-system/ReproductiveProcess'));
+
+/** Animazione di un processo, con l'avviso se il suo testo non è ancora approvato. */
+function ProcessFigure({ process, structure }: { process: Process; structure: string }) {
+  return (
+    <Suspense fallback={<p role="status">Caricamento dell'animazione…</p>}>
+      <DraftNotice status={process.stato} />
+      {process.schema === 'cuore' ? (
+        <CardiacCycle process={process} />
+      ) : (
+        <ReproductiveProcess process={process} current={structure} />
+      )}
+    </Suspense>
+  );
+}
 
 /** Contenuto del pannello allargato: la scheda completa di un organo (sezioni di D11). */
 export function DetailSheet({ entry }: { entry: StructureSummary }) {
@@ -36,8 +51,11 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
     title.current?.focus({ preventScroll: true });
   }, [entry.id]);
 
+  // Gli schemi di un intero apparato hanno una sezione propria, dopo il testo dell'organo.
+  const apparatus = s?.processi.filter((p) => p.schema !== 'cuore') ?? [];
   const toc = [
     ...(s?.sezioni.map((x) => ({ anchor: x.ancora, title: x.chiave })) ?? []),
+    ...(apparatus.length ? [{ anchor: 'apparato', title: "L'apparato" }] : []),
     { anchor: 'collegamenti', title: 'Collegamenti' },
     { anchor: 'fonti', title: 'Fonti' },
   ];
@@ -90,14 +108,19 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
             <h2 id={`h-${x.ancora}`}>{x.titolo}</h2>
             <RichText className="text" html={x.html} />
             {x.chiave === 'Il processo' &&
-              s.processi.map((p) => (
-                <Suspense key={p.id} fallback={<p role="status">Caricamento dell'animazione…</p>}>
-                  <DraftNotice status={p.stato} />
-                  <CardiacCycle process={p} />
-                </Suspense>
-              ))}
+              s.processi
+                .filter((p) => p.schema === 'cuore')
+                .map((p) => <ProcessFigure key={p.id} process={p} structure={s.id} />)}
           </section>
         ))}
+        {apparatus.length > 0 && (
+          <section id="sez-apparato" aria-labelledby="h-apparato">
+            <h2 id="h-apparato">L'apparato al lavoro</h2>
+            {apparatus.map((p) => (
+              <ProcessFigure key={p.id} process={p} structure={entry.id} />
+            ))}
+          </section>
+        )}
         {s && (
           <>
             <section id="sez-collegamenti" aria-labelledby="h-collegamenti">

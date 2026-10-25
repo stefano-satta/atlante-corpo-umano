@@ -61,6 +61,7 @@ export interface StructureSummary {
 }
 
 /** Un passo di un processo animato: didascalia con rimandi e stato del disegno. */
+/** Passo del ciclo cardiaco: lo stato del disegno del cuore. */
 export interface ProcessStep {
   titolo: string;
   html: string;
@@ -75,13 +76,40 @@ export interface ProcessStep {
   flussi: Array<'vene-atri' | 'atri-ventricoli' | 'ventricoli-arterie'>;
 }
 
-export interface Process {
+export type ReproductivePhase =
+  | 'spermatogenesi'
+  | 'maturazione'
+  | 'trasporto'
+  | 'liquidi'
+  | 'eiaculazione'
+  | 'follicolo'
+  | 'ovulazione'
+  | 'tuba'
+  | 'endometrio'
+  | 'mestruazioni';
+
+/** Passo di uno schema di apparato: la fase che il disegno mostra. */
+export interface PhaseStep {
+  titolo: string;
+  html: string;
+  fase: ReproductivePhase;
+}
+
+interface ProcessBase {
   id: string;
   titolo: string;
+  /** Struttura da cui l'Indice apre il processo. */
+  principale: string;
   stato: ContentStatus;
   revisione: string;
-  passi: ProcessStep[];
 }
+
+export type HeartProcess = ProcessBase & { schema: 'cuore'; passi: ProcessStep[] };
+export type ReproductiveProcess = ProcessBase & {
+  schema: 'genitale-maschile' | 'genitale-femminile';
+  passi: PhaseStep[];
+};
+export type Process = HeartProcess | ReproductiveProcess;
 
 export interface Structure extends StructureSummary {
   limiti: string | null;

@@ -156,6 +156,55 @@ ${corpo}`;
   });
 });
 
+describe('processi di un apparato', () => {
+  const processo = (passi, extra = '') => `---
+id: giro
+strutture: [cuore${extra}]
+schema: genitale-maschile
+titolo: Giro
+passi: [${passi.map((f) => `{ fase: ${f} }`).join(', ')}]
+stato: verificato
+revisione: 2026-10-25
+---
+## Uno
+
+Frase [@b].
+
+## Due
+
+Frase [@a].
+`;
+  const conProcesso = (testo) => {
+    prepara('## In breve\n\nFrase [@a].\n');
+    fs.mkdirSync(path.join(cartella, 'processi'));
+    fs.writeFileSync(path.join(cartella, 'processi', 'giro.md'), testo);
+    return leggiContenuti(cartella, MODELLO);
+  };
+
+  it('compila i passi con la fase dello schema', () => {
+    const r = conProcesso(processo(['spermatogenesi', 'eiaculazione']));
+    expect(r.errori).toEqual([]);
+    const [p] = r.strutture[0].processi;
+    expect(p).toMatchObject({ schema: 'genitale-maschile', principale: 'cuore' });
+    expect(p.passi.map((x) => x.fase)).toEqual(['spermatogenesi', 'eiaculazione']);
+  });
+
+  it('rifiuta fasi di un altro schema e strutture sconosciute', () => {
+    const errori = conProcesso(processo(['spermatogenesi', 'ovulazione'], ', milza')).errori.join();
+    expect(errori).toMatch(/passo 2: fase deve essere una tra spermatogenesi/);
+    expect(errori).toMatch(/struttura sconosciuta: milza/);
+  });
+
+  it('nei contenuti reali compare nella scheda di ogni organo dell’apparato', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const con = (id) => r.strutture.filter((s) => s.processi.some((p) => p.id === id)).map((s) => s.id);
+    expect(con('percorso-spermatozoi')).toEqual(
+      expect.arrayContaining(['testicoli', 'epididimi', 'dotti-deferenti', 'prostata', 'uretra', 'pene']),
+    );
+    expect(con('ciclo-ovarico-uterino').sort()).toEqual(['ovaie', 'tube-uterine', 'utero', 'vagina']);
+  });
+});
+
 describe('percorsi guidati', () => {
   const passo = (extra = '') => `{ strato: organi, evidenzia: { gruppi: [cuore] }, schema: torace${extra} }`;
   const percorso = (passi, corpo) => `---
