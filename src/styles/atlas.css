@@ -46,7 +46,7 @@
 /* Sotto la soglia d'ingresso (D26) barre e crediti si nascondono: resta il corpo che gira. */
 .atlas[data-home] .top-bar,
 .atlas[data-home] .footer,
-.atlas[data-home] .toolbar {
+.atlas[data-home] .view-controls {
   visibility: hidden;
 }
 @media (max-width: 760px) {

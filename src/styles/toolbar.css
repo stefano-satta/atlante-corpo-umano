@@ -1,9 +1,21 @@
-/* Barra dei comandi: in basso, centrata nello spazio libero della scena */
-.toolbar {
+/* Comandi della vista: in basso, centrati nello spazio libero della scena. Il selettore del corpo,
+   quello dello strato e la barra dei comandi sono riquadri separati, affiancati; su schermo stretto
+   uno sopra l'altro. */
+.view-controls {
   position: absolute;
   left: calc((100% - var(--occupied)) / 2);
   bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: calc(100% - var(--occupied) - 32px);
+  transition: left var(--open-duration) var(--ease-out);
+  z-index: 2;
+}
+.toolbar,
+.body-switch,
+.layer-switch {
   display: flex;
   align-items: center;
   gap: 2px;
@@ -11,14 +23,14 @@
   background: var(--room-raised);
   border: 1px solid var(--room-border);
   border-radius: 3px;
-  max-width: calc(100% - var(--occupied) - 32px);
-  overflow-x: auto;
-  transition: left var(--open-duration) var(--ease-out);
-  z-index: 2;
 }
-.layer-group {
-  display: flex;
-  gap: 2px;
+.toolbar {
+  min-width: 0;
+  overflow-x: auto;
+}
+.body-switch,
+.layer-switch {
+  flex: none;
 }
 .layer,
 .command {
@@ -75,23 +87,22 @@
   background: var(--eosin-room);
   border-color: var(--eosin-room);
 }
-.separator {
-  width: 1px;
-  align-self: stretch;
-  background: var(--room-border);
-  margin: 4px 6px;
-}
 .short {
   display: none;
 }
 
 @media (max-width: 760px) {
-  .toolbar {
+  .view-controls {
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     max-width: calc(100% - 16px);
+    flex-direction: column;
+    gap: 8px;
   }
-  .atlas[data-panel="card"] .toolbar,
-  .atlas[data-panel="path"] .toolbar {
+  .toolbar {
+    max-width: 100%;
+  }
+  .atlas[data-panel="card"] .view-controls,
+  .atlas[data-panel="path"] .view-controls {
     display: none;
   }
   .layer,
@@ -101,9 +112,6 @@
   }
   .command[aria-pressed] {
     gap: 6px;
-  }
-  .separator {
-    margin: 4px 2px;
   }
   .full {
     display: none;
@@ -119,8 +127,5 @@
   .command {
     padding: 8px 4px 9px;
     font-size: 13px;
-  }
-  .separator {
-    margin: 4px 1px;
   }
 }
