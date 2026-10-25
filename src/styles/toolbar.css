@@ -49,6 +49,20 @@
 .command:focus-visible {
   outline-offset: -1px;
 }
+/* Simboli del corpo su schermo stretto: più grandi delle etichette, che sono in maiuscoletto. */
+.body-symbol {
+  font-size: 17px;
+  font-variant-caps: normal;
+  min-width: 1.1em;
+  text-align: center;
+}
+.command:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.command:disabled:hover {
+  background: none;
+}
 /* Interruttore della sagoma: un cerchio pieno quando la pelle è visibile. */
 .command[aria-pressed]::before {
   content: "";

@@ -232,6 +232,27 @@ test('i polmoni si selezionano, hanno il loro testo e si raggiungono dal cuore',
   await checkAccessibility(page);
 });
 
+test('il selettore Uomo/Donna cambia gli organi e un organo femminile porta al corpo femminile (D29)', async ({
+  page,
+}) => {
+  await page.goto('/esplora/prostata');
+  await waitForScene(page);
+  const panel = page.getByRole('complementary');
+  await expect(panel.getByRole('heading', { name: 'Prostata' })).toBeVisible();
+  await page.getByRole('radio', { name: 'Donna' }).click();
+  // La prostata non c'è nel corpo femminile: la selezione si chiude e la sagoma non è disponibile.
+  await expect(page).toHaveURL(/\/esplora$/);
+  await expect(page.getByRole('button', { name: 'Sagoma' })).toBeDisabled();
+  await checkAccessibility(page);
+  await page.getByRole('radio', { name: 'Uomo' }).click();
+  await page.goto('/esplora/utero');
+  await waitForScene(page);
+  await expect(page.getByRole('radio', { name: 'Donna' })).toHaveAttribute('aria-checked', 'true');
+  await expect(panel.getByRole('heading', { name: 'Utero' })).toBeVisible();
+  await expect(page.locator('svg.callout')).toHaveAttribute('data-visible', 'yes');
+  await checkAccessibility(page);
+});
+
 test('il percorso "Un respiro" si segue passo per passo e si può lasciare per esplorare', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));

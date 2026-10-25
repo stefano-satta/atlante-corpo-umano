@@ -17,11 +17,11 @@ npm run test:e2e       # Playwright: costruisce con ATLANTE_BOZZE=1 e serve su :
 npx playwright test -g "glossario"             # un singolo e2e
 ```
 
-Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `public/modelli/` sono già nel repository; si rigenerano con `modelli:scarica` → `modelli:polmoni` (richiede Blender; avviarlo sempre con `-Y`) → `modelli:prepara`, che leggono da `dati-sorgente/` (escluso da git).
+Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `public/modelli/` sono già nel repository; si rigenerano con `modelli:scarica` → `modelli:polmoni` (richiede Blender; avviarlo sempre con `-Y`) → `modelli:donna` (organi femminili dello Human Reference Atlas e vagina schematica, D29) → `modelli:prepara`, che leggono da `dati-sorgente/` (escluso da git).
 
 ## Regole di progetto (vincolanti)
 
-- **`docs/DECISIONI.md`** è l'archivio delle decisioni approvate (D1…D28) e del registro delle modifiche. Non serve leggerlo per intero: cercarvi (`grep`) la decisione citata o l'area toccata quando una scelta potrebbe contraddirne una approvata. A fine lavoro si aggiunge una riga al registro (§ 6) per le modifiche di comportamento o di contenuto.
+- **`docs/DECISIONI.md`** è l'archivio delle decisioni approvate (D1…D30) e del registro delle modifiche. Non serve leggerlo per intero: cercarvi (`grep`) la decisione citata o l'area toccata quando una scelta potrebbe contraddirne una approvata. A fine lavoro si aggiunge una riga al registro (§ 6) per le modifiche di comportamento o di contenuto.
 - **Modo di lavoro:** il lavoro a milestone è concluso. Le richieste puntuali si eseguono direttamente; si chiede prima solo per scelte ambigue o che cambiano una decisione approvata.
 - **Contenuti medici:** niente informazioni inventate. Solo fonti autorevoli (OpenStax A&P 2e, NHLBI, FIPAT TA2), verificate leggendole; ogni paragrafo ha una citazione; distinguere fatti e incertezze, dichiarare i limiti; non affermare mai una revisione medica. Un testo passa a `approvato` solo con l'approvazione dell'utente.
 - **Licenze (D6):** niente licenze NC. Dal pacchetto Z-Anatomy non si estraggono i modelli NC (orecchio interno CC BY-NC-SA, rene CC BY-NC).
@@ -76,7 +76,8 @@ L'app è a pagina unica: le "pagine" sono stati, non router.
 
 - **Accesso dalla UI:** `utils/sceneApi.ts` (`sceneApi`, `resetView`, `INITIAL_TARGET`/`INITIAL_POSITION`) dà accesso alla telecamera senza React.
 - **Inquadrature:** `CameraDirector` in `Scene.tsx` gestisce telecamera e offset focale per selezione, percorso e soglia; `CalloutTracker` aggiorna la linea di richiamo verso il cartellino.
-- **Modelli:** un `.glb` per strato (ossa, muscoli, organi, pelle). `strutture.json` mappa le unità del modello agli id FMA e ai gruppi; la logica sta in `utils/sceneModel.ts` e `utils/sceneMaterials.ts`.
+- **Modelli:** un `.glb` per strato (ossa, muscoli, organi, pelle) più `organi-donna.glb`. `strutture.json` mappa le unità del modello agli id FMA e ai gruppi, e con `corpo` segna gli organi di un solo corpo; la logica sta in `utils/sceneModel.ts` e `utils/sceneMaterials.ts`.
+- **Corpo Uomo/Donna (D29):** `state.body`; `unitStates` nasconde gli organi dell'altro corpo e `bodyFor` (in `atlasReducer.ts`) passa al corpo giusto quando si sceglie un organo di un solo corpo.
 
 ### Interfaccia
 

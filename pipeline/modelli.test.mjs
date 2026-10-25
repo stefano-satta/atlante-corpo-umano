@@ -44,3 +44,40 @@ describe('apparato genitale maschile (BodyParts3D)', () => {
     expect(nomi('uretra')).toEqual(['Urethra']);
   });
 });
+
+describe('corpo femminile dallo Human Reference Atlas (D29)', () => {
+  const femminili = strutture.filter((s) => s.corpo === 'donna');
+
+  it('ogni organo ha i suoi elementi nello strato degli organi, segnati come femminili', () => {
+    const nomi = (gruppo) =>
+      femminili
+        .filter((s) => s.gruppo === gruppo)
+        .map((s) => s.nome)
+        .sort();
+    expect(nomi('utero')).toEqual(['Uterus']);
+    expect(nomi('tube-uterine')).toEqual(['Left uterine tube', 'Right uterine tube']);
+    expect(nomi('ovaie')).toEqual(['Left ovary', 'Right ovary']);
+    expect(nomi('vagina')).toEqual(['Vagina']);
+    expect(nomi('mammelle')).toEqual(['Left breast', 'Right breast']);
+    expect(new Set(femminili.map((s) => s.strato))).toEqual(new Set(['organi']));
+  });
+
+  it('gli organi genitali maschili e l’uretra maschile sono segnati come maschili', () => {
+    const maschili = new Set(strutture.filter((s) => s.corpo === 'uomo').map((s) => s.gruppo));
+    expect([...maschili].sort()).toEqual(
+      ['dotti-deferenti', 'epididimi', 'pene', 'prostata', 'testicoli', 'uretra', 'vescichette-seminali'].sort(),
+    );
+  });
+
+  it('stanno in un file a parte, leggero, fuori da quello degli organi comuni', () => {
+    expect(riepilogo['organi-donna'].strutture).toBe(femminili.length);
+    expect(riepilogo['organi-donna'].kB).toBeLessThanOrEqual(120);
+    expect(riepilogo.organi.strutture).toBe(
+      strutture.filter((s) => s.strato === 'organi' && s.corpo !== 'donna').length,
+    );
+  });
+
+  it('le licenze dei modelli citano lo Human Reference Atlas', () => {
+    expect(fs.readFileSync('public/modelli/LICENZE.md', 'utf8')).toMatch(/Human Reference Atlas.*CC BY 4\.0/s);
+  });
+});

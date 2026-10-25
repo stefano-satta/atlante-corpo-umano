@@ -11,6 +11,7 @@ export const BODY_SYSTEM_NAMES: Record<BodySystem, string> = {
   respiratorio: 'Apparato respiratorio',
   linfatico: 'Sistema linfatico',
   'genitale-maschile': 'Apparato genitale maschile',
+  'genitale-femminile': 'Apparato genitale femminile',
 };
 
 export const ORGANS: Organ[] = [
@@ -38,15 +39,37 @@ export const ORGANS: Organ[] = [
   { id: 'milza', name: 'Milza', latinTerm: 'splen', system: 'linfatico', color: '#6c3a3e' },
   { id: 'reni', name: 'Reni', latinTerm: 'ren', system: 'urinario', color: '#8b4a40' },
   { id: 'vescica', name: 'Vescica urinaria', latinTerm: 'vesica urinaria', system: 'urinario', color: '#c7a99a' },
-  { id: 'uretra', name: 'Uretra', latinTerm: 'urethra masculina', system: 'urinario', color: '#d6bcae' },
+  {
+    id: 'uretra',
+    name: 'Uretra',
+    latinTerm: 'urethra masculina',
+    system: 'urinario',
+    color: '#d6bcae',
+    body: 'uomo',
+  },
   // Apparato genitale maschile (BodyParts3D riproduce un corpo maschile): toni carne e ocra, distinti da vescica e reni.
-  { id: 'testicoli', name: 'Testicoli', latinTerm: 'testis', system: 'genitale-maschile', color: '#d2b4a2' },
-  { id: 'epididimi', name: 'Epididimi', latinTerm: 'epididymis', system: 'genitale-maschile', color: '#a9786a' },
+  {
+    id: 'testicoli',
+    name: 'Testicoli',
+    latinTerm: 'testis',
+    system: 'genitale-maschile',
+    body: 'uomo',
+    color: '#d2b4a2',
+  },
+  {
+    id: 'epididimi',
+    name: 'Epididimi',
+    latinTerm: 'epididymis',
+    system: 'genitale-maschile',
+    body: 'uomo',
+    color: '#a9786a',
+  },
   {
     id: 'dotti-deferenti',
     name: 'Dotti deferenti',
     latinTerm: 'ductus deferens',
     system: 'genitale-maschile',
+    body: 'uomo',
     color: '#d9c4ae',
   },
   {
@@ -54,10 +77,39 @@ export const ORGANS: Organ[] = [
     name: 'Vescichette seminali',
     latinTerm: 'glandula seminalis',
     system: 'genitale-maschile',
+    body: 'uomo',
     color: '#bf9f7e',
   },
-  { id: 'prostata', name: 'Prostata', latinTerm: 'prostata', system: 'genitale-maschile', color: '#a26c62' },
-  { id: 'pene', name: 'Pene', latinTerm: 'penis', system: 'genitale-maschile', color: '#b98a7c' },
+  {
+    id: 'prostata',
+    name: 'Prostata',
+    latinTerm: 'prostata',
+    system: 'genitale-maschile',
+    body: 'uomo',
+    color: '#a26c62',
+  },
+  { id: 'pene', name: 'Pene', latinTerm: 'penis', system: 'genitale-maschile', body: 'uomo', color: '#b98a7c' },
+  // Apparato genitale femminile e mammelle dallo Human Reference Atlas (D29); la vagina è una
+  // ricostruzione schematica. Toni rosati, distinti da quelli maschili e da vescica e intestino.
+  { id: 'utero', name: 'Utero', latinTerm: 'uterus', system: 'genitale-femminile', body: 'donna', color: '#b0686c' },
+  {
+    id: 'tube-uterine',
+    name: 'Tube uterine',
+    latinTerm: 'tuba uterina',
+    system: 'genitale-femminile',
+    body: 'donna',
+    color: '#d5a59b',
+  },
+  { id: 'ovaie', name: 'Ovaie', latinTerm: 'ovarium', system: 'genitale-femminile', body: 'donna', color: '#dcc6a8' },
+  { id: 'vagina', name: 'Vagina', latinTerm: 'vagina', system: 'genitale-femminile', body: 'donna', color: '#c78d91' },
+  {
+    id: 'mammelle',
+    name: 'Mammelle',
+    latinTerm: 'mamma',
+    system: 'genitale-femminile',
+    body: 'donna',
+    color: '#e2c0a8',
+  },
   {
     id: 'trachea-bronchi',
     name: 'Trachea e bronchi',

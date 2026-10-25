@@ -8,6 +8,11 @@ export function convertiVertice(x, y, z) {
   return [x / 1000, z / 1000, -y / 1000];
 }
 
+/** Inversa di `convertiVertice`: da metri (three.js) a millimetri di BodyParts3D. */
+export function versoBodyParts3D(x, y, z) {
+  return [x * 1000, -z * 1000, y * 1000];
+}
+
 /**
  * Strato e organo di un elemento. `ossa` e `muscoli` sono gli insiemi di id che
  * BodyParts3D colloca sotto "bone organ" e "muscle organ". Vasi e nervi sono
@@ -19,5 +24,6 @@ export function classifica(id, nome, ossa, muscoli) {
   if (muscoli.has(id)) return { strato: 'muscoli', gruppo: null };
   if (/artery|vein|branch|nerve|tributary/i.test(nome)) return null;
   const g = GRUPPI_ORGANI.find((g) => g.elementi.test(nome));
-  return g ? { strato: 'organi', gruppo: g.id } : null;
+  if (!g) return null;
+  return g.corpo ? { strato: 'organi', gruppo: g.id, corpo: g.corpo } : { strato: 'organi', gruppo: g.id };
 }

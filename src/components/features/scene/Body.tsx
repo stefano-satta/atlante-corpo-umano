@@ -29,6 +29,10 @@ import {
 } from '@/utils/sceneModel';
 
 const MODEL_LAYERS: ModelLayer[] = ['ossa', 'muscoli', 'organi', 'pelle'];
+// Gli organi del solo corpo femminile (D29) stanno in un file a parte, piccolo: si caricano sempre,
+// così cambiare corpo non fa attendere e le loro unità hanno subito ingombro e ancoraggio.
+const MODEL_FILES = [...MODEL_LAYERS, 'organi-donna'] as const;
+type ModelFile = (typeof MODEL_FILES)[number];
 const PICKING_LAYER = 1;
 
 /** Il corpo 3D: carica i modelli, disegna gli strati e sceglie la struttura sotto il puntatore. */
@@ -36,7 +40,7 @@ export function Body() {
   const json = useLoader(FileLoader, modelUrl('strutture.json')) as string;
   const gltf = useLoader(
     GLTFLoader,
-    MODEL_LAYERS.map((l) => modelUrl(`${l}.glb`)),
+    MODEL_FILES.map((f) => modelUrl(`${f}.glb`)),
     (loader) => loader.setMeshoptDecoder(MeshoptDecoder),
   );
   const { state, dispatch } = useAtlas();
@@ -47,8 +51,8 @@ export function Body() {
     const units = createUnits(elements);
     const byId = new Map(elements.map((e) => [e.id, e]));
     const geometries = Object.fromEntries(
-      MODEL_LAYERS.map((l, i) => [l, prepareLayer(gltf[i].scene, byId, units)]),
-    ) as Record<ModelLayer, THREE.BufferGeometry | null>;
+      MODEL_FILES.map((f, i) => [f, prepareLayer(gltf[i].scene, byId, units)]),
+    ) as Record<ModelFile, THREE.BufferGeometry | null>;
     const byIndex = new Map<number, SceneUnit>([...units.values()].map((u) => [u.index, u]));
     return { units, byIndex, geometries };
   }, [json, gltf]);
@@ -67,7 +71,10 @@ export function Body() {
   const visible = VISIBLE_MODEL_LAYERS[state.layer];
   const ghost = GHOST_MODEL_LAYERS[state.layer];
   const focus = useMemo(() => (selected ? new Set([selected.id]) : highlighted), [selected, highlighted]);
-  const states = useMemo(() => unitStates(units, visible, focus, ghost), [units, visible, focus, ghost]);
+  const states = useMemo(
+    () => unitStates(units, visible, focus, ghost, state.body),
+    [units, visible, focus, ghost, state.body],
+  );
   // Si disegnano solo gli strati con almeno un'unità non nascosta, e le semitrasparenti
   // (attenuate o fantasma) solo se ce ne sono.
   const { activeLayers, anyDimmed } = useMemo(() => {
@@ -156,19 +163,29 @@ export function Body() {
   });
 
   const skin = geometries.pelle;
+  // Strato del modello di ogni file: gli organi femminili si mostrano con gli altri organi.
+  const layerOf: Record<Exclude<ModelFile, 'pelle'>, ModelLayer> = {
+    ossa: 'ossa',
+    muscoli: 'muscoli',
+    organi: 'organi',
+    'organi-donna': 'organi',
+  };
   return (
     <group>
-      {(['ossa', 'muscoli', 'organi'] as const).map((l) => {
-        const g = geometries[l];
+      {(['ossa', 'muscoli', 'organi', 'organi-donna'] as const).map((f) => {
+        const g = geometries[f];
         if (!g) return null;
         return (
-          <group key={l} visible={activeLayers.has(l)}>
+          <group key={f} visible={activeLayers.has(layerOf[f]) && (f !== 'organi-donna' || state.body === 'donna')}>
             <mesh geometry={g} material={materials.full} onUpdate={(m) => m.layers.enable(PICKING_LAYER)} />
             <mesh geometry={g} material={materials.dimmed} renderOrder={2} visible={anyDimmed} />
           </group>
         );
       })}
-      {skin && <mesh geometry={skin} material={materials.skin} renderOrder={3} visible={state.skin} />}
+      {/* La pelle del modello è maschile: nel corpo femminile la sagoma non si mostra (D29). */}
+      {skin && (
+        <mesh geometry={skin} material={materials.skin} renderOrder={3} visible={state.skin && state.body === 'uomo'} />
+      )}
     </group>
   );
 }

@@ -6,14 +6,17 @@
 // contenere isa_element_parts.txt e la sottocartella isa_BP3D_4.0_obj_99/),
 // --obj <cartella degli OBJ>, --ratio 0.1 (D13), --out public/modelli,
 // --polmoni <cartella> (predefinita dati-sorgente/z-anatomy/polmoni, prodotta da
-// npm run modelli:polmoni), --ratio-polmoni 0.3.
+// npm run modelli:polmoni), --ratio-polmoni 0.3, --donna <cartella> (predefinita
+// dati-sorgente/hra/allineati, prodotta da npm run modelli:donna), --triangoli-donna 3000.
 //
-// Produce un file .glb per strato (ossa, muscoli, organi, pelle) e strutture.json
-// con i metadati di ogni struttura (classificazione e coordinate: classifica.mjs).
+// Produce un file .glb per strato (ossa, muscoli, organi, pelle), organi-donna.glb con gli
+// organi del corpo femminile (D29) e strutture.json con i metadati di ogni struttura
+// (classificazione e coordinate: classifica.mjs).
 //
 // Licenza dei dati di origine: BodyParts3D, © The Database Center for Life Science,
 // CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni da Z-Anatomy,
-// CC BY-SA 4.0. I modelli derivati sono distribuiti con licenza CC BY-SA 4.0.
+// CC BY-SA 4.0; organi femminili dallo Human Reference Atlas, CC BY 4.0. I modelli derivati
+// sono distribuiti con licenza CC BY-SA 4.0.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -37,9 +40,14 @@ const cartellaObj = arg('obj', path.join(cartella, 'isa_BP3D_4.0_obj_99'));
 // I polmoni di Z-Anatomy sono già semplici superfici suddivise: si riducono meno degli OBJ di BodyParts3D.
 const cartellaPolmoni = arg('polmoni', 'dati-sorgente/z-anatomy/polmoni');
 const ratioPolmoni = Number(arg('ratio-polmoni', '0.3'));
+// Gli organi dell'HRA hanno molti più triangoli del necessario (la mammella destra oltre 400.000):
+// ognuno si riduce a un numero massimo di triangoli invece che a una frazione.
+const cartellaDonna = arg('donna', 'dati-sorgente/hra/allineati');
+const triangoliDonna = Number(arg('triangoli-donna', '3000'));
 for (const [cartellaDati, comando] of [
   [cartellaObj, 'npm run modelli:scarica'],
   [cartellaPolmoni, 'npm run modelli:polmoni'],
+  [cartellaDonna, 'npm run modelli:donna'],
 ]) {
   if (!fs.existsSync(cartellaDati)) {
     console.error(`Mancano i dati in ${cartellaDati}: eseguire prima ${comando}`);
@@ -126,18 +134,32 @@ for (const f of fs.readdirSync(cartellaPolmoni).filter((f) => f.endsWith('.obj')
   fileObj.set(id, file);
 }
 
+// Organi femminili dell'HRA e vagina schematica, già allineati da organi-donna.mjs.
+for (const f of fs.readdirSync(cartellaDonna).filter((f) => f.endsWith('.obj'))) {
+  const file = path.join(cartellaDonna, f);
+  const nome = /# English name : (.+)/.exec(fs.readFileSync(file, 'utf8').slice(0, 2000))?.[1].trim();
+  const c = nome && classifica(f, nome, new Set(), new Set());
+  if (c?.corpo !== 'donna') throw new Error(`${f}: organo femminile non riconosciuto (${nome})`);
+  const id = `HRA-${f.slice(0, -4).toLowerCase().replaceAll('_', '-')}`;
+  strutture.push({ id, nome, fma: null, ...c });
+  fileObj.set(id, file);
+}
+
+// File .glb di una struttura: gli organi del solo corpo femminile stanno in un file a parte.
+const fileDi = (s) => (s.corpo === 'donna' ? 'organi-donna' : s.strato);
+
 fs.mkdirSync(uscita, { recursive: true });
 const io = new NodeIO().registerExtensions(ALL_EXTENSIONS).registerDependencies({ 'meshopt.encoder': MeshoptEncoder });
 await MeshoptSimplifier.ready;
 await MeshoptEncoder.ready;
 
 const riepilogo = {};
-for (const strato of ['ossa', 'muscoli', 'organi', 'pelle']) {
+for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna']) {
   const doc = new Document();
   const buffer = doc.createBuffer();
   const scena = doc.createScene(strato);
   let triangoliPrima = 0;
-  for (const s of strutture.filter((s) => s.strato === strato)) {
+  for (const s of strutture.filter((s) => fileDi(s) === strato)) {
     const { posizioni, indici } = leggiObj(fileObj.get(s.id));
     triangoliPrima += indici.length / 3;
     const prim = doc
@@ -149,9 +171,18 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle']) {
   }
   await doc.transform(weld());
   for (const m of doc.getRoot().listMeshes()) {
-    const r = strato === 'pelle' ? ratioPelle : m.getName().startsWith('ZA-') ? ratioPolmoni : ratio;
-    for (const p of m.listPrimitives())
+    for (const p of m.listPrimitives()) {
+      const triangoli = p.getIndices().getCount() / 3;
+      const r =
+        strato === 'pelle'
+          ? ratioPelle
+          : m.getName().startsWith('ZA-')
+            ? ratioPolmoni
+            : m.getName().startsWith('HRA-')
+              ? Math.min(1, triangoliDonna / triangoli)
+              : ratio;
       simplifyPrimitive(p, { simplifier: MeshoptSimplifier, ratio: r, error: errore });
+    }
   }
   await doc.transform(prune(), meshopt({ encoder: MeshoptEncoder, level: 'medium' }));
   let triangoliDopo = 0;
@@ -160,7 +191,7 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle']) {
   const file = path.join(uscita, `${strato}.glb`);
   await io.write(file, doc);
   riepilogo[strato] = {
-    strutture: strutture.filter((s) => s.strato === strato).length,
+    strutture: strutture.filter((s) => fileDi(s) === strato).length,
     triangoliPrima,
     triangoliDopo,
     kB: Math.round(fs.statSync(file).size / 1024),
@@ -170,6 +201,6 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle']) {
 fs.writeFileSync(path.join(uscita, 'strutture.json'), JSON.stringify(strutture));
 fs.writeFileSync(
   path.join(uscita, 'riepilogo.json'),
-  JSON.stringify({ ratio, ratioPelle, ratioPolmoni, errore, riepilogo }, null, 2),
+  JSON.stringify({ ratio, ratioPelle, ratioPolmoni, triangoliDonna, errore, riepilogo }, null, 2),
 );
 console.table(riepilogo);

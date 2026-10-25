@@ -2,6 +2,7 @@
   "ratio": 0.1,
   "ratioPelle": 0.05,
   "ratioPolmoni": 0.3,
+  "triangoliDonna": 3000,
   "errore": 0.01,
   "riepilogo": {
     "ossa": {
@@ -27,6 +28,12 @@
       "triangoliPrima": 203382,
       "triangoliDopo": 10168,
       "kB": 36
+    },
+    "organi-donna": {
+      "strutture": 8,
+      "triangoliPrima": 558714,
+      "triangoliDopo": 16544,
+      "kB": 67
     }
   }
 }

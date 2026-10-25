@@ -5,6 +5,7 @@ import { readUrl, urlFor } from './url';
 
 const base: AtlasState = {
   layer: 'organi',
+  body: 'uomo',
   skin: true,
   selection: null,
   sheet: false,
@@ -116,5 +117,28 @@ describe('indirizzi', () => {
     expect(urlFor(state)).toBe('/percorsi/respirazione/4');
     // La struttura esplorata durante il percorso ha il suo indirizzo.
     expect(urlFor({ ...state, selection: 'polmoni' })).toBe('/esplora/polmoni');
+  });
+});
+
+describe('corpo maschile e femminile (D29)', () => {
+  it("cambiando corpo chiude la selezione di un organo dell'altro corpo e tiene quelle comuni", () => {
+    expect(
+      atlasReducer({ ...base, selection: 'prostata', sheet: true }, { type: 'setBody', body: 'donna' }),
+    ).toMatchObject({ body: 'donna', selection: null, sheet: false });
+    expect(
+      atlasReducer({ ...base, selection: 'cuore', sheet: true }, { type: 'setBody', body: 'donna' }),
+    ).toMatchObject({
+      body: 'donna',
+      selection: 'cuore',
+      sheet: true,
+    });
+  });
+
+  it('scegliere un organo di un solo corpo porta a quel corpo, anche da un indirizzo', () => {
+    expect(atlasReducer(base, { type: 'select', id: 'utero' }).body).toBe('donna');
+    const donna = { ...base, body: 'donna' as const };
+    expect(atlasReducer(donna, { type: 'select', id: 'pene' }).body).toBe('uomo');
+    expect(atlasReducer(donna, { type: 'select', id: 'cuore' }).body).toBe('donna');
+    expect(atlasReducer(base, { type: 'fromUrl', ...readUrl('/organo/ovaie') }).body).toBe('donna');
   });
 });

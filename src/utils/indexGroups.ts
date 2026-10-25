@@ -9,6 +9,7 @@ const ORDER = [
   'digerente',
   'urinario',
   'genitale-maschile',
+  'genitale-femminile',
   'nervoso',
   'linfatico',
   'scheletrico',

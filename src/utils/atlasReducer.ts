@@ -1,6 +1,12 @@
-import type { AtlasAction, AtlasState, Layer } from '@/models/atlas';
+import type { AtlasAction, AtlasState, BodyKind, Layer } from '@/models/atlas';
 import type { ModelLayer } from '@/models/scene';
+import { ORGANS_BY_ID } from './organs';
 import { readUrl } from './url';
+
+/** Corpo in cui si vede una struttura: quello attuale, salvo gli organi di un solo corpo (D29). */
+export function bodyFor(current: BodyKind, selection: string | null): BodyKind {
+  return (selection && ORGANS_BY_ID.get(selection)?.body) || current;
+}
 
 export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
   switch (a.type) {
@@ -10,8 +16,14 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
       return { ...s, layer: a.layer };
     case 'toggleSkin':
       return { ...s, skin: !s.skin };
+    case 'setBody': {
+      // Un organo dell'altro corpo non si vede più: la selezione si chiude.
+      const keep = bodyFor(a.body, s.selection) === a.body;
+      return { ...s, body: a.body, selection: keep ? s.selection : null, sheet: keep && s.sheet };
+    }
     case 'select':
-      return { ...s, selection: a.id, sheet: false, home: s.home && !a.id };
+      // Scegliere un organo di un solo corpo, dall'Indice o da un collegamento, porta a quel corpo.
+      return { ...s, selection: a.id, sheet: false, home: s.home && !a.id, body: bodyFor(s.body, a.id) };
     case 'setSheet':
       return { ...s, sheet: a.open && s.selection !== null };
     case 'setPage':
@@ -34,6 +46,7 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
         ...s,
         home: a.home,
         selection: a.selection,
+        body: bodyFor(s.body, a.selection),
         sheet: a.sheet,
         page: null,
         guidedPath: a.guidedPath ?? (a.selection ? s.guidedPath : null),
@@ -43,12 +56,14 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
 
 /** Stato all'apertura, dall'indirizzo: su `/` la soglia è aperta. */
 export function initialAtlasState(): AtlasState {
+  const url = readUrl();
   return {
     layer: 'organi',
+    body: bodyFor('uomo', url.selection),
     skin: true,
     hover: null,
     tour: null,
-    ...readUrl(),
+    ...url,
   };
 }
 

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js';
+import type { BodyKind } from '@/models/atlas';
 import type { ModelElements } from '@/models/content';
 import type { ModelElement, ModelLayer, SceneUnit } from '@/models/scene';
 import { ORGANS_BY_ID } from './organs';
@@ -29,6 +30,7 @@ export function createUnits(elements: ModelElement[]) {
         index: units.size + 1,
         id,
         layer: e.strato,
+        body: e.corpo ?? null,
         fmaName: e.nome,
         fma: e.fma,
         box: new THREE.Box3(),
@@ -128,16 +130,18 @@ export function prepareLayer(
  * degli strati visibili. Con un fuoco (la struttura selezionata, o le strutture evidenziate
  * da un passo di percorso) sono piene solo quelle del fuoco, anche se stanno in uno strato
  * nascosto, e le altre degli strati visibili sono attenuate. Le unità degli strati di
- * contesto, fuori dal fuoco, sono fantasma.
+ * contesto, fuori dal fuoco, sono fantasma. Gli organi dell'altro corpo (D29) restano nascosti.
  */
 export function unitStates(
   units: Map<string, SceneUnit>,
   visible: readonly ModelLayer[],
   focus: ReadonlySet<string> | null,
   ghost: readonly ModelLayer[] = [],
+  body: BodyKind = 'uomo',
 ) {
   const states = new Uint8Array(units.size + 1);
   for (const u of units.values()) {
+    if (u.body && u.body !== body) continue;
     const rest = ghost.includes(u.layer) ? UNIT_GHOST : UNIT_HIDDEN;
     const isVisible = visible.includes(u.layer);
     if (!focus?.size) states[u.index] = isVisible ? UNIT_FULL : rest;

@@ -84,6 +84,23 @@ describe('stati delle unità', () => {
     expect(stateOf(focused, 'cuore')).toBe(UNIT_DIMMED);
   });
 
+  it("nasconde gli organi dell'altro corpo, anche se sono nel fuoco (D29)", () => {
+    const withBodies = createUnits([
+      ...elements,
+      { id: 'HRA-uterus', nome: 'Uterus', fma: null, strato: 'organi', gruppo: 'utero', corpo: 'donna' },
+      { id: 'FJ3139', nome: 'Prostate', fma: null, strato: 'organi', gruppo: 'prostata', corpo: 'uomo' },
+    ]);
+    const of = (s: Uint8Array, id: string) => s[withBodies.get(id)?.index ?? 0];
+    const man = unitStates(withBodies, ['organi'], null);
+    expect([of(man, 'prostata'), of(man, 'utero'), of(man, 'cuore')]).toEqual([UNIT_FULL, UNIT_HIDDEN, UNIT_FULL]);
+    const woman = unitStates(withBodies, ['organi'], new Set(['prostata']), [], 'donna');
+    expect([of(woman, 'prostata'), of(woman, 'utero'), of(woman, 'cuore')]).toEqual([
+      UNIT_HIDDEN,
+      UNIT_DIMMED,
+      UNIT_DIMMED,
+    ]);
+  });
+
   it('trova le unità di un contenuto per gruppo e per FMA', () => {
     expect(unitsForElements({ gruppi: ['cuore', 'inesistente'], fma: ['FMA24474'] }, units)).toEqual(['cuore', 'FJ4']);
   });

@@ -3,6 +3,12 @@
 /** Strato mostrato dalla barra dei comandi. I valori sono quelli dei passi di percorso nei contenuti. */
 export type Layer = 'muscoli' | 'organi' | 'scheletro';
 
+/**
+ * Corpo mostrato (D29): gli organi comuni sono quelli di BodyParts3D; il corpo femminile aggiunge
+ * gli organi dello Human Reference Atlas e nasconde quelli maschili.
+ */
+export type BodyKind = 'uomo' | 'donna';
+
 /** Pagina di lettura; il valore è anche il suo indirizzo (`/indice`, `/fonti`, `/informazioni`). */
 export type PageId = 'indice' | 'fonti' | 'informazioni';
 
@@ -14,7 +20,8 @@ export interface ActiveGuidedPath {
 
 export interface AtlasState {
   layer: Layer;
-  /** Sagoma della pelle visibile. */
+  body: BodyKind;
+  /** Sagoma della pelle visibile (solo nel corpo maschile: la pelle del modello è maschile). */
   skin: boolean;
   /** Unità selezionata: id di un organo o di un elemento (osso, muscolo). */
   selection: string | null;
@@ -42,6 +49,7 @@ export type AtlasAction =
   /** Mostra lo strato che contiene la struttura selezionata, senza perdere la selezione (indirizzo diretto). */
   | { type: 'revealLayer'; layer: Layer }
   | { type: 'toggleSkin' }
+  | { type: 'setBody'; body: BodyKind }
   | { type: 'select'; id: string | null }
   | { type: 'setSheet'; open: boolean }
   | { type: 'setPage'; page: PageId | null }

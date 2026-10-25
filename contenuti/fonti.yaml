@@ -377,3 +377,35 @@ seer-risposta-ormoni:
   ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
   url: https://training.seer.cancer.gov/anatomy/reproductive/male/response.html
   consultata: 2026-10-24
+
+# Fonti aggiunte il 2026-10-24 per l'apparato genitale femminile e le mammelle (D29).
+
+openstax-ap-27-2:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 27.2 Anatomy and Physiology of the Ovarian Reproductive System"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/27-2-anatomy-and-physiology-of-the-ovarian-reproductive-system
+  consultata: 2026-10-24
+
+seer-ovaie:
+  tipo: istituzionale
+  titolo: "Ovaries"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/reproductive/female/ovaries.html
+  consultata: 2026-10-24
+
+seer-tratto-genitale-femminile:
+  tipo: istituzionale
+  titolo: "Genital Tract"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/reproductive/female/tract.html
+  consultata: 2026-10-24
+
+seer-ghiandole-mammarie:
+  tipo: istituzionale
+  titolo: "Mammary Glands"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/reproductive/female/glands.html
+  consultata: 2026-10-24
