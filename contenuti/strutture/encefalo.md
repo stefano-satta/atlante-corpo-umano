@@ -21,7 +21,7 @@ limiti: >
   modello 3D mostra i giri della corteccia, i nuclei profondi, il tronco
   encefalico e il cervelletto, ma non le meningi né i ventricoli.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

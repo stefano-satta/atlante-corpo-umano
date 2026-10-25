@@ -21,7 +21,7 @@ limiti: >
   non mostra il colon sigmoideo né il canale anale. Il testo non riporta tempi
   di transito e quantità, che variano molto da persona a persona.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

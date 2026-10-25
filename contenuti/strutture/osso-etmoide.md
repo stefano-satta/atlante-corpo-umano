@@ -13,7 +13,7 @@ relazioni:
   - { tipo: collegato-a, id: osso-sfenoide, fonte: openstax-ap-7-2 }
   - { tipo: collegato-a, id: vomere, fonte: openstax-ap-7-2 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

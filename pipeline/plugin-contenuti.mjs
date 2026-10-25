@@ -81,7 +81,7 @@ export function contenuti({ radice = process.cwd() } = {}) {
       const percorso = id.slice(PREFISSO.length + 1);
       if (percorso === '') {
         const indice = d.strutture.map(
-          ({ sezioni, relazioni, fonti, limiti, fontiBreve, processi, ...resto }) => resto,
+          ({ sezioni, figura, relazioni, fonti, limiti, fontiBreve, processi, ...resto }) => resto,
         );
         const caricatori = (elenco, tipo) =>
           `{${elenco.map((c) => `${JSON.stringify(c.id)}: () => import(${JSON.stringify(`${PREFISSO}/${tipo}/${c.id}`)})`).join(',')}}`;
@@ -92,7 +92,7 @@ export function contenuti({ radice = process.cwd() } = {}) {
           `export const PERCORSI = ${JSON.stringify(d.percorsi.map(({ id, titolo, stato, passi }) => ({ id, titolo, stato, passi: passi.length })))};`,
           `export const caricaPercorso = ${caricatori(d.percorsi, 'percorso')};`,
           `export const PROCESSI = ${JSON.stringify(d.strutture.flatMap((s) => s.processi.filter((p) => p.principale === s.id).map(({ id, titolo, stato }) => ({ id, titolo, stato, struttura: s.id }))))};`,
-          `export const GLOSSARIO = ${JSON.stringify(d.glossario.map(({ id, termine, varianti }) => ({ id, termine, varianti })))};`,
+          `export const GLOSSARIO = ${JSON.stringify(d.glossario.map(({ id, termine, varianti, latino, ta2, parteDi }) => ({ id, termine, varianti, latino, ta2, parteDi })))};`,
           `export const caricaGlossario = () => import(${JSON.stringify(`${PREFISSO}/glossario`)});`,
           `export const caricaFonti = () => import(${JSON.stringify(`${PREFISSO}/fonti`)});`,
         ].join('\n');

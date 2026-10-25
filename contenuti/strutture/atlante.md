@@ -13,7 +13,7 @@ relazioni:
   - { tipo: collegato-a, id: osso-occipitale, fonte: openstax-ap-7-3 }
   - { tipo: collegato-a, id: epistrofeo, fonte: openstax-ap-7-3 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

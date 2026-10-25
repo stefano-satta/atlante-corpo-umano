@@ -32,6 +32,6 @@ export function Organ({
 }
 
 /** Freccia di cammino: un tratteggio che scorre durante la riproduzione, visibile solo nella sua fase. */
-export function Flow({ d, on }: { d: string; on: boolean }) {
-  return <path className="flow" data-on={on} d={d} markerEnd="url(#apparatus-arrow)" />;
+export function Flow({ d, on, marker = 'apparatus-arrow' }: { d: string; on: boolean; marker?: string }) {
+  return <path className="flow" data-on={on} d={d} markerEnd={`url(#${marker})`} />;
 }

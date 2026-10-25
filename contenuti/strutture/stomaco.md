@@ -21,7 +21,7 @@ limiti: >
   regione cardiaca, fundica, corpo e regione pilorica); il testo usa i nomi di
   OpenStax.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

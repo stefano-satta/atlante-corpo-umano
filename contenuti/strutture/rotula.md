@@ -13,7 +13,7 @@ relazioni:
   - { tipo: collegato-a, id: femore, fonte: openstax-ap-8-4 }
   - { tipo: collegato-a, id: tibia, fonte: openstax-ap-8-4 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

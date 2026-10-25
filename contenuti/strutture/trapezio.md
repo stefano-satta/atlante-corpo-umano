@@ -15,7 +15,7 @@ relazioni:
 limiti: >
   Da non confondere con il muscolo trapezio del dorso.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

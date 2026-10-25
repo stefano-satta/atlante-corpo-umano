@@ -20,12 +20,12 @@ limiti: >
   misure.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-10-25
 ---
 
 ## In breve
 
-Il pene è l'organo maschile dell'accoppiamento: trasferisce lo sperma nella vagina [@seer-pene]. Lo percorre l'uretra, attraverso cui escono sia l'urina sia lo sperma [@seer-dotti-genitali].
+Il pene è l'organo maschile dell'accoppiamento: trasferisce lo sperma nella vagina [@seer-pene]. Serve anche all'apparato urinario: lo percorre per tutta la lunghezza l'uretra, che si apre sulla sua punta e da cui escono sia l'urina sia lo sperma [@seer-uretra] [@seer-dotti-genitali].
 
 ## Dove si trova
 

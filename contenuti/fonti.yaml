@@ -332,6 +332,27 @@ niddk-vie-urinarie:
   url: https://www.niddk.nih.gov/health-information/urologic-diseases/urinary-tract-how-it-works
   consultata: 2026-10-24
 
+seer-apparato-urinario:
+  tipo: istituzionale
+  titolo: "Introduction to the Urinary System"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/urinary/
+  consultata: 2026-10-25
+
+seer-ureteri:
+  tipo: istituzionale
+  titolo: "Ureters"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/urinary/components/ureters.html
+  consultata: 2026-10-25
+
+seer-uretra:
+  tipo: istituzionale
+  titolo: "Urethra"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/urinary/components/urethra.html
+  consultata: 2026-10-25
+
 # Fonti aggiunte il 2026-10-24 per l'apparato genitale maschile.
 
 openstax-ap-27-1:
@@ -402,6 +423,13 @@ seer-tratto-genitale-femminile:
   ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
   url: https://training.seer.cancer.gov/anatomy/reproductive/female/tract.html
   consultata: 2026-10-24
+
+seer-genitali-esterni-femminili:
+  tipo: istituzionale
+  titolo: "External Genitalia"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/reproductive/female/genitalia.html
+  consultata: 2026-10-25
 
 seer-ghiandole-mammarie:
   tipo: istituzionale

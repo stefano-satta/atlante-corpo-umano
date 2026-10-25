@@ -22,14 +22,23 @@ const RELATION_TYPES: { type: Relation['tipo']; label: string }[] = [
 // Le animazioni si scaricano solo quando si apre la scheda che le contiene.
 const CardiacCycle = lazy(() => import('@/components/features/cardiac-cycle/CardiacCycle'));
 const ReproductiveProcess = lazy(() => import('@/components/features/reproductive-system/ReproductiveProcess'));
+const UrinaryProcess = lazy(() => import('@/components/features/urinary-system/UrinaryProcess'));
+const VulvaFigure = lazy(() => import('@/components/features/reproductive-system/VulvaFigure'));
+
+/** Apparato di uno schema: dà il titolo della sua sottosezione in "Gli apparati al lavoro". */
+const apparatusOf = (p: Process) => (p.schema === 'urinario' ? 'urinario' : 'riproduttivo');
+const APPARATUS_TITLES = { urinario: 'Apparato urinario', riproduttivo: 'Apparato riproduttivo' };
 
 /** Animazione di un processo, con l'avviso se il suo testo non è ancora approvato. */
 function ProcessFigure({ process, structure }: { process: Process; structure: string }) {
+  const { state } = useAtlas();
   return (
     <Suspense fallback={<p role="status">Caricamento dell'animazione…</p>}>
       <DraftNotice status={process.stato} />
       {process.schema === 'cuore' ? (
         <CardiacCycle process={process} />
+      ) : process.schema === 'urinario' ? (
+        <UrinaryProcess process={process} current={structure} body={state.body} />
       ) : (
         <ReproductiveProcess process={process} current={structure} />
       )}
@@ -51,11 +60,15 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
     title.current?.focus({ preventScroll: true });
   }, [entry.id]);
 
-  // Gli schemi di un intero apparato hanno una sezione propria, dopo il testo dell'organo.
-  const apparatus = s?.processi.filter((p) => p.schema !== 'cuore') ?? [];
+  // Gli schemi di un intero apparato hanno una sezione propria, dopo il testo dell'organo, con
+  // una sottosezione per apparato: prima quello dell'organo (l'uretra maschile è in entrambi).
+  const own = entry.apparato === 'urinario' ? 'urinario' : 'riproduttivo';
+  const apparatus = (s?.processi.filter((p) => p.schema !== 'cuore') ?? []).sort(
+    (a, b) => Number(apparatusOf(b) === own) - Number(apparatusOf(a) === own),
+  );
   const toc = [
     ...(s?.sezioni.map((x) => ({ anchor: x.ancora, title: x.chiave })) ?? []),
-    ...(apparatus.length ? [{ anchor: 'apparato', title: "L'apparato" }] : []),
+    ...(apparatus.length ? [{ anchor: 'apparato', title: apparatus.length > 1 ? 'Gli apparati' : "L'apparato" }] : []),
     { anchor: 'collegamenti', title: 'Collegamenti' },
     { anchor: 'fonti', title: 'Fonti' },
   ];
@@ -107,6 +120,11 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
           <section key={x.ancora} id={`sez-${x.ancora}`} aria-labelledby={`h-${x.ancora}`}>
             <h2 id={`h-${x.ancora}`}>{x.titolo}</h2>
             <RichText className="text" html={x.html} />
+            {s.figura?.sezione === x.chiave && (
+              <Suspense fallback={<p role="status">Caricamento della figura…</p>}>
+                <VulvaFigure figure={s.figura} />
+              </Suspense>
+            )}
             {x.chiave === 'Il processo' &&
               s.processi
                 .filter((p) => p.schema === 'cuore')
@@ -115,9 +133,12 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
         ))}
         {apparatus.length > 0 && (
           <section id="sez-apparato" aria-labelledby="h-apparato">
-            <h2 id="h-apparato">L'apparato al lavoro</h2>
+            <h2 id="h-apparato">{apparatus.length > 1 ? 'Gli apparati al lavoro' : "L'apparato al lavoro"}</h2>
             {apparatus.map((p) => (
-              <ProcessFigure key={p.id} process={p} structure={entry.id} />
+              <section key={p.id} className="apparatus-section" aria-labelledby={`h-apparato-${p.id}`}>
+                <h3 id={`h-apparato-${p.id}`}>{APPARATUS_TITLES[apparatusOf(p)]}</h3>
+                <ProcessFigure process={p} structure={entry.id} />
+              </section>
             ))}
           </section>
         )}

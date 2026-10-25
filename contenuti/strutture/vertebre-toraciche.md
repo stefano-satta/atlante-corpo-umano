@@ -14,7 +14,7 @@ relazioni:
   - { tipo: collegato-a, id: vertebre-cervicali, fonte: openstax-ap-7-3 }
   - { tipo: collegato-a, id: vertebre-lombari, fonte: openstax-ap-7-3 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

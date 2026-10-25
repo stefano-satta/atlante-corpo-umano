@@ -15,7 +15,7 @@ relazioni:
 limiti: >
   Il coccige, che si articola con la punta del sacro, non è presente nel modello 3D.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

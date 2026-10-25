@@ -51,6 +51,16 @@ export function IndexPage() {
     close();
   };
 
+  // Una parte senza modello 3D porta alla sua voce del glossario, più in basso nella pagina.
+  const showDefinition = (term: string) => {
+    setQuery('');
+    requestAnimationFrame(() => {
+      const element = document.getElementById(`glossario-${term}`);
+      element?.scrollIntoView({ block: 'start' });
+      element?.focus({ preventScroll: true });
+    });
+  };
+
   const filteredGroups = groups
     .map((g) => ({ ...g, entries: g.entries.filter((e) => matches(query, [e.name, e.latinTerm, ...e.searchTexts])) }))
     .filter((g) => g.entries.length);
@@ -158,13 +168,21 @@ export function IndexPage() {
                 </h3>
                 <ul className="index-entries">
                   {g.entries.map((e) => (
-                    <StructureEntry key={e.key} entry={e} textOnly={textOnly} onShow={show} onOpenSheet={openSheet} />
+                    <StructureEntry
+                      key={e.key}
+                      entry={e}
+                      textOnly={textOnly}
+                      onShow={show}
+                      onOpenSheet={openSheet}
+                      onShowDefinition={showDefinition}
+                    />
                   ))}
                 </ul>
               </section>
             ))}
             <p className="note">
               Le ossa e i muscoli senza testo non sono nell'Indice: per ora hanno solo il nome inglese del modello 3D.
+              Le parti indicate "Non nel modello 3D" sono descritte nella scheda dell'organo e nel glossario.
               {!textOnly && ' Si possono scegliere direttamente nel corpo.'}
             </p>
           </section>
@@ -187,7 +205,17 @@ export function IndexPage() {
                 <dl className="glossary">
                   {glossary.map((d) => (
                     <div key={d.id} id={`glossario-${d.id}`} tabIndex={-1} className="glossary-entry">
-                      <dt>{d.termine}</dt>
+                      <dt>
+                        {d.termine}
+                        {d.latino && (
+                          <>
+                            {' '}
+                            <span className="entry-term" lang="la">
+                              {d.latino}
+                            </span>
+                          </>
+                        )}
+                      </dt>
                       <dd>
                         <RichText className="definition" html={d.html} />
                         <ShortSourceList sources={d.fonti} />

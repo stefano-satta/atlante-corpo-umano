@@ -14,7 +14,7 @@ relazioni:
 limiti: >
   Lo sterno, con cui si articola la clavicola, non è presente nel modello 3D.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

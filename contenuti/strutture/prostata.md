@@ -11,7 +11,7 @@ elementi3d: { gruppo: prostata }
 relazioni:
   - { tipo: fa-parte-di, id: apparato-genitale-maschile }
   - { tipo: collegato-a, id: vescica, fonte: seer-ghiandole-genitali }
-  - { tipo: collegato-a, id: uretra, fonte: seer-ghiandole-genitali }
+  - { tipo: collegato-a, id: uretra, fonte: seer-uretra }
   - { tipo: collegato-a, id: intestino-crasso, fonte: openstax-ap-27-1 }
   - { tipo: collegato-a, id: dotti-deferenti, fonte: seer-dotti-genitali }
 limiti: >
@@ -21,12 +21,12 @@ limiti: >
   come controversa. L'atlante non dà indicazioni mediche.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-10-25
 ---
 
 ## In breve
 
-La prostata è una ghiandola grande circa come una noce, che circonda l'uretra appena sotto la vescica e aggiunge allo sperma un liquido lattiginoso [@seer-ghiandole-genitali].
+La prostata è una ghiandola grande circa come una noce, che aggiunge allo sperma un liquido lattiginoso [@seer-ghiandole-genitali]. Sta appena sotto la vescica e la attraversa il primo tratto dell'uretra, il canale da cui escono sia l'urina sia lo sperma: per questo si trova sulla via di entrambi gli apparati, urinario e genitale [@seer-ghiandole-genitali] [@seer-uretra].
 
 ## Dove si trova
 

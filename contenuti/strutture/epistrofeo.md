@@ -12,7 +12,7 @@ relazioni:
   - { tipo: fa-parte-di, id: scheletro }
   - { tipo: collegato-a, id: atlante, fonte: openstax-ap-7-3 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

@@ -15,7 +15,7 @@ relazioni:
 limiti: >
   Le vertebre cervicali sono sette; questa voce riguarda le vertebre dalla terza alla settima, mentre la prima (atlante) e la seconda (epistrofeo) hanno una voce propria.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

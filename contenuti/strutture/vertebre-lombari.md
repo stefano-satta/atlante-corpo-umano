@@ -13,7 +13,7 @@ relazioni:
   - { tipo: collegato-a, id: vertebre-toraciche, fonte: openstax-ap-7-3 }
   - { tipo: collegato-a, id: osso-sacro, fonte: openstax-ap-7-3 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

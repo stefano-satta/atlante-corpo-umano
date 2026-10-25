@@ -226,3 +226,273 @@ ventricolo:
     [@nhlbi-cuore-anatomia].
   stato: approvato
   revisione: 2026-10-24
+
+# Genitali esterni femminili e uretra (2026-10-25). Parti che non sono nel modello 3D: "parteDi"
+# indica la scheda che le descrive, e l'Indice le elenca nell'apparato di quella scheda; "latino"
+# e "ta2" sono il termine della Terminologia Anatomica e il suo numero, verificati sul TA2 Viewer.
+
+vulva:
+  termine: vulva
+  latino: vulva
+  ta2: 3547
+  parteDi: vagina
+  varianti: [genitali esterni femminili, pudendo]
+  definizione: >
+    L'insieme dei genitali esterni femminili, detto anche pudendo. Comprende il monte del pube, le
+    grandi e le piccole labbra, il clitoride e le ghiandole che si aprono nel vestibolo
+    [@seer-genitali-esterni-femminili] [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+monte-del-pube:
+  termine: monte del pube
+  latino: mons pubis
+  ta2: 3548
+  parteDi: vagina
+  definizione: >
+    Cuscinetto di grasso nella parte anteriore della vulva, sopra l'osso pubico. Dopo la pubertà si
+    copre di peli pubici [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+grandi-labbra:
+  termine: grandi labbra
+  latino: labium majus vulvae
+  ta2: 3549
+  parteDi: vagina
+  varianti: [grande labbro]
+  definizione: >
+    Le due pieghe di pelle coperte di peli che iniziano appena dietro il monte del pube; le piccole
+    labbra si trovano al loro interno. Vi arriva il legamento rotondo dell'utero [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+piccole-labbra:
+  termine: piccole labbra
+  latino: labium minus vulvae
+  ta2: 3553
+  parteDi: vagina
+  varianti: [piccolo labbro]
+  definizione: >
+    Le due pieghe più sottili e più pigmentate che si trovano all'interno delle grandi labbra.
+    Proteggono l'uretra e l'ingresso delle vie genitali, e nella parte alta e anteriore si uniscono
+    attorno al clitoride. Forma e dimensioni variano naturalmente da persona a persona
+    [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+clitoride:
+  termine: clitoride
+  latino: clitoris
+  ta2: 3565
+  parteDi: vagina
+  definizione: >
+    Organo erettile, simile al pene, che risponde alla stimolazione sessuale
+    [@seer-genitali-esterni-femminili]. Deriva dalle stesse cellule del glande del pene e ha molti
+    nervi, che lo rendono importante per la sensibilità sessuale e l'orgasmo [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+glande-del-clitoride:
+  termine: glande del clitoride
+  latino: glans clitoridis
+  ta2: 3568
+  parteDi: vagina
+  definizione: >
+    La parte del clitoride visibile all'esterno, circondata dalla parte alta e anteriore delle
+    piccole labbra [@openstax-ap-27-2]. Nella Terminologia Anatomica il clitoride comprende anche un
+    corpo e due radici, i pilastri, che non si vedono dall'esterno [@fipat-ta2].
+  stato: approvato
+  revisione: 2026-10-25
+
+prepuzio-del-clitoride:
+  termine: prepuzio del clitoride
+  latino: preputium clitoridis
+  ta2: 3555
+  parteDi: vagina
+  definizione: >
+    La piega di pelle sopra il glande del clitoride, indicata nella figura della vulva del manuale
+    OpenStax [@openstax-ap-27-2]. Nella Terminologia Anatomica è una parte delle piccole labbra
+    [@fipat-ta2].
+  stato: approvato
+  revisione: 2026-10-25
+
+vestibolo-della-vagina:
+  termine: vestibolo della vagina
+  latino: vestibulum vaginae
+  ta2: 3558
+  parteDi: vagina
+  varianti: [vestibolo]
+  definizione: >
+    La zona della vulva, dietro il clitoride, in cui si aprono l'uretra, la vagina, le ghiandole
+    parauretrali e le ghiandole vestibolari maggiori [@seer-genitali-esterni-femminili]. Il muco
+    delle ghiandole vestibolari la mantiene umida [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+orifizio-uretrale-esterno-femminile:
+  termine: orifizio uretrale esterno femminile
+  latino: ostium externum urethrae femininae
+  ta2: 3557
+  parteDi: vagina
+  varianti: [orifizio uretrale esterno, apertura dell'uretra, meato urinario]
+  definizione: >
+    L'apertura dell'uretra verso l'esterno. Nella donna si trova nel vestibolo, appena davanti
+    all'apertura della vagina [@seer-uretra] [@seer-genitali-esterni-femminili].
+  stato: approvato
+  revisione: 2026-10-25
+
+orifizio-vaginale:
+  termine: orifizio vaginale
+  latino: ostium vaginae
+  ta2: 3562
+  parteDi: vagina
+  varianti: [apertura della vagina, introito vaginale]
+  definizione: >
+    L'apertura della vagina verso l'esterno, nel vestibolo. Si trova tra l'apertura dell'uretra e
+    l'ano, e ai suoi lati sboccano le ghiandole vestibolari maggiori [@openstax-ap-27-2]
+    [@seer-genitali-esterni-femminili].
+  stato: approvato
+  revisione: 2026-10-25
+
+imene:
+  termine: imene
+  latino: hymen
+  ta2: 3530
+  parteDi: vagina
+  definizione: >
+    Membrana sottile e perforata che può coprire in parte l'ingresso della vagina. Già alla
+    nascita è solo parziale, perché il flusso mestruale e le altre secrezioni devono poter uscire:
+    per questo un imene intatto non indica la "verginità". Può lacerarsi con l'esercizio fisico
+    intenso, con il rapporto e con il parto [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+ghiandole-vestibolari-maggiori:
+  termine: ghiandole vestibolari maggiori
+  latino: glandula vestibularis major
+  ta2: 3563
+  parteDi: vagina
+  varianti: [ghiandole di Bartolini, ghiandola di Bartolini, ghiandola vestibolare maggiore]
+  definizione: >
+    Due ghiandole, dette anche di Bartolini, che sboccano ai lati dell'apertura della vagina, nel
+    vestibolo [@openstax-ap-27-2] [@seer-genitali-esterni-femminili]. Producono muco che mantiene
+    umida la zona del vestibolo [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+ghiandole-vestibolari-minori:
+  termine: ghiandole vestibolari minori
+  latino: glandulae vestibulares minores
+  ta2: 3564
+  parteDi: vagina
+  definizione: >
+    Piccole ghiandole che si trovano vicino al clitoride. Come le ghiandole vestibolari maggiori,
+    producono muco che mantiene umida la zona del vestibolo [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-25
+
+ghiandole-parauretrali:
+  termine: ghiandole parauretrali
+  latino: glandulae paraurethrales femininae
+  ta2: 3440
+  parteDi: vagina
+  definizione: >
+    Ghiandole che, come l'uretra e la vagina, si aprono nel vestibolo, dietro il clitoride
+    [@seer-genitali-esterni-femminili]. Nella Terminologia Anatomica sono una parte dell'uretra
+    femminile [@fipat-ta2].
+  stato: approvato
+  revisione: 2026-10-25
+
+perineo:
+  termine: perineo
+  latino: perineum
+  ta2: 131
+  parteDi: vagina
+  definizione: >
+    La regione a forma di rombo tra la sinfisi pubica davanti, il coccige dietro e le tuberosità
+    ischiatiche ai lati, appena sotto il pavimento pelvico. Si divide in un triangolo anteriore,
+    urogenitale, che contiene i genitali esterni, e in uno posteriore, anale, che contiene l'ano
+    [@openstax-ap-11-4].
+  stato: approvato
+  revisione: 2026-10-25
+
+uretra:
+  termine: uretra
+  latino: urethra
+  ta2: 3425
+  definizione: >
+    Il tubo dalle pareti sottili che porta l'urina dal fondo della vescica all'esterno. Nella donna
+    è lunga 3-4 centimetri; nell'uomo circa 20 centimetri, e porta all'esterno anche lo sperma
+    [@seer-uretra].
+  stato: approvato
+  revisione: 2026-10-25
+
+uretra-femminile:
+  termine: uretra femminile
+  latino: urethra feminina
+  ta2: 3426
+  parteDi: uretra
+  definizione: >
+    L'uretra della donna: è corta, lunga solo 3-4 centimetri, e si apre all'esterno appena davanti
+    all'apertura della vagina [@seer-uretra].
+  stato: approvato
+  revisione: 2026-10-25
+
+uretra-maschile:
+  termine: uretra maschile
+  latino: urethra masculina
+  ta2: 3442
+  parteDi: uretra
+  definizione: >
+    L'uretra dell'uomo: è lunga circa 20 centimetri, porta all'esterno sia l'urina sia lo sperma e
+    si divide in tre tratti, prostatico, membranoso e spongioso [@seer-uretra].
+  stato: approvato
+  revisione: 2026-10-25
+
+uretra-prostatica:
+  termine: uretra prostatica
+  latino: pars prostatica urethrae
+  ta2: 3445
+  parteDi: uretra
+  definizione: >
+    Il primo tratto dell'uretra maschile, vicino alla vescica, che attraversa la prostata
+    [@seer-uretra]. Riceve i dotti eiaculatori e numerosi dotti della prostata
+    [@seer-dotti-genitali].
+  stato: approvato
+  revisione: 2026-10-25
+
+uretra-membranosa:
+  termine: uretra membranosa
+  latino: pars membranacea urethrae masculinae
+  ta2: 3453
+  parteDi: uretra
+  definizione: >
+    Il secondo tratto dell'uretra maschile, breve, che attraversa il pavimento pelvico ed entra nel
+    pene [@seer-uretra].
+  stato: approvato
+  revisione: 2026-10-25
+
+uretra-spongiosa:
+  termine: uretra spongiosa
+  latino: pars spongiosa urethrae
+  ta2: 3455
+  parteDi: uretra
+  varianti: [uretra peniena]
+  definizione: >
+    Il terzo tratto dell'uretra maschile, il più lungo: percorre tutto il pene, all'interno del
+    corpo spongioso, fino all'orifizio uretrale esterno sulla punta del pene [@seer-uretra]
+    [@seer-pene]. Vi sboccano i dotti delle ghiandole bulbouretrali [@seer-dotti-genitali].
+  stato: approvato
+  revisione: 2026-10-25
+
+orifizio-uretrale-esterno-maschile:
+  termine: orifizio uretrale esterno maschile
+  latino: ostium externum urethrae masculinae
+  ta2: 3458
+  parteDi: uretra
+  varianti: [orifizio uretrale esterno, meato urinario]
+  definizione: >
+    L'apertura dell'uretra verso l'esterno. Nell'uomo si trova sulla punta del pene [@seer-uretra].
+  stato: approvato
+  revisione: 2026-10-25

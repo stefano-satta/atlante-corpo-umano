@@ -19,7 +19,7 @@ limiti: >
   fragile senza una capsula robusta. Il testo riporta solo che la milza è
   fragile. Le conseguenze dell'asportazione della milza non sono trattate.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

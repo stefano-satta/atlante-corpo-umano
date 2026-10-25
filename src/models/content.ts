@@ -88,11 +88,13 @@ export type ReproductivePhase =
   | 'endometrio'
   | 'mestruazioni';
 
+export type UrinaryPhase = 'filtrazione' | 'riassorbimento' | 'ureteri' | 'riempimento' | 'minzione';
+
 /** Passo di uno schema di apparato: la fase che il disegno mostra. */
-export interface PhaseStep {
+export interface PhaseStep<P = ReproductivePhase> {
   titolo: string;
   html: string;
-  fase: ReproductivePhase;
+  fase: P;
 }
 
 interface ProcessBase {
@@ -109,11 +111,23 @@ export type ReproductiveProcess = ProcessBase & {
   schema: 'genitale-maschile' | 'genitale-femminile';
   passi: PhaseStep[];
 };
-export type Process = HeartProcess | ReproductiveProcess;
+export type UrinaryProcess = ProcessBase & { schema: 'urinario'; passi: PhaseStep<UrinaryPhase>[] };
+export type Process = HeartProcess | ReproductiveProcess | UrinaryProcess;
+
+/** Figura disegnata della scheda, in fondo a una sezione: lo schema dice quale disegno mostrare. */
+export interface Figure {
+  schema: 'vulva';
+  titolo: string;
+  /** Chiave della sezione che contiene la figura ("Dove si trova"…). */
+  sezione: string;
+  /** Didascalia, con i rimandi numerati come il resto della scheda. */
+  html: string;
+}
 
 export interface Structure extends StructureSummary {
   limiti: string | null;
   sezioni: Section[];
+  figura: Figure | null;
   relazioni: Relation[];
   processi: Process[];
   fonti: NumberedSource[];
@@ -180,6 +194,11 @@ export interface GlossaryEntry {
   id: string;
   termine: string;
   varianti: string[];
+  /** Termine latino della TA2 e suo numero, quando la voce è una parte anatomica. */
+  latino: string | null;
+  ta2: number | null;
+  /** Struttura con scheda che descrive la parte, assente dal modello 3D: l'Indice la elenca lì. */
+  parteDi: string | null;
 }
 
 /** Voce completa del glossario (D26): definizione breve con le sue fonti. */

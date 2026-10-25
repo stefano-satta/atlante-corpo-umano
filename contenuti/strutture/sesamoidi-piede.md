@@ -14,7 +14,7 @@ relazioni:
 limiti: >
   Le fonti consultate non descrivono le ossa sesamoidi del piede in particolare: il testo ne dà solo la definizione generale. Il modello 3D ne mostra due per piede.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

@@ -1,0 +1,38 @@
+/* Schema animato dell'apparato urinario: usa le regole di .apparatus-diagram (reproductive-system.css). */
+.cycle {
+  --urine: #e8c95a;
+}
+.apparatus-diagram .urine {
+  fill: var(--urine);
+  fill-opacity: 0.55;
+  transition:
+    y 700ms var(--ease-out),
+    height 700ms var(--ease-out);
+}
+.urinary-diagram .cells circle {
+  fill: var(--urine);
+}
+/* Gli sfinteri chiusi stringono l'uretra; aperti si allontanano. */
+.urinary-diagram .sphincters path {
+  stroke: var(--slide);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: transform 400ms var(--ease-out);
+}
+.urinary-diagram .sphincters[data-open="true"] path {
+  transform: scaleX(1.25);
+  transform-box: view-box;
+  transform-origin: 260px 0;
+  opacity: 0.7;
+}
+.urinary-diagram .signal-label {
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+.urinary-diagram[data-phase="riempimento"] .signal-label {
+  opacity: 1;
+}
+.swatch.urine {
+  background: var(--urine);
+  opacity: 0.8;
+}

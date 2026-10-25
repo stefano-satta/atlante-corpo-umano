@@ -23,7 +23,7 @@ limiti: >
   diverse dalla digestione sono citate solo in generale, perché la fonte non le
   elenca.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

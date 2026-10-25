@@ -306,6 +306,47 @@ alveolo:
     expect(errori).toContain('termine del glossario inesistente: [[bronco]]');
   });
 
+  it('controlla termine latino, numero TA2 e struttura delle parti senza modello 3D', () => {
+    const r = conGlossario(
+      `${GLOSSARIO}parte:\n  termine: parte\n  latino: pars\n  ta2: 1\n  parteDi: cuore\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\nsola:\n  termine: sola\n  latino: sola\n  parteDi: fegato\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\n`,
+      '## In breve\n\nTesto [@a].\n',
+    );
+    const errori = r.errori.join('\n');
+    expect(r.glossario.find((v) => v.id === 'parte')).toMatchObject({ latino: 'pars', ta2: 1, parteDi: 'cuore' });
+    expect(r.glossario.find((v) => v.id === 'alveolo')).toMatchObject({ latino: null, ta2: null, parteDi: null });
+    expect(errori).toContain('sola: latino e ta2 vanno indicati insieme');
+    expect(errori).toContain('sola: parteDi indica una struttura sconosciuta: fegato');
+    expect(errori).not.toContain('parte:');
+  });
+
+  it('compila la figura di una scheda continuando la numerazione delle fonti', () => {
+    const figura =
+      'figura:\n  schema: vulva\n  titolo: Genitali esterni\n  sezione: In breve\n  didascalia: Lo [[alveolo]] [@b].\n';
+    cartella = fs.mkdtempSync(path.join(os.tmpdir(), 'contenuti-'));
+    cartelle.push(cartella);
+    fs.mkdirSync(path.join(cartella, 'strutture'));
+    fs.writeFileSync(path.join(cartella, 'fonti.yaml'), FONTI);
+    fs.writeFileSync(path.join(cartella, 'riferimenti.yaml'), RIFERIMENTI);
+    fs.writeFileSync(path.join(cartella, 'glossario.yaml'), GLOSSARIO);
+    fs.writeFileSync(
+      path.join(cartella, 'strutture', 'cuore.md'),
+      `${intestazione(figura)}## In breve\n\nTesto [@a].\n`,
+    );
+    const r = leggiContenuti(cartella, MODELLO);
+    expect(r.errori).toEqual([]);
+    const f = r.strutture[0].figura;
+    expect(f).toMatchObject({ schema: 'vulva', titolo: 'Genitali esterni', sezione: 'In breve' });
+    expect(f.html).toContain('data-term="alveolo"');
+    expect(f.html).toContain('<a href="#fonte-2">2</a>');
+    fs.writeFileSync(
+      path.join(cartella, 'strutture', 'cuore.md'),
+      `${intestazione(figura.replace('In breve', 'Cosa fa'))}## In breve\n\nTesto [@a].\n`,
+    );
+    expect(leggiContenuti(cartella, MODELLO).errori.join('\n')).toContain(
+      'figura: sezione deve essere una delle sezioni della scheda (In breve)',
+    );
+  });
+
   it('il glossario reale supera il controllo e ogni segno nei testi ha la sua voce', () => {
     const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
     expect(r.errori).toEqual([]);

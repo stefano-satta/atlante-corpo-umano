@@ -18,7 +18,7 @@ limiti: >
   fino ai bronchi segmentali; i bronchioli e gli alveoli sono troppo piccoli per
   essere rappresentati. Il testo non riporta valori numerici sulle ramificazioni.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

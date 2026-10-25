@@ -9,7 +9,7 @@ import ReproductiveProcess from './ReproductiveProcess';
 let male: Process;
 let female: Process;
 beforeAll(async () => {
-  male = (await caricaStruttura.prostata()).default.processi[0] as Process;
+  male = (await caricaStruttura.prostata()).default.processi.find((p) => p.schema === 'genitale-maschile') as Process;
   female = (await caricaStruttura.utero()).default.processi[0] as Process;
 });
 

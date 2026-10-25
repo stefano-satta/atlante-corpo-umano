@@ -18,7 +18,7 @@ limiti: >
   il testo non lo specifica. Non sono riportate misure, che variano da persona
   a persona.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

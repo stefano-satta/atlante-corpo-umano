@@ -22,7 +22,7 @@ limiti: >
   Non sono riportati la lunghezza né i tempi della deglutizione, che variano da
   persona a persona.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

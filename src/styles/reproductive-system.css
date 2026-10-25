@@ -212,3 +212,153 @@
     font-size: 15px;
   }
 }
+
+/* Figura dei genitali esterni nella scheda della vagina: schema fisso con le parti numerate. */
+.anatomy-figure {
+  --skin: #463b5a;
+  --minus: #7d3b5a;
+  --vestibule: #a24a6c;
+  --glans: #ef8fac;
+  --hymen: #f4bfd0;
+}
+.anatomy-figure figcaption {
+  display: contents;
+}
+.vulva-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-text);
+}
+.vulva-diagram .skin {
+  fill: var(--skin);
+  stroke: var(--room-muted);
+  stroke-width: 1.2;
+}
+.vulva-diagram .mons,
+.vulva-diagram .inner {
+  stroke: none;
+}
+.vulva-diagram .inner {
+  fill: #382f4a;
+}
+.vulva-diagram .minus {
+  fill: var(--minus);
+  stroke: var(--organ-active-line, #ef8fac);
+  stroke-width: 1;
+}
+.vulva-diagram .vestibule {
+  fill: var(--vestibule);
+}
+.vulva-diagram .glans {
+  fill: var(--glans);
+}
+.vulva-diagram .opening,
+.vulva-diagram .gland-openings circle,
+.vulva-diagram .anus circle {
+  fill: var(--room);
+}
+/* L'apertura dell'organo della scheda ha il contorno chiaro, come negli schemi animati. */
+.vulva-diagram .opening.current {
+  stroke: var(--slide);
+  stroke-width: 2.5;
+}
+.vulva-diagram .hymen {
+  fill: none;
+  stroke: var(--hymen);
+  stroke-width: 2.5;
+  stroke-dasharray: 3 3;
+}
+.vulva-diagram .anus {
+  stroke: var(--room-muted);
+  stroke-width: 1.5;
+}
+.vulva-diagram .perineum {
+  fill: none;
+  stroke: var(--room-border);
+  stroke-width: 2;
+  stroke-dasharray: 6 6;
+}
+.vulva-diagram .perineum.divide {
+  stroke-dasharray: 2 6;
+}
+.vulva-diagram .region {
+  fill: var(--room-dim);
+  font-size: 12px;
+  font-style: italic;
+}
+.vulva-diagram .orientation {
+  fill: var(--room-muted);
+  font-size: 12px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.vulva-diagram .leader {
+  stroke: var(--room-muted);
+  stroke-width: 1;
+}
+.vulva-diagram .target {
+  fill: var(--room-text);
+}
+.vulva-diagram .number-badge {
+  fill: var(--room-high);
+  stroke: var(--room-muted);
+  stroke-width: 1;
+}
+.vulva-diagram .number {
+  fill: var(--room-text);
+  font-size: 11px;
+  font-weight: 700;
+}
+/* Il bordo scuro attorno alle lettere copre il tratteggio del perineo dove l'attraversa. */
+.vulva-diagram .part-text {
+  fill: var(--room-text);
+  font-size: 13px;
+  font-weight: 600;
+  paint-order: stroke;
+  stroke: var(--room);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+.figure-parts {
+  margin: 0;
+  padding-left: 2.2em;
+  columns: 2 14em;
+  column-gap: 24px;
+  font-size: 14px;
+  color: var(--room-text);
+}
+.figure-parts li {
+  break-inside: avoid;
+  padding: 1px 0;
+}
+
+@media (max-width: 760px) {
+  /* Sullo schermo stretto restano i numeri, più grandi: i nomi sono nell'elenco sotto il disegno. */
+  .vulva-diagram .part-text,
+  .vulva-diagram .region {
+    display: none;
+  }
+  .vulva-diagram .number-badge {
+    r: 14px;
+  }
+  .vulva-diagram .number {
+    font-size: 16px;
+  }
+  .vulva-diagram .orientation {
+    font-size: 20px;
+  }
+}
+
+/* Termini del glossario sul fondo scuro della figura. */
+.anatomy-figure .text a.glossary-term {
+  text-decoration-color: var(--nucleus-room);
+}
+.anatomy-figure .text a.glossary-term:hover,
+.anatomy-figure .text a.glossary-term[aria-expanded="true"] {
+  color: var(--nucleus-room);
+}
+.anatomy-figure .cycle-disclaimer p {
+  margin: 0;
+}

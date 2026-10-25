@@ -13,7 +13,7 @@ relazioni:
   - { tipo: collegato-a, id: capitato, fonte: openstax-ap-8-2 }
   - { tipo: collegato-a, id: pisiforme, fonte: openstax-ap-8-2 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

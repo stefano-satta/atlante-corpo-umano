@@ -19,7 +19,7 @@ limiti: >
   endocrina. Il dotto pancreatico accessorio non è presente in tutte le persone
   e il testo non lo nomina.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

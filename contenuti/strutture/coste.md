@@ -15,7 +15,7 @@ relazioni:
 limiti: >
   Lo sterno, a cui si uniscono le coste vere, non è presente nel modello 3D.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

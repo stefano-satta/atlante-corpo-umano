@@ -13,7 +13,7 @@ relazioni:
   - { tipo: collegato-a, id: clavicola, fonte: openstax-ap-8-1 }
   - { tipo: collegato-a, id: omero, fonte: openstax-ap-8-1 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

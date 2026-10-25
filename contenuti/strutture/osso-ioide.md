@@ -11,7 +11,7 @@ elementi3d: { fma: [FMA52749] }
 relazioni:
   - { tipo: fa-parte-di, id: scheletro }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

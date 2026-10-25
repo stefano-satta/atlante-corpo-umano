@@ -14,7 +14,7 @@ relazioni:
   - { tipo: collegato-a, id: osso-zigomatico, fonte: openstax-ap-7-2 }
   - { tipo: collegato-a, id: osso-palatino, fonte: openstax-ap-7-2 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

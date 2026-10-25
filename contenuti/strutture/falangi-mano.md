@@ -12,7 +12,7 @@ relazioni:
   - { tipo: fa-parte-di, id: scheletro }
   - { tipo: collegato-a, id: ossa-metacarpali, fonte: openstax-ap-8-2 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

@@ -14,7 +14,7 @@ relazioni:
   - { tipo: collegato-a, id: cuneiforme-mediale, fonte: openstax-ap-8-4 }
   - { tipo: collegato-a, id: cuneiforme-laterale, fonte: openstax-ap-8-4 }
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

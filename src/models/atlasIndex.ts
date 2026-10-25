@@ -10,6 +10,10 @@ export interface IndexEntry {
   /** Unità del modello da selezionare per mostrare la voce nel corpo. */
   unit: string | null;
   content?: StructureSummary;
+  /** Parte senza modello 3D, descritta nella scheda di questa struttura e nel glossario. */
+  partOf?: StructureSummary;
+  /** Voce del glossario della parte. */
+  glossaryTerm?: string;
 }
 
 export interface SystemGroup {

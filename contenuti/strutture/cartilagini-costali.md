@@ -14,7 +14,7 @@ relazioni:
 limiti: >
   Le cartilagini costali sono cartilagine e non osso; l'atlante le mostra nello strato delle ossa, come il modello 3D. Il modello comprende le cartilagini dalla prima alla settima.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

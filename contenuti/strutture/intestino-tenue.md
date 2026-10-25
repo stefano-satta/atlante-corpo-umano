@@ -21,7 +21,7 @@ limiti: >
   con l'intestino crasso è indicato in due modi non coerenti. Tra digiuno e ileo
   non c'è un confine netto.
 risorse: []
-stato: verificato
+stato: approvato
 revisione: 2026-10-24
 ---
 

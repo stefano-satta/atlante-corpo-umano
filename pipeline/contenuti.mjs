@@ -37,13 +37,17 @@ export const FLUSSI = ['vene-atri', 'atri-ventricoli', 'ventricoli-arterie'];
 
 /**
  * Schemi dei processi animati e fasi che ciascun disegno sa mostrare. Il ciclo cardiaco descrive
- * ogni passo con i campi di CAMPI_PASSO; gli schemi degli apparati genitali con una sola fase.
+ * ogni passo con i campi di CAMPI_PASSO; gli schemi degli apparati urinario e genitali con una sola fase.
  */
 export const FASI_SCHEMA = {
   'genitale-maschile': ['spermatogenesi', 'maturazione', 'trasporto', 'liquidi', 'eiaculazione'],
   'genitale-femminile': ['follicolo', 'ovulazione', 'tuba', 'endometrio', 'mestruazioni'],
+  urinario: ['filtrazione', 'riassorbimento', 'ureteri', 'riempimento', 'minzione'],
 };
 const SCHEMI_PROCESSO = ['cuore', ...Object.keys(FASI_SCHEMA)];
+
+/** Figure disegnate che una scheda può mostrare in una sua sezione, con titolo e didascalia. */
+export const FIGURE = ['vulva'];
 
 /** Schemi 2D che un passo di percorso può mostrare, e strati che può scegliere (D24). */
 export const SCHEMI_PERCORSO = ['nessuno', 'torace', 'inspirazione', 'espirazione', 'alveolo'];
@@ -223,10 +227,18 @@ export function leggiContenuti(cartella, modello) {
     controllaHtml(lexer(definizione), errore);
     if (SEGNO_GLOSSARIO.test(definizione)) errore('una definizione non può rimandare ad altre voci');
     SEGNO_GLOSSARIO.lastIndex = 0;
+    // Termine latino della TA2, facoltativo ma sempre con il suo numero.
+    if ((v?.latino === undefined) !== (v?.ta2 === undefined)) errore('latino e ta2 vanno indicati insieme');
+    if (v?.latino !== undefined && (typeof v.latino !== 'string' || !v.latino)) errore('latino non valido');
+    if (v?.ta2 !== undefined && !Number.isInteger(v.ta2)) errore('ta2 deve essere un numero');
     glossario.push({
       id,
       termine: v?.termine ?? id,
       varianti: v?.varianti ?? [],
+      latino: v?.latino ?? null,
+      ta2: v?.ta2 ?? null,
+      // Struttura che descrive la parte (che non è nel modello 3D): l'Indice la elenca lì.
+      parteDi: v?.parteDi ?? null,
       html: marked.parseInline(definizione.replace(GRUPPO_CITAZIONI, '').trim()),
       fonti: [...new Set(citate)].filter((f) => fonti[f]).map((f) => ({ id: f, ...fonti[f] })),
       stato: v?.stato,
@@ -270,6 +282,9 @@ export function leggiContenuti(cartella, modello) {
     grezze.push({ file, dati: d, corpo: letto.corpo });
   }
   const perId = new Map(grezze.map((g) => [g.dati.id, g]));
+  for (const v of glossario)
+    if (v.parteDi !== null && !perId.has(v.parteDi))
+      errori.push(`glossario.yaml: ${v.id}: parteDi indica una struttura sconosciuta: ${v.parteDi}`);
 
   // Processi animati (contenuti/processi/): un passo per sezione "## Titolo", con lo stato del
   // disegno nell'intestazione. Si compilano insieme alla struttura a cui appartengono, così i
@@ -336,12 +351,32 @@ export function leggiContenuti(cartella, modello) {
     // Le fonti si numerano nell'ordine della prima citazione; il cartellino mostra solo "In breve",
     // quindi le sue fonti sono le prime della lista.
     let fontiBreve = 0;
+    // Figura della scheda: sta in fondo a una sezione e la sua didascalia segue le regole del testo.
+    // Si compila subito dopo quella sezione, così le fonti restano numerate nell'ordine di lettura.
+    const f = d.figura;
+    let figura = null;
+    const compilaFigura = () => {
+      if (!FIGURE.includes(f?.schema)) errore(`figura: schema deve essere uno tra ${FIGURE.join(', ')}`);
+      if (typeof f?.titolo !== 'string' || !f.titolo) errore('figura: manca il titolo');
+      const testo = typeof f?.didascalia === 'string' ? f.didascalia.trim() : '';
+      if (!testo) errore('figura: manca la didascalia');
+      controllaRimandi(lexer, testo, errore);
+      figura = {
+        schema: f?.schema,
+        titolo: f?.titolo ?? '',
+        sezione: f?.sezione,
+        html: compila(testo, rimandi, errore),
+      };
+    };
     const compilate = sezioni.map((s, i) => {
       controllaRimandi(lexer, s.testo, errore);
       const html = compila(s.testo, rimandi, errore);
       if (i === 0) fontiBreve = ordine.length;
+      if (f !== undefined && f?.sezione === s.chiave) compilaFigura();
       return { chiave: s.chiave, titolo: s.titolo, ancora: ancora(s.chiave), html };
     });
+    if (f !== undefined && !figura)
+      errore(`figura: sezione deve essere una delle sezioni della scheda (${sezioni.map((s) => s.chiave).join(', ')})`);
 
     const relazioni = (d.relazioni ?? []).map((r) => {
       if (!TIPI_RELAZIONE.includes(r.tipo)) errore(`tipo di relazione sconosciuto: ${r.tipo}`);
@@ -400,6 +435,7 @@ export function leggiContenuti(cartella, modello) {
       revisione: String(d.revisione),
       limiti: typeof d.limiti === 'string' ? d.limiti.trim() : null,
       sezioni: compilate,
+      figura,
       scheda: d.tipo === 'organo' && compilate.length > 1,
       relazioni,
       processi,
