@@ -26,7 +26,7 @@ Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `pub
 - **Contenuti medici:** niente informazioni inventate. Solo fonti autorevoli (OpenStax A&P 2e, NHLBI, FIPAT TA2), verificate leggendole; ogni paragrafo ha una citazione; distinguere fatti e incertezze, dichiarare i limiti; non affermare mai una revisione medica. Un testo passa a `approvato` solo con l'approvazione dell'utente.
 - **Licenze (D6):** niente licenze NC. Dal pacchetto Z-Anatomy non si estraggono i modelli NC (orecchio interno CC BY-NC-SA, rene CC BY-NC).
 - Ogni download richiede il permesso dell'utente (nome del file, fonte, dimensione).
-- **Git** solo in locale: nessun remote né push. I commit terminano con `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
+- **Git:** remote `origin` su GitHub (`stefano-satta/atlante-corpo-umano`); si fa push solo su richiesta dell'utente. I commit terminano con `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
 
 ## Architettura
 
