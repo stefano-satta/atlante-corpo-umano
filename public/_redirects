@@ -1,0 +1,4 @@
+# Fallback SPA: le rotte di React Router (es. /percorsi/respirazione/1) non sono
+# file reali, quindi Netlify deve servire index.html. I file esistenti (assets,
+# modelli) hanno la precedenza perché la regola non è forzata.
+/*    /index.html   200
