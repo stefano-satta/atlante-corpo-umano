@@ -18,7 +18,7 @@ async function enter(page: Page, { tour = false } = {}) {
   await expect(page).toHaveURL(/\/esplora$/);
   if (!tour)
     await page
-      .getByRole('dialog', { name: 'Ruota e avvicinati' })
+      .getByRole('dialog', { name: 'Ruota, avvicinati e sposta' })
       .getByRole('button', { name: 'Salta la guida' })
       .click();
 }
@@ -312,8 +312,8 @@ test("la soglia d'ingresso porta all'atlante e il tour compare solo alla prima v
   await checkAccessibility(page);
 
   await enter(page, { tour: true });
-  const guide = page.getByRole('dialog', { name: 'Ruota e avvicinati' });
-  await expect(guide.getByRole('heading', { name: 'Ruota e avvicinati' })).toBeFocused();
+  const guide = page.getByRole('dialog', { name: 'Ruota, avvicinati e sposta' });
+  await expect(guide.getByRole('heading', { name: 'Ruota, avvicinati e sposta' })).toBeFocused();
   await checkAccessibility(page);
   for (const title of ['Scegli una struttura', 'Strati e sagoma', 'Percorsi, Indice e Fonti']) {
     await page.getByRole('dialog').getByRole('button', { name: 'Avanti' }).click();
@@ -326,7 +326,7 @@ test("la soglia d'ingresso porta all'atlante e il tour compare solo alla prima v
 
   // Il tasto ? riapre la guida, Esc la chiude; Indietro riporta alla soglia, Avanti all'atlante.
   await page.keyboard.press('?');
-  await expect(page.getByRole('heading', { name: 'Ruota e avvicinati' })).toBeFocused();
+  await expect(page.getByRole('heading', { name: 'Ruota, avvicinati e sposta' })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
   await page.goBack();

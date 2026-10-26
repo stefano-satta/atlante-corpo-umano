@@ -15,7 +15,13 @@ interface Props {
   smoothTime: number;
 }
 
-/** Controlli della telecamera (rotazione, zoom, voli) collegati al canvas di React Three Fiber. */
+// Il punto guardato non può uscire da questo spazio attorno al corpo: spostandolo, il corpo resta sempre in vista.
+const BOUNDARY = new Box3(new Vector3(-0.45, -0.1, -0.2), new Vector3(0.45, 1.75, 0.4));
+
+/**
+ * Controlli della telecamera collegati al canvas di React Three Fiber: trascinare ruota, rotellina
+ * e pizzico avvicinano, tasto destro, Maiusc + trascinamento o due dita spostano il corpo.
+ */
 export function Controls({ onReady, minDistance, maxDistance, smoothTime }: Props) {
   const camera = useThree((s) => s.camera);
   const element = useThree((s) => s.gl.domElement);
@@ -26,6 +32,27 @@ export function Controls({ onReady, minDistance, maxDistance, smoothTime }: Prop
     controls.maxDistance = maxDistance;
     controls.smoothTime = smoothTime;
   }, [controls, minDistance, maxDistance, smoothTime]);
+
+  useEffect(() => {
+    controls.setBoundary(BOUNDARY);
+    controls.mouseButtons.right = CameraControls.ACTION.TRUCK;
+    controls.touches.two = CameraControls.ACTION.TOUCH_DOLLY_TRUCK;
+    // Con Maiusc premuto il tasto sinistro sposta invece di ruotare: serve a chi usa un trackpad.
+    const onKey = (e: KeyboardEvent) => {
+      controls.mouseButtons.left = e.shiftKey ? CameraControls.ACTION.TRUCK : CameraControls.ACTION.ROTATE;
+    };
+    const onBlur = () => {
+      controls.mouseButtons.left = CameraControls.ACTION.ROTATE;
+    };
+    addEventListener('keydown', onKey);
+    addEventListener('keyup', onKey);
+    addEventListener('blur', onBlur);
+    return () => {
+      removeEventListener('keydown', onKey);
+      removeEventListener('keyup', onKey);
+      removeEventListener('blur', onBlur);
+    };
+  }, [controls]);
 
   useEffect(() => {
     onReady(controls);

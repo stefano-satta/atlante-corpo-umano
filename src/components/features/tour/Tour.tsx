@@ -18,8 +18,8 @@ interface TourStep {
 
 const TOUR_STEPS: TourStep[] = [
   {
-    title: 'Ruota e avvicinati',
-    text: 'Trascina per ruotare il corpo; usa la rotellina, o due dita sullo schermo, per avvicinarti. Da tastiera: le frecce ruotano, + e − avvicinano e allontanano.',
+    title: 'Ruota, avvicinati e sposta',
+    text: 'Trascina per ruotare il corpo; usa la rotellina, o due dita sullo schermo, per avvicinarti. Per spostarlo trascina con il tasto destro, tenendo premuto Maiusc o con due dita. Da tastiera: le frecce ruotano, Maiusc + frecce spostano, + e − avvicinano e allontanano.',
     target: null,
   },
   {
