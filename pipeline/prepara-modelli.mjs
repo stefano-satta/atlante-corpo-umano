@@ -6,7 +6,9 @@
 // contenere isa_element_parts.txt e la sottocartella isa_BP3D_4.0_obj_99/),
 // --obj <cartella degli OBJ>, --ratio 0.1 (D13), --out public/modelli,
 // --polmoni <cartella> (predefinita dati-sorgente/z-anatomy/polmoni, prodotta da
-// npm run modelli:polmoni), --ratio-polmoni 0.3, --donna <cartella> (predefinita
+// npm run modelli:polmoni), --tiroide <cartella> (predefinita dati-sorgente/z-anatomy/tiroide,
+// prodotta da npm run modelli:tiroide, con le paratiroidi), --ratio-polmoni 0.3 (per gli organi
+// di Z-Anatomy, tranne le superfici sotto i 200 triangoli, che non si riducono), --donna <cartella> (predefinita
 // dati-sorgente/hra/allineati, prodotta da npm run modelli:donna), --triangoli-donna 3000.
 //
 // Produce un file .glb per strato (ossa, muscoli, organi, pelle), organi-donna.glb con gli
@@ -14,7 +16,7 @@
 // (classificazione e coordinate: classifica.mjs).
 //
 // Licenza dei dati di origine: BodyParts3D, © The Database Center for Life Science,
-// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni da Z-Anatomy,
+// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni e tiroide da Z-Anatomy,
 // CC BY-SA 4.0; organi femminili dallo Human Reference Atlas, CC BY 4.0. I modelli derivati
 // sono distribuiti con licenza CC BY-SA 4.0.
 
@@ -37,8 +39,9 @@ const ratioPelle = Number(arg('ratio-pelle', String(ratio / 2)));
 const errore = Number(arg('errore', '0.01'));
 const uscita = arg('out', 'public/modelli');
 const cartellaObj = arg('obj', path.join(cartella, 'isa_BP3D_4.0_obj_99'));
-// I polmoni di Z-Anatomy sono già semplici superfici suddivise: si riducono meno degli OBJ di BodyParts3D.
+// Gli organi di Z-Anatomy sono già semplici superfici suddivise: si riducono meno degli OBJ di BodyParts3D.
 const cartellaPolmoni = arg('polmoni', 'dati-sorgente/z-anatomy/polmoni');
+const cartellaTiroide = arg('tiroide', 'dati-sorgente/z-anatomy/tiroide');
 const ratioPolmoni = Number(arg('ratio-polmoni', '0.3'));
 // Gli organi dell'HRA hanno molti più triangoli del necessario (la mammella destra oltre 400.000):
 // ognuno si riduce a un numero massimo di triangoli invece che a una frazione.
@@ -47,6 +50,7 @@ const triangoliDonna = Number(arg('triangoli-donna', '3000'));
 for (const [cartellaDati, comando] of [
   [cartellaObj, 'npm run modelli:scarica'],
   [cartellaPolmoni, 'npm run modelli:polmoni'],
+  [cartellaTiroide, 'npm run modelli:tiroide'],
   [cartellaDonna, 'npm run modelli:donna'],
 ]) {
   if (!fs.existsSync(cartellaDati)) {
@@ -122,16 +126,22 @@ for (const id of tutti) {
 }
 const fileObj = new Map(strutture.map((s) => [s.id, path.join(cartellaObj, `${s.id}.obj`)]));
 
-// Polmoni di Z-Anatomy, già allineati alle coordinate di BodyParts3D da esporta-polmoni.py.
-// Non hanno un identificativo FMA nel file di origine: il campo resta vuoto.
-for (const f of fs.readdirSync(cartellaPolmoni).filter((f) => f.endsWith('.obj'))) {
-  const file = path.join(cartellaPolmoni, f);
-  const nome = /# English name : (.+)/.exec(fs.readFileSync(file, 'utf8').slice(0, 1000))?.[1].trim();
-  const c = nome && classifica(f, nome, new Set(), new Set());
-  if (c?.gruppo !== 'polmoni') throw new Error(`${f}: lobo polmonare non riconosciuto (${nome})`);
-  const id = `ZA-${f.slice(0, -4).toLowerCase().replaceAll('_', '-')}`;
-  strutture.push({ id, nome, fma: null, ...c });
-  fileObj.set(id, file);
+// Polmoni, tiroide e paratiroidi di Z-Anatomy, già allineati alle coordinate di BodyParts3D da
+// esporta-polmoni.py ed esporta-tiroide.py. Non hanno un identificativo FMA nel file di origine:
+// il campo resta vuoto.
+for (const [cartellaZa, gruppi] of [
+  [cartellaPolmoni, ['polmoni']],
+  [cartellaTiroide, ['tiroide', 'paratiroidi']],
+]) {
+  for (const f of fs.readdirSync(cartellaZa).filter((f) => f.endsWith('.obj'))) {
+    const file = path.join(cartellaZa, f);
+    const nome = /# English name : (.+)/.exec(fs.readFileSync(file, 'utf8').slice(0, 1000))?.[1].trim();
+    const c = nome && classifica(f, nome, new Set(), new Set());
+    if (!gruppi.includes(c?.gruppo)) throw new Error(`${f}: elemento di ${gruppi} non riconosciuto (${nome})`);
+    const id = `ZA-${f.slice(0, -4).toLowerCase().replaceAll('_', '-')}`;
+    strutture.push({ id, nome, fma: null, ...c });
+    fileObj.set(id, file);
+  }
 }
 
 // Organi femminili dell'HRA e vagina schematica, già allineati da organi-donna.mjs.
@@ -177,7 +187,10 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna']) {
         strato === 'pelle'
           ? ratioPelle
           : m.getName().startsWith('ZA-')
-            ? ratioPolmoni
+            ? // Le paratiroidi hanno poco più di 100 triangoli: ridotte, perderebbero la forma.
+              triangoli < 200
+              ? 1
+              : ratioPolmoni
             : m.getName().startsWith('HRA-')
               ? Math.min(1, triangoliDonna / triangoli)
               : ratio;

@@ -1,0 +1,34 @@
+/* Schema animato della regolazione della tiroide: usa le regole di .apparatus-diagram (reproductive-system.css). */
+.cycle {
+  --iodine: #b9a7e0;
+}
+.thyroid-diagram .cells circle {
+  fill: var(--iodine);
+}
+.thyroid-diagram .vessel {
+  stroke: #6b2f3c;
+}
+.thyroid-diagram .stalk {
+  stroke: var(--room-muted);
+  stroke-width: 4;
+}
+/* Il nome dell'ormone (o dello iodio) compare accanto alla freccia del suo passo. */
+.thyroid-diagram .messengers text {
+  fill: var(--slide);
+  font-size: 13px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+.thyroid-diagram .messengers text[data-on="true"] {
+  opacity: 1;
+}
+.swatch.iodine {
+  background: var(--iodine);
+  border-radius: 50%;
+}
+@media (max-width: 760px) {
+  .thyroid-diagram .messengers text {
+    font-size: 16px;
+  }
+}

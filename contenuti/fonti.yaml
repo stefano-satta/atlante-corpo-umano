@@ -437,3 +437,62 @@ seer-ghiandole-mammarie:
   ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
   url: https://training.seer.cancer.gov/anatomy/reproductive/female/glands.html
   consultata: 2026-10-24
+
+# Fonti aggiunte il 2026-10-26 per la tiroide.
+
+seer-tiroide:
+  tipo: istituzionale
+  titolo: "Thyroid & Parathyroid Glands"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/endocrine/glands/thyroid.html
+  consultata: 2026-10-26
+
+niddk-ipotiroidismo:
+  tipo: istituzionale
+  titolo: "Hypothyroidism (Underactive Thyroid)"
+  ente: National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK), National Institutes of Health
+  # La pagina indica "Last Reviewed March 2021" (senza giorno).
+  url: https://www.niddk.nih.gov/health-information/endocrine-diseases/hypothyroidism
+  consultata: 2026-10-26
+
+niddk-esami-tiroide:
+  tipo: istituzionale
+  titolo: "Thyroid Tests"
+  ente: National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK), National Institutes of Health
+  # La pagina indica "Last Reviewed May 2017" (senza giorno).
+  url: https://www.niddk.nih.gov/health-information/diagnostic-tests/thyroid
+  consultata: 2026-10-26
+
+# Fonti aggiunte il 2026-10-26 per ipotalamo, ipofisi e paratiroidi. OpenStax 17.3 è stato
+# letto con il consenso dell'utente, che per le nuove schede aveva escluso OpenStax.
+
+seer-ipofisi:
+  tipo: istituzionale
+  titolo: "Pituitary & Pineal Glands"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/endocrine/glands/pituitary.html
+  consultata: 2026-10-26
+
+niddk-iperparatiroidismo:
+  tipo: istituzionale
+  titolo: "Primary Hyperparathyroidism"
+  ente: National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK), National Institutes of Health
+  # La pagina indica "Last Reviewed March 2019" (senza giorno).
+  url: https://www.niddk.nih.gov/health-information/endocrine-diseases/primary-hyperparathyroidism
+  consultata: 2026-10-26
+
+openstax-ap-17-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 17.3 The Pituitary Gland and Hypothalamus"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/17-3-the-pituitary-gland-and-hypothalamus
+  consultata: 2026-10-26
+
+seer-sistema-endocrino:
+  tipo: istituzionale
+  titolo: "Introduction to the Endocrine System"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/endocrine/
+  consultata: 2026-10-26

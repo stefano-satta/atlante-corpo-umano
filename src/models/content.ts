@@ -90,6 +90,8 @@ export type ReproductivePhase =
 
 export type UrinaryPhase = 'filtrazione' | 'riassorbimento' | 'ureteri' | 'riempimento' | 'minzione';
 
+export type ThyroidPhase = 'trh' | 'tsh' | 'ormoni' | 'organi' | 'retroazione';
+
 /** Passo di uno schema di apparato: la fase che il disegno mostra. */
 export interface PhaseStep<P = ReproductivePhase> {
   titolo: string;
@@ -112,7 +114,8 @@ export type ReproductiveProcess = ProcessBase & {
   passi: PhaseStep[];
 };
 export type UrinaryProcess = ProcessBase & { schema: 'urinario'; passi: PhaseStep<UrinaryPhase>[] };
-export type Process = HeartProcess | ReproductiveProcess | UrinaryProcess;
+export type ThyroidProcess = ProcessBase & { schema: 'tiroide'; passi: PhaseStep<ThyroidPhase>[] };
+export type Process = HeartProcess | ReproductiveProcess | UrinaryProcess | ThyroidProcess;
 
 /** Figura disegnata della scheda, in fondo a una sezione: lo schema dice quale disegno mostrare. */
 export interface Figure {

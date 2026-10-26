@@ -1,6 +1,6 @@
 # Licenze dei modelli 3D
 
-I file di questa cartella (`ossa.glb`, `muscoli.glb`, `organi.glb`, `pelle.glb`, `organi-donna.glb`, `strutture.json`) sono **derivati da BodyParts3D**, semplificati e compressi con `pipeline/prepara-modelli.mjs`. I polmoni, contenuti in `organi.glb`, sono **derivati da Z-Anatomy**. Gli organi femminili, in `organi-donna.glb`, sono **derivati dallo Human Reference Atlas**, tranne la vagina, che è una ricostruzione schematica generata da `pipeline/organi-donna.mjs`.
+I file di questa cartella (`ossa.glb`, `muscoli.glb`, `organi.glb`, `pelle.glb`, `organi-donna.glb`, `strutture.json`) sono **derivati da BodyParts3D**, semplificati e compressi con `pipeline/prepara-modelli.mjs`. I polmoni, la tiroide e le paratiroidi, contenuti in `organi.glb`, sono **derivati da Z-Anatomy**. Gli organi femminili, in `organi-donna.glb`, sono **derivati dallo Human Reference Atlas**, tranne la vagina, che è una ricostruzione schematica generata da `pipeline/organi-donna.mjs`.
 
 ## Fonte
 
@@ -14,7 +14,7 @@ Attribuzione richiesta dal licenziante:
 
 > BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International
 
-**Z-Anatomy**, The libre 3D atlas of anatomy (Gauthier Kervyn e altri autori), solo per i cinque lobi dei polmoni, che BodyParts3D non contiene.
+**Z-Anatomy**, The libre 3D atlas of anatomy (Gauthier Kervyn e altri autori), solo per i cinque lobi dei polmoni, la tiroide e le quattro paratiroidi, che BodyParts3D non contiene.
 Repository ufficiale: https://github.com/Z-Anatomy/Models-of-human-anatomy (pacchetto `Z-Anatomy.zip`, impronta git f43cabc6f366b2a6058dd2ed4a2b3c7b9b2492cb).
 
 - Licenza: **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**.
@@ -32,6 +32,6 @@ Pagina ufficiale: https://humanatlas.io/3d-reference-library (file da https://cd
 
 Per rispettare entrambe le indicazioni (D6, nota della verifica del 2026-10-22), i modelli derivati in questa cartella sono distribuiti con licenza **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**: https://creativecommons.org/licenses/by-sa/4.0/
 
-Modifiche apportate: conversione delle coordinate (da millimetri a metri, asse verticale Y), raggruppamento degli elementi per strato e per organo, semplificazione al 10% dei vertici, compressione meshopt. Per i polmoni: esportazione da Blender con `pipeline/esporta-polmoni.py`, allineamento al corpo di BodyParts3D (scala, rotazione e traslazione stimate su strutture comuni ai due modelli), semplificazione al 30%. Per gli organi femminili: allineamento al corpo di BodyParts3D (similitudine stimata fra le pelvi dei due modelli; per le mammelle traslazione stimata fra gli sterni), scelta delle parti che formano la superficie degli organi, semplificazione a 3.000 triangoli per organo.
+Modifiche apportate: conversione delle coordinate (da millimetri a metri, asse verticale Y), raggruppamento degli elementi per strato e per organo, semplificazione al 10% dei vertici, compressione meshopt. Per polmoni, tiroide e paratiroidi: esportazione da Blender con `pipeline/esporta-polmoni.py` e `pipeline/esporta-tiroide.py`, allineamento al corpo di BodyParts3D (scala, rotazione e traslazione stimate su strutture comuni ai due modelli: del torace per i polmoni, del collo per tiroide e paratiroidi), semplificazione al 30% (le paratiroidi, di 128 triangoli, non sono semplificate). Per gli organi femminili: allineamento al corpo di BodyParts3D (similitudine stimata fra le pelvi dei due modelli; per le mammelle traslazione stimata fra gli sterni), scelta delle parti che formano la superficie degli organi, semplificazione a 3.000 triangoli per organo.
 
 La licenza riguarda solo i modelli 3D, non il codice del sito.

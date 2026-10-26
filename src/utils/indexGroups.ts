@@ -11,6 +11,7 @@ const ORDER = [
   'genitale-maschile',
   'genitale-femminile',
   'nervoso',
+  'endocrino',
   'linfatico',
   'scheletrico',
 ];

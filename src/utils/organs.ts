@@ -10,6 +10,7 @@ export const BODY_SYSTEM_NAMES: Record<BodySystem, string> = {
   urinario: 'Apparato urinario',
   respiratorio: 'Apparato respiratorio',
   linfatico: 'Sistema linfatico',
+  endocrino: 'Sistema endocrino',
   'genitale-maschile': 'Apparato genitale maschile',
   'genitale-femminile': 'Apparato genitale femminile',
 };
@@ -119,6 +120,25 @@ export const ORGANS: Organ[] = [
   },
   // Polmoni da Z-Anatomy (M4): rosa tenue, distinto dal cuore e lontano da rosso e blu dei vasi.
   { id: 'polmoni', name: 'Polmoni', latinTerm: 'pulmones', system: 'respiratorio', color: '#c99ea4' },
+  // Tiroide da Z-Anatomy: bruno rossastro di organo molto vascolarizzato, distinto da trachea e muscoli del collo.
+  {
+    id: 'tiroide',
+    name: 'Tiroide',
+    latinTerm: 'glandula thyreoidea',
+    system: 'endocrino',
+    color: '#a0604f',
+  },
+  // Paratiroidi da Z-Anatomy, ipotalamo e ipofisi da BodyParts3D: toni ocra e malva, distinti dalla
+  // tiroide e, per l'ipotalamo, dall'encefalo che lo circonda.
+  {
+    id: 'paratiroidi',
+    name: 'Paratiroidi',
+    latinTerm: 'glandulae parathyreoideae',
+    system: 'endocrino',
+    color: '#d1ab6e',
+  },
+  { id: 'ipotalamo', name: 'Ipotalamo', latinTerm: 'hypothalamus', system: 'endocrino', color: '#8f7a96' },
+  { id: 'ipofisi', name: 'Ipofisi', latinTerm: 'hypophysis', system: 'endocrino', color: '#b98468' },
 ];
 
 export const ORGANS_BY_ID = new Map(ORGANS.map((o) => [o.id, o]));

@@ -1,8 +1,10 @@
-// Prepara i polmoni da Z-Anatomy: scarica il pacchetto ufficiale in dati-sorgente/z-anatomy/
-// (esclusa da git), ne controlla l'impronta, estrae Startup.blend ed esegue in Blender
-// esporta-polmoni.py, che allinea i lobi a BodyParts3D e li scrive in dati-sorgente/z-anatomy/polmoni/.
+// Prepara gli organi che arrivano da Z-Anatomy: scarica il pacchetto ufficiale in dati-sorgente/z-anatomy/
+// (esclusa da git), ne controlla l'impronta, estrae Startup.blend ed esegue in Blender lo script di
+// esportazione indicato, che allinea gli organi a BodyParts3D e li scrive in dati-sorgente/z-anatomy/:
+// esporta-polmoni.py (predefinito) per i lobi dei polmoni, esporta-tiroide.py per la tiroide.
 //
-// Uso: npm run modelli:polmoni (dopo npm run modelli:scarica), poi npm run modelli:prepara.
+// Uso: npm run modelli:polmoni e npm run modelli:tiroide (dopo npm run modelli:scarica), poi
+// npm run modelli:prepara.
 // Richiede `unzip` e Blender (percorso nella variabile BLENDER, altrimenti quello predefinito su macOS).
 //
 // Licenza dei dati: Z-Anatomy, CC BY-SA 4.0 (https://github.com/Z-Anatomy/Models-of-human-anatomy).
@@ -14,8 +16,9 @@ import path from 'node:path';
 
 const URL = 'https://raw.githubusercontent.com/Z-Anatomy/Models-of-human-anatomy/master/Z-Anatomy.zip';
 // Impronta git (blob SHA-1) della versione ispezionata il 2026-10-24: se il pacchetto cambia,
-// i polmoni vanno ricontrollati prima di aggiornare questo valore.
+// polmoni e tiroide vanno ricontrollati prima di aggiornare questo valore.
 const IMPRONTA = 'f43cabc6f366b2a6058dd2ed4a2b3c7b9b2492cb';
+const SCRIPT = process.argv[2] ?? 'esporta-polmoni.py';
 const BLENDER = process.env.BLENDER ?? '/Applications/Blender.app/Contents/MacOS/Blender';
 const cartella = path.resolve('dati-sorgente/z-anatomy');
 const archivio = path.join(cartella, 'Z-Anatomy.zip');
@@ -42,6 +45,6 @@ if (!fs.existsSync(BLENDER)) throw new Error(`Blender non trovato in ${BLENDER}:
 // -Y: Blender non esegue gli script contenuti nel file.
 execFileSync(
   BLENDER,
-  ['-b', '-Y', blend, '--python-exit-code', '1', '--python', path.resolve('pipeline/esporta-polmoni.py'), '--'],
+  ['-b', '-Y', blend, '--python-exit-code', '1', '--python', path.resolve('pipeline', SCRIPT), '--'],
   { stdio: ['ignore', 'inherit', 'ignore'] },
 );

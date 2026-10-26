@@ -28,6 +28,36 @@ describe('polmoni da Z-Anatomy (M4)', () => {
   });
 });
 
+describe('sistema endocrino: tiroide e paratiroidi da Z-Anatomy, ipotalamo e ipofisi da BodyParts3D', () => {
+  const nomi = (gruppo) =>
+    strutture
+      .filter((s) => s.gruppo === gruppo)
+      .map((s) => s.nome)
+      .sort();
+
+  it('la tiroide è un solo elemento, nello strato degli organi, comune ai due corpi', () => {
+    const tiroide = strutture.filter((s) => s.gruppo === 'tiroide');
+    expect(tiroide).toEqual([
+      { id: 'ZA-thyroid-gland', nome: 'Thyroid gland', fma: null, strato: 'organi', gruppo: 'tiroide' },
+    ]);
+  });
+
+  it('ci sono le quattro paratiroidi', () => {
+    expect(nomi('paratiroidi')).toEqual([
+      'Left inferior parathyroid gland',
+      'Left superior parathyroid gland',
+      'Right inferior parathyroid gland',
+      'Right superior parathyroid gland',
+    ]);
+  });
+
+  it('ipotalamo e ipofisi sono organi a sé, e l’ipotalamo non fa più parte dell’encefalo', () => {
+    expect(nomi('ipotalamo')).toEqual(['Hypothalamus', 'Hypothalamus']);
+    expect(nomi('ipofisi')).toEqual(['Pituitary gland']);
+    expect(nomi('encefalo')).not.toContain('Hypothalamus');
+  });
+});
+
 describe('apparato genitale maschile (BodyParts3D)', () => {
   it('ogni organo ha i suoi elementi nello strato degli organi', () => {
     const nomi = (gruppo) =>

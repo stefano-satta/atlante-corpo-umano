@@ -10,7 +10,8 @@
     "test": "vitest run",
     "controlla": "biome check .",
     "modelli:scarica": "node pipeline/scarica-bodyparts3d.mjs",
-    "modelli:polmoni": "node pipeline/polmoni.mjs",
+    "modelli:polmoni": "node pipeline/z-anatomy.mjs esporta-polmoni.py",
+    "modelli:tiroide": "node pipeline/z-anatomy.mjs esporta-tiroide.py",
     "modelli:donna": "node pipeline/organi-donna.mjs",
     "modelli:prepara": "node pipeline/prepara-modelli.mjs",
     "test:e2e": "playwright test"

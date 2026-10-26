@@ -7,6 +7,7 @@ export type BodySystem =
   | 'urinario'
   | 'respiratorio'
   | 'linfatico'
+  | 'endocrino'
   | 'genitale-maschile'
   | 'genitale-femminile';
 

@@ -37,12 +37,14 @@ export const FLUSSI = ['vene-atri', 'atri-ventricoli', 'ventricoli-arterie'];
 
 /**
  * Schemi dei processi animati e fasi che ciascun disegno sa mostrare. Il ciclo cardiaco descrive
- * ogni passo con i campi di CAMPI_PASSO; gli schemi degli apparati urinario e genitali con una sola fase.
+ * ogni passo con i campi di CAMPI_PASSO; gli schemi degli apparati urinario e genitali e quello della
+ * tiroide con una sola fase.
  */
 export const FASI_SCHEMA = {
   'genitale-maschile': ['spermatogenesi', 'maturazione', 'trasporto', 'liquidi', 'eiaculazione'],
   'genitale-femminile': ['follicolo', 'ovulazione', 'tuba', 'endometrio', 'mestruazioni'],
   urinario: ['filtrazione', 'riassorbimento', 'ureteri', 'riempimento', 'minzione'],
+  tiroide: ['trh', 'tsh', 'ormoni', 'organi', 'retroazione'],
 };
 const SCHEMI_PROCESSO = ['cuore', ...Object.keys(FASI_SCHEMA)];
 

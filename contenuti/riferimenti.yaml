@@ -14,6 +14,7 @@ apparati:
   genitale-femminile: Apparato genitale femminile
   nervoso: Sistema nervoso
   linfatico: Sistema linfatico
+  endocrino: Sistema endocrino
 
 nomi:
   apparato-cardiovascolare: Apparato cardiovascolare
@@ -32,6 +33,7 @@ nomi:
   apparato-genitale-femminile: Apparato genitale femminile
   sistema-nervoso: Sistema nervoso
   sistema-linfatico: Sistema linfatico
+  sistema-endocrino: Sistema endocrino
   midollo-spinale: Midollo spinale
   faringe: Faringe
   laringe: Laringe

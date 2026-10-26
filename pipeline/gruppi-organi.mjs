@@ -1,10 +1,16 @@
 // Raggruppa gli elementi di BodyParts3D negli organi selezionabili del prototipo,
 // in base al nome inglese (FMA) riportato nell'intestazione di ogni OBJ.
-// I polmoni mancano in BodyParts3D: arrivano da Z-Anatomy (esporta-polmoni.py), un lobo per file.
+// Polmoni, tiroide e paratiroidi mancano in BodyParts3D: arrivano da Z-Anatomy (esporta-polmoni.py,
+// un lobo per file, ed esporta-tiroide.py).
+// Vince il primo gruppo che corrisponde: ipotalamo e ipofisi precedono l'encefalo, il cui elenco
+// contiene "thalamus" (che corrisponderebbe anche a "Hypothalamus").
 // Gli organi femminili arrivano dallo Human Reference Atlas (organi-donna.mjs, D29). `corpo` segna
 // gli organi che si vedono solo nel corpo maschile o solo in quello femminile; gli altri sono comuni.
 
 export const GRUPPI_ORGANI = [
+  // L'ipotalamo è parte dell'encefalo, ma si seleziona da solo come organo del sistema endocrino.
+  { id: 'ipotalamo', elementi: /^Hypothalamus$/ },
+  { id: 'ipofisi', elementi: /^Pituitary gland$/ },
   {
     id: 'cuore',
     elementi:
@@ -13,7 +19,7 @@ export const GRUPPI_ORGANI = [
   {
     id: 'encefalo',
     elementi:
-      /(gyrus|occipital lobe|parietal lobule|insula|Cerebellum|White matter of .* cerebral hemisphere|Midbrain|Peduncle of midbrain|Pons|Medulla oblongata|thalamus|Hypothalamus|Corpus callosum|amygdala|hippocampus|caudate nucleus|putamen|globus pallidus|fornix of forebrain)$/i,
+      /(gyrus|occipital lobe|parietal lobule|insula|Cerebellum|White matter of .* cerebral hemisphere|Midbrain|Peduncle of midbrain|Pons|Medulla oblongata|thalamus|Corpus callosum|amygdala|hippocampus|caudate nucleus|putamen|globus pallidus|fornix of forebrain)$/i,
   },
   { id: 'fegato', elementi: /^(Caudate lobe of liver|Hepatovenous segment [IVX]+)$/ },
   { id: 'colecisti', elementi: /^Gallbladder$/ },
@@ -39,6 +45,8 @@ export const GRUPPI_ORGANI = [
       /^(Trachea|Left main bronchus|Right main bronchus proper|.*segmental bronchial tree|.*lingular bronchial tree)$/,
   },
   { id: 'polmoni', elementi: /^(Superior|Middle|Inferior) lobe of (right|left) lung$/ },
+  { id: 'tiroide', elementi: /^Thyroid gland$/ },
+  { id: 'paratiroidi', elementi: /^(Right|Left) (superior|inferior) parathyroid gland$/ },
   { id: 'utero', corpo: 'donna', elementi: /^Uterus$/ },
   { id: 'tube-uterine', corpo: 'donna', elementi: /^(Right|Left) uterine tube$/ },
   { id: 'ovaie', corpo: 'donna', elementi: /^(Right|Left) ovary$/ },

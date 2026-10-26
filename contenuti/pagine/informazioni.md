@@ -2,7 +2,7 @@
 id: informazioni
 titolo: Informazioni
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-10-26
 ---
 
 ## Che cos'è
@@ -40,14 +40,14 @@ Per ossa e muscoli che non hanno ancora un testo, il nome mostrato è quello ing
 
 Il corpo deriva da BodyParts3D, un modello anatomico pubblicato dal Database Center for Life Science (DBCLS). Per rendere il sito leggero, le superfici sono state semplificate. La forma delle strutture resta fedele, ma i dettagli più piccoli si perdono.
 
-BodyParts3D non contiene i polmoni. Vengono da Z-Anatomy, un atlante anatomico libero a sua volta derivato da BodyParts3D, e sono stati portati nella posizione del corpo di BodyParts3D confrontando strutture presenti in entrambi i modelli; lo scarto medio è di pochi millimetri. Sono forme semplificate: mostrano i lobi, ma non i segmenti, le vie aeree interne né la pleura.
+BodyParts3D non contiene i polmoni, la tiroide e le paratiroidi. Vengono da Z-Anatomy, un atlante anatomico libero a sua volta derivato da BodyParts3D, e sono stati portati nella posizione del corpo di BodyParts3D confrontando strutture presenti in entrambi i modelli; lo scarto medio è di pochi millimetri. Sono forme semplificate: i polmoni mostrano i lobi, ma non i segmenti, le vie aeree interne né la pleura; la tiroide è una sola superficie e le paratiroidi sono piccoli ellissoidi, forme schematiche.
 
 Anche il corpo femminile parte dallo stesso modello, che è maschile: il selettore Uomo/Donna sostituisce gli organi genitali maschili con utero, tube uterine, ovaie, vagina e mammelle. Questi organi, tranne la vagina, vengono dallo Human Reference Atlas, un atlante di riferimento costruito sui dati di una donna del Visible Human Project e rivisto da specialisti. Poiché i due corpi sono diversi, gli organi sono stati portati nella posizione del nostro corpo confrontando la pelvi e lo sterno dei due modelli: la posizione è approssimata. La vagina, che lo Human Reference Atlas non contiene, è una ricostruzione schematica: un tubo che parte dalla cervice dell'utero con la direzione e la lunghezza indicate dalle fonti, non la forma di una persona reale. Mancano i genitali esterni femminili, come nel corpo maschile manca lo scroto, e nel corpo femminile la sagoma della pelle non si mostra, perché è quella maschile.
 
 ## Crediti e licenze
 
 - Modello 3D: BodyParts3D, © The Database Center for Life Science, licenza Creative Commons Attribuzione 4.0 (CC BY 4.0). I modelli semplificati usati nel sito sono distribuiti con licenza CC BY-SA 4.0.
-- Polmoni: Z-Anatomy, The libre 3D atlas of anatomy (Gauthier Kervyn e altri autori), licenza Creative Commons Attribuzione-Condividi allo stesso modo 4.0 (CC BY-SA 4.0).
+- Polmoni, tiroide e paratiroidi: Z-Anatomy, The libre 3D atlas of anatomy (Gauthier Kervyn e altri autori), licenza Creative Commons Attribuzione-Condividi allo stesso modo 4.0 (CC BY-SA 4.0).
 - Organi femminili: Human Reference Atlas, 3D Reference Object Library (HuBMAP; Kristen Browne, Heidi Schlehlein e altri autori), licenza Creative Commons Attribuzione 4.0 (CC BY 4.0).
 - Caratteri: Bricolage Grotesque (The Bricolage Grotesque Project Authors) e Atkinson Hyperlegible Next (The Atkinson Hyperlegible Next Project Authors), entrambi con licenza SIL Open Font License 1.1.
 - Programmi: React, three.js, React Three Fiber e camera-controls, tutti con licenza MIT.

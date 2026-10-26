@@ -23,11 +23,19 @@ const RELATION_TYPES: { type: Relation['tipo']; label: string }[] = [
 const CardiacCycle = lazy(() => import('@/components/features/cardiac-cycle/CardiacCycle'));
 const ReproductiveProcess = lazy(() => import('@/components/features/reproductive-system/ReproductiveProcess'));
 const UrinaryProcess = lazy(() => import('@/components/features/urinary-system/UrinaryProcess'));
+const ThyroidProcess = lazy(() => import('@/components/features/endocrine-system/ThyroidProcess'));
 const VulvaFigure = lazy(() => import('@/components/features/reproductive-system/VulvaFigure'));
 
+type Apparatus = 'urinario' | 'riproduttivo' | 'endocrino';
+
 /** Apparato di uno schema: dà il titolo della sua sottosezione in "Gli apparati al lavoro". */
-const apparatusOf = (p: Process) => (p.schema === 'urinario' ? 'urinario' : 'riproduttivo');
-const APPARATUS_TITLES = { urinario: 'Apparato urinario', riproduttivo: 'Apparato riproduttivo' };
+const apparatusOf = (p: Process): Apparatus =>
+  p.schema === 'urinario' ? 'urinario' : p.schema === 'tiroide' ? 'endocrino' : 'riproduttivo';
+const APPARATUS_TITLES: Record<Apparatus, string> = {
+  urinario: 'Apparato urinario',
+  riproduttivo: 'Apparato riproduttivo',
+  endocrino: 'Sistema endocrino',
+};
 
 /** Animazione di un processo, con l'avviso se il suo testo non è ancora approvato. */
 function ProcessFigure({ process, structure }: { process: Process; structure: string }) {
@@ -39,6 +47,8 @@ function ProcessFigure({ process, structure }: { process: Process; structure: st
         <CardiacCycle process={process} />
       ) : process.schema === 'urinario' ? (
         <UrinaryProcess process={process} current={structure} body={state.body} />
+      ) : process.schema === 'tiroide' ? (
+        <ThyroidProcess process={process} current={structure} />
       ) : (
         <ReproductiveProcess process={process} current={structure} />
       )}
@@ -62,13 +72,16 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
 
   // Gli schemi di un intero apparato hanno una sezione propria, dopo il testo dell'organo, con
   // una sottosezione per apparato: prima quello dell'organo (l'uretra maschile è in entrambi).
-  const own = entry.apparato === 'urinario' ? 'urinario' : 'riproduttivo';
+  const own: Apparatus =
+    entry.apparato === 'urinario' || entry.apparato === 'endocrino' ? entry.apparato : 'riproduttivo';
   const apparatus = (s?.processi.filter((p) => p.schema !== 'cuore') ?? []).sort(
     (a, b) => Number(apparatusOf(b) === own) - Number(apparatusOf(a) === own),
   );
+  // Il sistema endocrino è un "sistema", non un "apparato": il titolo della sezione lo segue.
+  const single = apparatus.length === 1 && apparatusOf(apparatus[0]) === 'endocrino' ? 'Il sistema' : "L'apparato";
   const toc = [
     ...(s?.sezioni.map((x) => ({ anchor: x.ancora, title: x.chiave })) ?? []),
-    ...(apparatus.length ? [{ anchor: 'apparato', title: apparatus.length > 1 ? 'Gli apparati' : "L'apparato" }] : []),
+    ...(apparatus.length ? [{ anchor: 'apparato', title: apparatus.length > 1 ? 'Gli apparati' : single }] : []),
     { anchor: 'collegamenti', title: 'Collegamenti' },
     { anchor: 'fonti', title: 'Fonti' },
   ];
@@ -133,7 +146,7 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
         ))}
         {apparatus.length > 0 && (
           <section id="sez-apparato" aria-labelledby="h-apparato">
-            <h2 id="h-apparato">{apparatus.length > 1 ? 'Gli apparati al lavoro' : "L'apparato al lavoro"}</h2>
+            <h2 id="h-apparato">{apparatus.length > 1 ? 'Gli apparati al lavoro' : `${single} al lavoro`}</h2>
             {apparatus.map((p) => (
               <section key={p.id} className="apparatus-section" aria-labelledby={`h-apparato-${p.id}`}>
                 <h3 id={`h-apparato-${p.id}`}>{APPARATUS_TITLES[apparatusOf(p)]}</h3>
