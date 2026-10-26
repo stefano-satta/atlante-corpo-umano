@@ -145,3 +145,32 @@ describe('corpo femminile dallo Human Reference Atlas (D29)', () => {
     expect(fs.readFileSync('public/modelli/LICENZE.md', 'utf8')).toMatch(/Human Reference Atlas.*CC BY 4\.0/s);
   });
 });
+
+describe('muscoli descritti da BodyParts3D solo per capi o parti', () => {
+  const muscoli = strutture.filter((s) => s.strato === 'muscoli').map((s) => s.nome);
+  const parti = (muscolo) => muscoli.filter((n) => new RegExp(`(part|head) of (right|left) ${muscolo}$`).test(n));
+
+  it('deltoide, trapezio, grande pettorale, bicipite, tricipite e gastrocnemio ci sono, per capi e per lato', () => {
+    expect(parti('deltoid')).toHaveLength(6);
+    expect(parti('trapezius')).toHaveLength(6);
+    expect(parti('pectoralis major')).toHaveLength(6);
+    expect(parti('biceps brachii')).toHaveLength(4);
+    expect(parti('triceps brachii')).toHaveLength(6);
+    expect(parti('gastrocnemius')).toHaveLength(4);
+  });
+
+  it('il quadricipite e l’elevatore dell’ano ci sono per i due lati', () => {
+    for (const lato of ['Right', 'Left'])
+      for (const m of ['rectus femoris', 'vastus lateralis', 'vastus medialis', 'vastus intermedius', 'puborectalis'])
+        expect(muscoli).toContain(`${lato} ${m}`);
+  });
+
+  it('muscoli papillari, tenie del colon e tendine calcaneale restano fuori dallo strato', () => {
+    expect(muscoli.filter((n) => /papillary|Taenia|calcaneal tendon/.test(n))).toEqual([]);
+  });
+
+  // Budget alzato da 1020 a 1200 kB con gli 84 capi e parti recuperati.
+  it('restano dentro il budget di peso dello strato dei muscoli', () => {
+    expect(riepilogo.muscoli.kB).toBeLessThanOrEqual(1200);
+  });
+});

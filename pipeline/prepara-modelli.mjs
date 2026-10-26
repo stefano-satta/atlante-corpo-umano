@@ -105,7 +105,6 @@ const righeParti = fs
 const elementiDi = (concetto) => new Set(righeParti.filter((r) => r[1] === concetto).map((r) => r[2].trim()));
 
 const ossa = elementiDi('bone organ');
-const muscoli = elementiDi('muscle organ');
 const tutti = fs
   .readdirSync(cartellaObj)
   .filter((f) => f.endsWith('.obj'))
@@ -121,6 +120,18 @@ for (const [id, intestazione] of intestazioni) {
   candidati.sort((a, b) => dimensioneConcetto.get(a[0]) - dimensioneConcetto.get(b[0]));
   if (candidati[0]) intestazioni.set(id, { nome: candidati[0][1], fma: candidati[0][0] });
 }
+
+// Alcuni muscoli (deltoide, bicipite, quadricipite, gastrocnemio…) esistono solo come capi o parti,
+// che BodyParts3D non colloca sotto "muscle organ". La parte ascendente e la discendente del
+// trapezio sono solo "organ zone": entrano perché un'altra parte dello stesso muscolo è già tra i muscoli.
+const muscoli = new Set([
+  ...elementiDi('muscle organ'),
+  ...elementiDi('head of muscle organ'),
+  ...elementiDi('zone of muscle organ'),
+]);
+const muscoloDi = (id) => /(?:part|head) of (?:right|left) (.+)$/i.exec(intestazioni.get(id)?.nome ?? '')?.[1];
+const muscoliConParti = new Set([...muscoli].map(muscoloDi).filter(Boolean));
+for (const id of elementiDi('organ zone')) if (muscoliConParti.has(muscoloDi(id))) muscoli.add(id);
 
 const strutture = [];
 for (const id of tutti) {
