@@ -1,9 +1,11 @@
 import { lazy, type ReactNode, Suspense } from 'react';
+import { useLocation, useOutlet } from 'react-router';
 import { TextOnlyHeader } from '@/components/features/layout/TextOnlyHeader';
 import { DetailSheet } from '@/components/features/panel/DetailSheet';
 import { TextOnlyContext } from '@/contexts/TextOnlyContext';
 import { useAtlas } from '@/hooks/useAtlas';
 import { hasGuidedPath, STRUCTURES } from '@/utils/content';
+import { readUrl } from '@/utils/url';
 import { ReadingPage } from './ReadingPage';
 
 const GuidedPathPanel = lazy(() => import('@/components/features/guided-path/GuidedPathPanel'));
@@ -19,9 +21,13 @@ export function TextOnlyAtlasPage() {
     ? STRUCTURES.find((s) => s.id === state.selection || s.unita === state.selection)
     : undefined;
   const path = !state.selection && state.guidedPath && hasGuidedPath(state.guidedPath.id);
+  // Pagina di lettura della rotta. Anche le altre rotte rendono un Outlet (vuoto): conta l'indirizzo.
+  const readingPage = useOutlet();
+  const routePage = readUrl(useLocation().pathname).page;
 
   let content: ReactNode;
-  if (state.page || (!entry && !path)) content = <ReadingPage page={state.page ?? 'indice'} />;
+  if (routePage) content = readingPage;
+  else if (state.page || (!entry && !path)) content = <ReadingPage page={state.page ?? 'indice'} />;
   else
     content = (
       <main className="reading-page text-reading" aria-label={entry ? entry.nome : 'Percorso guidato'}>

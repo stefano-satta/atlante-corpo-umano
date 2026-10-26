@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import '../../../../test/dom-setup';
 import { fireEvent, render, screen } from '@testing-library/react';
+import { BrowserRouter } from 'react-router';
 import { Box3, Vector3 } from 'three';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { AtlasProvider } from '@/contexts/AtlasContext';
@@ -45,9 +46,11 @@ beforeAll(() => {
 const open = (path: string) => {
   history.replaceState(null, '', path);
   return render(
-    <AtlasProvider>
-      <Panel />
-    </AtlasProvider>,
+    <BrowserRouter>
+      <AtlasProvider>
+        <Panel />
+      </AtlasProvider>
+    </BrowserRouter>,
   );
 };
 

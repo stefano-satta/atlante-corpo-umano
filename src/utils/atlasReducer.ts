@@ -55,8 +55,8 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
 }
 
 /** Stato all'apertura, dall'indirizzo: su `/` la soglia è aperta. */
-export function initialAtlasState(): AtlasState {
-  const url = readUrl();
+export function initialAtlasState(pathname: string): AtlasState {
+  const url = readUrl(pathname);
   return {
     layer: 'organi',
     body: bodyFor('uomo', url.selection),

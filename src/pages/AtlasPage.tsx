@@ -1,4 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { Outlet } from 'react-router';
 import { LoadingBar } from '@/components/common/LoadingBar';
 import { TopBar } from '@/components/features/layout/TopBar';
 import { Callout } from '@/components/features/panel/Callout';
@@ -12,7 +13,6 @@ import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useOpenGuidedPath, useSelectedStructure } from '@/hooks/useSelectedStructure';
 import { ORGANS_BY_ID } from '@/utils/organs';
 import { HomePage } from './HomePage';
-import { ReadingPage } from './ReadingPage';
 
 // Il motore 3D (three.js e React Three Fiber) sta in un pacchetto separato: l'interfaccia
 // compare subito e il modello si carica in parallelo (D14).
@@ -78,7 +78,8 @@ export function AtlasPage() {
       </div>
       {state.tour !== null && !state.home && !state.page && <Tour />}
       {state.home && <HomePage ready={ready} />}
-      {state.page && <ReadingPage key={state.page} page={state.page} />}
+      {/* Pagina di lettura della rotta (/indice, /fonti, /informazioni). */}
+      <Outlet />
     </div>
   );
 }

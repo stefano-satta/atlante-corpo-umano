@@ -60,7 +60,7 @@ Alias `@/` → `src/` (in `tsconfig.json`, `vite.config.ts` e `vitest.config.ts`
 
 ### Stato e indirizzi
 
-`contexts/AtlasContext.tsx` contiene un reducer unico (`utils/atlasReducer.ts`; dalla UI `useAtlas()` → `{state, dispatch}`), sincronizzato con l'URL tramite `readUrl` e `writeUrl` in `utils/url.ts` (D11). Rotte principali:
+`contexts/AtlasContext.tsx` contiene un reducer unico (`utils/atlasReducer.ts`; dalla UI `useAtlas()` → `{state, dispatch}`), sincronizzato con il router (React Router, modalità dichiarativa con `BrowserRouter` in `main.tsx`) tramite `readUrl`, `urlFor` e `urlChange` in `utils/url.ts` (D11): l'indirizzo si legge con `useLocation` e si scrive con `useNavigate`. Le rotte sono dichiarate in `App.tsx`:
 
 - `/` (soglia d'ingresso; Indietro dall'atlante vi riporta);
 - `/esplora` (atlante senza selezione: "Esplora il corpo", chiusura del cartellino o del percorso);
@@ -68,7 +68,7 @@ Alias `@/` → `src/` (in `tsconfig.json`, `vite.config.ts` e `vitest.config.ts`
 - `/percorsi/<id>/<passo>` (passo contato da 1);
 - `/indice`, `/fonti`, `/informazioni` (`PAGE_IDS` in `utils/pages.ts`).
 
-L'app è a pagina unica: le "pagine" sono stati, non router.
+Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPage`) che resta montata, così la scena 3D non si ricarica. Le rotte di struttura e di percorso non hanno un elemento: si leggono nello stato. Le pagine di lettura sono elementi di rotta e compaiono nell'`Outlet`. Nei test di componente `AtlasProvider` va dentro un router (`MemoryRouter`, o `BrowserRouter` se il test controlla `location`).
 
 ### Scena 3D
 

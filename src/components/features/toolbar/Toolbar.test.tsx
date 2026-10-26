@@ -1,6 +1,7 @@
 // @vitest-environment jsdom
 import '../../../../test/dom-setup';
 import { fireEvent, render, screen, within } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import { describe, expect, it } from 'vitest';
 import { AtlasProvider } from '@/contexts/AtlasContext';
 import { BodySwitch } from './BodySwitch';
@@ -9,11 +10,13 @@ import { Toolbar } from './Toolbar';
 
 const renderToolbar = () =>
   render(
-    <AtlasProvider>
-      <BodySwitch />
-      <LayerSwitch />
-      <Toolbar />
-    </AtlasProvider>,
+    <MemoryRouter>
+      <AtlasProvider>
+        <BodySwitch />
+        <LayerSwitch />
+        <Toolbar />
+      </AtlasProvider>
+    </MemoryRouter>,
   );
 
 describe('barra dei comandi', () => {
