@@ -37,14 +37,15 @@ export const FLUSSI = ['vene-atri', 'atri-ventricoli', 'ventricoli-arterie'];
 
 /**
  * Schemi dei processi animati e fasi che ciascun disegno sa mostrare. Il ciclo cardiaco descrive
- * ogni passo con i campi di CAMPI_PASSO; gli schemi degli apparati urinario e genitali e quello della
- * tiroide con una sola fase.
+ * ogni passo con i campi di CAMPI_PASSO; gli schemi degli apparati urinario e genitali, quello della
+ * tiroide e quello della vista con una sola fase.
  */
 export const FASI_SCHEMA = {
   'genitale-maschile': ['spermatogenesi', 'maturazione', 'trasporto', 'liquidi', 'eiaculazione'],
   'genitale-femminile': ['follicolo', 'ovulazione', 'tuba', 'endometrio', 'mestruazioni'],
   urinario: ['filtrazione', 'riassorbimento', 'ureteri', 'riempimento', 'minzione'],
   tiroide: ['trh', 'tsh', 'ormoni', 'organi', 'retroazione'],
+  vista: ['cornea', 'pupilla', 'cristallino', 'retina', 'chiasma', 'corteccia'],
 };
 const SCHEMI_PROCESSO = ['cuore', ...Object.keys(FASI_SCHEMA)];
 
@@ -233,14 +234,18 @@ export function leggiContenuti(cartella, modello) {
     if ((v?.latino === undefined) !== (v?.ta2 === undefined)) errore('latino e ta2 vanno indicati insieme');
     if (v?.latino !== undefined && (typeof v.latino !== 'string' || !v.latino)) errore('latino non valido');
     if (v?.ta2 !== undefined && !Number.isInteger(v.ta2)) errore('ta2 deve essere un numero');
+    if (v?.nelModello !== undefined && (typeof v.nelModello !== 'boolean' || !v?.parteDi))
+      errore('nelModello va indicato (vero o falso) solo con parteDi');
     glossario.push({
       id,
       termine: v?.termine ?? id,
       varianti: v?.varianti ?? [],
       latino: v?.latino ?? null,
       ta2: v?.ta2 ?? null,
-      // Struttura che descrive la parte (che non è nel modello 3D): l'Indice la elenca lì.
+      // Struttura che descrive la parte: l'Indice la elenca lì. Di solito la parte non è nel modello
+      // 3D; con nelModello c'è, ma unita alla struttura e non si sceglie da sola (le parti dell'occhio).
       parteDi: v?.parteDi ?? null,
+      nelModello: v?.nelModello ?? false,
       html: marked.parseInline(definizione.replace(GRUPPO_CITAZIONI, '').trim()),
       fonti: [...new Set(citate)].filter((f) => fonti[f]).map((f) => ({ id: f, ...fonti[f] })),
       stato: v?.stato,

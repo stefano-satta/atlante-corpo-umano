@@ -11,6 +11,7 @@ const ORDER = [
   'genitale-maschile',
   'genitale-femminile',
   'nervoso',
+  'visivo',
   'endocrino',
   'linfatico',
   'scheletrico',
@@ -66,6 +67,7 @@ export function groupBySystem(
       unit: null,
       partOf: parent,
       glossaryTerm: g.id,
+      inModel: g.nelModello,
     });
   }
   const rank = (system: string) => (ORDER.includes(system) ? ORDER.indexOf(system) : ORDER.length);

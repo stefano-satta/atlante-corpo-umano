@@ -8,7 +8,8 @@
 // --polmoni <cartella> (predefinita dati-sorgente/z-anatomy/polmoni, prodotta da
 // npm run modelli:polmoni), --tiroide <cartella> (predefinita dati-sorgente/z-anatomy/tiroide,
 // prodotta da npm run modelli:tiroide, con le paratiroidi), --ratio-polmoni 0.3 (per gli organi
-// di Z-Anatomy, tranne le superfici sotto i 200 triangoli, che non si riducono), --donna <cartella> (predefinita
+// di Z-Anatomy, tranne le superfici sotto i 200 triangoli, che non si riducono), --ratio-occhi 0.03
+// (sclera, cornea, iride e cristallino), --donna <cartella> (predefinita
 // dati-sorgente/hra/allineati, prodotta da npm run modelli:donna), --triangoli-donna 3000.
 //
 // Produce un file .glb per strato (ossa, muscoli, organi, pelle), organi-donna.glb con gli
@@ -43,6 +44,9 @@ const cartellaObj = arg('obj', path.join(cartella, 'isa_BP3D_4.0_obj_99'));
 const cartellaPolmoni = arg('polmoni', 'dati-sorgente/z-anatomy/polmoni');
 const cartellaTiroide = arg('tiroide', 'dati-sorgente/z-anatomy/tiroide');
 const ratioPolmoni = Number(arg('ratio-polmoni', '0.3'));
+// Sclera, cornea, iride e cristallino sono superfici lisce con molti più triangoli del necessario
+// (la sclera quasi 40.000): ridotti di più, restano rotondi e tengono lo strato nel suo peso.
+const ratioOcchi = Number(arg('ratio-occhi', '0.03'));
 // Gli organi dell'HRA hanno molti più triangoli del necessario (la mammella destra oltre 400.000):
 // ognuno si riduce a un numero massimo di triangoli invece che a una frazione.
 const cartellaDonna = arg('donna', 'dati-sorgente/hra/allineati');
@@ -155,6 +159,8 @@ for (const f of fs.readdirSync(cartellaDonna).filter((f) => f.endsWith('.obj')))
   fileObj.set(id, file);
 }
 
+const gruppoDi = new Map(strutture.map((s) => [s.id, s.gruppo]));
+
 // File .glb di una struttura: gli organi del solo corpo femminile stanno in un file a parte.
 const fileDi = (s) => (s.corpo === 'donna' ? 'organi-donna' : s.strato);
 
@@ -193,7 +199,9 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna']) {
               : ratioPolmoni
             : m.getName().startsWith('HRA-')
               ? Math.min(1, triangoliDonna / triangoli)
-              : ratio;
+              : gruppoDi.get(m.getName()) === 'occhi'
+                ? ratioOcchi
+                : ratio;
       simplifyPrimitive(p, { simplifier: MeshoptSimplifier, ratio: r, error: errore });
     }
   }
@@ -214,6 +222,6 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna']) {
 fs.writeFileSync(path.join(uscita, 'strutture.json'), JSON.stringify(strutture));
 fs.writeFileSync(
   path.join(uscita, 'riepilogo.json'),
-  JSON.stringify({ ratio, ratioPelle, ratioPolmoni, triangoliDonna, errore, riepilogo }, null, 2),
+  JSON.stringify({ ratio, ratioPelle, ratioPolmoni, ratioOcchi, triangoliDonna, errore, riepilogo }, null, 2),
 );
 console.table(riepilogo);

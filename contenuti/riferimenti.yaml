@@ -15,6 +15,7 @@ apparati:
   nervoso: Sistema nervoso
   linfatico: Sistema linfatico
   endocrino: Sistema endocrino
+  visivo: Apparato visivo
 
 nomi:
   apparato-cardiovascolare: Apparato cardiovascolare
@@ -34,6 +35,9 @@ nomi:
   sistema-nervoso: Sistema nervoso
   sistema-linfatico: Sistema linfatico
   sistema-endocrino: Sistema endocrino
+  apparato-visivo: Apparato visivo
+  muscoli-extraoculari: Muscoli extraoculari
+  cavita-nasale: Cavità nasale
   midollo-spinale: Midollo spinale
   faringe: Faringe
   laringe: Laringe

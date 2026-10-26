@@ -496,3 +496,40 @@ seer-sistema-endocrino:
   ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
   url: https://training.seer.cancer.gov/anatomy/endocrine/
   consultata: 2026-10-26
+
+# Fonti aggiunte il 2026-10-26 per l'apparato visivo. OpenStax 14.1 e 14.2 sono stati letti con il
+# consenso dell'utente, come 17.3 per l'ipofisi. SEER non ha moduli sull'occhio.
+
+nei-come-funzionano-occhi:
+  tipo: istituzionale
+  titolo: "How the Eyes Work"
+  ente: National Eye Institute (NEI), National Institutes of Health
+  aggiornata: 2022-04-20
+  url: https://www.nei.nih.gov/learn-about-eye-health/healthy-vision/how-eyes-work
+  consultata: 2026-10-26
+
+nei-lacrime:
+  tipo: istituzionale
+  titolo: "How Tears Work"
+  ente: National Eye Institute (NEI), National Institutes of Health
+  aggiornata: 2025-08-06
+  url: https://www.nei.nih.gov/learn-about-eye-health/healthy-vision/how-eyes-work/how-tears-work
+  consultata: 2026-10-26
+
+openstax-ap-14-1:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 14.1 Sensory Perception"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/14-1-sensory-perception
+  consultata: 2026-10-26
+
+openstax-ap-14-2:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 14.2 Central Processing"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/14-2-central-processing
+  consultata: 2026-10-26

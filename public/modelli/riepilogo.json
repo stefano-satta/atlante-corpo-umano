@@ -2,6 +2,7 @@
   "ratio": 0.1,
   "ratioPelle": 0.05,
   "ratioPolmoni": 0.3,
+  "ratioOcchi": 0.03,
   "triangoliDonna": 3000,
   "errore": 0.01,
   "riepilogo": {
@@ -18,10 +19,10 @@
       "kB": 1020
     },
     "organi": {
-      "strutture": 290,
-      "triangoliPrima": 772128,
-      "triangoliDopo": 114270,
-      "kB": 681
+      "strutture": 314,
+      "triangoliPrima": 890436,
+      "triangoliDopo": 121306,
+      "kB": 728
     },
     "pelle": {
       "strutture": 1,

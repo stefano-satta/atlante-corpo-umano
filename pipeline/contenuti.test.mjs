@@ -308,15 +308,23 @@ alveolo:
 
   it('controlla termine latino, numero TA2 e struttura delle parti senza modello 3D', () => {
     const r = conGlossario(
-      `${GLOSSARIO}parte:\n  termine: parte\n  latino: pars\n  ta2: 1\n  parteDi: cuore\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\nsola:\n  termine: sola\n  latino: sola\n  parteDi: fegato\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\n`,
+      `${GLOSSARIO}parte:\n  termine: parte\n  latino: pars\n  ta2: 1\n  parteDi: cuore\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\nsola:\n  termine: sola\n  latino: sola\n  parteDi: fegato\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\nunita:\n  termine: unita\n  latino: unita\n  ta2: 2\n  parteDi: cuore\n  nelModello: true\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\nslegata:\n  termine: slegata\n  nelModello: true\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\n`,
       '## In breve\n\nTesto [@a].\n',
     );
     const errori = r.errori.join('\n');
-    expect(r.glossario.find((v) => v.id === 'parte')).toMatchObject({ latino: 'pars', ta2: 1, parteDi: 'cuore' });
+    expect(r.glossario.find((v) => v.id === 'parte')).toMatchObject({
+      latino: 'pars',
+      ta2: 1,
+      parteDi: 'cuore',
+      nelModello: false,
+    });
+    expect(r.glossario.find((v) => v.id === 'unita')).toMatchObject({ parteDi: 'cuore', nelModello: true });
     expect(r.glossario.find((v) => v.id === 'alveolo')).toMatchObject({ latino: null, ta2: null, parteDi: null });
     expect(errori).toContain('sola: latino e ta2 vanno indicati insieme');
     expect(errori).toContain('sola: parteDi indica una struttura sconosciuta: fegato');
+    expect(errori).toContain('slegata: nelModello va indicato (vero o falso) solo con parteDi');
     expect(errori).not.toContain('parte:');
+    expect(errori).not.toContain('unita:');
   });
 
   it('compila la figura di una scheda continuando la numerazione delle fonti', () => {

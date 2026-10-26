@@ -96,7 +96,9 @@ function PartEntry({
       <span className="entry-term" lang="la">
         {e.latinTerm}
       </span>
-      <span className="entry-detail">Non nel modello 3D · scheda {parent.nome}</span>
+      <span className="entry-detail">
+        {e.inModel ? 'Nel modello 3D con' : 'Non nel modello 3D · scheda'} {parent.nome}
+      </span>
       {e.glossaryTerm && (
         <button
           type="button"

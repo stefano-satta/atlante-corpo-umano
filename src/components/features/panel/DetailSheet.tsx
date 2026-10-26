@@ -24,17 +24,25 @@ const CardiacCycle = lazy(() => import('@/components/features/cardiac-cycle/Card
 const ReproductiveProcess = lazy(() => import('@/components/features/reproductive-system/ReproductiveProcess'));
 const UrinaryProcess = lazy(() => import('@/components/features/urinary-system/UrinaryProcess'));
 const ThyroidProcess = lazy(() => import('@/components/features/endocrine-system/ThyroidProcess'));
+const VisionProcess = lazy(() => import('@/components/features/visual-system/VisionProcess'));
 const VulvaFigure = lazy(() => import('@/components/features/reproductive-system/VulvaFigure'));
 
-type Apparatus = 'urinario' | 'riproduttivo' | 'endocrino';
+type Apparatus = 'urinario' | 'riproduttivo' | 'endocrino' | 'visivo';
 
 /** Apparato di uno schema: dà il titolo della sua sottosezione in "Gli apparati al lavoro". */
 const apparatusOf = (p: Process): Apparatus =>
-  p.schema === 'urinario' ? 'urinario' : p.schema === 'tiroide' ? 'endocrino' : 'riproduttivo';
+  p.schema === 'urinario'
+    ? 'urinario'
+    : p.schema === 'tiroide'
+      ? 'endocrino'
+      : p.schema === 'vista'
+        ? 'visivo'
+        : 'riproduttivo';
 const APPARATUS_TITLES: Record<Apparatus, string> = {
   urinario: 'Apparato urinario',
   riproduttivo: 'Apparato riproduttivo',
   endocrino: 'Sistema endocrino',
+  visivo: 'Apparato visivo',
 };
 
 /** Animazione di un processo, con l'avviso se il suo testo non è ancora approvato. */
@@ -49,6 +57,8 @@ function ProcessFigure({ process, structure }: { process: Process; structure: st
         <UrinaryProcess process={process} current={structure} body={state.body} />
       ) : process.schema === 'tiroide' ? (
         <ThyroidProcess process={process} current={structure} />
+      ) : process.schema === 'vista' ? (
+        <VisionProcess process={process} current={structure} />
       ) : (
         <ReproductiveProcess process={process} current={structure} />
       )}
@@ -73,7 +83,9 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
   // Gli schemi di un intero apparato hanno una sezione propria, dopo il testo dell'organo, con
   // una sottosezione per apparato: prima quello dell'organo (l'uretra maschile è in entrambi).
   const own: Apparatus =
-    entry.apparato === 'urinario' || entry.apparato === 'endocrino' ? entry.apparato : 'riproduttivo';
+    entry.apparato === 'urinario' || entry.apparato === 'endocrino' || entry.apparato === 'visivo'
+      ? entry.apparato
+      : 'riproduttivo';
   const apparatus = (s?.processi.filter((p) => p.schema !== 'cuore') ?? []).sort(
     (a, b) => Number(apparatusOf(b) === own) - Number(apparatusOf(a) === own),
   );

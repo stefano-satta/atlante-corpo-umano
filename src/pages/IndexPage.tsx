@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 import { ShortSourceList } from '@/components/common/ShortSourceList';
 import { StructureEntry } from '@/components/features/atlas-index/StructureEntry';
+import { PartOfLink } from '@/components/features/glossary/PartOfLink';
 import { RichText } from '@/components/features/glossary/RichText';
 import { ReadingLayout } from '@/components/features/layout/ReadingLayout';
 import { useAtlas } from '@/hooks/useAtlas';
@@ -219,6 +220,7 @@ export function IndexPage() {
                       <dd>
                         <RichText className="definition" html={d.html} />
                         <ShortSourceList sources={d.fonti} />
+                        <PartOfLink partOf={d.parteDi} />
                       </dd>
                     </div>
                   ))}

@@ -6,6 +6,7 @@
 // contiene "thalamus" (che corrisponderebbe anche a "Hypothalamus").
 // Gli organi femminili arrivano dallo Human Reference Atlas (organi-donna.mjs, D29). `corpo` segna
 // gli organi che si vedono solo nel corpo maschile o solo in quello femminile; gli altri sono comuni.
+// `nervo` ammette elementi con "nerve" nel nome, che classifica.mjs altrimenti esclude dagli organi.
 
 export const GRUPPI_ORGANI = [
   // L'ipotalamo è parte dell'encefalo, ma si seleziona da solo come organo del sistema endocrino.
@@ -20,6 +21,15 @@ export const GRUPPI_ORGANI = [
     id: 'encefalo',
     elementi:
       /(gyrus|occipital lobe|parietal lobule|insula|Cerebellum|White matter of .* cerebral hemisphere|Midbrain|Peduncle of midbrain|Pons|Medulla oblongata|thalamus|Corpus callosum|amygdala|hippocampus|caudate nucleus|putamen|globus pallidus|fornix of forebrain)$/i,
+  },
+  // Apparato visivo. Dell'occhio entrano le parti visibili dall'esterno e il cristallino: coroide,
+  // corpo ciliare, retina, corpo vitreo e camera anteriore restano nascosti dentro la sclera e
+  // peserebbero sul modello senza mostrarsi; li descrivono la scheda e lo schema animato.
+  { id: 'occhi', elementi: /^(Right|Left) (sclera|cornea|iris|lens)$/ },
+  { id: 'nervo-ottico', nervo: true, elementi: /^(Right|Left) (optic nerve|optic tract|lateral geniculate body)$/ },
+  {
+    id: 'apparato-lacrimale',
+    elementi: /^(Right|Left) (lacrimal gland|lacrimal canaliculus|lacrimal sac|nasolacrimal duct)$/,
   },
   { id: 'fegato', elementi: /^(Caudate lobe of liver|Hepatovenous segment [IVX]+)$/ },
   { id: 'colecisti', elementi: /^Gallbladder$/ },

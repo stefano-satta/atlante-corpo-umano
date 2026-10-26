@@ -496,3 +496,171 @@ orifizio-uretrale-esterno-maschile:
     L'apertura dell'uretra verso l'esterno. Nell'uomo si trova sulla punta del pene [@seer-uretra].
   stato: approvato
   revisione: 2026-10-25
+
+# Apparato visivo (2026-10-26). Parti dell'occhio che non si scelgono da sole nel modello 3D e il
+# chiasma ottico: "parteDi" indica la scheda che le descrive. Coroide, corpo ciliare, retina e le
+# altre stanno dentro la sclera e non sono nel modello; "nelModello: true" segna quelle che ci sono,
+# ma unite agli occhi (sclera, cornea, iride, cristallino) o ai nervi ottici (il chiasma).
+# Termini verificati sul TA2 Viewer.
+
+sclera:
+  termine: sclera
+  latino: sclera
+  ta2: 6750
+  parteDi: occhi
+  nelModello: true
+  varianti: [bianco dell'occhio]
+  definizione: >
+    Il bianco dell'occhio: la parte esterna e resistente della parete del bulbo oculare, che ne copre
+    circa cinque sesti, in gran parte non visibili. Con la cornea, che sta davanti, forma lo strato
+    fibroso dell'occhio [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+cornea:
+  termine: cornea
+  latino: cornea
+  ta2: 6744
+  parteDi: occhi
+  nelModello: true
+  definizione: >
+    Lo strato trasparente, a forma di cupola, sul davanti dell'occhio. Fa entrare la luce e la piega:
+    insieme al cristallino la mette a fuoco sulla retina [@nei-come-funzionano-occhi]
+    [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+coroide:
+  termine: coroide
+  latino: chorioidea
+  ta2: 6774
+  parteDi: occhi
+  definizione: >
+    Strato di tessuto connettivo ricco di vasi sanguigni, nella parete dell'occhio dietro il corpo
+    ciliare: porta il sangue al bulbo oculare. Con il corpo ciliare e l'iride forma lo strato
+    vascolare dell'occhio [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+corpo-ciliare:
+  termine: corpo ciliare
+  latino: corpus ciliare
+  ta2: 6765
+  parteDi: occhi
+  definizione: >
+    Struttura muscolare della parete dell'occhio, coperta davanti dall'iride e unita al cristallino da sottili fibre
+    di sostegno, le fibre zonulari. Insieme a queste fibre piega il cristallino, che così mette a
+    fuoco la luce sul fondo dell'occhio [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+iride:
+  termine: iride
+  latino: iris
+  ta2: 6753
+  parteDi: occhi
+  nelModello: true
+  definizione: >
+    La parte colorata dell'occhio. È un muscolo liscio che apre e chiude la pupilla e regola così
+    quanta luce entra nell'occhio [@nei-come-funzionano-occhi] [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+pupilla:
+  termine: pupilla
+  latino: pupilla
+  ta2: 6754
+  parteDi: occhi
+  varianti: [pupille]
+  definizione: >
+    Il foro al centro dell'occhio, circondato dall'iride, da cui la luce entra. In luce intensa
+    l'iride la restringe, al buio la allarga [@nei-come-funzionano-occhi] [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+cristallino:
+  termine: cristallino
+  latino: lens
+  ta2: 6798
+  parteDi: occhi
+  nelModello: true
+  varianti: [lente]
+  definizione: >
+    Parte interna trasparente dell'occhio, che la luce attraversa dopo la pupilla. Lavora con la
+    cornea per mettere a fuoco la luce sulla retina [@nei-come-funzionano-occhi]; il corpo ciliare e
+    le sue fibre lo piegano per farlo [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+retina:
+  termine: retina
+  latino: retina
+  ta2: 6776
+  parteDi: occhi
+  definizione: >
+    Lo strato di tessuto sensibile alla luce sul fondo dell'occhio, il più interno della sua parete.
+    I suoi fotorecettori, i coni e i bastoncelli, trasformano la luce in segnali elettrici, che
+    arrivano al cervello attraverso il nervo ottico [@nei-come-funzionano-occhi] [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+umor-acqueo:
+  termine: umor acqueo
+  latino: humor aquosus
+  ta2: 6791
+  parteDi: occhi
+  definizione: >
+    Il liquido acquoso che riempie la cavità anteriore dell'occhio, lo spazio fra la cornea e il
+    cristallino in cui si trovano anche l'iride e il corpo ciliare [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+corpo-vitreo:
+  termine: corpo vitreo
+  latino: corpus vitreum
+  ta2: 6809
+  parteDi: occhi
+  varianti: [umor vitreo, vitreo]
+  definizione: >
+    Il contenuto della cavità posteriore dell'occhio, lo spazio che va dal cristallino alla retina:
+    un liquido più denso dell'umor acqueo [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+disco-ottico:
+  termine: disco ottico
+  latino: discus nervi optici
+  ta2: 6788
+  parteDi: occhi
+  varianti: [punto cieco, papilla ottica]
+  definizione: >
+    Il punto sul fondo dell'occhio in cui le fibre nervose della retina si riuniscono ed escono
+    dall'occhio come nervo ottico. Lì non ci sono fotorecettori: è il punto cieco della retina, a cui
+    corrisponde un punto cieco nel campo visivo [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+fovea:
+  termine: fovea
+  latino: fovea centralis
+  ta2: 6785
+  parteDi: occhi
+  definizione: >
+    Piccola infossatura al centro della retina che contiene solo fotorecettori, senza vasi sanguigni
+    né cellule di sostegno. È il punto in cui la vista è più nitida [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-26
+
+chiasma-ottico:
+  termine: chiasma ottico
+  latino: chiasma opticum
+  ta2: 5668
+  parteDi: nervo-ottico
+  nelModello: true
+  varianti: [chiasma]
+  definizione: >
+    Il punto in cui i due nervi ottici si incontrano. Qui le fibre che vengono dalla metà della retina
+    verso il naso passano dall'altra parte, quelle della metà verso la tempia restano dallo stesso
+    lato; oltre il chiasma le fibre prendono il nome di tratto ottico [@openstax-ap-14-2].
+  stato: approvato
+  revisione: 2026-10-26

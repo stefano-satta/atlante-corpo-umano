@@ -34,5 +34,19 @@ describe('classifica', () => {
 
   it('esclude vasi e nervi anche se il nome cita un organo', () => {
     expect(classifica('D', 'Branch of left middle cerebral artery to left angular gyrus', ossa, muscoli)).toBeNull();
+    expect(classifica('D', 'Left lacrimal nerve', ossa, muscoli)).toBeNull();
+  });
+
+  it('ammette il nervo ottico, unico nervo fra gli organi, con il tratto ottico', () => {
+    expect(classifica('E', 'Right optic nerve', ossa, muscoli)).toEqual({ strato: 'organi', gruppo: 'nervo-ottico' });
+    expect(classifica('E', 'Left optic tract', ossa, muscoli)?.gruppo).toBe('nervo-ottico');
+    expect(classifica('E', 'Right lateral geniculate body', ossa, muscoli)?.gruppo).toBe('nervo-ottico');
+  });
+
+  it('riunisce le parti dell’occhio e dell’apparato lacrimale', () => {
+    for (const parte of ['sclera', 'cornea', 'iris', 'lens'])
+      expect(classifica('F', `Left ${parte}`, ossa, muscoli)?.gruppo).toBe('occhi');
+    expect(classifica('F', 'Optic part of left retina', ossa, muscoli)).toBeNull();
+    expect(classifica('G', 'Right nasolacrimal duct', ossa, muscoli)?.gruppo).toBe('apparato-lacrimale');
   });
 });

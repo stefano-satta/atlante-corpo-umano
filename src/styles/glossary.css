@@ -61,6 +61,17 @@
   font: 600 21px / 1.15 var(--font-display);
   font-variation-settings: "opsz" 32;
 }
+/* Dalla voce di una parte senza modello 3D alla scheda che la descrive. */
+.part-of-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 700;
+  color: var(--nucleus);
+  text-underline-offset: 3px;
+}
+.glossary-popover .part-of-link {
+  display: block;
+}
 .popover-all {
   display: inline-block;
   margin-top: 10px;

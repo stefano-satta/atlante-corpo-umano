@@ -14,6 +14,8 @@ export interface IndexEntry {
   partOf?: StructureSummary;
   /** Voce del glossario della parte. */
   glossaryTerm?: string;
+  /** La parte è nel modello 3D, unita a `partOf`, ma non si sceglie da sola. */
+  inModel?: boolean;
 }
 
 export interface SystemGroup {

@@ -92,7 +92,7 @@ export function contenuti({ radice = process.cwd() } = {}) {
           `export const PERCORSI = ${JSON.stringify(d.percorsi.map(({ id, titolo, stato, passi }) => ({ id, titolo, stato, passi: passi.length })))};`,
           `export const caricaPercorso = ${caricatori(d.percorsi, 'percorso')};`,
           `export const PROCESSI = ${JSON.stringify(d.strutture.flatMap((s) => s.processi.filter((p) => p.principale === s.id).map(({ id, titolo, stato }) => ({ id, titolo, stato, struttura: s.id }))))};`,
-          `export const GLOSSARIO = ${JSON.stringify(d.glossario.map(({ id, termine, varianti, latino, ta2, parteDi }) => ({ id, termine, varianti, latino, ta2, parteDi })))};`,
+          `export const GLOSSARIO = ${JSON.stringify(d.glossario.map(({ id, termine, varianti, latino, ta2, parteDi, nelModello }) => ({ id, termine, varianti, latino, ta2, parteDi, nelModello })))};`,
           `export const caricaGlossario = () => import(${JSON.stringify(`${PREFISSO}/glossario`)});`,
           `export const caricaFonti = () => import(${JSON.stringify(`${PREFISSO}/fonti`)});`,
         ].join('\n');

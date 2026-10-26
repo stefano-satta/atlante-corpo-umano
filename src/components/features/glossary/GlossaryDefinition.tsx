@@ -5,6 +5,7 @@ import { ShortSourceList } from '@/components/common/ShortSourceList';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useGlossary } from '@/hooks/useContent';
 import { requestGlossaryEntry } from '@/utils/glossaryRequest';
+import { PartOfLink } from './PartOfLink';
 import { RichText } from './RichText';
 
 /** Larghezza massima del riquadro, in pixel: deve restare uguale a `.glossary-popover` in styles/glossary.css. */
@@ -102,6 +103,7 @@ export function GlossaryDefinition({ anchor, onClose }: { anchor: HTMLAnchorElem
         <>
           <RichText className="definition" html={entry.html} />
           <ShortSourceList sources={entry.fonti} />
+          <PartOfLink partOf={entry.parteDi} onNavigate={onClose} />
           <a
             className="popover-all"
             href={`/indice#glossario-${entry.id}`}

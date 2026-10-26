@@ -16,14 +16,15 @@ export function versoBodyParts3D(x, y, z) {
 /**
  * Strato e organo di un elemento. `ossa` e `muscoli` sono gli insiemi di id che
  * BodyParts3D colloca sotto "bone organ" e "muscle organ". Vasi e nervi sono
- * esclusi dagli organi anche quando il nome cita un organo (es. "Branch of … gyrus").
+ * esclusi dagli organi anche quando il nome cita un organo (es. "Branch of … gyrus"), tranne i nervi
+ * dei gruppi che li ammettono (il nervo ottico).
  */
 export function classifica(id, nome, ossa, muscoli) {
   if (nome === 'Skin') return { strato: 'pelle', gruppo: null };
   if (ossa.has(id) || /costal cartilage$/i.test(nome)) return { strato: 'ossa', gruppo: null };
   if (muscoli.has(id)) return { strato: 'muscoli', gruppo: null };
-  if (/artery|vein|branch|nerve|tributary/i.test(nome)) return null;
   const g = GRUPPI_ORGANI.find((g) => g.elementi.test(nome));
+  if (/artery|vein|branch|nerve|tributary/i.test(nome) && !g?.nervo) return null;
   if (!g) return null;
   return g.corpo ? { strato: 'organi', gruppo: g.id, corpo: g.corpo } : { strato: 'organi', gruppo: g.id };
 }

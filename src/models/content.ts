@@ -92,6 +92,8 @@ export type UrinaryPhase = 'filtrazione' | 'riassorbimento' | 'ureteri' | 'riemp
 
 export type ThyroidPhase = 'trh' | 'tsh' | 'ormoni' | 'organi' | 'retroazione';
 
+export type VisionPhase = 'cornea' | 'pupilla' | 'cristallino' | 'retina' | 'chiasma' | 'corteccia';
+
 /** Passo di uno schema di apparato: la fase che il disegno mostra. */
 export interface PhaseStep<P = ReproductivePhase> {
   titolo: string;
@@ -115,7 +117,8 @@ export type ReproductiveProcess = ProcessBase & {
 };
 export type UrinaryProcess = ProcessBase & { schema: 'urinario'; passi: PhaseStep<UrinaryPhase>[] };
 export type ThyroidProcess = ProcessBase & { schema: 'tiroide'; passi: PhaseStep<ThyroidPhase>[] };
-export type Process = HeartProcess | ReproductiveProcess | UrinaryProcess | ThyroidProcess;
+export type VisionProcess = ProcessBase & { schema: 'vista'; passi: PhaseStep<VisionPhase>[] };
+export type Process = HeartProcess | ReproductiveProcess | UrinaryProcess | ThyroidProcess | VisionProcess;
 
 /** Figura disegnata della scheda, in fondo a una sezione: lo schema dice quale disegno mostrare. */
 export interface Figure {
@@ -202,6 +205,8 @@ export interface GlossaryEntry {
   ta2: number | null;
   /** Struttura con scheda che descrive la parte, assente dal modello 3D: l'Indice la elenca lì. */
   parteDi: string | null;
+  /** La parte è nel modello 3D, ma unita alla struttura di `parteDi`: non si sceglie da sola. */
+  nelModello: boolean;
 }
 
 /** Voce completa del glossario (D26): definizione breve con le sue fonti. */

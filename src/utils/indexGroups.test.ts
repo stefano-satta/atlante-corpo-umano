@@ -25,6 +25,7 @@ const entry = (id: string, extra: Partial<GlossaryEntry>): GlossaryEntry => ({
   latino: null,
   ta2: null,
   parteDi: null,
+  nelModello: false,
   ...extra,
 });
 
@@ -45,10 +46,20 @@ describe('groupBySystem', () => {
       latinTerm: 'labium minus vulvae',
       unit: null,
       partOf: { id: 'vagina' },
+      inModel: false,
     });
     expect(part?.searchTexts).toContain('labbro');
     const all = groups.flatMap((g) => g.entries.map((e) => e.glossaryTerm));
     expect(all).not.toContain('alveolo');
     expect(all).not.toContain('orfana');
+  });
+
+  it('segna le parti che sono nel modello 3D unite alla struttura', () => {
+    const groups = groupBySystem(
+      [vagina],
+      [entry('parte', { latino: 'pars', ta2: 1, parteDi: 'vagina', nelModello: true })],
+    );
+    const entries = groups.flatMap((g) => g.entries);
+    expect(entries.find((e) => e.glossaryTerm === 'parte')).toMatchObject({ inModel: true, unit: null });
   });
 });

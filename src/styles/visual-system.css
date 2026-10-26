@@ -1,0 +1,139 @@
+/* Schema animato della vista: usa le regole di .apparatus-diagram (reproductive-system.css). */
+.cycle {
+  --light: #f6e7a8;
+  --field-left: #f2c14e;
+  --field-right: #b9a7e0;
+}
+.vision-diagram .vitreous {
+  fill: var(--room-border);
+  fill-opacity: 0.18;
+}
+.vision-diagram .zonule {
+  stroke: var(--room-muted);
+  stroke-width: 1;
+}
+.vision-diagram .object,
+.vision-diagram .image {
+  stroke: var(--light);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.vision-diagram .object-head {
+  fill: var(--light);
+}
+.vision-diagram .image {
+  opacity: 0;
+  transition: opacity 320ms ease-out;
+}
+.vision-diagram .image[data-on="true"] {
+  opacity: 1;
+}
+
+/* Raggi di luce: ogni tratto compare quando la luce lo raggiunge. */
+.vision-diagram .rays path {
+  fill: none;
+  stroke: var(--light);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 6;
+  opacity: 0;
+  transition: opacity 320ms ease-out;
+}
+.vision-diagram .rays path[data-on="true"] {
+  opacity: 0.9;
+}
+
+/* L'iride restringe la pupilla in luce intensa: le due metà si allungano verso il centro. */
+.vision-diagram .iris rect {
+  transform-box: fill-box;
+  transition: transform 600ms var(--ease-out);
+}
+.vision-diagram .iris-top {
+  transform-origin: 50% 0;
+}
+.vision-diagram .iris-bottom {
+  transform-origin: 50% 100%;
+}
+.vision-diagram .iris[data-narrow="true"] rect {
+  transform: scaleY(1.17);
+}
+
+/* Vie ottiche: occhi, metà della retina e fibre colorate con la metà del campo visivo. */
+.vision-diagram .small-eye {
+  fill: var(--organ);
+  stroke: var(--room-muted);
+  stroke-width: 1.5;
+}
+.vision-diagram .hemiretina {
+  fill: none;
+  stroke-width: 4;
+}
+.vision-diagram [data-field="left"] {
+  stroke: var(--field-left);
+}
+.vision-diagram [data-field="right"] {
+  stroke: var(--field-right);
+}
+.vision-diagram .fibers path {
+  fill: none;
+  stroke-width: 2.5;
+  opacity: 0.22;
+  transition: opacity 320ms ease-out;
+}
+.vision-diagram .fibers path[data-visible="true"] {
+  opacity: 0.45;
+}
+.vision-diagram .fibers path[data-on="true"] {
+  opacity: 1;
+  stroke-dasharray: 6 6;
+}
+.vision-diagram .labels .field-label {
+  stroke: none;
+  font-size: 11px;
+  font-weight: 600;
+}
+.vision-diagram .labels .field-label[data-field="left"] {
+  fill: var(--field-left);
+}
+.vision-diagram .labels .field-label[data-field="right"] {
+  fill: var(--field-right);
+}
+.vision-diagram .labels [data-on] {
+  opacity: 0;
+  transition: opacity 260ms ease-out;
+}
+.vision-diagram .labels [data-on="true"] {
+  opacity: 1;
+}
+
+/* Durante la riproduzione la luce e i segnali scorrono lungo il loro cammino. */
+.cycle-diagram[data-playing="true"] .vision-diagram .rays path[data-on="true"],
+.cycle-diagram[data-playing="true"] .vision-diagram .fibers path[data-on="true"] {
+  animation: vision-flow 900ms linear infinite;
+}
+@keyframes vision-flow {
+  to {
+    stroke-dashoffset: -22;
+  }
+}
+
+.swatch.light {
+  background: var(--light);
+  border-radius: 50%;
+}
+.swatch.field-left {
+  background: var(--field-left);
+}
+.swatch.field-right {
+  background: var(--field-right);
+}
+
+@media (max-width: 760px) {
+  .vision-diagram .labels .field-label {
+    font-size: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vision-diagram .iris rect {
+    transition: none;
+  }
+}

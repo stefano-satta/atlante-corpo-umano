@@ -11,6 +11,7 @@ export const BODY_SYSTEM_NAMES: Record<BodySystem, string> = {
   respiratorio: 'Apparato respiratorio',
   linfatico: 'Sistema linfatico',
   endocrino: 'Sistema endocrino',
+  visivo: 'Apparato visivo',
   'genitale-maschile': 'Apparato genitale maschile',
   'genitale-femminile': 'Apparato genitale femminile',
 };
@@ -139,6 +140,24 @@ export const ORGANS: Organ[] = [
   },
   { id: 'ipotalamo', name: 'Ipotalamo', latinTerm: 'hypothalamus', system: 'endocrino', color: '#8f7a96' },
   { id: 'ipofisi', name: 'Ipofisi', latinTerm: 'hypophysis', system: 'endocrino', color: '#b98468' },
+  // Apparato visivo da BodyParts3D: avorio per il bianco dell'occhio, giallo paglia per il nervo
+  // ottico (lontano dall'encefalo che attraversa), verde salvia per l'apparato lacrimale, senza il
+  // blu riservato alle vene.
+  { id: 'occhi', name: 'Occhi', latinTerm: 'bulbus oculi', system: 'visivo', color: '#ddd3c4' },
+  {
+    id: 'nervo-ottico',
+    name: 'Nervo e tratto ottico',
+    latinTerm: 'nervus opticus',
+    system: 'visivo',
+    color: '#d6b85a',
+  },
+  {
+    id: 'apparato-lacrimale',
+    name: 'Apparato lacrimale',
+    latinTerm: 'apparatus lacrimalis',
+    system: 'visivo',
+    color: '#8fa682',
+  },
 ];
 
 export const ORGANS_BY_ID = new Map(ORGANS.map((o) => [o.id, o]));

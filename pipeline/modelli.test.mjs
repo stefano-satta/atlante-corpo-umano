@@ -19,8 +19,9 @@ describe('polmoni da Z-Anatomy (M4)', () => {
     expect(new Set(lobi.map((s) => s.strato))).toEqual(new Set(['organi']));
   });
 
+  // Budget alzato da 700 a 750 kB con l'apparato visivo (occhi, nervo ottico, apparato lacrimale).
   it('restano dentro il budget di peso dello strato degli organi', () => {
-    expect(riepilogo.organi.kB).toBeLessThanOrEqual(700);
+    expect(riepilogo.organi.kB).toBeLessThanOrEqual(750);
   });
 
   it('le licenze dei modelli citano Z-Anatomy', () => {
@@ -55,6 +56,39 @@ describe('sistema endocrino: tiroide e paratiroidi da Z-Anatomy, ipotalamo e ipo
     expect(nomi('ipotalamo')).toEqual(['Hypothalamus', 'Hypothalamus']);
     expect(nomi('ipofisi')).toEqual(['Pituitary gland']);
     expect(nomi('encefalo')).not.toContain('Hypothalamus');
+  });
+});
+
+describe('apparato visivo (BodyParts3D)', () => {
+  const nomi = (gruppo) =>
+    strutture
+      .filter((s) => s.gruppo === gruppo)
+      .map((s) => s.nome)
+      .sort();
+
+  it('gli occhi hanno sclera, cornea, iride e cristallino, senza le parti nascoste dalla sclera', () => {
+    expect(nomi('occhi')).toEqual(
+      ['cornea', 'iris', 'lens', 'sclera'].flatMap((p) => [`Left ${p}`, `Right ${p}`]).sort(),
+    );
+  });
+
+  it('il nervo ottico arriva al corpo genicolato laterale attraverso il tratto ottico', () => {
+    expect(nomi('nervo-ottico')).toEqual([
+      'Left lateral geniculate body',
+      'Left optic nerve',
+      'Left optic nerve',
+      'Left optic tract',
+      'Right lateral geniculate body',
+      'Right optic nerve',
+      'Right optic nerve',
+      'Right optic tract',
+    ]);
+  });
+
+  it('l’apparato lacrimale va dalla ghiandola al dotto nasolacrimale, e nessun altro nervo entra fra gli organi', () => {
+    expect(nomi('apparato-lacrimale')).toHaveLength(8);
+    const nervi = strutture.filter((s) => s.strato === 'organi' && /nerve/i.test(s.nome));
+    expect(new Set(nervi.map((s) => s.gruppo))).toEqual(new Set(['nervo-ottico']));
   });
 });
 
