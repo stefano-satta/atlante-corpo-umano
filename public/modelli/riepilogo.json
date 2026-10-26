@@ -4,6 +4,7 @@
   "ratioPolmoni": 0.3,
   "ratioOcchi": 0.03,
   "triangoliDonna": 3000,
+  "triangoliMuscoli": 2000,
   "errore": 0.01,
   "riepilogo": {
     "ossa": {
@@ -13,10 +14,10 @@
       "kB": 470
     },
     "muscoli": {
-      "strutture": 407,
-      "triangoliPrima": 2347128,
-      "triangoliDopo": 237406,
-      "kB": 1189
+      "strutture": 499,
+      "triangoliPrima": 2742534,
+      "triangoliDopo": 330626,
+      "kB": 1614
     },
     "organi": {
       "strutture": 314,

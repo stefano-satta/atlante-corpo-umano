@@ -10,14 +10,17 @@
 // prodotta da npm run modelli:tiroide, con le paratiroidi), --ratio-polmoni 0.3 (per gli organi
 // di Z-Anatomy, tranne le superfici sotto i 200 triangoli, che non si riducono), --ratio-occhi 0.03
 // (sclera, cornea, iride e cristallino), --donna <cartella> (predefinita
-// dati-sorgente/hra/allineati, prodotta da npm run modelli:donna), --triangoli-donna 3000.
+// dati-sorgente/hra/allineati, prodotta da npm run modelli:donna), --triangoli-donna 3000,
+// --muscoli <cartella> (predefinita dati-sorgente/z-anatomy/muscoli, prodotta da
+// npm run modelli:muscoli), --triangoli-muscoli 2000.
 //
 // Produce un file .glb per strato (ossa, muscoli, organi, pelle), organi-donna.glb con gli
 // organi del corpo femminile (D29) e strutture.json con i metadati di ogni struttura
 // (classificazione e coordinate: classifica.mjs).
 //
 // Licenza dei dati di origine: BodyParts3D, © The Database Center for Life Science,
-// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni e tiroide da Z-Anatomy,
+// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni, tiroide e i muscoli assenti
+// da BodyParts3D da Z-Anatomy,
 // CC BY-SA 4.0; organi femminili dallo Human Reference Atlas, CC BY 4.0. I modelli derivati
 // sono distribuiti con licenza CC BY-SA 4.0.
 
@@ -51,11 +54,16 @@ const ratioOcchi = Number(arg('ratio-occhi', '0.03'));
 // ognuno si riduce a un numero massimo di triangoli invece che a una frazione.
 const cartellaDonna = arg('donna', 'dati-sorgente/hra/allineati');
 const triangoliDonna = Number(arg('triangoli-donna', '3000'));
+// I muscoli di Z-Anatomy assenti da BodyParts3D vanno da 170 a 34.000 triangoli: anche loro si riducono a
+// un numero massimo, così i piccoli muscoli del viso restano interi.
+const cartellaMuscoli = arg('muscoli', 'dati-sorgente/z-anatomy/muscoli');
+const triangoliMuscoli = Number(arg('triangoli-muscoli', '2000'));
 for (const [cartellaDati, comando] of [
   [cartellaObj, 'npm run modelli:scarica'],
   [cartellaPolmoni, 'npm run modelli:polmoni'],
   [cartellaTiroide, 'npm run modelli:tiroide'],
   [cartellaDonna, 'npm run modelli:donna'],
+  [cartellaMuscoli, 'npm run modelli:muscoli'],
 ]) {
   if (!fs.existsSync(cartellaDati)) {
     console.error(`Mancano i dati in ${cartellaDati}: eseguire prima ${comando}`);
@@ -122,12 +130,14 @@ for (const [id, intestazione] of intestazioni) {
 }
 
 // Alcuni muscoli (deltoide, bicipite, quadricipite, gastrocnemio…) esistono solo come capi o parti,
-// che BodyParts3D non colloca sotto "muscle organ". La parte ascendente e la discendente del
+// che BodyParts3D non colloca sotto "muscle organ"; altri (interossei e lombricali della mano,
+// interspinali…) solo come gruppo, sotto "musculature". La parte ascendente e la discendente del
 // trapezio sono solo "organ zone": entrano perché un'altra parte dello stesso muscolo è già tra i muscoli.
 const muscoli = new Set([
   ...elementiDi('muscle organ'),
   ...elementiDi('head of muscle organ'),
   ...elementiDi('zone of muscle organ'),
+  ...elementiDi('musculature'),
 ]);
 const muscoloDi = (id) => /(?:part|head) of (?:right|left) (.+)$/i.exec(intestazioni.get(id)?.nome ?? '')?.[1];
 const muscoliConParti = new Set([...muscoli].map(muscoloDi).filter(Boolean));
@@ -170,6 +180,16 @@ for (const f of fs.readdirSync(cartellaDonna).filter((f) => f.endsWith('.obj')))
   fileObj.set(id, file);
 }
 
+// Muscoli di Z-Anatomy assenti da BodyParts3D, già allineati da esporta-muscoli.py.
+for (const f of fs.readdirSync(cartellaMuscoli).filter((f) => f.endsWith('.obj'))) {
+  const file = path.join(cartellaMuscoli, f);
+  const nome = /# English name : (.+)/.exec(fs.readFileSync(file, 'utf8').slice(0, 1000))?.[1].trim();
+  if (!nome) throw new Error(`${f}: nome del muscolo mancante`);
+  const id = `ZA-${f.slice(0, -4).toLowerCase().replaceAll('_', '-')}`;
+  strutture.push({ id, nome, fma: null, strato: 'muscoli', gruppo: null });
+  fileObj.set(id, file);
+}
+
 const gruppoDi = new Map(strutture.map((s) => [s.id, s.gruppo]));
 
 // File .glb di una struttura: gli organi del solo corpo femminile stanno in un file a parte.
@@ -203,16 +223,18 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna']) {
       const r =
         strato === 'pelle'
           ? ratioPelle
-          : m.getName().startsWith('ZA-')
-            ? // Le paratiroidi hanno poco più di 100 triangoli: ridotte, perderebbero la forma.
-              triangoli < 200
-              ? 1
-              : ratioPolmoni
-            : m.getName().startsWith('HRA-')
-              ? Math.min(1, triangoliDonna / triangoli)
-              : gruppoDi.get(m.getName()) === 'occhi'
-                ? ratioOcchi
-                : ratio;
+          : strato === 'muscoli' && m.getName().startsWith('ZA-')
+            ? Math.min(1, triangoliMuscoli / triangoli)
+            : m.getName().startsWith('ZA-')
+              ? // Le paratiroidi hanno poco più di 100 triangoli: ridotte, perderebbero la forma.
+                triangoli < 200
+                ? 1
+                : ratioPolmoni
+              : m.getName().startsWith('HRA-')
+                ? Math.min(1, triangoliDonna / triangoli)
+                : gruppoDi.get(m.getName()) === 'occhi'
+                  ? ratioOcchi
+                  : ratio;
       simplifyPrimitive(p, { simplifier: MeshoptSimplifier, ratio: r, error: errore });
     }
   }
@@ -233,6 +255,10 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna']) {
 fs.writeFileSync(path.join(uscita, 'strutture.json'), JSON.stringify(strutture));
 fs.writeFileSync(
   path.join(uscita, 'riepilogo.json'),
-  JSON.stringify({ ratio, ratioPelle, ratioPolmoni, ratioOcchi, triangoliDonna, errore, riepilogo }, null, 2),
+  JSON.stringify(
+    { ratio, ratioPelle, ratioPolmoni, ratioOcchi, triangoliDonna, triangoliMuscoli, errore, riepilogo },
+    null,
+    2,
+  ),
 );
 console.table(riepilogo);

@@ -105,7 +105,7 @@ export function HomePage({ ready }: { ready: boolean }) {
           L'atlante ha solo scopo educativo. Non è uno strumento diagnostico e non sostituisce il parere di un medico.
         </p>
         <p className="home-note">
-          Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni, tiroide e paratiroidi:
+          Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni, tiroide, paratiroidi e 37 muscoli:
           Z-Anatomy, CC BY-SA 4.0; organi femminili: Human Reference Atlas, CC BY 4.0. Modelli derivati CC BY-SA 4.0.
         </p>
       </footer>

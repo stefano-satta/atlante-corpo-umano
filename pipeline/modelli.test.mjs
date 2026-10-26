@@ -169,8 +169,41 @@ describe('muscoli descritti da BodyParts3D solo per capi o parti', () => {
     expect(muscoli.filter((n) => /papillary|Taenia|calcaneal tendon/.test(n))).toEqual([]);
   });
 
-  // Budget alzato da 1020 a 1200 kB con gli 84 capi e parti recuperati.
+  it('i gruppi di muscoli della mano e del dorso ci sono per i due lati', () => {
+    for (const lato of ['right', 'left'])
+      for (const m of [
+        `dorsal interossei of ${lato} hand`,
+        `palmar interossei of ${lato} hand`,
+        `lumbricals of ${lato} hand`,
+      ])
+        expect(muscoli).toContain(`Set of ${m}`);
+  });
+
+  // Budget alzato da 1020 a 1250 kB con gli 84 capi e parti e i 18 gruppi recuperati, poi a 1650 kB
+  // con i muscoli di Z-Anatomy.
   it('restano dentro il budget di peso dello strato dei muscoli', () => {
-    expect(riepilogo.muscoli.kB).toBeLessThanOrEqual(1200);
+    expect(riepilogo.muscoli.kB).toBeLessThanOrEqual(1650);
+  });
+});
+
+describe('muscoli assenti da BodyParts3D, da Z-Anatomy', () => {
+  const za = strutture.filter((s) => s.id.startsWith('ZA-') && s.strato === 'muscoli');
+  const nomi = za.map((s) => s.nome);
+
+  it('ci sono 37 muscoli, ciascuno per i due lati, senza identificativo FMA', () => {
+    expect(za).toHaveLength(74);
+    for (const m of ['latissimus dorsi', 'rectus abdominis', 'temporalis', 'buccinator', 'frontalis'])
+      for (const lato of ['Right', 'Left']) expect(nomi).toContain(`${lato} ${m}`);
+    expect(nomi).toContain('Deep part of left masseter');
+    expect(new Set(za.map((s) => s.fma))).toEqual(new Set([null]));
+  });
+
+  it('non doppiano muscoli di BodyParts3D', () => {
+    const bp3d = new Set(strutture.filter((s) => s.id.startsWith('FJ')).map((s) => s.nome.toLowerCase()));
+    expect(nomi.filter((n) => bp3d.has(n.toLowerCase()))).toEqual([]);
+  });
+
+  it('le licenze dei modelli citano i muscoli di Z-Anatomy', () => {
+    expect(fs.readFileSync('public/modelli/LICENZE.md', 'utf8')).toMatch(/37 muscoli di `muscoli\.glb`/);
   });
 });

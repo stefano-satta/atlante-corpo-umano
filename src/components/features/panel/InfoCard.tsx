@@ -63,8 +63,9 @@ export function InfoCard({ unit }: { unit: SceneUnit }) {
         </p>
       ) : (
         <p className="provisional">
-          Nome provvisorio in inglese, dalla Foundational Model of Anatomy. Il nome italiano verificato è in
-          preparazione.
+          Nome provvisorio in inglese,{' '}
+          {unit.id.startsWith('ZA-') ? 'da Z-Anatomy' : 'dalla Foundational Model of Anatomy'}. Il nome italiano
+          verificato è in preparazione.
         </p>
       )}
       {entry && <DraftNotice status={entry.stato} />}
