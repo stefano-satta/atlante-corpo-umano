@@ -31,6 +31,10 @@ export const GRUPPI_ORGANI = [
     id: 'apparato-lacrimale',
     elementi: /^(Right|Left) (lacrimal gland|lacrimal canaliculus|lacrimal sac|nasolacrimal duct)$/,
   },
+  // Apparato uditivo. BodyParts3D ha solo l'orecchio esterno (i due padiglioni in un elemento);
+  // l'orecchio interno di Z-Anatomy è CC BY-NC-SA ed è escluso (D6), e l'orecchio medio non ha una
+  // provenienza verificata: orecchio medio e interno li descrivono la scheda e il glossario.
+  { id: 'orecchi', elementi: /^External ear$/ },
   { id: 'fegato', elementi: /^(Caudate lobe of liver|Hepatovenous segment [IVX]+)$/ },
   { id: 'colecisti', elementi: /^Gallbladder$/ },
   { id: 'esofago', elementi: /^Esophagus$/ },

@@ -49,4 +49,8 @@ describe('classifica', () => {
     expect(classifica('F', 'Optic part of left retina', ossa, muscoli)).toBeNull();
     expect(classifica('G', 'Right nasolacrimal duct', ossa, muscoli)?.gruppo).toBe('apparato-lacrimale');
   });
+
+  it('degli orecchi riconosce l’orecchio esterno', () => {
+    expect(classifica('H', 'External ear', ossa, muscoli)).toEqual({ strato: 'organi', gruppo: 'orecchi' });
+  });
 });

@@ -92,6 +92,14 @@ describe('apparato visivo (BodyParts3D)', () => {
   });
 });
 
+describe('apparato uditivo (BodyParts3D)', () => {
+  it('gli orecchi sono il solo orecchio esterno, nello strato degli organi, senza parti di Z-Anatomy', () => {
+    expect(strutture.filter((s) => s.gruppo === 'orecchi')).toEqual([
+      { id: 'FJ2811', nome: 'External ear', fma: 'FMA52781', strato: 'organi', gruppo: 'orecchi' },
+    ]);
+  });
+});
+
 describe('apparato genitale maschile (BodyParts3D)', () => {
   it('ogni organo ha i suoi elementi nello strato degli organi', () => {
     const nomi = (gruppo) =>

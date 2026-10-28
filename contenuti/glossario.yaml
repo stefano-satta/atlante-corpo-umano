@@ -664,3 +664,121 @@ chiasma-ottico:
     lato; oltre il chiasma le fibre prendono il nome di tratto ottico [@openstax-ap-14-2].
   stato: approvato
   revisione: 2026-10-26
+
+# Parti dell'orecchio (2026-10-28): definizioni da OpenStax 14.1 e NIDCD "How Do We Hear?",
+# termini latini verificati sui dati del TA2 Viewer 2.07.
+
+padiglione-auricolare:
+  termine: padiglione auricolare
+  latino: auricula
+  ta2: 6863
+  parteDi: orecchi
+  nelModello: true
+  varianti: [padiglione, padiglioni, padiglioni auricolari, pinna]
+  definizione: >
+    La parte carnosa dell'orecchio esterno, ai lati della testa. Con le sue curve a forma di C
+    indirizza le onde sonore verso il condotto uditivo [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-28
+
+condotto-uditivo:
+  termine: condotto uditivo
+  latino: meatus acusticus externus
+  ta2: 6867
+  parteDi: orecchi
+  varianti: [condotto uditivo esterno, meato acustico esterno]
+  definizione: >
+    Il passaggio stretto che dal padiglione porta al timpano [@nidcd-come-sentiamo]. Entra nel cranio
+    attraverso un'apertura dell'osso temporale [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-28
+
+timpano:
+  termine: timpano
+  latino: membrana tympanica
+  ta2: 6870
+  parteDi: orecchi
+  varianti: [membrana timpanica]
+  definizione: >
+    La membrana in fondo al condotto uditivo, che vibra quando la colpiscono le onde sonore
+    [@openstax-ap-14-1] e passa le vibrazioni agli ossicini dell'orecchio medio [@nidcd-come-sentiamo].
+  stato: approvato
+  revisione: 2026-10-28
+
+ossicini:
+  termine: ossicini dell'udito
+  latino: ossicula auditus
+  ta2: 6923
+  parteDi: orecchi
+  varianti: [ossicini, martello, incudine, staffa]
+  definizione: >
+    Le tre piccole ossa dell'orecchio medio: il martello, attaccato al timpano, l'incudine e la staffa,
+    attaccata all'orecchio interno [@openstax-ap-14-1]. Amplificano le vibrazioni del timpano e le
+    trasmettono alla coclea [@nidcd-come-sentiamo].
+  stato: approvato
+  revisione: 2026-10-28
+
+tuba-uditiva:
+  termine: tuba uditiva
+  latino: tuba auditiva
+  ta2: 6926
+  parteDi: orecchi
+  varianti: [tuba di Eustachio, tromba di Eustachio]
+  definizione: >
+    Il condotto che collega l'orecchio medio alla faringe e pareggia la pressione dell'aria sui due
+    lati del timpano. Di solito è chiusa e si apre deglutendo o sbadigliando [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-28
+
+coclea:
+  termine: coclea
+  latino: cochlea
+  ta2: 6964
+  parteDi: orecchi
+  varianti: [chiocciola]
+  definizione: >
+    La parte dell'orecchio interno che serve all'udito: una struttura a forma di chiocciola, piena di
+    liquido [@nidcd-come-sentiamo], in cui le cellule ciliate trasformano le vibrazioni in segnali
+    nervosi; i suoni acuti si sentono vicino alla base, quelli gravi vicino alla punta
+    [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-28
+
+vestibolo:
+  termine: vestibolo
+  latino: vestibulum
+  ta2: 6942
+  parteDi: orecchi
+  definizione: >
+    La parte dell'orecchio interno che serve all'equilibrio. Comprende l'utricolo e il sacculo, che
+    sentono la posizione della testa, e da esso partono i tre canali semicircolari
+    [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-28
+
+canali-semicircolari:
+  termine: canali semicircolari
+  latino: canales semicirculares
+  ta2: 6954
+  parteDi: orecchi
+  varianti: [canale semicircolare]
+  definizione: >
+    Tre canali ad anello dell'orecchio interno, uno orizzontale e due verticali, che sentono la
+    rotazione della testa: quando la testa gira, il liquido al loro interno resta indietro e piega le
+    stereociglia delle cellule ciliate [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-28
+
+nervo-vestibolococleare:
+  termine: nervo vestibolococleare
+  latino: nervus vestibulocochlearis
+  ta2: 6307
+  parteDi: orecchi
+  varianti: [ottavo nervo cranico, nervo cranico VIII, nervo acustico]
+  definizione: >
+    L'ottavo dei nervi cranici, il nervo dell'udito e dell'equilibrio; è solo sensitivo: porta i
+    segnali dall'orecchio al cervello [@openstax-ap-13-4]. È fatto di due fasci di fibre, uno che
+    parte dalla coclea e uno dal vestibolo, che viaggiano insieme fino al tronco encefalico; i
+    segnali dell'equilibrio arrivano anche al cervelletto [@openstax-ap-14-1].
+  stato: approvato
+  revisione: 2026-10-28

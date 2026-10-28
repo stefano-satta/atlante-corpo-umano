@@ -1,0 +1,87 @@
+/* Spaccato dell'orecchio nella scheda degli orecchi: etichette e numeri come in .anatomy-diagram
+   (reproductive-system.css). Padiglione e nervo hanno i colori di orecchi e nervo ottico nel modello 3D,
+   gli ossicini l'avorio delle ossa. */
+.ear-diagram {
+  --ear-bone: #4b4360;
+  --auricle: #e2b49c;
+  --ossicle: #ddd3c4;
+  --labyrinth: #b9a7e0;
+  --nerve: #d6b85a;
+}
+.ear-diagram .skin-line {
+  fill: none;
+  stroke: var(--room-muted);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 4;
+}
+.ear-diagram .bone {
+  fill: var(--ear-bone);
+  stroke: var(--room-muted);
+  stroke-width: 1;
+}
+.ear-diagram .auricle {
+  fill: var(--auricle);
+  stroke: var(--slide);
+  stroke-width: 2;
+}
+.ear-diagram .air {
+  fill: var(--room);
+}
+.ear-diagram .tube-wall,
+.ear-diagram .tube {
+  fill: none;
+  stroke-linecap: round;
+}
+.ear-diagram .tube-wall {
+  stroke: var(--room-muted);
+  stroke-width: 16;
+}
+.ear-diagram .tube {
+  stroke: var(--room);
+  stroke-width: 12;
+}
+.ear-diagram .tympanum {
+  stroke: var(--eosin-room);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.ear-diagram .ossicle {
+  fill: var(--ossicle);
+  stroke: var(--ossicle);
+}
+.ear-diagram .ossicle .limb {
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.ear-diagram .ossicle .stirrup {
+  fill: none;
+  stroke-width: 3;
+}
+.ear-diagram .labyrinth-duct {
+  fill: none;
+  stroke: var(--labyrinth);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ear-diagram .vestibule {
+  fill: var(--labyrinth);
+}
+.ear-diagram .nerve {
+  fill: none;
+  stroke: var(--nerve);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.ear-diagram .divisions path {
+  fill: none;
+  stroke: var(--room-muted);
+  stroke-width: 1;
+}
+
+/* Sullo schermo stretto i nomi delle tre parti spariscono (reproductive-system.css): anche le parentesi. */
+@media (max-width: 760px) {
+  .ear-diagram .divisions {
+    display: none;
+  }
+}

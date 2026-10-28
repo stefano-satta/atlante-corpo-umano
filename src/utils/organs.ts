@@ -12,6 +12,7 @@ export const BODY_SYSTEM_NAMES: Record<BodySystem, string> = {
   linfatico: 'Sistema linfatico',
   endocrino: 'Sistema endocrino',
   visivo: 'Apparato visivo',
+  uditivo: 'Apparato uditivo',
   'genitale-maschile': 'Apparato genitale maschile',
   'genitale-femminile': 'Apparato genitale femminile',
 };
@@ -158,6 +159,9 @@ export const ORGANS: Organ[] = [
     system: 'visivo',
     color: '#8fa682',
   },
+  // Apparato uditivo da BodyParts3D: solo i padiglioni, color carne chiaro come la pelle che li
+  // riveste, distinto dal rosa degli organi digerenti.
+  { id: 'orecchi', name: 'Orecchi', latinTerm: 'auris', system: 'uditivo', color: '#e2b49c' },
 ];
 
 export const ORGANS_BY_ID = new Map(ORGANS.map((o) => [o.id, o]));

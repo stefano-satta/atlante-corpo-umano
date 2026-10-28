@@ -16,6 +16,7 @@ apparati:
   linfatico: Sistema linfatico
   endocrino: Sistema endocrino
   visivo: Apparato visivo
+  uditivo: Apparato uditivo
 
 nomi:
   apparato-cardiovascolare: Apparato cardiovascolare
@@ -36,6 +37,7 @@ nomi:
   sistema-linfatico: Sistema linfatico
   sistema-endocrino: Sistema endocrino
   apparato-visivo: Apparato visivo
+  apparato-uditivo: Apparato uditivo
   muscoli-extraoculari: Muscoli extraoculari
   cavita-nasale: Cavità nasale
   midollo-spinale: Midollo spinale

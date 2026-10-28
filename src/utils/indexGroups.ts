@@ -12,6 +12,7 @@ const ORDER = [
   'genitale-femminile',
   'nervoso',
   'visivo',
+  'uditivo',
   'endocrino',
   'linfatico',
   'scheletrico',

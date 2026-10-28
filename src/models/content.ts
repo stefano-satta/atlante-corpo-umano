@@ -122,7 +122,7 @@ export type Process = HeartProcess | ReproductiveProcess | UrinaryProcess | Thyr
 
 /** Figura disegnata della scheda, in fondo a una sezione: lo schema dice quale disegno mostrare. */
 export interface Figure {
-  schema: 'vulva';
+  schema: 'vulva' | 'orecchio';
   titolo: string;
   /** Chiave della sezione che contiene la figura ("Dove si trova"…). */
   sezione: string;

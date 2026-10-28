@@ -8,7 +8,7 @@ import { RichText } from '@/components/features/glossary/RichText';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useStructure } from '@/hooks/useContent';
 import { useTextOnly } from '@/hooks/useTextOnly';
-import type { Process, Relation, StructureSummary } from '@/models/content';
+import type { Figure, Process, Relation, StructureSummary } from '@/models/content';
 import { registerCalloutTarget } from '@/utils/calloutPath';
 import { hasPage } from '@/utils/content';
 import { formatLongDate } from '@/utils/format';
@@ -25,7 +25,11 @@ const ReproductiveProcess = lazy(() => import('@/components/features/reproductiv
 const UrinaryProcess = lazy(() => import('@/components/features/urinary-system/UrinaryProcess'));
 const ThyroidProcess = lazy(() => import('@/components/features/endocrine-system/ThyroidProcess'));
 const VisionProcess = lazy(() => import('@/components/features/visual-system/VisionProcess'));
-const VulvaFigure = lazy(() => import('@/components/features/reproductive-system/VulvaFigure'));
+// Figure disegnate delle schede, una per schema.
+const FIGURES = {
+  vulva: lazy(() => import('@/components/features/reproductive-system/VulvaFigure')),
+  orecchio: lazy(() => import('@/components/features/hearing-system/EarFigure')),
+};
 
 type Apparatus = 'urinario' | 'riproduttivo' | 'endocrino' | 'visivo';
 
@@ -64,6 +68,12 @@ function ProcessFigure({ process, structure }: { process: Process; structure: st
       )}
     </Suspense>
   );
+}
+
+/** Figura disegnata della scheda, scelta in base al suo schema. */
+function SheetFigure({ figure }: { figure: Figure }) {
+  const Drawing = FIGURES[figure.schema];
+  return <Drawing figure={figure} />;
 }
 
 /** Contenuto del pannello allargato: la scheda completa di un organo (sezioni di D11). */
@@ -147,7 +157,7 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
             <RichText className="text" html={x.html} />
             {s.figura?.sezione === x.chiave && (
               <Suspense fallback={<p role="status">Caricamento della figura…</p>}>
-                <VulvaFigure figure={s.figura} />
+                <SheetFigure figure={s.figura} />
               </Suspense>
             )}
             {x.chiave === 'Il processo' &&

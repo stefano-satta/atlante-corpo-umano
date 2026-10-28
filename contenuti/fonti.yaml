@@ -533,3 +533,14 @@ openstax-ap-14-2:
   anno: 2022
   url: https://openstax.org/books/anatomy-and-physiology-2e/pages/14-2-central-processing
   consultata: 2026-10-26
+
+# Fonti aggiunte il 2026-10-28 per l'apparato uditivo. OpenStax 14.1 (già in bibliografia) è stato
+# riletto nelle sezioni "Audition" ed "Equilibrium".
+
+nidcd-come-sentiamo:
+  tipo: istituzionale
+  titolo: "How Do We Hear?"
+  ente: National Institute on Deafness and Other Communication Disorders (NIDCD), National Institutes of Health
+  aggiornata: 2022-03-16
+  url: https://www.nidcd.nih.gov/health/how-do-we-hear
+  consultata: 2026-10-28
