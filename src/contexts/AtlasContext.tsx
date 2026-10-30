@@ -2,7 +2,7 @@ import { createContext, type ReactNode, useEffect, useMemo, useReducer, useState
 import { useLocation, useNavigate } from 'react-router';
 import type { AtlasDispatch, AtlasState } from '@/models/atlas';
 import { atlasReducer, initialAtlasState } from '@/utils/atlasReducer';
-import { readUrl, urlChange, urlFor } from '@/utils/url';
+import { readUrl, searchFor, urlChange, urlFor } from '@/utils/url';
 
 export const AtlasContext = createContext<{ state: AtlasState; dispatch: AtlasDispatch } | null>(null);
 
@@ -25,7 +25,7 @@ export function AtlasProvider({ children }: { children: ReactNode }) {
   const { pathname, search } = location;
   useEffect(() => {
     const change = urlChange({ selection, sheet, page, guidedPath, home }, pathname);
-    if (change) navigate({ pathname: change.pathname, search }, { replace: change.replace });
+    if (change) navigate({ pathname: change.pathname, search: searchFor(search) }, { replace: change.replace });
   }, [selection, sheet, page, guidedPath, home, pathname, search, navigate]);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);

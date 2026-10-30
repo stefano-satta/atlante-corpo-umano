@@ -1,7 +1,7 @@
 import type { UrlState } from '@/models/atlas';
 import { PAGE_IDS } from './pages';
 
-// Indirizzi (D11): / (soglia), /esplora (atlante senza selezione), /esplora/<id>, /organo/<id>, /percorsi/<id>/<passo>, /indice, /fonti, /informazioni.
+// Indirizzi (D11): / (soglia), /esplora (atlante senza selezione), /esplora/<id>, /organo/<id>, /percorsi/<id>/<passo>, /indice, /glossario, /fonti, /informazioni.
 // Nell'indirizzo il passo si conta da 1.
 
 export function readUrl(pathname: string): UrlState {
@@ -30,4 +30,12 @@ export function urlChange(s: UrlState, pathname: string) {
   // "Indietro" esce dal percorso invece di ripercorrerlo all'indietro.
   const samePath = !!s.guidedPath && !s.selection && !s.page && pathname.startsWith(`/percorsi/${s.guidedPath.id}/`);
   return { pathname: next, replace: samePath };
+}
+
+/** Parametri dell'indirizzo da portare sul nuovo indirizzo: la ricerca (`?q=`) resta alla pagina che l'ha scritta. */
+export function searchFor(search: string) {
+  const params = new URLSearchParams(search);
+  params.delete('q');
+  const rest = params.toString();
+  return rest ? `?${rest}` : '';
 }

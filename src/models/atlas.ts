@@ -9,8 +9,8 @@ export type Layer = 'muscoli' | 'organi' | 'scheletro';
  */
 export type BodyKind = 'uomo' | 'donna';
 
-/** Pagina di lettura; il valore è anche il suo indirizzo (`/indice`, `/fonti`, `/informazioni`). */
-export type PageId = 'indice' | 'fonti' | 'informazioni';
+/** Pagina di lettura; il valore è anche il suo indirizzo (`/indice`, `/glossario`, `/fonti`, `/informazioni`). */
+export type PageId = 'indice' | 'glossario' | 'fonti' | 'informazioni';
 
 export interface ActiveGuidedPath {
   id: string;

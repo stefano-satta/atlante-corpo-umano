@@ -44,8 +44,10 @@
     padding-left: 20px;
     padding-right: 20px;
   }
+  /* Cinque voci non stanno in una riga sugli smartphone più stretti: vanno a capo. */
   .top-bar nav {
     width: 100%;
-    gap: 18px;
+    flex-wrap: wrap;
+    gap: 2px 18px;
   }
 }

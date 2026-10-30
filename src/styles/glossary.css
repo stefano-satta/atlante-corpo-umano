@@ -1,25 +1,60 @@
-/* Glossario: elenco nell'Indice e definizione sul posto accanto al termine. */
+/* Glossario: pagina con lettere e filtri, e definizione sul posto accanto al termine. */
 .glossary {
+  list-style: none;
   margin: 0;
+  padding: 0;
   border-top: 1px solid var(--slide-border);
 }
 .glossary-entry {
-  padding: 16px 0;
   border-bottom: 1px solid var(--slide-border);
-  scroll-margin-top: 140px;
   outline: none;
 }
 .glossary-entry:focus {
   background: linear-gradient(90deg, var(--slide-veil), transparent);
 }
-.glossary-entry dt {
+.glossary-entry > summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 10px;
+  padding: 12px 28px 12px 0;
+  position: relative;
+  list-style: none;
+  cursor: pointer;
+}
+.glossary-entry > summary::-webkit-details-marker {
+  display: none;
+}
+.glossary-entry > summary::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  right: 6px;
+  width: 7px;
+  height: 7px;
+  border: solid var(--ink-muted);
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+  transition: rotate 200ms var(--ease-out);
+}
+.glossary-entry[open] > summary::after {
+  top: 24px;
+  rotate: 225deg;
+}
+.glossary-entry .entry-name {
   font: 600 20px / 1.2 var(--font-display);
   font-variation-settings: "opsz" 32;
 }
-.glossary-entry dd {
-  margin: 6px 0 0;
+.glossary-entry > summary:hover .entry-name {
+  color: var(--eosin-dark);
+}
+.glossary-body {
+  padding: 0 0 16px;
   font-size: 16px;
   line-height: 1.55;
+}
+.glossary-body .definition p {
+  margin: 0;
 }
 .entry-sources {
   margin: 6px 0 0;
@@ -81,4 +116,86 @@
 .glossary-popover .popover-all {
   color: var(--nucleus);
   text-underline-offset: 3px;
+}
+
+/* Pagina del Glossario: lettere nella fascia della ricerca, filtri per apparato. */
+.letters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 0 6px;
+}
+
+.letters button,
+.letters span {
+  min-width: 28px;
+  padding: 4px 0;
+  text-align: center;
+  font: 600 15px / 1.2 var(--font-text);
+}
+.letters button {
+  background: none;
+  border: 0;
+  border-radius: 3px;
+  color: var(--nucleus);
+}
+.letters button:hover {
+  background: var(--slide-veil);
+}
+.letters span {
+  color: var(--slide-border);
+}
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  margin: 14px 0 0;
+  padding: 0;
+  border: 0;
+}
+.filters button {
+  padding: 5px 12px 6px;
+  background: #fff;
+  border: 1px solid var(--slide-border);
+  border-radius: 999px;
+  font-size: 15px;
+  color: var(--ink);
+}
+.filters button:hover {
+  border-color: var(--nucleus);
+}
+.filters button[aria-pressed="true"] {
+  background: var(--nucleus);
+  border-color: var(--nucleus);
+  color: #fff;
+}
+.filters .count {
+  margin-left: 2px;
+  font-size: 13px;
+}
+.glossary-tools {
+  display: flex;
+  justify-content: flex-end;
+  margin: 16px 0 0;
+}
+.glossary-page .glossary-letter h2 {
+  margin: 20px 0 4px;
+  font-size: 22px;
+  color: var(--eosin-dark);
+  outline: none;
+}
+/* Su schermo stretto le lettere stanno in una riga che scorre, per non alzare la fascia ferma. */
+@media (max-width: 760px) {
+  .letters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .letters button,
+  .letters span {
+    flex: none;
+    min-width: 30px;
+    padding: 8px 0;
+  }
 }

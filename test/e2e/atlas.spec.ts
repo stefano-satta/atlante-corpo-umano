@@ -349,11 +349,22 @@ test("l'Indice cerca le strutture e le mostra nel corpo", async ({ page }) => {
   await page.getByRole('button', { name: 'Indice dei contenuti' }).click();
   await expect(page).toHaveURL(/\/indice$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Indice' })).toBeFocused();
-  await expect(page.getByRole('heading', { name: 'Glossario' })).toBeVisible();
+  // Gli apparati sono chiusi: la pagina a riposo è una mappa, il glossario ha una pagina sua.
+  await expect(page.getByRole('button', { name: 'Polmoni: mostra nel corpo' })).toBeHidden();
+  await expect(page.getByRole('button', { name: /^Glossario: \d+ termini/ })).toBeVisible();
   await checkAccessibility(page);
+  await page.locator('summary', { hasText: 'Apparato respiratorio' }).click();
+  await expect(page.getByRole('button', { name: 'Polmoni: mostra nel corpo' })).toBeVisible();
+
+  // Il tasto / porta alla ricerca, che resta nell'indirizzo.
+  await page.getByRole('heading', { level: 1, name: 'Indice' }).focus();
+  await page.keyboard.press('/');
+  await expect(page.getByRole('searchbox', { name: "Cerca nell'atlante" })).toBeFocused();
 
   await page.getByRole('searchbox', { name: "Cerca nell'atlante" }).fill('pulm');
   await expect(page.getByRole('status').filter({ hasText: 'risultat' })).toHaveText('1 risultato');
+  await expect(page).toHaveURL(/\/indice\?q=pulm$/);
+  await expect(page.locator('mark', { hasText: 'Pulm' })).toBeVisible();
   await page.getByRole('searchbox').fill('xyz');
   await expect(page.getByText(/Nessun risultato per «xyz»/)).toBeVisible();
   await page.getByRole('searchbox').fill('polmon');
@@ -384,8 +395,34 @@ test('i termini del glossario si aprono sul posto e portano al glossario', async
 
   await term.click();
   await page.getByRole('link', { name: 'Tutto il glossario' }).click();
-  await expect(page).toHaveURL(/\/indice$/);
+  await expect(page).toHaveURL(/\/glossario$/);
   await expect(page.locator('#glossario-capillare')).toBeFocused();
+  await expect(page.locator('#glossario-capillare')).toHaveAttribute('open', '');
+});
+
+test('il Glossario ha una pagina con ricerca, lettere e filtri', async ({ page }) => {
+  await page.goto('/indice?q=retin');
+  await expect(page.getByRole('heading', { name: 'Nel glossario' })).toBeVisible();
+  await page.getByRole('button', { name: 'retina: leggi la definizione' }).click();
+  await expect(page).toHaveURL(/\/glossario$/);
+  const retina = page.locator('#glossario-retina');
+  await expect(retina).toBeFocused();
+  await expect(retina.getByText(/fondo dell'occhio/)).toBeVisible();
+  await checkAccessibility(page);
+
+  // Filtro per apparato e ricerca insieme; con pochi risultati le definizioni si aprono da sole.
+  await page.getByRole('button', { name: /^Uditivo/ }).click();
+  await expect(page.getByRole('button', { name: /^Uditivo/ })).toHaveAttribute('aria-pressed', 'true');
+  await expect(retina).toHaveCount(0);
+  await page.getByRole('searchbox', { name: 'Cerca nel glossario' }).fill('timp');
+  await expect(page).toHaveURL(/\/glossario\?q=timp$/);
+  await expect(page.getByRole('status')).toHaveText('1 termine');
+  await expect(page.locator('#glossario-timpano')).toHaveAttribute('open', '');
+
+  await page.getByRole('button', { name: 'Tutti' }).click();
+  await page.getByRole('searchbox', { name: 'Cerca nel glossario' }).fill('');
+  await page.getByRole('button', { name: 'Lettera V' }).click();
+  await expect(page.getByRole('heading', { name: 'V', exact: true })).toBeFocused();
 });
 
 test('senza WebGL si apre la versione testuale con Indice, schede e percorso', async ({ page }) => {
@@ -400,6 +437,7 @@ test('senza WebGL si apre la versione testuale con Indice, schede e percorso', a
   await expect(page.getByRole('heading', { level: 1, name: 'Indice' })).toBeVisible();
   await checkAccessibility(page);
 
+  await page.locator('summary', { hasText: 'Apparato cardiovascolare' }).click();
   await page.getByRole('button', { name: 'Cuore: leggi il testo' }).click();
   await expect(page).toHaveURL(/\/esplora\/cuore$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Cuore' })).toBeVisible();
@@ -408,7 +446,7 @@ test('senza WebGL si apre la versione testuale con Indice, schede e percorso', a
   await checkAccessibility(page);
 
   await page.getByRole('button', { name: "Torna all'indice" }).click();
-  await page.getByRole('button', { name: 'Un respiro: inizia il percorso' }).click();
+  await page.getByRole('button', { name: /^Un respiro.*inizia il percorso$/ }).click();
   await expect(page).toHaveURL(/\/percorsi\/respirazione\/1$/);
   await page.getByRole('button', { name: 'Avanti' }).click();
   await expect(page.getByRole('heading', { name: "Le vie dell'aria" })).toBeVisible();

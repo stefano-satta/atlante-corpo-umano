@@ -57,7 +57,7 @@ describe('pubblicazione dei contenuti', () => {
 
   it('toglie i collegamenti ai termini del glossario non pubblicati, lasciando la parola', () => {
     const html =
-      '<p>Gli <a class="glossary-term" href="/indice#glossario-alveolo" data-term="alveolo">alveoli</a>.</p>';
+      '<p>Gli <a class="glossary-term" href="/glossario#glossario-alveolo" data-term="alveolo">alveoli</a>.</p>';
     expect(senzaVociMancanti({ sezioni: [{ html }] }, new Set())).toEqual({
       sezioni: [{ html: '<p>Gli alveoli.</p>' }],
     });

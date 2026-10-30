@@ -1,7 +1,8 @@
 import { useAtlas } from '@/hooks/useAtlas';
 import { useOpenGuidedPath } from '@/hooks/useSelectedStructure';
-import { GUIDED_PATHS, hasPage } from '@/utils/content';
-import { PAGE_IDS, PAGE_TITLES } from '@/utils/pages';
+import type { PageId } from '@/models/atlas';
+import { GUIDED_PATHS, pageAvailable } from '@/utils/content';
+import { PAGE_IDS, PAGE_SHORT_TITLES, PAGE_TITLES } from '@/utils/pages';
 
 /** Barra in alto della vista 3D (D11): marchio, percorsi e pagine di lettura. */
 export function TopBar() {
@@ -29,7 +30,7 @@ export function TopBar() {
           </button>
         )}
         {PAGE_IDS.map((p) =>
-          p !== 'informazioni' || hasPage(p) ? (
+          pageAvailable(p) ? (
             <button
               type="button"
               key={p}
@@ -37,15 +38,30 @@ export function TopBar() {
               data-page={p}
               onClick={() => dispatch({ type: 'setPage', page: p })}
             >
-              {PAGE_TITLES[p]}
+              <PageTitle page={p} />
             </button>
           ) : (
             <button type="button" key={p} className="nav-item" aria-disabled="true" title="In preparazione">
-              {PAGE_TITLES[p]}
+              <PageTitle page={p} />
             </button>
           ),
         )}
       </nav>
     </header>
+  );
+}
+
+/**
+ * Titolo della voce, con la forma breve che compare su schermo stretto (`.full`/`.short`). Il
+ * nome accessibile è la forma visibile: quella nascosta con `display: none` non conta.
+ */
+function PageTitle({ page }: { page: PageId }) {
+  const short = PAGE_SHORT_TITLES[page];
+  if (!short) return <>{PAGE_TITLES[page]}</>;
+  return (
+    <>
+      <span className="full">{PAGE_TITLES[page]}</span>
+      <span className="short">{short}</span>
+    </>
   );
 }

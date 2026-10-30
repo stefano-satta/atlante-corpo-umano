@@ -1,17 +1,21 @@
 import type { IndexEntry } from '@/models/atlasIndex';
+import { Highlight } from './Highlight';
 
 /**
  * Riga dell'Indice per un organo o una struttura: mostra nel corpo, o apre il testo senza 3D.
  * Una parte che il modello non ha apre la scheda che la descrive e porta alla sua definizione.
+ * L'etichetta a destra compare solo per le eccezioni: le voci con testo sono la regola.
  */
 export function StructureEntry({
   entry: e,
+  query,
   textOnly,
   onShow,
   onOpenSheet,
   onShowDefinition,
 }: {
   entry: IndexEntry;
+  query: string;
   textOnly: boolean;
   onShow: (e: IndexEntry) => void;
   onOpenSheet: (unit: string) => void;
@@ -21,6 +25,7 @@ export function StructureEntry({
     return (
       <PartEntry
         entry={e}
+        query={query}
         textOnly={textOnly}
         onOpenSheet={onOpenSheet}
         onShow={onShow}
@@ -28,7 +33,6 @@ export function StructureEntry({
       />
     );
   const c = e.content;
-  const kind = c ? (c.scheda ? 'Testo e scheda' : 'Testo') : 'Solo nel modello 3D';
   const enabled = textOnly ? !!c : !!e.unit;
   return (
     <li className="index-entry">
@@ -39,15 +43,17 @@ export function StructureEntry({
           aria-label={`${e.name}: ${textOnly ? 'leggi il testo' : 'mostra nel corpo'}`}
           onClick={() => onShow(e)}
         >
-          {e.name}
+          <Highlight text={e.name} query={query} />
         </button>
       ) : (
-        <span className="entry-name">{e.name}</span>
+        <span className="entry-name">
+          <Highlight text={e.name} query={query} />
+        </span>
       )}
       <span className="entry-term" lang="la">
-        {e.latinTerm}
+        <Highlight text={e.latinTerm} query={query} />
       </span>
-      <span className="entry-detail">{kind}</span>
+      {!c && <span className="entry-detail">Solo nel modello 3D</span>}
       {c?.scheda && !textOnly && e.unit && (
         <button
           type="button"
@@ -64,12 +70,14 @@ export function StructureEntry({
 
 function PartEntry({
   entry: e,
+  query,
   textOnly,
   onShow,
   onOpenSheet,
   onShowDefinition,
 }: {
   entry: IndexEntry;
+  query: string;
   textOnly: boolean;
   onShow: (e: IndexEntry) => void;
   onOpenSheet: (unit: string) => void;
@@ -88,13 +96,15 @@ function PartEntry({
           aria-label={`${e.name}: ${textOnly ? 'leggi il testo' : 'apri la scheda'} ${parent.nome}`}
           onClick={() => (textOnly ? onShow({ ...e, content: parent }) : unit && onOpenSheet(unit))}
         >
-          {e.name}
+          <Highlight text={e.name} query={query} />
         </button>
       ) : (
-        <span className="entry-name">{e.name}</span>
+        <span className="entry-name">
+          <Highlight text={e.name} query={query} />
+        </span>
       )}
       <span className="entry-term" lang="la">
-        {e.latinTerm}
+        <Highlight text={e.latinTerm} query={query} />
       </span>
       <span className="entry-detail">
         {e.inModel ? 'Nel modello 3D con' : 'Non nel modello 3D · scheda'} {parent.nome}

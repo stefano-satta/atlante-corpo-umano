@@ -3,7 +3,7 @@ import { GlossaryDefinition } from './GlossaryDefinition';
 
 /**
  * HTML compilato in build dai contenuti (pipeline/contenuti.mjs), con i rimandi alle fonti.
- * I termini del glossario sono collegamenti all'Indice: un clic apre la definizione sul posto,
+ * I termini del glossario sono collegamenti al Glossario: un clic apre la definizione sul posto,
  * mentre Ctrl, Cmd o Maiuscolo lasciano al browser l'apertura in un'altra scheda.
  */
 export function RichText({ html, className }: { html: string; className?: string }) {

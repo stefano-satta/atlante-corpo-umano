@@ -106,12 +106,12 @@ export function GlossaryDefinition({ anchor, onClose }: { anchor: HTMLAnchorElem
           <PartOfLink partOf={entry.parteDi} onNavigate={onClose} />
           <a
             className="popover-all"
-            href={`/indice#glossario-${entry.id}`}
+            href={`/glossario#glossario-${entry.id}`}
             onClick={(e) => {
               e.preventDefault();
               requestGlossaryEntry(entry.id);
               onClose();
-              dispatch({ type: 'setPage', page: 'indice' });
+              dispatch({ type: 'setPage', page: 'glossario' });
             }}
           >
             Tutto il glossario

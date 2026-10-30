@@ -166,15 +166,15 @@ function segniGlossario(voci, errore) {
     testo.replace(SEGNO_GLOSSARIO, (_, mostrato, voce) => {
       const id = (voce ?? mostrato).trim().toLowerCase().replace(/\s+/g, '-');
       if (!voci.has(id)) errore(`termine del glossario inesistente: [[${mostrato}${voce ? `|${voce}` : ''}]]`);
-      return `[${mostrato.trim()}](/indice#glossario-${id})`;
+      return `[${mostrato.trim()}](/glossario#glossario-${id})`;
     });
 }
 
 /** Aggiunge classe e voce ai collegamenti del glossario prodotti da marked. */
 const marcaGlossario = (html) =>
   html.replace(
-    /<a href="\/indice#glossario-([a-z0-9-]+)">/g,
-    '<a class="glossary-term" href="/indice#glossario-$1" data-term="$1">',
+    /<a href="\/glossario#glossario-([a-z0-9-]+)">/g,
+    '<a class="glossary-term" href="/glossario#glossario-$1" data-term="$1">',
   );
 
 function controllaFonte(id, f, errore) {

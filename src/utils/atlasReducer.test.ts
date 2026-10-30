@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { AtlasState } from '@/models/atlas';
 import { atlasReducer } from './atlasReducer';
-import { readUrl, urlFor } from './url';
+import { readUrl, searchFor, urlFor } from './url';
 
 const base: AtlasState = {
   layer: 'organi',
@@ -48,6 +48,13 @@ describe("soglia d'ingresso", () => {
   it("l'Indice ha il suo indirizzo", () => {
     expect(readUrl('/indice').page).toBe('indice');
     expect(urlFor({ ...noUrl, page: 'indice' })).toBe('/indice');
+    expect(readUrl('/glossario').page).toBe('glossario');
+  });
+
+  it('la ricerca di una pagina non segue il nuovo indirizzo, gli altri parametri sì', () => {
+    expect(searchFor('?q=ret')).toBe('');
+    expect(searchFor('?q=ret&debug=1')).toBe('?debug=1');
+    expect(searchFor('')).toBe('');
   });
 });
 

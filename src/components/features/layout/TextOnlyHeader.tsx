@@ -1,5 +1,5 @@
 import { useAtlas } from '@/hooks/useAtlas';
-import { hasPage } from '@/utils/content';
+import { pageAvailable } from '@/utils/content';
 import { PAGE_IDS, PAGE_TITLES } from '@/utils/pages';
 
 /**
@@ -13,7 +13,7 @@ export function TextOnlyHeader() {
     <header className="text-header">
       <span className="brand">Atlante del corpo umano</span>
       <nav aria-label="Sezioni">
-        {PAGE_IDS.filter((p) => p !== 'informazioni' || hasPage(p)).map((p) => (
+        {PAGE_IDS.filter(pageAvailable).map((p) => (
           <button
             type="button"
             key={p}

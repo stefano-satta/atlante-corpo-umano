@@ -3,7 +3,7 @@ import type { GlossaryEntry, StructureSummary } from '@/models/content';
 import { GLOSSARY, STRUCTURES } from './content';
 import { BODY_SYSTEM_NAMES, ORGANS } from './organs';
 
-const ORDER = [
+export const SYSTEM_ORDER = [
   'cardiovascolare',
   'respiratorio',
   'digerente',
@@ -72,7 +72,7 @@ export function groupBySystem(
       inModel: g.nelModello,
     });
   }
-  const rank = (system: string) => (ORDER.includes(system) ? ORDER.indexOf(system) : ORDER.length);
+  const rank = (system: string) => (SYSTEM_ORDER.includes(system) ? SYSTEM_ORDER.indexOf(system) : SYSTEM_ORDER.length);
   return [...groups.values()]
     .sort((a, b) => rank(a.system) - rank(b.system) || a.name.localeCompare(b.name, 'it'))
     .map((g) => ({ ...g, entries: g.entries.sort((a, b) => a.name.localeCompare(b.name, 'it')) }));

@@ -41,7 +41,7 @@ Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `pub
   - voci del glossario sconosciute.
 - **Plugin Vite:** `pipeline/plugin-contenuti.mjs` (usato anche da Vitest) espone moduli virtuali. `virtual:contenuti` è un indice leggero con i caricatori; `virtual:contenuti/struttura/<id>`, `/fonti`, `/pagina/<id>`, `/percorso/<id>` e `/glossario` si caricano su richiesta. I tipi sono in `src/models/virtual-content.d.ts` e `src/models/content.ts`; l'accesso passa da `src/utils/content.ts` e dall'hook `useContent`.
 - **Stati** `bozza` → `verificato` → `approvato`: in produzione entra solo `approvato`, in `serve` o con `ATLANTE_BOZZE=1` entra tutto. `senzaVociMancanti` trasforma in testo semplice i link a voci del glossario non pubblicate.
-- **Glossario:** nei testi si scrive `[[parola mostrata|id-voce]]`, che diventa `<a class="glossary-term" data-term="id">`. `components/features/glossary/RichText.tsx` intercetta il clic e apre `GlossaryDefinition.tsx`.
+- **Glossario:** nei testi si scrive `[[parola mostrata|id-voce]]`, che diventa `<a class="glossary-term" data-term="id">`. `components/features/glossary/RichText.tsx` intercetta il clic e apre `GlossaryDefinition.tsx`; "Tutto il glossario" porta a `/glossario#glossario-<voce>` (`utils/glossaryRequest.ts`).
 
 ### Struttura di `src/`
 
@@ -49,7 +49,7 @@ Alias `@/` → `src/` (in `tsconfig.json`, `vite.config.ts` e `vitest.config.ts`
 
 | Cartella | Contenuto |
 |---|---|
-| `pages/` | Una "pagina" per stato: `HomePage` (soglia), `AtlasPage`, `IndexPage`, `SourcesPage`, `InfoPage`, `ReadingPage`, `TextOnlyAtlasPage` |
+| `pages/` | Una "pagina" per stato: `HomePage` (soglia), `AtlasPage`, `IndexPage`, `GlossaryPage`, `SourcesPage`, `InfoPage`, `ReadingPage`, `TextOnlyAtlasPage` |
 | `components/common/` | UI generica (icone, fonti, avviso bozza, barra di caricamento…) |
 | `components/features/<area>/` | `scene`, `panel`, `toolbar`, `tour`, `guided-path`, `cardiac-cycle`, `glossary`, `atlas-index`, `layout` |
 | `contexts/` | `AtlasContext` (stato) e `TextOnlyContext` (versione senza 3D) |
@@ -66,7 +66,7 @@ Alias `@/` → `src/` (in `tsconfig.json`, `vite.config.ts` e `vitest.config.ts`
 - `/esplora` (atlante senza selezione: "Esplora il corpo", chiusura del cartellino o del percorso);
 - `/esplora/<unità>` o `/organo/<id>`;
 - `/percorsi/<id>/<passo>` (passo contato da 1);
-- `/indice`, `/fonti`, `/informazioni` (`PAGE_IDS` in `utils/pages.ts`).
+- `/indice`, `/glossario`, `/fonti`, `/informazioni` (`PAGE_IDS` in `utils/pages.ts`); Indice e Glossario tengono la ricerca in `?q=` (`useSearchQuery`), che `searchFor` toglie passando ad altri indirizzi.
 
 Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPage`) che resta montata, così la scena 3D non si ricarica. Le rotte di struttura e di percorso non hanno un elemento: si leggono nello stato. Le pagine di lettura sono elementi di rotta e compaiono nell'`Outlet`. Nei test di componente `AtlasProvider` va dentro un router (`MemoryRouter`, o `BrowserRouter` se il test controlla `location`).
 

@@ -34,7 +34,7 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     title: 'Percorsi, Indice e Fonti',
-    text: 'In alto trovi i percorsi guidati, l’Indice con la ricerca e il glossario, e le fonti di tutti i testi. Il pulsante Aiuto, in basso, riapre questa guida.',
+    text: 'In alto trovi i percorsi guidati, l’Indice e il Glossario con la ricerca, e le fonti di tutti i testi. Il pulsante Aiuto, in basso, riapre questa guida.',
     target: '.top-bar nav',
   },
 ];

@@ -17,7 +17,7 @@ const PAN_STEP = 0.06;
 
 /**
  * Comandi da tastiera (D11): frecce per ruotare, Maiusc + frecce per spostare, + e − per lo zoom, 1–3 per gli strati,
- * 0 per la vista iniziale, Esc per chiudere scheda o cartellino, ? per la guida.
+ * 0 per la vista iniziale, Esc per chiudere scheda o cartellino, ? per la guida, / per la ricerca di Indice e Glossario.
  */
 export function useKeyboardShortcuts() {
   const { state, dispatch } = useAtlas();
@@ -27,9 +27,14 @@ export function useKeyboardShortcuts() {
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof Element && e.target.closest('input, textarea')) return;
-      // Con una pagina di lettura aperta i tasti servono solo a chiuderla.
+      // Con una pagina di lettura aperta i tasti servono solo a chiuderla e a raggiungere la ricerca.
       if (page) {
         if (e.key === 'Escape') dispatch({ type: 'setPage', page: null });
+        const search = document.querySelector<HTMLInputElement>('.reading-page input[type="search"]');
+        if (e.key === '/' && search) {
+          search.focus();
+          e.preventDefault();
+        }
         return;
       }
       // Sulla soglia il corpo gira da solo: i comandi della vista arrivano dopo l'ingresso.

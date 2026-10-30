@@ -59,7 +59,7 @@ const partsHtml = (parts: FigurePart[]) =>
   `<ol class="figure-parts">${parts
     .map(
       ({ term, name }) =>
-        `<li>${published.has(term) ? `<a class="glossary-term" href="/indice#glossario-${term}" data-term="${term}">${name}</a>` : name}</li>`,
+        `<li>${published.has(term) ? `<a class="glossary-term" href="/glossario#glossario-${term}" data-term="${term}">${name}</a>` : name}</li>`,
     )
     .join('')}</ol>`;
 

@@ -1,4 +1,4 @@
-/* Indice (D26) */
+/* Indice (D26) e Glossario: ricerca, percorsi e processi, apparati richiudibili */
 .atlas-index .intro {
   margin-bottom: 20px;
 }
@@ -16,9 +16,12 @@
   font-size: 15px;
   color: var(--ink-muted);
 }
+.search-box {
+  position: relative;
+}
 .search input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 44px 12px 14px;
   background: #fff;
   border: 1px solid var(--slide-border);
   border-bottom: 2px solid var(--ink);
@@ -29,6 +32,35 @@
 }
 .search input::placeholder {
   color: var(--ink-muted);
+}
+/* Il tasto / porta alla ricerca: lo si mostra solo dove c'è una tastiera e il campo è vuoto. */
+.search-key {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  translate: 0 -50%;
+  min-width: 22px;
+  padding: 1px 6px;
+  border: 1px solid var(--slide-border);
+  border-radius: 3px;
+  font: 600 13px / 1.4 var(--font-text);
+  text-align: center;
+  color: var(--ink-muted);
+  pointer-events: none;
+}
+.search-box:focus-within .search-key {
+  display: none;
+}
+@media (hover: none) {
+  .search-key {
+    display: none;
+  }
+}
+.atlas-index mark {
+  padding: 0;
+  background: color-mix(in srgb, var(--eosin) 16%, transparent);
+  border-radius: 2px;
+  color: inherit;
 }
 .search-result {
   min-height: 21px;
@@ -135,4 +167,146 @@ span.entry-name {
     grid-column: 2;
     grid-row: 1 / span 3;
   }
+}
+
+/* Percorsi e processi: riquadri compatti, in cima all'Indice. */
+.index-cards {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.index-cards li {
+  display: flex;
+}
+.index-card {
+  display: grid;
+  align-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px 11px;
+  background: #fff;
+  border: 1px solid var(--slide-border);
+  border-radius: 3px;
+  text-align: left;
+  color: var(--ink);
+}
+.index-card:hover {
+  border-color: var(--eosin);
+}
+.card-title {
+  font: 600 18px / 1.2 var(--font-display);
+  font-variation-settings: "opsz" 32;
+}
+.index-card:hover .card-title {
+  color: var(--eosin-dark);
+}
+.index-card .entry-detail {
+  grid-row: auto;
+  grid-column: auto;
+}
+
+/* Apparati: una riga ciascuno, si aprono sul posto. */
+.index-system {
+  border-bottom: 1px solid var(--slide-border);
+}
+.index-system:first-of-type {
+  border-top: 1px solid var(--slide-border);
+}
+.index-system > summary {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 14px 2px;
+  list-style: none;
+  cursor: pointer;
+}
+.index-system > summary::-webkit-details-marker {
+  display: none;
+}
+.index-system > summary::after {
+  content: "";
+  align-self: center;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px 4px 0;
+  border: solid var(--ink-muted);
+  border-width: 0 2px 2px 0;
+  rotate: 45deg;
+  transition: rotate 200ms var(--ease-out);
+}
+.index-system[open] > summary::after {
+  margin-bottom: -2px;
+  rotate: 225deg;
+}
+.system-name {
+  flex: 1;
+  font: 600 20px / 1.2 var(--font-display);
+  font-variation-settings: "opsz" 32;
+}
+.index-system > summary:hover .system-name {
+  color: var(--eosin-dark);
+}
+.system-count {
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  color: var(--ink-muted);
+}
+.index-system[open] > summary {
+  position: sticky;
+  top: var(--search-height, 0px);
+  background: var(--slide);
+}
+.index-system .index-entries {
+  margin: 0 0 18px 14px;
+}
+.atlas-index .note {
+  margin-top: 20px;
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+
+/* Termini del glossario tra i risultati della ricerca. */
+.index-terms {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+  padding: 0;
+}
+.term-link {
+  padding: 6px 12px;
+  background: #fff;
+  border: 1px solid var(--slide-border);
+  border-radius: 3px;
+  font-size: 16px;
+  color: var(--nucleus);
+}
+.term-link:hover {
+  border-color: var(--nucleus);
+}
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  background: none;
+  border: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--nucleus);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.text-button svg {
+  width: 16px;
+  height: 16px;
+}
+.index-glossary-link {
+  margin: 32px 0 0;
 }

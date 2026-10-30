@@ -61,3 +61,9 @@
     max-width: 36ch;
   }
 }
+/* Sotto i 340 px il menu in alto va su due righe (top-bar.css): i crediti scendono di una riga. */
+@media (max-width: 340px) {
+  .footer {
+    top: calc(110px + env(safe-area-inset-top, 0px));
+  }
+}
