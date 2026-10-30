@@ -50,7 +50,7 @@ export const FASI_SCHEMA = {
 const SCHEMI_PROCESSO = ['cuore', ...Object.keys(FASI_SCHEMA)];
 
 /** Figure disegnate che una scheda può mostrare in una sua sezione, con titolo e didascalia. */
-export const FIGURE = ['vulva', 'orecchio'];
+export const FIGURE = ['vulva', 'orecchio', 'mammella'];
 
 /** Schemi 2D che un passo di percorso può mostrare, e strati che può scegliere (D24). */
 export const SCHEMI_PERCORSO = ['nessuno', 'torace', 'inspirazione', 'espirazione', 'alveolo'];

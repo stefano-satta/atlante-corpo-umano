@@ -29,6 +29,7 @@ const VisionProcess = lazy(() => import('@/components/features/visual-system/Vis
 const FIGURES = {
   vulva: lazy(() => import('@/components/features/reproductive-system/VulvaFigure')),
   orecchio: lazy(() => import('@/components/features/hearing-system/EarFigure')),
+  mammella: lazy(() => import('@/components/features/reproductive-system/BreastFigure')),
 };
 
 type Apparatus = 'urinario' | 'riproduttivo' | 'endocrino' | 'visivo';

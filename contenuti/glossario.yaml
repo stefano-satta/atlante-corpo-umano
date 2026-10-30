@@ -782,3 +782,129 @@ nervo-vestibolococleare:
     segnali dell'equilibrio arrivano anche al cervelletto [@openstax-ap-14-1].
   stato: approvato
   revisione: 2026-10-28
+
+# Parti della mammella (2026-10-30), indicate nella figura "L'interno della mammella": definizioni da
+# SEER "Mammary Glands" e OpenStax 27.2, rilette il 2026-10-30; termini latini verificati sui dati
+# del TA2 Viewer 2.07. Capezzolo e areola sono nel modello 3D, uniti alla mammella; il tessuto adiposo
+# non ha un termine proprio nella TA2. Il grande pettorale ha una scheda sua e non ha "parteDi".
+
+capezzolo:
+  termine: capezzolo
+  latino: papilla mammaria
+  ta2: 7105
+  parteDi: mammelle
+  nelModello: true
+  varianti: [capezzoli]
+  definizione: >
+    La sporgenza al centro della mammella, circondata dall'areola [@seer-ghiandole-mammarie]
+    [@openstax-ap-27-2]. Contiene muscolatura liscia, per cui è sensibile al tatto e diventa eretto
+    quando è stimolato; sulla sua superficie si aprono, ciascuno per conto suo, i dotti galattofori
+    [@seer-ghiandole-mammarie].
+  stato: approvato
+  revisione: 2026-10-30
+
+areola:
+  termine: areola
+  latino: areola mammae
+  ta2: 7106
+  parteDi: mammelle
+  nelModello: true
+  varianti: [areole, ghiandole areolari]
+  definizione: >
+    L'area pigmentata, di solito circolare, che circonda il capezzolo: il suo colore può scurirsi in
+    gravidanza e il diametro varia da 25 a 100 mm [@openstax-ap-27-2]. Vi si trovano piccole
+    ghiandole rilevate, le ghiandole areolari, che durante l'allattamento secernono un liquido
+    lubrificante che protegge il capezzolo [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-30
+
+lobo-mammario:
+  termine: lobo della ghiandola mammaria
+  latino: lobi glandulae mammariae
+  ta2: 7101
+  parteDi: mammelle
+  varianti: [lobi della ghiandola mammaria, lobo mammario, lobi mammari, lobi della mammella]
+  definizione: >
+    Ciascuna delle 15-20 parti di tessuto ghiandolare della mammella adulta, disposte a raggiera
+    intorno al capezzolo e separate da tessuto connettivo e adiposo. Ogni lobo è formato da lobuli e
+    ha un suo dotto galattoforo [@seer-ghiandole-mammarie].
+  stato: approvato
+  revisione: 2026-10-30
+
+lobulo-mammario:
+  termine: lobulo della ghiandola mammaria
+  latino: lobuli glandulae mammariae
+  ta2: 7102
+  parteDi: mammelle
+  varianti: [lobuli della ghiandola mammaria, lobulo mammario, lobuli mammari, lobulo, lobuli]
+  definizione: >
+    Ciascuna delle piccole parti di cui è formato un lobo della mammella; contiene le unità
+    ghiandolari [@seer-ghiandole-mammarie]. Il latte è prodotto da gruppi di cellule riuniti in
+    grappoli, gli alveoli, circondati da cellule che si contraggono e spingono il latte verso i seni
+    galattofori [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-30
+
+dotto-galattoforo:
+  termine: dotto galattoforo
+  latino: ductus lactiferi
+  ta2: 7103
+  parteDi: mammelle
+  varianti: [dotti galattofori, dotto lattifero, dotti lattiferi]
+  definizione: >
+    Il condotto che raccoglie il latte dai lobuli di un lobo e lo porta al capezzolo
+    [@seer-ghiandole-mammarie]. Ogni mammella ne ha da 15 a 20, che si aprono sulla superficie del
+    capezzolo [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-30
+
+seno-galattoforo:
+  termine: seno galattoforo
+  latino: sinus lactiferi
+  ta2: 7104
+  parteDi: mammelle
+  varianti: [seni galattofori, ampolla galattofora]
+  definizione: >
+    Il tratto allargato di un dotto galattoforo poco prima del capezzolo, che fa da serbatoio per il
+    latte; dopo il seno il dotto si restringe di nuovo [@seer-ghiandole-mammarie]. Durante
+    l'allattamento il neonato, succhiando, richiama il latte dai seni attraverso i dotti
+    [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-30
+
+tessuto-adiposo-mammella:
+  termine: tessuto adiposo della mammella
+  parteDi: mammelle
+  varianti: [tessuto adiposo, grasso della mammella]
+  definizione: >
+    Il grasso che circonda i lobi della mammella; la sua quantità e la sua distribuzione determinano
+    grandezza e forma della mammella [@seer-ghiandole-mammarie] [@openstax-ap-27-2], che non
+    influiscono sulla quantità di latte prodotto [@openstax-ap-27-2]. Alla pubertà gli estrogeni ne
+    fanno aumentare l'accumulo [@seer-ghiandole-mammarie].
+  stato: approvato
+  revisione: 2026-10-30
+
+legamenti-sospensori:
+  termine: legamenti sospensori della mammella
+  latino: ligamenta suspensoria mammaria
+  ta2: 7109
+  parteDi: mammelle
+  varianti: [legamento sospensore, legamenti sospensori, legamenti di Cooper]
+  definizione: >
+    Fasci di tessuto connettivo che sostengono la mammella: la attraversano dai muscoli sottostanti
+    fino alla pelle [@seer-ghiandole-mammarie] e collegano il tessuto della mammella al derma
+    [@openstax-ap-27-2].
+  stato: approvato
+  revisione: 2026-10-30
+
+muscolo-grande-pettorale:
+  termine: muscolo grande pettorale
+  latino: musculus pectoralis major
+  ta2: 2301
+  varianti: [grande pettorale, muscoli grandi pettorali]
+  definizione: >
+    Il muscolo spesso, a forma di ventaglio, che copre gran parte della metà superiore del torace
+    anteriore e muove l'omero [@openstax-ap-11-5]; le ghiandole mammarie si trovano sopra di esso
+    [@seer-ghiandole-mammarie].
+  stato: approvato
+  revisione: 2026-10-30

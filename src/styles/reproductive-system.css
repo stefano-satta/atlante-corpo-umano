@@ -362,3 +362,84 @@
 .anatomy-figure .cycle-disclaimer p {
   margin: 0;
 }
+
+/* Sezione della mammella nella scheda delle mammelle: grasso giallo, tessuto ghiandolare rosa,
+   muscolo rosso scuro e coste avorio come nelle tavole anatomiche; pelle come il padiglione dell'orecchio. */
+.breast-diagram {
+  --breast-skin: #e2b49c;
+  --breast-fat: #c9a65a;
+  --breast-lobe: #c77a92;
+  --breast-lobule: #f4bfd0;
+  --breast-duct: #fbe3ea;
+  --breast-areola: #9a5e4c;
+  --breast-muscle: #8e3447;
+  --breast-rib: #ddd3c4;
+}
+.breast-diagram .intercostal {
+  fill: #5a2a3a;
+}
+.breast-diagram .rib {
+  fill: var(--breast-rib);
+  stroke: #b8ab98;
+  stroke-width: 1.5;
+}
+.breast-diagram .muscle {
+  fill: var(--breast-muscle);
+}
+.breast-diagram .muscle-fibres {
+  stroke: #b24c62;
+  stroke-width: 1;
+}
+.breast-diagram .fascia {
+  stroke: var(--slide-border);
+  stroke-width: 1.2;
+}
+.breast-diagram .fat {
+  fill: var(--breast-fat);
+}
+.breast-diagram .ligament {
+  fill: none;
+  stroke: #f3ead8;
+  stroke-width: 1.6;
+  stroke-opacity: 0.85;
+}
+.breast-diagram .lobe {
+  fill: var(--breast-lobe);
+  stroke: #e4a3b7;
+  stroke-width: 1;
+}
+.breast-diagram .duct {
+  fill: none;
+  stroke: var(--breast-duct);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.breast-diagram .duct.small {
+  stroke-width: 1.4;
+}
+.breast-diagram .sinus {
+  fill: var(--breast-duct);
+}
+.breast-diagram .lobule circle {
+  fill: var(--breast-lobule);
+  stroke: #a8546f;
+  stroke-width: 0.6;
+}
+.breast-diagram .skin {
+  fill: none;
+  stroke: var(--breast-skin);
+  stroke-width: 3.5;
+  stroke-linejoin: round;
+}
+.breast-diagram .areola {
+  fill: none;
+  stroke: var(--breast-areola);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.breast-diagram .nipple {
+  fill: var(--breast-areola);
+  stroke: var(--breast-skin);
+  stroke-width: 1.5;
+}
