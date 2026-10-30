@@ -41,12 +41,12 @@ beforeAll(() => {
     box,
     anchor,
   });
-  sceneApi.units.set('ZA-right-latissimus-dorsi', {
+  sceneApi.units.set('ZA-right-example', {
     index: 4,
-    id: 'ZA-right-latissimus-dorsi',
+    id: 'ZA-right-example',
     layer: 'muscoli',
     body: null,
-    fmaName: 'Right latissimus dorsi',
+    fmaName: 'Right example muscle',
     fma: null,
     box,
     anchor,
@@ -105,8 +105,8 @@ describe('pannello della struttura selezionata', () => {
   });
 
   it('per i muscoli di Z-Anatomy cita Z-Anatomy come origine del nome, senza identificativo FMA', () => {
-    open('/esplora/ZA-right-latissimus-dorsi');
-    expect(screen.getByRole('heading', { name: 'Right latissimus dorsi' })).toBeTruthy();
+    open('/esplora/ZA-right-example');
+    expect(screen.getByRole('heading', { name: 'Right example muscle' })).toBeTruthy();
     expect(screen.getByText(/Nome provvisorio in inglese, da Z-Anatomy/)).toBeTruthy();
     expect(screen.queryByText(/Identificativo FMA/)).toBeNull();
   });

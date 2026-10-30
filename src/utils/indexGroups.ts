@@ -16,6 +16,7 @@ const ORDER = [
   'endocrino',
   'linfatico',
   'scheletrico',
+  'muscolare',
 ];
 
 /**

@@ -52,7 +52,8 @@ export interface StructureSummary {
   termine: string;
   ta2: number;
   sinonimi: string[];
-  elementi3d: { gruppo: string | null; fma: string[] };
+  /** Organi per gruppo, ossa e muscoli per FMA; `id` per le unità senza FMA (muscoli di Z-Anatomy). */
+  elementi3d: { gruppo: string | null; fma: string[]; id: string[] };
   /** Unità del modello da selezionare per mostrare la struttura. */
   unita: string | null;
   stato: ContentStatus;

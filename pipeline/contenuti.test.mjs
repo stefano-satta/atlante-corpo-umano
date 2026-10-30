@@ -103,6 +103,18 @@ describe('controllo automatico dei contenuti', () => {
     expect(altri).toMatch(/manca il numero TA2/);
     expect(altri).toMatch(/relazione verso "milza"/);
   });
+
+  it('accetta le unità senza FMA indicate per id e le usa come unità da selezionare', () => {
+    prepara('## In breve\n\nFrase [@a].\n');
+    fs.writeFileSync(
+      path.join(cartella, 'strutture', 'cuore.md'),
+      `${intestazione().replace('{ gruppo: cuore }', '{ id: [ZA-a, ZA-b] }')}## In breve\n\nFrase [@a].\n`,
+    );
+    const r = leggiContenuti(cartella, { ...MODELLO, id: new Set(['ZA-a', 'ZA-b']) });
+    expect(r.errori).toEqual([]);
+    expect(r.strutture[0]).toMatchObject({ elementi3d: { id: ['ZA-a', 'ZA-b'] }, unita: 'ZA-a' });
+    expect(leggiContenuti(cartella, MODELLO).errori.join()).toMatch(/l'unità ZA-a non esiste nel modello/);
+  });
 });
 
 describe('contenuti reali dell’atlante', () => {

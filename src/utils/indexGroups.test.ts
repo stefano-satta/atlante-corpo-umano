@@ -12,7 +12,7 @@ const vagina: StructureSummary = {
   termine: 'vagina',
   ta2: 3523,
   sinonimi: [],
-  elementi3d: { gruppo: 'vagina', fma: [] },
+  elementi3d: { gruppo: 'vagina', fma: [], id: [] },
   unita: 'vagina',
   stato: 'approvato',
   revisione: '2026-10-25',

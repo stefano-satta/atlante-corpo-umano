@@ -285,7 +285,10 @@ export function leggiContenuti(cartella, modello) {
     if (e3d.gruppo !== undefined && !modello.gruppi.has(e3d.gruppo))
       errore(`il gruppo 3D "${e3d.gruppo}" non esiste nel modello`);
     for (const fma of e3d.fma ?? []) if (!modello.fma.has(fma)) errore(`l'elemento ${fma} non esiste nel modello`);
-    if (e3d.gruppo === undefined && !(e3d.fma ?? []).length) errore('elementi3d deve indicare un gruppo o degli FMA');
+    // Elementi senza FMA (i muscoli di Z-Anatomy) si indicano con l'id dell'unità del modello.
+    for (const id of e3d.id ?? []) if (!modello.id?.has(id)) errore(`l'unità ${id} non esiste nel modello`);
+    if (e3d.gruppo === undefined && !(e3d.fma ?? []).length && !(e3d.id ?? []).length)
+      errore('elementi3d deve indicare un gruppo, degli FMA o degli id');
     grezze.push({ file, dati: d, corpo: letto.corpo });
   }
   const perId = new Map(grezze.map((g) => [g.dati.id, g]));
@@ -435,9 +438,9 @@ export function leggiContenuti(cartella, modello) {
       termine: d.termine,
       ta2: d.ta2,
       sinonimi: d.sinonimi ?? [],
-      elementi3d: { gruppo: d.elementi3d?.gruppo ?? null, fma: d.elementi3d?.fma ?? [] },
+      elementi3d: { gruppo: d.elementi3d?.gruppo ?? null, fma: d.elementi3d?.fma ?? [], id: d.elementi3d?.id ?? [] },
       // Unità del modello da selezionare per mostrare la struttura (Indice, indirizzi senza 3D).
-      unita: d.elementi3d?.gruppo ?? modello.unita?.get(d.elementi3d?.fma?.[0]) ?? null,
+      unita: d.elementi3d?.gruppo ?? modello.unita?.get(d.elementi3d?.fma?.[0]) ?? d.elementi3d?.id?.[0] ?? null,
       stato: d.stato,
       revisione: String(d.revisione),
       limiti: typeof d.limiti === 'string' ? d.limiti.trim() : null,
@@ -565,6 +568,7 @@ export function leggiModello(file) {
   return {
     gruppi: new Set(elementi.map((e) => e.gruppo).filter(Boolean)),
     fma: new Set(elementi.map((e) => e.fma).filter(Boolean)),
+    id: new Set(elementi.map((e) => e.id)),
     // FMA → unità selezionabile: il gruppo per gli organi, l'elemento stesso per ossa e muscoli.
     unita: new Map(elementi.filter((e) => e.fma).map((e) => [e.fma, e.gruppo ?? e.id])),
   };

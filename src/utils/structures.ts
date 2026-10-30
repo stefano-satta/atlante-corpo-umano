@@ -11,11 +11,11 @@ export function membershipLabel(unit: SceneUnit) {
   return organ ? BODY_SYSTEM_NAMES[organ.system] : PART_OF[unit.layer as keyof typeof PART_OF];
 }
 
-/** Unità del modello 3D che mostra un contenuto: l'organo per gruppo, altrimenti l'osso o il muscolo per FMA. */
+/** Unità del modello 3D che mostra un contenuto: l'organo per gruppo, altrimenti l'osso o il muscolo per FMA o per id. */
 export function unitForContent(id: string) {
   const entry = STRUCTURES.find((s) => s.id === id);
   if (!entry) return undefined;
   if (entry.elementi3d.gruppo) return sceneApi.units.has(entry.elementi3d.gruppo) ? entry.elementi3d.gruppo : undefined;
   for (const u of sceneApi.units.values()) if (u.fma && entry.elementi3d.fma.includes(u.fma)) return u.id;
-  return undefined;
+  return entry.elementi3d.id.find((id) => sceneApi.units.has(id));
 }

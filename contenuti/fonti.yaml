@@ -85,7 +85,7 @@ openstax-ap-11-4:
   editore: OpenStax, Rice University
   anno: 2022
   url: https://openstax.org/books/anatomy-and-physiology-2e/pages/11-4-axial-muscles-of-the-abdominal-wall-and-thorax
-  consultata: 2026-10-22
+  consultata: 2026-10-30
 
 openstax-ap-13-4:
   tipo: manuale
@@ -544,3 +544,203 @@ nidcd-come-sentiamo:
   aggiornata: 2022-03-16
   url: https://www.nidcd.nih.gov/health/how-do-we-hear
   consultata: 2026-10-28
+
+# Fonti aggiunte il 2026-10-30 per i cartellini dei muscoli (lette anche le tabelle nelle figure).
+
+openstax-ap-11-3:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 11.3 Axial Muscles of the Head, Neck, and Back"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/11-3-axial-muscles-of-the-head-neck-and-back
+  consultata: 2026-10-30
+
+openstax-ap-11-5:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 11.5 Muscles of the Pectoral Girdle and Upper Limbs"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/11-5-muscles-of-the-pectoral-girdle-and-upper-limbs
+  consultata: 2026-10-30
+
+openstax-ap-11-6:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 11.6 Appendicular Muscles of the Pelvic Girdle and Lower Limbs"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/11-6-appendicular-muscles-of-the-pelvic-girdle-and-lower-limbs
+  consultata: 2026-10-30
+
+statpearls-procero:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Procerus Muscle"
+  autori: [Brown TM, Drake TM, Krishnamurthy K]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-14
+  url: https://www.ncbi.nlm.nih.gov/books/NBK534763/
+  consultata: 2026-10-30
+
+statpearls-muscoli-mimici:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck: Facial Muscles"
+  autori: [Fakoya AO, Hohman MH, Westbrook KE, Varacallo MA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2024-04-20
+  url: https://www.ncbi.nlm.nih.gov/books/NBK493209/
+  consultata: 2026-10-30
+
+statpearls-elevatore-angolo-bocca:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck: Levator Anguli Oris Muscle"
+  autori: [Dao DPD, Fakoya AO, Le PH]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2024-03-19
+  url: https://www.ncbi.nlm.nih.gov/books/NBK547688/
+  consultata: 2026-10-30
+
+statpearls-platisma:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Platysma"
+  autori: [Hoerter JE, Patel BC]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-07
+  url: https://www.ncbi.nlm.nih.gov/books/NBK545294/
+  consultata: 2026-10-30
+
+statpearls-naso:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Nose"
+  autori: [Galarza-Paez L, Marston G, Downs BW]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK532870/
+  consultata: 2026-10-30
+
+statpearls-muscoli-prevertebrali:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Prevertebral Muscles"
+  autori: [McDavid LJ, Khan YS]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-28
+  url: https://www.ncbi.nlm.nih.gov/books/NBK560569/
+  consultata: 2026-10-30
+
+statpearls-muscoli-suboccipitali:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Suboccipital Muscles"
+  autori: [George T, Tadi P]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-01-01
+  url: https://www.ncbi.nlm.nih.gov/books/NBK567762/
+  consultata: 2026-10-30
+
+statpearls-elevatore-scapola:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Levator Scapulae Muscles"
+  autori: [Henry JP, Munakomi S]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-28
+  url: https://www.ncbi.nlm.nih.gov/books/NBK553120/
+  consultata: 2026-10-30
+
+statpearls-muscoli-dorso:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Back, Muscles"
+  autori: [Henson B, Kadiyala B, Edens MA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-14
+  url: https://www.ncbi.nlm.nih.gov/books/NBK537074/
+  consultata: 2026-10-30
+
+statpearls-muscoli-torace:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Thorax, Muscles"
+  autori: [Tang A, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK538321/
+  consultata: 2026-10-30
+
+statpearls-muscoli-parete-addominale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Anterolateral Abdominal Wall Muscles"
+  autori: [Varacallo MA, Scharbach S, Al-Dhahir MA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK470334/
+  consultata: 2026-10-30
+
+statpearls-parete-addominale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Anterolateral Abdominal Wall"
+  autori: [Seeras K, Qasawa RN, Ju R, Prakash S]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK525975/
+  consultata: 2026-10-30
+
+statpearls-muscoli-laringe:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck: Laryngeal Muscles"
+  autori: [Hoerter JE, Fakoya AO, Chandran SK]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2024-07-17
+  url: https://www.ncbi.nlm.nih.gov/books/NBK545265/
+  consultata: 2026-10-30
+
+statpearls-palato:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Palate"
+  autori: [Helwany M, Rathee M]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-06-05
+  url: https://www.ncbi.nlm.nih.gov/books/NBK557817/
+  consultata: 2026-10-30
+
+statpearls-faringe:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Pharynx"
+  autori: [Albahout KS, Lopez RA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK544271/
+  consultata: 2026-10-30
+
+statpearls-stilofaringeo:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Stylopharyngeus Muscles"
+  autori: [Jain P, Rathee M]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-06-05
+  url: https://www.ncbi.nlm.nih.gov/books/NBK547719/
+  consultata: 2026-10-30
+
+statpearls-muscoli-piede:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb, Foot Muscles"
+  autori: [Card RK, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2025-12-09
+  url: https://www.ncbi.nlm.nih.gov/books/NBK539705/
+  consultata: 2026-10-30
+
+statpearls-piccolo-gluteo:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb, Gluteus Minimus Muscle"
+  autori: [Greco AJ, Vilella RC]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-05-22
+  url: https://www.ncbi.nlm.nih.gov/books/NBK556144/
+  consultata: 2026-10-30
+
+statpearls-sternoioideo:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Sternohyoid Muscle"
+  autori: [Nguyen JD, Duong H]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK547693/
+  consultata: 2026-10-30

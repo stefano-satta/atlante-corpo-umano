@@ -26,15 +26,18 @@ export const loaders = {
 
 const byGroup = new Map<string, StructureSummary>();
 const byFma = new Map<string, StructureSummary>();
+const byUnitId = new Map<string, StructureSummary>();
 for (const s of STRUCTURES) {
   if (s.elementi3d.gruppo) byGroup.set(s.elementi3d.gruppo, s);
   for (const fma of s.elementi3d.fma) byFma.set(fma, s);
+  for (const id of s.elementi3d.id) byUnitId.set(id, s);
 }
 
-/** Contenuto associato a un'unità del modello: un organo per gruppo, un osso o un muscolo per FMA. */
+/** Contenuto associato a un'unità del modello: un organo per gruppo, un osso o un muscolo per FMA o per id. */
 export function contentForUnit(unit: { id: string; layer: string; fma: string | null } | undefined) {
   if (!unit) return undefined;
-  return unit.layer === 'organi' ? byGroup.get(unit.id) : unit.fma ? byFma.get(unit.fma) : undefined;
+  if (unit.layer === 'organi') return byGroup.get(unit.id);
+  return unit.fma ? byFma.get(unit.fma) : byUnitId.get(unit.id);
 }
 
 export const hasPage = (id: string) => id in caricaPagina;
