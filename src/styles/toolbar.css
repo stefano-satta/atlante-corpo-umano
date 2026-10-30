@@ -1,15 +1,18 @@
 /* Comandi della vista: in basso, centrati nello spazio libero della scena. Il selettore del corpo,
    quello dello strato e la barra dei comandi sono riquadri separati, affiancati; su schermo stretto
-   uno sopra l'altro. */
+   uno sopra l'altro, a sinistra. In produzione Netlify fissa in basso a destra il suo badge
+   (un iframe di circa 202 × 64 px): i comandi lasciano libero quell'angolo (--badge-room). */
 .view-controls {
+  --badge-room: 220px;
+  --free-right: max(var(--occupied), var(--badge-room));
   position: absolute;
-  left: calc((100% - var(--occupied)) / 2);
+  left: calc((100% - var(--free-right)) / 2);
   bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 12px;
-  max-width: calc(100% - var(--occupied) - 32px);
+  max-width: calc(100% - var(--free-right) - 32px);
   transition: left var(--open-duration) var(--ease-out);
   z-index: 2;
 }
@@ -91,12 +94,24 @@
   display: none;
 }
 
+/* Sotto i 1000 px i tre riquadri affiancati arriverebbero sotto il badge: si impilano a sinistra. */
+@media (max-width: 1000px) {
+  .view-controls {
+    left: max(16px, env(safe-area-inset-left, 0px));
+    transform: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    max-width: calc(100% - 32px);
+  }
+}
+
+/* Su smartphone la pila è rovesciata: in basso, accanto al badge, resta il selettore del corpo,
+   il riquadro più stretto, che non lo tocca neppure a 320 px. */
 @media (max-width: 760px) {
   .view-controls {
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-    max-width: calc(100% - 16px);
-    flex-direction: column;
-    gap: 8px;
+    flex-direction: column-reverse;
   }
   .toolbar {
     max-width: 100%;
