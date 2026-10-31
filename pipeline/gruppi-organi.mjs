@@ -1,7 +1,7 @@
 // Raggruppa gli elementi di BodyParts3D negli organi selezionabili del prototipo,
 // in base al nome inglese (FMA) riportato nell'intestazione di ogni OBJ.
-// Polmoni, tiroide e paratiroidi mancano in BodyParts3D: arrivano da Z-Anatomy (esporta-polmoni.py,
-// un lobo per file, ed esporta-tiroide.py).
+// Polmoni, tiroide, paratiroidi e parotidi mancano in BodyParts3D: arrivano da Z-Anatomy (esporta-polmoni.py,
+// un lobo per file, esporta-tiroide.py ed esporta-parotidi.py).
 // Vince il primo gruppo che corrisponde: ipotalamo e ipofisi precedono l'encefalo, il cui elenco
 // contiene "thalamus" (che corrisponderebbe anche a "Hypothalamus").
 // Gli organi femminili arrivano dallo Human Reference Atlas (organi-donna.mjs, D29). `corpo` segna
@@ -35,6 +35,11 @@ export const GRUPPI_ORGANI = [
   // l'orecchio interno di Z-Anatomy è CC BY-NC-SA ed è escluso (D6), e l'orecchio medio non ha una
   // provenienza verificata: orecchio medio e interno li descrivono la scheda e il glossario.
   { id: 'orecchi', elementi: /^External ear$/ },
+  // Bocca. BodyParts3D ha la lingua, i 28 denti permanenti senza i denti del giudizio e le ghiandole
+  // sottomandibolari e sottolinguali; le parotidi arrivano da Z-Anatomy (esporta-parotidi.py).
+  { id: 'lingua', elementi: /^Tongue$/ },
+  { id: 'denti', elementi: /^(Right|Left) (upper|lower) .*secondary .*(incisor|canine|premolar|molar) tooth$/ },
+  { id: 'ghiandole-salivari', elementi: /^(Right|Left) (parotid|submandibular|sublingual) gland$/ },
   { id: 'fegato', elementi: /^(Caudate lobe of liver|Hepatovenous segment [IVX]+)$/ },
   { id: 'colecisti', elementi: /^Gallbladder$/ },
   { id: 'esofago', elementi: /^Esophagus$/ },

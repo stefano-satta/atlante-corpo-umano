@@ -222,6 +222,7 @@ describe('percorsi guidati', () => {
   const percorso = (passi, corpo) => `---
 id: giro
 titolo: Un giro
+descrizione: Un giro breve.
 passi: [${passi.join(', ')}]
 stato: verificato
 revisione: 2026-10-24
@@ -244,7 +245,9 @@ ${corpo}`;
     expect(r.errori).toEqual([]);
     const [p] = r.percorsi;
     expect(p.passi.map((x) => x.titolo)).toEqual(['Uno', 'Due']);
+    expect(p.descrizione).toBe('Un giro breve.');
     expect(p.fonti.map((f) => `${f.n}:${f.id}`)).toEqual(['1:b', '2:a']);
+    expect(p.descrizione).toBe('Un giro breve.');
     expect(p.passi[1]).toMatchObject({ strato: 'organi', schema: 'torace', inquadra: { gruppi: [], fma: ['FMA1'] } });
     expect(p.passi[0].inquadra).toBeNull();
     expect(r.fonti.find((f) => f.id === 'b').citataDa).toContainEqual({
@@ -268,12 +271,34 @@ ${corpo}`;
     );
   });
 
+  it('chiede la descrizione per la card della pagina Percorsi', () => {
+    const testo = percorso([passo(), passo()], '## Uno\n\nFrase [@a].\n\n## Due\n\nFrase [@a].\n');
+    expect(conPercorso(testo.replace(/^descrizione: .*\n/m, '')).errori.join()).toMatch(/manca la descrizione/);
+  });
+
   it('il percorso reale "Un respiro" ha sei passi con fonti', () => {
     const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
     const [p] = r.percorsi;
     expect(p.id).toBe('respirazione');
     expect(p.passi).toHaveLength(6);
     expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
+  });
+
+  it('il percorso reale "Il viaggio del cibo" ha otto passi, ciascuno con il suo schema e le fonti', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const p = r.percorsi.find((x) => x.id === 'viaggio-del-cibo');
+    expect(p.passi.map((x) => x.schema)).toEqual([
+      'digerente',
+      'bocca',
+      'deglutizione',
+      'stomaco',
+      'duodeno',
+      'villo',
+      'colon',
+      'retto',
+    ]);
+    expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
+    expect(p.descrizione).toBeTruthy();
   });
 });
 

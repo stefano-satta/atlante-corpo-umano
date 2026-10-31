@@ -1,7 +1,8 @@
 // Prepara gli organi che arrivano da Z-Anatomy: scarica il pacchetto ufficiale in dati-sorgente/z-anatomy/
 // (esclusa da git), ne controlla l'impronta, estrae Startup.blend ed esegue in Blender lo script di
 // esportazione indicato, che allinea gli organi a BodyParts3D e li scrive in dati-sorgente/z-anatomy/:
-// esporta-polmoni.py (predefinito) per i lobi dei polmoni, esporta-tiroide.py per la tiroide.
+// esporta-polmoni.py (predefinito) per i lobi dei polmoni, esporta-tiroide.py per la tiroide,
+// esporta-parotidi.py per le parotidi.
 //
 // Uso: npm run modelli:polmoni e npm run modelli:tiroide (dopo npm run modelli:scarica), poi
 // npm run modelli:prepara.

@@ -7,7 +7,8 @@
 // --obj <cartella degli OBJ>, --ratio 0.1 (D13), --out public/modelli,
 // --polmoni <cartella> (predefinita dati-sorgente/z-anatomy/polmoni, prodotta da
 // npm run modelli:polmoni), --tiroide <cartella> (predefinita dati-sorgente/z-anatomy/tiroide,
-// prodotta da npm run modelli:tiroide, con le paratiroidi), --ratio-polmoni 0.3 (per gli organi
+// prodotta da npm run modelli:tiroide, con le paratiroidi), --parotidi <cartella> (predefinita
+// dati-sorgente/z-anatomy/parotidi, prodotta da npm run modelli:parotidi), --ratio-polmoni 0.3 (per gli organi
 // di Z-Anatomy, tranne le superfici sotto i 200 triangoli, che non si riducono), --ratio-occhi 0.03
 // (sclera, cornea, iride e cristallino), --donna <cartella> (predefinita
 // dati-sorgente/hra/allineati, prodotta da npm run modelli:donna), --triangoli-donna 3000,
@@ -19,7 +20,7 @@
 // (classificazione e coordinate: classifica.mjs).
 //
 // Licenza dei dati di origine: BodyParts3D, © The Database Center for Life Science,
-// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni, tiroide e i muscoli assenti
+// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni, tiroide, parotidi e i muscoli assenti
 // da BodyParts3D da Z-Anatomy,
 // CC BY-SA 4.0; organi femminili dallo Human Reference Atlas, CC BY 4.0. I modelli derivati
 // sono distribuiti con licenza CC BY-SA 4.0.
@@ -46,6 +47,7 @@ const cartellaObj = arg('obj', path.join(cartella, 'isa_BP3D_4.0_obj_99'));
 // Gli organi di Z-Anatomy sono già semplici superfici suddivise: si riducono meno degli OBJ di BodyParts3D.
 const cartellaPolmoni = arg('polmoni', 'dati-sorgente/z-anatomy/polmoni');
 const cartellaTiroide = arg('tiroide', 'dati-sorgente/z-anatomy/tiroide');
+const cartellaParotidi = arg('parotidi', 'dati-sorgente/z-anatomy/parotidi');
 const ratioPolmoni = Number(arg('ratio-polmoni', '0.3'));
 // Sclera, cornea, iride e cristallino sono superfici lisce con molti più triangoli del necessario
 // (la sclera quasi 40.000): ridotti di più, restano rotondi e tengono lo strato nel suo peso.
@@ -62,6 +64,7 @@ for (const [cartellaDati, comando] of [
   [cartellaObj, 'npm run modelli:scarica'],
   [cartellaPolmoni, 'npm run modelli:polmoni'],
   [cartellaTiroide, 'npm run modelli:tiroide'],
+  [cartellaParotidi, 'npm run modelli:parotidi'],
   [cartellaDonna, 'npm run modelli:donna'],
   [cartellaMuscoli, 'npm run modelli:muscoli'],
 ]) {
@@ -151,12 +154,13 @@ for (const id of tutti) {
 }
 const fileObj = new Map(strutture.map((s) => [s.id, path.join(cartellaObj, `${s.id}.obj`)]));
 
-// Polmoni, tiroide e paratiroidi di Z-Anatomy, già allineati alle coordinate di BodyParts3D da
-// esporta-polmoni.py ed esporta-tiroide.py. Non hanno un identificativo FMA nel file di origine:
+// Polmoni, tiroide, paratiroidi e parotidi di Z-Anatomy, già allineati alle coordinate di BodyParts3D da
+// esporta-polmoni.py, esporta-tiroide.py ed esporta-parotidi.py. Non hanno un identificativo FMA nel file di origine:
 // il campo resta vuoto.
 for (const [cartellaZa, gruppi] of [
   [cartellaPolmoni, ['polmoni']],
   [cartellaTiroide, ['tiroide', 'paratiroidi']],
+  [cartellaParotidi, ['ghiandole-salivari']],
 ]) {
   for (const f of fs.readdirSync(cartellaZa).filter((f) => f.endsWith('.obj'))) {
     const file = path.join(cartellaZa, f);

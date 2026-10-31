@@ -6,7 +6,7 @@ import { contenuti, senzaVociMancanti } from './plugin-contenuti.mjs';
 
 // Copia dei contenuti reali con stati fissati, per provare il filtro di pubblicazione senza
 // dipendere da quali testi sono approvati oggi: femore in bozza, cuore e Informazioni approvati,
-// percorso "Un respiro" verificato; nel glossario alveolo in bozza, le altre voci approvate.
+// percorsi "Un respiro" e "Il viaggio del cibo" verificati; nel glossario alveolo in bozza, le altre voci approvate.
 let radice;
 beforeAll(() => {
   radice = fs.mkdtempSync(path.join(os.tmpdir(), 'atlante-'));
@@ -21,6 +21,7 @@ beforeAll(() => {
   fissa('strutture/cuore.md', 'approvato');
   fissa('pagine/informazioni.md', 'approvato');
   fissa('percorsi/respirazione.md', 'verificato');
+  fissa('percorsi/viaggio-del-cibo.md', 'verificato');
   const glossario = path.join(radice, 'contenuti/glossario.yaml');
   fs.writeFileSync(
     glossario,
@@ -65,8 +66,10 @@ describe('pubblicazione dei contenuti', () => {
   });
 
   it('in produzione il glossario contiene solo le voci approvate', () => {
-    expect(caricaIndice('build')).toMatch(/GLOSSARIO = \[\{"id":"aorta"/);
-    expect(caricaIndice('serve')).toMatch(/GLOSSARIO = \[\{"id":"alveolo"/);
+    const voci = (comando) => JSON.parse(/GLOSSARIO = (\[.*\]);/.exec(caricaIndice(comando))[1]).map((v) => v.id);
+    expect(voci('build')).not.toContain('alveolo');
+    expect(voci('build')).toContain('aorta');
+    expect(voci('serve')).toContain('alveolo');
   });
 
   it('in sviluppo include anche bozze e testi verificati', () => {

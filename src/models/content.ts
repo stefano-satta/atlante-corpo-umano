@@ -1,6 +1,8 @@
 // Forma dei contenuti compilati da pipeline/contenuti.mjs. I nomi dei campi seguono lo schema
 // dei file in contenuti/ (D17), scritto in italiano: qui sono dati, come la risposta di un'API.
 
+import type { DigestionDiagramId } from './digestion';
+
 export type ContentStatus = 'bozza' | 'verificato' | 'approvato';
 
 export interface Source {
@@ -156,7 +158,7 @@ export interface ModelElements {
   fma: string[];
 }
 
-export type PathDiagram = 'nessuno' | 'torace' | 'inspirazione' | 'espirazione' | 'alveolo';
+export type PathDiagram = 'nessuno' | 'torace' | 'inspirazione' | 'espirazione' | 'alveolo' | DigestionDiagramId;
 
 /** Un passo di un percorso guidato (D24). */
 export interface GuidedPathStep {
@@ -173,6 +175,8 @@ export interface GuidedPathStep {
 export interface GuidedPathSummary {
   id: string;
   titolo: string;
+  /** Presentazione breve, per la card della pagina Percorsi. */
+  descrizione: string;
   stato: ContentStatus;
   /** Numero di passi. */
   passi: number;
@@ -181,6 +185,7 @@ export interface GuidedPathSummary {
 export interface GuidedPath {
   id: string;
   titolo: string;
+  descrizione: string;
   stato: ContentStatus;
   revisione: string;
   limiti: string | null;

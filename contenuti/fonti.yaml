@@ -234,6 +234,24 @@ openstax-ap-21-1:
   url: https://openstax.org/books/anatomy-and-physiology-2e/pages/21-1-anatomy-of-the-lymphatic-and-immune-systems
   consultata: 2026-10-24
 
+openstax-ap-23-1:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 23.1 Overview of the Digestive System"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/23-1-overview-of-the-digestive-system
+  consultata: 2026-10-31
+
+openstax-ap-23-2:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 23.2 Digestive System Processes and Regulation"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/23-2-digestive-system-processes-and-regulation
+  consultata: 2026-10-31
+
 openstax-ap-23-3:
   tipo: manuale
   titolo: "Anatomy and Physiology 2e, 23.3 The Mouth, Pharynx, and Esophagus"
@@ -269,6 +287,15 @@ openstax-ap-23-6:
   anno: 2022
   url: https://openstax.org/books/anatomy-and-physiology-2e/pages/23-6-accessory-organs-in-digestion-the-liver-pancreas-and-gallbladder
   consultata: 2026-10-24
+
+openstax-ap-23-7:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 23.7 Chemical Digestion and Absorption: A Closer Look"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/23-7-chemical-digestion-and-absorption-a-closer-look
+  consultata: 2026-10-31
 
 openstax-ap-25-2:
   tipo: manuale
@@ -315,6 +342,14 @@ seer-vescica:
   ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
   url: https://training.seer.cancer.gov/anatomy/urinary/components/bladder.html
   consultata: 2026-10-24
+
+niddk-digerente:
+  tipo: istituzionale
+  titolo: "Your Digestive System & How It Works"
+  ente: National Institute of Diabetes and Digestive and Kidney Diseases (NIDDK), National Institutes of Health
+  # La pagina indica "Last Reviewed December 2017" (senza giorno).
+  url: https://www.niddk.nih.gov/health-information/digestive-diseases/digestive-system-how-it-works
+  consultata: 2026-10-31
 
 niddk-reni:
   tipo: istituzionale

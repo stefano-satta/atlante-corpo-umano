@@ -908,3 +908,171 @@ muscolo-grande-pettorale:
     [@seer-ghiandole-mammarie].
   stato: approvato
   revisione: 2026-10-30
+
+# Voci del percorso "Il viaggio del cibo", lette il 2026-10-31 su OpenStax 23.1–23.7 e NIDDK.
+
+amilasi:
+  termine: amilasi
+  definizione: >
+    Enzima che scompone l'amido in zuccheri più semplici. L'amilasi salivare comincia a lavorare in
+    bocca; nell'intestino tenue la gran parte del lavoro la fa l'amilasi prodotta dal pancreas
+    [@openstax-ap-23-3] [@openstax-ap-23-7].
+  stato: approvato
+  revisione: 2026-10-31
+
+bile:
+  termine: bile
+  definizione: >
+    Liquido giallo-bruno o giallo-verde prodotto dal fegato, circa un litro al giorno. I sali biliari
+    che contiene separano i grassi in goccioline minuscole, che gli enzimi digeriscono più
+    facilmente; tra un pasto e l'altro la bile si raccoglie nella colecisti [@openstax-ap-23-6].
+  stato: approvato
+  revisione: 2026-10-31
+
+bolo:
+  termine: bolo
+  varianti: [bolo alimentare]
+  definizione: >
+    La massa arrotondata di cibo masticato e impastato con la saliva che la lingua raccoglie e
+    spinge verso la faringe per deglutirla [@openstax-ap-23-3].
+  stato: approvato
+  revisione: 2026-10-31
+
+chimo:
+  termine: chimo
+  definizione: >
+    La miscela semiliquida e acida di cibo e succo gastrico che si forma nello stomaco e passa poco
+    alla volta nel duodeno [@openstax-ap-23-2] [@openstax-ap-23-4].
+  stato: approvato
+  revisione: 2026-10-31
+
+duodeno:
+  termine: duodeno
+  latino: duodenum
+  ta2: 2944
+  parteDi: intestino-tenue
+  nelModello: true
+  definizione: >
+    La prima parte dell'intestino tenue, lunga circa 25 cm. Riceve il chimo dallo stomaco e, da
+    un'apertura comune, la bile e il succo pancreatico [@openstax-ap-23-5].
+  stato: approvato
+  revisione: 2026-10-31
+
+enzima:
+  termine: enzima
+  varianti: [enzimi, enzimi digestivi]
+  definizione: >
+    Sostanza dei succhi digestivi che scompone le grandi molecole del cibo (amidi, proteine, grassi,
+    acidi nucleici) in unità abbastanza piccole da essere assorbite [@openstax-ap-23-7].
+  stato: approvato
+  revisione: 2026-10-31
+
+epiglottide:
+  termine: epiglottide
+  definizione: >
+    Lamina di cartilagine in cima alla laringe. Quando si deglutisce si ripiega sull'apertura della
+    laringe e chiude la via verso la trachea, così il cibo non va "di traverso"
+    [@openstax-ap-23-3] [@niddk-digerente].
+  stato: approvato
+  revisione: 2026-10-31
+
+flora-intestinale:
+  termine: flora batterica intestinale
+  varianti: [flora batterica, microbiota]
+  definizione: >
+    I batteri che vivono nell'intestino: nel crasso sono trilioni, di oltre 700 specie. Fermentano i
+    residui che il corpo non digerisce, producono gas e alcune vitamine, come la vitamina K
+    [@openstax-ap-23-5] [@niddk-digerente].
+  stato: approvato
+  revisione: 2026-10-31
+
+microvilli:
+  termine: microvilli
+  varianti: [microvillo, orletto a spazzola]
+  parteDi: intestino-tenue
+  definizione: >
+    Minuscole sporgenze, di circa un millesimo di millimetro, della membrana delle cellule che
+    rivestono i villi; insieme formano l'orletto a spazzola. Vi lavorano gli enzimi che finiscono la
+    digestione di zuccheri e proteine [@openstax-ap-23-5] [@openstax-ap-23-7].
+  stato: approvato
+  revisione: 2026-10-31
+
+peristalsi:
+  termine: peristalsi
+  definizione: >
+    Onde successive di contrazione e rilassamento dei muscoli della parete del canale digerente:
+    il muscolo dietro il cibo si stringe e lo spinge avanti, quello davanti si rilassa. Le onde
+    mescolano anche il cibo con i succhi digestivi [@openstax-ap-23-2] [@niddk-digerente].
+  stato: approvato
+  revisione: 2026-10-31
+
+piloro:
+  termine: piloro
+  latino: pars pylorica
+  ta2: 2927
+  parteDi: stomaco
+  nelModello: true
+  definizione: >
+    La parte finale, a imbuto, dello stomaco, che lo collega al duodeno. Lo sfintere pilorico, alla
+    sua uscita, controlla lo svuotamento dello stomaco [@openstax-ap-23-4].
+  stato: approvato
+  revisione: 2026-10-31
+
+segmentazione:
+  termine: segmentazione
+  definizione: >
+    Contrazioni localizzate dello strato muscolare circolare, soprattutto nell'intestino tenue, che
+    isolano piccoli tratti e spostano il contenuto avanti e indietro, mescolandolo ai succhi
+    digestivi [@openstax-ap-23-2].
+  stato: approvato
+  revisione: 2026-10-31
+
+sfintere:
+  termine: sfintere
+  varianti: [sfinteri]
+  definizione: >
+    Anello muscolare che, contraendosi e rilassandosi, apre e chiude il passaggio da un tratto
+    all'altro del canale digerente, come gli sfinteri dell'esofago, il piloro e gli sfinteri
+    dell'ano [@openstax-ap-23-3] [@openstax-ap-23-4] [@openstax-ap-23-5].
+  stato: approvato
+  revisione: 2026-10-31
+
+succo-pancreatico:
+  termine: succo pancreatico
+  definizione: >
+    Liquido prodotto dal pancreas, più di un litro al giorno. Il bicarbonato che contiene neutralizza
+    l'acido del chimo; i suoi enzimi scompongono carboidrati, proteine, grassi e acidi nucleici
+    [@openstax-ap-23-6].
+  stato: approvato
+  revisione: 2026-10-31
+
+vaso-chilifero:
+  termine: vaso chilifero
+  varianti: [vasi chiliferi]
+  parteDi: intestino-tenue
+  definizione: >
+    Piccolo vaso linfatico al centro di ogni villo. Raccoglie i grassi assorbiti, impacchettati in
+    chilomicroni, che attraverso i vasi linfatici raggiungono il sangue [@openstax-ap-23-7].
+  stato: approvato
+  revisione: 2026-10-31
+
+vena-porta:
+  termine: vena porta epatica
+  varianti: [vena porta]
+  definizione: >
+    La vena che porta al fegato il sangue che arriva dall'intestino, con gli zuccheri, gli
+    amminoacidi e le altre sostanze assorbite, prima che torni al cuore [@openstax-ap-23-1]
+    [@openstax-ap-23-7].
+  stato: approvato
+  revisione: 2026-10-31
+
+villo:
+  termine: villo
+  varianti: [villi, villi intestinali]
+  parteDi: intestino-tenue
+  definizione: >
+    Piccola sporgenza a forma di dito della mucosa dell'intestino tenue, alta da mezzo millimetro a
+    un millimetro. Contiene capillari e un vaso chilifero; con le pieghe della parete e i microvilli
+    moltiplica la superficie che assorbe [@openstax-ap-23-5] [@openstax-ap-23-7].
+  stato: approvato
+  revisione: 2026-10-31

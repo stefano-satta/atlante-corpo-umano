@@ -7,8 +7,9 @@ import { TextOnlyHeader } from './TextOnlyHeader';
 /**
  * Pagina di lettura sopra l'atlante: la scena resta dov'era e si ritrova chiudendo.
  * Nella versione testuale le pagine sono l'atlante stesso e al posto del ritorno c'è il menu.
+ * Una colonna larga (`wide`) accoglie le griglie di card, come nella pagina Percorsi.
  */
-export function ReadingLayout({ title, children }: { title: string; children: ReactNode }) {
+export function ReadingLayout({ title, wide, children }: { title: string; wide?: boolean; children: ReactNode }) {
   const { dispatch } = useAtlas();
   const textOnly = useTextOnly();
   const heading = useRef<HTMLHeadingElement>(null);
@@ -21,7 +22,7 @@ export function ReadingLayout({ title, children }: { title: string; children: Re
 
   return (
     <main className="reading-page" ref={container} aria-labelledby="page-title">
-      <div className="reading-column">
+      <div className={wide ? 'reading-column wide' : 'reading-column'}>
         {textOnly ? (
           <TextOnlyHeader />
         ) : (

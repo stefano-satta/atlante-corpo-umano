@@ -1,11 +1,12 @@
 import type { UrlState } from '@/models/atlas';
-import { PAGE_IDS } from './pages';
+import { READING_PAGE_IDS } from './pages';
 
-// Indirizzi (D11): / (soglia), /esplora (atlante senza selezione), /esplora/<id>, /organo/<id>, /percorsi/<id>/<passo>, /indice, /glossario, /fonti, /informazioni.
+// Indirizzi (D11): / (soglia), /esplora (atlante senza selezione), /esplora/<id>, /organo/<id>, /percorsi (elenco),
+// /percorsi/<id>/<passo>, /indice, /glossario, /fonti, /informazioni.
 // Nell'indirizzo il passo si conta da 1.
 
 export function readUrl(pathname: string): UrlState {
-  const page = PAGE_IDS.find((p) => pathname === `/${p}`) ?? null;
+  const page = READING_PAGE_IDS.find((p) => pathname === `/${p}`) ?? null;
   const p = /^\/percorsi\/([a-z0-9-]+)(?:\/(\d+))?\/?$/.exec(pathname);
   const guidedPath = p ? { id: p[1], step: Math.max(0, Number(p[2] ?? 1) - 1) } : null;
   const m = /^\/(esplora|organo)\/([^/]+)/.exec(pathname);

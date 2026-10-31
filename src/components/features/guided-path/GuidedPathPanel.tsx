@@ -9,7 +9,9 @@ import { useBreathPhase } from '@/hooks/useBreathPhase';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { useTextOnly } from '@/hooks/useTextOnly';
 import type { GuidedPathStep } from '@/models/content';
+import { isDigestionDiagram } from '@/models/digestion';
 import { AlveolusDiagram, ChestDiagram } from './BreathingDiagrams';
+import { DigestionFigure } from './DigestionFigure';
 
 const PHASE_LABELS = { rest: null, inhale: 'Inspirazione', exhale: 'Espirazione' } as const;
 
@@ -130,7 +132,11 @@ export default function GuidedPathPanel() {
       </p>
       <DraftNotice status={path.stato} />
 
-      {step.schema !== 'nessuno' && <StepDiagram key={number} step={step} />}
+      {isDigestionDiagram(step.schema) ? (
+        <DigestionFigure key={number} schema={step.schema} />
+      ) : (
+        step.schema !== 'nessuno' && <StepDiagram key={number} step={step} />
+      )}
       <RichText className="text" html={step.html} />
 
       <nav className="path-controls" aria-label="Passi del percorso">

@@ -53,7 +53,22 @@ const SCHEMI_PROCESSO = ['cuore', ...Object.keys(FASI_SCHEMA)];
 export const FIGURE = ['vulva', 'orecchio', 'mammella'];
 
 /** Schemi 2D che un passo di percorso può mostrare, e strati che può scegliere (D24). */
-export const SCHEMI_PERCORSO = ['nessuno', 'torace', 'inspirazione', 'espirazione', 'alveolo'];
+export const SCHEMI_PERCORSO = [
+  'nessuno',
+  'torace',
+  'inspirazione',
+  'espirazione',
+  'alveolo',
+  // Il viaggio del cibo
+  'digerente',
+  'bocca',
+  'deglutizione',
+  'stomaco',
+  'duodeno',
+  'villo',
+  'colon',
+  'retto',
+];
 const STRATI_PERCORSO = ['muscoli', 'organi', 'scheletro'];
 
 const DATA = /^\d{4}-\d{2}-\d{2}$/;
@@ -499,6 +514,8 @@ export function leggiContenuti(cartella, modello) {
     const d = letto.dati;
     if (`${d.id}.md` !== file) errore(`l'id "${d.id}" deve coincidere con il nome del file`);
     if (typeof d.titolo !== 'string' || !d.titolo) errore('manca il titolo');
+    // Presentazione breve per la card della pagina Percorsi.
+    if (typeof d.descrizione !== 'string' || !d.descrizione.trim()) errore('manca la descrizione');
     if (!STATI.includes(d.stato)) errore(`stato deve essere uno tra ${STATI.join(', ')}`);
     if (!DATA.test(String(d.revisione))) errore('manca la data di revisione');
     const passi = Array.isArray(d.passi) ? d.passi : [];
@@ -540,6 +557,7 @@ export function leggiContenuti(cartella, modello) {
     percorsi.push({
       id: d.id,
       titolo: d.titolo,
+      descrizione: typeof d.descrizione === 'string' ? d.descrizione.trim() : '',
       stato: d.stato,
       revisione: String(d.revisione),
       limiti: typeof d.limiti === 'string' ? d.limiti.trim() : null,

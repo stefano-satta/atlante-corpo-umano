@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router';
 import { AtlasPage } from '@/pages/AtlasPage';
 import { ReadingPage } from '@/pages/ReadingPage';
 import { TextOnlyAtlasPage } from '@/pages/TextOnlyAtlasPage';
-import { PAGE_IDS } from '@/utils/pages';
+import { READING_PAGE_IDS } from '@/utils/pages';
 import { supportsWebGL2 } from '@/utils/webgl';
 
 /**
@@ -18,7 +18,7 @@ export function App() {
         <Route path="esplora/:id?" />
         <Route path="organo/:id" />
         <Route path="percorsi/:pathId/:step?" />
-        {PAGE_IDS.map((p) => (
+        {READING_PAGE_IDS.map((p) => (
           <Route key={p} path={p} element={<ReadingPage key={p} page={p} />} />
         ))}
         {/* Un indirizzo sconosciuto apre l'atlante, che lo riscrive in /esplora. */}

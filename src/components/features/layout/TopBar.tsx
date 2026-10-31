@@ -6,21 +6,21 @@ import { PAGE_IDS, PAGE_SHORT_TITLES, PAGE_TITLES } from '@/utils/pages';
 
 /** Barra in alto della vista 3D (D11): marchio, percorsi e pagine di lettura. */
 export function TopBar() {
-  const { dispatch } = useAtlas();
+  const { state, dispatch } = useAtlas();
   const pathOpen = useOpenGuidedPath();
-  // Finché c'è un solo percorso, la voce Percorsi apre direttamente il suo primo passo (D24).
-  const firstPath = GUIDED_PATHS[0];
+  // La voce Percorsi apre la pagina con tutti i percorsi; resta segnata anche durante un percorso.
+  const pathsCurrent = pathOpen || state.page === 'percorsi';
 
   return (
     <header className="top-bar">
       <span className="brand">Atlante del corpo umano</span>
       <nav aria-label="Sezioni">
-        {firstPath ? (
+        {GUIDED_PATHS.length > 0 ? (
           <button
             type="button"
             className="nav-item"
-            aria-current={pathOpen ? 'true' : undefined}
-            onClick={() => dispatch({ type: 'setGuidedPath', guidedPath: { id: firstPath.id, step: 0 } })}
+            aria-current={pathsCurrent ? 'true' : undefined}
+            onClick={() => dispatch({ type: 'setPage', page: 'percorsi' })}
           >
             Percorsi
           </button>

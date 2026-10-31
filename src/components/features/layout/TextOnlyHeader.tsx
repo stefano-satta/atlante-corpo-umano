@@ -1,6 +1,6 @@
 import { useAtlas } from '@/hooks/useAtlas';
 import { pageAvailable } from '@/utils/content';
-import { PAGE_IDS, PAGE_TITLES } from '@/utils/pages';
+import { PAGE_TITLES, READING_PAGE_IDS } from '@/utils/pages';
 
 /**
  * Testa della versione testuale (D26): avviso e menu, al posto della barra in alto della scena.
@@ -13,7 +13,7 @@ export function TextOnlyHeader() {
     <header className="text-header">
       <span className="brand">Atlante del corpo umano</span>
       <nav aria-label="Sezioni">
-        {PAGE_IDS.filter(pageAvailable).map((p) => (
+        {READING_PAGE_IDS.filter(pageAvailable).map((p) => (
           <button
             type="button"
             key={p}

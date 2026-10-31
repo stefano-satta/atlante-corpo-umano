@@ -217,7 +217,10 @@ export function BreastDiagram() {
         <LobeDrawing key={l.angle} i={i} />
       ))}
       <path className="skin" d={SKIN} />
-      <path className="areola" d="M558 207 C 565 212 570 217 574 222 C 580 229 584 238 586 246 M586 278 C 589 289 588 303 584 318" />
+      <path
+        className="areola"
+        d="M558 207 C 565 212 570 217 574 222 C 580 229 584 238 586 246 M586 278 C 589 289 588 303 584 318"
+      />
       <path className="nipple" d="M586 246 L 600 248 C 608 249 613 256 613 262 C 613 268 608 275 600 276 L 586 278 Z" />
       <path className="fascia" d="M286 0 L 286 460" />
 

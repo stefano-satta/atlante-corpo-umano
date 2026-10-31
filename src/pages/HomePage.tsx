@@ -17,7 +17,7 @@ const ROTATION_SPEED = 0.12;
 export function HomePage({ ready }: { ready: boolean }) {
   const { dispatch } = useAtlas();
   const reducedMotion = useReducedMotion();
-  const path = GUIDED_PATHS[0];
+  const paths = GUIDED_PATHS;
 
   // Il corpo gira piano dietro il testo; con il movimento ridotto resta fermo.
   useEffect(() => {
@@ -60,15 +60,13 @@ export function HomePage({ ready }: { ready: boolean }) {
           >
             Esplora il corpo <ForwardIcon />
           </button>
-          {path && (
-            <button
-              type="button"
-              className="home-path"
-              onClick={() => dispatch({ type: 'setGuidedPath', guidedPath: { id: path.id, step: 0 } })}
-            >
+          {paths.length > 0 && (
+            <button type="button" className="home-path" onClick={() => dispatch({ type: 'setPage', page: 'percorsi' })}>
               <span className="home-path-name">Segui un percorso</span>
               <span className="home-path-detail">
-                “{path.titolo}”, {path.passi} passi
+                {paths.length === 1
+                  ? `“${paths[0].titolo}”, ${paths[0].passi} passi`
+                  : `${paths.length} percorsi guidati`}
               </span>
             </button>
           )}
@@ -105,9 +103,9 @@ export function HomePage({ ready }: { ready: boolean }) {
           L'atlante ha solo scopo educativo. Non è uno strumento diagnostico e non sostituisce il parere di un medico.
         </p>
         <p className="home-note">
-          Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni, tiroide, paratiroidi e 37
-          muscoli: Z-Anatomy, CC BY-SA 4.0; organi femminili: Human Reference Atlas, CC BY 4.0. Modelli derivati CC
-          BY-SA 4.0.
+          Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni, tiroide, paratiroidi,
+          parotidi e 37 muscoli: Z-Anatomy, CC BY-SA 4.0; organi femminili: Human Reference Atlas, CC BY 4.0. Modelli
+          derivati CC BY-SA 4.0.
         </p>
       </footer>
     </main>

@@ -258,6 +258,10 @@ test('il percorso "Un respiro" si segue passo per passo e si può lasciare per e
   page.on('pageerror', (e) => errors.push(e.message));
   await enter(page);
   await page.getByRole('navigation', { name: 'Sezioni' }).getByRole('button', { name: 'Percorsi' }).click();
+  await expect(page).toHaveURL(/\/percorsi$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Percorsi' })).toBeVisible();
+  await checkAccessibility(page);
+  await page.getByRole('button', { name: 'Un respiro' }).click();
   await expect(page).toHaveURL(/\/percorsi\/respirazione\/1$/);
   const panel = page.getByRole('complementary', { name: 'Percorso guidato' });
   await expect(panel.getByRole('heading', { name: 'Un respiro' })).toBeVisible();
@@ -288,6 +292,31 @@ test('il percorso "Un respiro" si segue passo per passo e si può lasciare per e
   await page.keyboard.press('Escape');
   await expect(panel).toHaveCount(0);
   await expect(page).toHaveURL(/\/esplora$/);
+  expect(errors).toEqual([]);
+});
+
+test('il percorso "Il viaggio del cibo" mostra uno schema animato a fasi in ogni passo', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/percorsi');
+  await page.getByRole('button', { name: 'Il viaggio del cibo' }).click();
+  await expect(page).toHaveURL(/\/percorsi\/viaggio-del-cibo\/1$/);
+  await waitForScene(page);
+  const panel = page.getByRole('complementary', { name: 'Percorso guidato' });
+  await expect(panel.getByRole('heading', { name: 'Un pasto' })).toBeVisible();
+  const figure = panel.getByRole('figure', { name: 'Schema del canale digerente' });
+  await figure.getByRole('button', { name: 'Fase 3: Stomaco' }).click();
+  await expect(figure.locator('.tract-diagram')).toHaveAttribute('data-phase', 'stomaco');
+  await expect(figure.getByText('da 2 a 4 ore')).toBeVisible();
+  await checkAccessibility(page);
+
+  await panel.getByRole('button', { name: 'Passo 4: Nello stomaco' }).click();
+  const stomach = panel.getByRole('figure', { name: 'Schema dello stomaco' });
+  await stomach.getByRole('button', { name: 'Fase successiva' }).click();
+  await expect(stomach.locator('.stomach-diagram')).toHaveAttribute('data-phase', 'onde');
+  await panel.getByRole('button', { name: "Passo 8: L'uscita" }).click();
+  await expect(panel.getByRole('figure', { name: 'Schema del retto e del canale anale' })).toBeVisible();
+  await checkAccessibility(page);
   expect(errors).toEqual([]);
 });
 

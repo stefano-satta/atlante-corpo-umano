@@ -19,9 +19,10 @@ describe('polmoni da Z-Anatomy (M4)', () => {
     expect(new Set(lobi.map((s) => s.strato))).toEqual(new Set(['organi']));
   });
 
-  // Budget alzato da 700 a 750 kB con l'apparato visivo (occhi, nervo ottico, apparato lacrimale).
+  // Budget alzato da 700 a 750 kB con l'apparato visivo (occhi, nervo ottico, apparato lacrimale) e
+  // a 800 kB con la bocca (lingua, 28 denti e 6 ghiandole salivari: 35 strutture, circa 40 kB).
   it('restano dentro il budget di peso dello strato degli organi', () => {
-    expect(riepilogo.organi.kB).toBeLessThanOrEqual(750);
+    expect(riepilogo.organi.kB).toBeLessThanOrEqual(800);
   });
 
   it('le licenze dei modelli citano Z-Anatomy', () => {

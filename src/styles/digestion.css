@@ -1,0 +1,850 @@
+/*
+ * Schemi del percorso "Il viaggio del cibo". Stessa sala scura degli altri schemi: rosso e blu
+ * restano al sangue (D10); il cibo è ambra e cambia colore man mano che diventa chimo e feci.
+ */
+.digestion {
+  --tissue: #c99ea4;
+  --tissue-strong: #d98f96;
+  --organ: #b77d86;
+  --bone: #d9d2c5;
+  --muscle: #c96b5f;
+  --smooth: #e0a796;
+  --food: #e3b45c;
+  --saliva: #9cc7e0;
+  --acid: #f2c14e;
+  --chyme: #d7a85a;
+  --bile: #a9c25a;
+  --juice: #c3baf2;
+  --hormone: #f0e6a0;
+  --liver: #8e4f58;
+  --pancreas: #d6b07a;
+  --gland: #e2c4a2;
+  --water: #7fb6e6;
+  --bacteria: #9fd18b;
+  --stool: #8a5a3c;
+  --lymph: #efe2b0;
+  --air: #cfc4b6;
+  margin: 18px 0 4px;
+}
+.digestion-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-text);
+}
+.digestion-diagram .orientation {
+  fill: var(--room-muted);
+  font-size: 12px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.digestion-diagram .labels text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.digestion-diagram .labels .minor {
+  fill: var(--room-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+.digestion-diagram .labels .on-organ {
+  fill: var(--room);
+  font-weight: 700;
+}
+.digestion-diagram .labels .sub {
+  font-style: italic;
+}
+.digestion-diagram .leader {
+  fill: none;
+  stroke: var(--room-dim);
+  stroke-width: 1;
+}
+.digestion-diagram .arrowhead {
+  fill: var(--slide);
+}
+.digestion-diagram .phase-note {
+  fill: var(--hormone);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Comparse e movimenti comuni a tutti gli schemi. */
+.digestion-diagram .moving {
+  transition:
+    transform 1400ms cubic-bezier(0.45, 0, 0.25, 1),
+    opacity 600ms ease-out;
+}
+.digestion-diagram .bolus,
+.digestion-diagram .food circle,
+.digestion-diagram .chunks circle,
+.swatch.food {
+  fill: var(--food);
+  background: var(--food);
+}
+.digestion-diagram .organ-fill {
+  fill: var(--organ);
+  stroke: var(--room-text);
+  stroke-width: 1.5;
+}
+.digestion-diagram .silhouette {
+  fill: none;
+  stroke: var(--room-border);
+  stroke-width: 1.5;
+}
+.digestion-diagram .diaphragm {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+.digestion-diagram .bone {
+  fill: none;
+  stroke: var(--bone);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.digestion-diagram .muscle,
+.digestion-diagram .pharynx-wall {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.digestion-diagram .uvula {
+  fill: var(--muscle);
+}
+.digestion-diagram .nasal {
+  fill: rgb(207 196 182 / 0.08);
+  stroke: var(--room-border);
+  stroke-width: 1;
+}
+.digestion-diagram .gland,
+.swatch.gland {
+  fill: var(--gland);
+  background: var(--gland);
+  opacity: 0.85;
+}
+.digestion-diagram .liver {
+  fill: var(--liver);
+  stroke: var(--room-text);
+  stroke-width: 1.5;
+}
+.digestion-diagram .pancreas {
+  fill: var(--pancreas);
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.digestion-diagram .gallbladder {
+  fill: #6f9a5c;
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.digestion-diagram .sphincter path {
+  stroke: var(--muscle);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: transform 500ms var(--ease-out);
+}
+.swatch.muscle {
+  background: var(--muscle);
+}
+.swatch.smooth {
+  background: var(--smooth);
+}
+.tract-diagram .tube {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tract-diagram .tube.thin {
+  stroke-width: 7;
+}
+.tract-diagram .tube.wide {
+  stroke-width: 14;
+  stroke: #b98a8f;
+}
+.tract-diagram .mouth {
+  fill: none;
+  stroke: var(--tissue-strong);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.swatch.organ-active {
+  background: var(--tissue-strong);
+  outline: 2px solid var(--slide);
+  outline-offset: -2px;
+}
+.tract-diagram .tract-path path {
+  fill: none;
+  stroke: none;
+}
+.tract-diagram .halo {
+  fill: var(--food);
+  opacity: 0.25;
+}
+
+/* 2 · Bocca */
+.swallow-diagram .tooth {
+  fill: #f1ece2;
+}
+.mouth-diagram .lip,
+.swallow-diagram .lip {
+  fill: none;
+  stroke: var(--tissue-strong);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.mouth-diagram .teeth rect {
+  fill: #f1ece2;
+  stroke: var(--room);
+  stroke-width: 1;
+}
+.mouth-diagram .tongue path,
+.swallow-diagram .tongue path {
+  fill: var(--tissue-strong);
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.mouth-diagram .jaw,
+.mouth-diagram .tongue,
+.swallow-diagram .tongue,
+.swallow-diagram .soft-palate,
+.swallow-diagram .larynx,
+.swallow-diagram .epiglottis,
+.mouth-diagram .soft-palate {
+  transform-box: view-box;
+  transition: transform 900ms cubic-bezier(0.45, 0, 0.25, 1);
+}
+.mouth-diagram .jaw {
+  transform-origin: 228px 100px;
+}
+.mouth-diagram .tongue {
+  transform-origin: 200px 200px;
+}
+.mouth-diagram .duct {
+  fill: none;
+  stroke: var(--gland);
+  stroke-width: 2;
+  opacity: 0.6;
+}
+.mouth-diagram .saliva-head,
+.swatch.saliva {
+  fill: var(--saliva);
+  background: var(--saliva);
+}
+.mouth-diagram .saliva-drops circle {
+  fill: var(--saliva);
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+
+/* 3 · Deglutizione */
+.swallow-diagram .air-flow {
+  fill: none;
+  stroke: var(--air);
+  stroke-width: 2;
+  stroke-dasharray: 4 6;
+  opacity: 0.7;
+  transition: opacity 400ms ease-out;
+}
+.swatch.air {
+  background: var(--air);
+}
+.swallow-diagram .breath-stop {
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+}
+.swallow-diagram .labels .breath-stop {
+  fill: var(--air);
+  font-size: 12px;
+}
+.swallow-diagram .soft-palate {
+  transform-origin: 196px 96px;
+}
+.swallow-diagram .tongue {
+  transform-origin: 140px 200px;
+}
+.swallow-diagram .cartilage {
+  stroke: var(--bone);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.swallow-diagram .epiglottis {
+  fill: none;
+  stroke: var(--bone);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform-origin: 220px 220px;
+}
+.swallow-diagram .trachea {
+  stroke: rgb(207 196 182 / 0.35);
+  stroke-width: 20;
+}
+.swallow-diagram .trachea-rings path {
+  stroke: var(--bone);
+  stroke-width: 2;
+  opacity: 0.6;
+}
+.swallow-diagram .esophagus {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 22;
+  stroke-linecap: round;
+}
+.swallow-diagram .peristalsis path {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.swallow-diagram .peristalsis .push {
+  stroke: var(--slide);
+  stroke-width: 2;
+}
+.swallow-diagram .peristalsis {
+  transition: opacity 400ms ease-out;
+}
+
+/* 4 · Stomaco */
+.stomach-diagram .esophagus,
+.stomach-diagram .duodenum,
+.duodenum-diagram .duodenum,
+.duodenum-diagram .jejunum {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.duodenum-diagram .duodenum,
+.duodenum-diagram .jejunum {
+  stroke-width: 22;
+}
+.stomach-diagram .chyme-fill,
+.swatch.chyme {
+  fill: var(--chyme);
+  background: var(--chyme);
+}
+.stomach-diagram .rugae path {
+  fill: none;
+  stroke: var(--room);
+  stroke-width: 2;
+  opacity: 0.25;
+}
+.stomach-diagram .mucus {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 3;
+  stroke-dasharray: 1 5;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+.stomach-diagram .acid circle,
+.swatch.acid {
+  fill: var(--acid);
+  background: var(--acid);
+}
+.stomach-diagram .waves path {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 10;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+.stomach-diagram .wave-direction,
+.stomach-diagram .return-arrow {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+}
+.stomach-diagram .squirt circle {
+  fill: var(--chyme);
+  stroke: var(--slide);
+  stroke-width: 1;
+}
+
+/* 5 · Duodeno */
+.duodenum-diagram .chyme-line {
+  fill: none;
+  stroke: var(--acid);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition:
+    stroke-dasharray 1400ms cubic-bezier(0.45, 0, 0.25, 1),
+    stroke 800ms ease-out;
+}
+.duodenum-diagram .duct {
+  fill: none;
+  stroke: var(--room-text);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.45;
+}
+.duodenum-diagram .flow {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 5 5;
+}
+.duodenum-diagram .bile-flow,
+.swatch.bile {
+  stroke: var(--bile);
+  background: var(--bile);
+}
+.duodenum-diagram .juice-flow,
+.swatch.juice {
+  stroke: var(--juice);
+  background: var(--juice);
+}
+.duodenum-diagram .gallbladder-wrap {
+  transform-box: fill-box;
+  transform-origin: 50% 30%;
+  transition: transform 700ms var(--ease-out);
+}
+.duodenum-diagram .hormone {
+  fill: none;
+  stroke: var(--hormone);
+  stroke-width: 2;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+.duodenum-diagram .hormone-head,
+.swatch.hormone {
+  fill: var(--hormone);
+  background: var(--hormone);
+}
+.duodenum-diagram .fat circle,
+.swatch.fat {
+  fill: var(--lymph);
+  background: var(--lymph);
+}
+.duodenum-diagram .fat g {
+  transition: opacity 600ms ease-out;
+}
+
+/* 6 · Villo */
+.villus-diagram .lumen {
+  fill: rgb(215 168 90 / 0.08);
+}
+.villus-diagram .wall {
+  fill: var(--organ);
+  opacity: 0.6;
+}
+.villus-diagram .villus {
+  fill: var(--tissue);
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.villus-diagram .villus.side {
+  opacity: 0.5;
+}
+.villus-diagram .brush {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 7;
+  stroke-dasharray: 1 3;
+  opacity: 0.7;
+}
+.villus-diagram .capillary {
+  fill: none;
+  stroke: url(#villus-blood);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.villus-diagram .capillary.thin {
+  stroke-width: 3;
+  opacity: 0.8;
+}
+.villus-diagram .stop-rich {
+  stop-color: var(--blood-rich);
+}
+.villus-diagram .stop-poor {
+  stop-color: var(--blood-poor);
+}
+.villus-diagram .lacteal,
+.villus-diagram .lymph-vessel {
+  fill: none;
+  stroke: var(--lymph);
+  stroke-width: 10;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+.swatch.lymph {
+  background: var(--lymph);
+}
+.villus-diagram .vein {
+  fill: none;
+  stroke: var(--blood-poor);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+.villus-diagram .flow-dash path {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2;
+  stroke-dasharray: 4 6;
+}
+.villus-diagram .particle.sugar,
+.swatch.sugar {
+  fill: var(--food);
+  background: var(--food);
+}
+.villus-diagram .particle.amino,
+.swatch.amino {
+  fill: #8fd3c3;
+  background: #8fd3c3;
+}
+.villus-diagram .particle.fat {
+  fill: var(--lymph);
+  stroke: var(--room);
+  stroke-width: 1;
+}
+
+/* 7 · Intestino crasso */
+.colon-diagram .colon,
+.colon-diagram .cecum,
+.colon-diagram .ileum,
+.colon-diagram .appendix {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 30;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.colon-diagram .cecum {
+  fill: var(--tissue);
+  stroke-width: 1;
+}
+.colon-diagram .ileum {
+  stroke-width: 12;
+  opacity: 0.7;
+}
+.colon-diagram .appendix {
+  stroke-width: 7;
+}
+.colon-diagram .haustra {
+  fill: none;
+  stroke: var(--room);
+  stroke-width: 30;
+  stroke-dasharray: 2 18;
+  opacity: 0.35;
+}
+.colon-diagram .colon-content {
+  fill: none;
+  stroke: #c19a62;
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition:
+    stroke-dasharray 1400ms cubic-bezier(0.45, 0, 0.25, 1),
+    stroke-dashoffset 1400ms cubic-bezier(0.45, 0, 0.25, 1),
+    stroke 900ms ease-out;
+}
+.swatch.stool {
+  background: var(--stool);
+}
+.colon-diagram .water path {
+  fill: none;
+  stroke: var(--water);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.colon-diagram .water-head,
+.swatch.water {
+  fill: var(--water);
+  background: var(--water);
+}
+.colon-diagram .bacteria rect,
+.swatch.bacteria {
+  fill: var(--bacteria);
+  background: var(--bacteria);
+}
+.colon-diagram .bacteria .gas {
+  fill: none;
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.colon-diagram .mass-arrow {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2.5;
+  stroke-dasharray: 6 5;
+}
+
+/* 8 · Retto */
+.rectum-diagram .colon {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 30;
+  stroke-linecap: round;
+}
+.rectum-diagram .rectum-lumen {
+  fill: rgb(201 158 164 / 0.32);
+}
+.rectum-diagram .rectum-walls path {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 9;
+  stroke-linejoin: round;
+  transition: transform 700ms var(--ease-out);
+}
+.rectum-diagram .squeeze path {
+  stroke: var(--slide);
+  stroke-width: 2.5;
+}
+.rectum-diagram .sphincter-internal rect {
+  fill: var(--smooth);
+  transition:
+    transform 700ms var(--ease-out),
+    opacity 500ms ease-out;
+}
+.rectum-diagram .sphincter-external rect {
+  fill: var(--muscle);
+  stroke: transparent;
+  stroke-width: 2;
+  transition:
+    transform 700ms var(--ease-out),
+    stroke 300ms ease-out;
+}
+.rectum-diagram .stool ellipse {
+  fill: var(--stool);
+  stroke: var(--room-text);
+  stroke-width: 1;
+}
+
+/* Didascalia della fase */
+.digestion-caption {
+  display: grid;
+  gap: 2px;
+  min-height: 3.2em;
+}
+.digestion-caption .label {
+  color: var(--room-muted);
+  font-size: 14px;
+}
+.digestion-caption p {
+  margin: 0;
+  font-size: 16px;
+}
+.digestion-caption strong {
+  font: 600 18px / 1.2 var(--font-display);
+}
+
+/* Stati delle fasi: dopo le regole di base, perché le precisano. */
+.digestion-diagram [data-visible] {
+  transition: opacity 420ms ease-out;
+}
+.digestion-diagram [data-visible="false"] {
+  opacity: 0;
+}
+
+/* 1 · Canale digerente */
+.tract-diagram [data-organ] {
+  transition: opacity 400ms ease-out;
+  opacity: 0.5;
+}
+.tract-diagram [data-organ][data-active="true"] {
+  opacity: 1;
+}
+.tract-diagram [data-active="true"] .tube,
+.tract-diagram [data-active="true"] .mouth {
+  stroke: var(--tissue-strong);
+}
+.tract-diagram [data-active="true"] .organ-fill,
+.tract-diagram [data-active="true"] .liver,
+.tract-diagram [data-active="true"] .pancreas,
+.tract-diagram [data-active="true"] .gallbladder,
+.tract-diagram [data-active="true"] .gland {
+  stroke: var(--slide);
+  stroke-width: 2;
+}
+.cycle-diagram[data-playing="true"] .tract-diagram .halo {
+  animation: digestion-pulse 1200ms ease-in-out infinite;
+}
+.mouth-diagram[data-phase="masticazione"] .jaw {
+  transform: rotate(4deg);
+}
+.mouth-diagram[data-phase="masticazione"][data-moving="true"] .jaw {
+  animation: digestion-chew 900ms ease-in-out infinite;
+}
+.mouth-diagram[data-phase="bolo"] .tongue {
+  transform: translate(2px, -6px) rotate(-3deg);
+}
+.mouth-diagram[data-phase="saliva"] .duct {
+  stroke: var(--saliva);
+  opacity: 1;
+  stroke-dasharray: 5 5;
+}
+.mouth-diagram[data-phase="saliva"][data-moving="true"] .duct {
+  animation: flow-dash 900ms linear infinite;
+}
+.mouth-diagram[data-phase="saliva"] .saliva-drops circle {
+  opacity: 0.9;
+}
+.swallow-diagram[data-phase="faringea"] .air-flow {
+  opacity: 0;
+}
+.swallow-diagram[data-phase="faringea"] .breath-stop {
+  opacity: 1;
+}
+.swallow-diagram[data-phase="faringea"] .soft-palate {
+  transform: rotate(-26deg);
+}
+.swallow-diagram[data-phase="volontaria"] .tongue {
+  transform: translate(6px, -8px) rotate(-2deg);
+}
+.swallow-diagram[data-phase="faringea"] .larynx {
+  transform: translateY(-8px);
+}
+.swallow-diagram[data-phase="faringea"] .epiglottis {
+  transform: rotate(-112deg);
+}
+.swallow-diagram .sphincter[data-open="true"] path:first-child {
+  transform: translateX(-4px);
+}
+.swallow-diagram .sphincter[data-open="true"] path:last-child {
+  transform: translateX(4px);
+}
+.swallow-diagram .peristalsis[data-visible="false"] {
+  opacity: 0;
+}
+.stomach-diagram .chyme-fill[data-visible="true"] {
+  opacity: 0.75;
+}
+.cycle-diagram[data-playing="true"] .stomach-diagram .acid circle {
+  animation: digestion-pulse 1100ms ease-in-out infinite;
+}
+.cycle-diagram[data-playing="true"] .stomach-diagram .waves path {
+  animation: digestion-wave 2000ms ease-in-out infinite;
+}
+.stomach-diagram .waves path:nth-child(2) {
+  animation-delay: 400ms;
+}
+.stomach-diagram .waves path:nth-child(3) {
+  animation-delay: 800ms;
+}
+.stomach-diagram .waves path:nth-child(4) {
+  animation-delay: 1200ms;
+}
+.stomach-diagram .sphincter[data-open="true"] path:first-child,
+.duodenum-diagram .sphincter[data-open="true"] path:first-child {
+  transform: translateY(-4px);
+}
+.stomach-diagram .sphincter[data-open="true"] path:last-child,
+.duodenum-diagram .sphincter[data-open="true"] path:last-child {
+  transform: translateY(4px);
+}
+.duodenum-diagram .chyme-line[data-neutral="true"] {
+  stroke: var(--chyme);
+}
+.cycle-diagram[data-playing="true"] .duodenum-diagram .flow {
+  animation: flow-dash 900ms linear infinite;
+}
+.duodenum-diagram .gallbladder-wrap[data-contracted="true"] {
+  transform: scale(0.84);
+}
+.duodenum-diagram .fat .drops-small,
+.duodenum-diagram .fat[data-split="true"] .drops-big {
+  opacity: 0;
+}
+.duodenum-diagram .fat[data-split="true"] .drops-small {
+  opacity: 1;
+}
+.cycle-diagram[data-playing="true"] .villus-diagram .flow-dash path {
+  animation: flow-dash 900ms linear infinite;
+}
+.colon-diagram .colon-content[data-phase="acqua"],
+.colon-diagram .colon-content[data-phase="flora"] {
+  stroke: #a0723f;
+}
+.colon-diagram .colon-content[data-phase="massa"] {
+  stroke: var(--stool);
+}
+.cycle-diagram[data-playing="true"] .colon-diagram .bacteria .gas {
+  animation: digestion-rise 1600ms ease-out infinite;
+}
+.rectum-diagram .rectum-walls[data-contracted="true"] path:first-child {
+  transform: translateX(5px);
+}
+.rectum-diagram .rectum-walls[data-contracted="true"] path:last-child {
+  transform: translateX(-5px);
+}
+.rectum-diagram .sphincter-internal[data-open="true"] rect {
+  opacity: 0.45;
+}
+.rectum-diagram .sphincter-internal[data-open="true"] .left {
+  transform: translateX(-4px);
+}
+.rectum-diagram .sphincter-internal[data-open="true"] .right {
+  transform: translateX(4px);
+}
+.rectum-diagram .sphincter-external[data-held="true"] rect {
+  stroke: var(--slide);
+}
+.rectum-diagram .sphincter-external[data-held="true"] .left {
+  transform: translateX(3px);
+}
+.rectum-diagram .sphincter-external[data-held="true"] .right {
+  transform: translateX(-3px);
+}
+.rectum-diagram .sphincter-external[data-open="true"] .left {
+  transform: translateX(-6px);
+}
+.rectum-diagram .sphincter-external[data-open="true"] .right {
+  transform: translateX(6px);
+}
+
+@keyframes digestion-chew {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+@keyframes digestion-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes digestion-wave {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  40% {
+    opacity: 0.85;
+  }
+}
+@keyframes digestion-rise {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .digestion-diagram .labels text,
+  .digestion-diagram .orientation {
+    font-size: 15px;
+  }
+  .digestion-diagram .labels .minor {
+    font-size: 13px;
+  }
+}

@@ -1,6 +1,9 @@
 ---
 id: respirazione
 titolo: Un respiro
+descrizione: >
+  Dal naso agli alveoli: come i muscoli fanno entrare l'aria nei polmoni e come
+  l'ossigeno passa nel sangue.
 # Per ogni passo: strato mostrato, strutture evidenziate (gruppi di organi o FMA di ossa e
 # muscoli; quelle di un altro strato si aggiungono da sole), inquadratura se diversa dalle
 # evidenziate, e schema 2D. Diaframma FMA13295; intercostali esterni FMA9756; ossa nasali
