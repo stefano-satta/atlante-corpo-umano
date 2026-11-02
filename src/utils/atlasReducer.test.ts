@@ -8,6 +8,7 @@ const base: AtlasState = {
   body: 'uomo',
   skin: true,
   heartbeat: true,
+  heartSound: false,
   selection: null,
   sheet: false,
   page: null,
@@ -157,5 +158,25 @@ describe('battito del cuore', () => {
     expect(paused.heartbeat).toBe(false);
     expect(atlasReducer(paused, { type: 'select', id: null }).heartbeat).toBe(false);
     expect(atlasReducer(paused, { type: 'toggleHeartbeat' }).heartbeat).toBe(true);
+  });
+});
+
+describe('suono del battito', () => {
+  const listening = atlasReducer({ ...base, selection: 'cuore' }, { type: 'toggleHeartSound' });
+
+  it('si accende e si spegne con il comando', () => {
+    expect(listening.heartSound).toBe(true);
+    expect(atlasReducer(listening, { type: 'toggleHeartSound' }).heartSound).toBe(false);
+  });
+
+  it('si spegne da solo quando il cuore smette di battere', () => {
+    expect(atlasReducer(listening, { type: 'select', id: null }).heartSound).toBe(false);
+    expect(atlasReducer(listening, { type: 'select', id: 'polmoni' }).heartSound).toBe(false);
+    expect(atlasReducer(listening, { type: 'toggleHeartbeat' }).heartSound).toBe(false);
+    expect(atlasReducer(listening, { type: 'setLayer', layer: 'muscoli' }).heartSound).toBe(false);
+  });
+
+  it('resta acceso aprendo la scheda del cuore', () => {
+    expect(atlasReducer(listening, { type: 'setSheet', open: true }).heartSound).toBe(true);
   });
 });

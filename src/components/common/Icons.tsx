@@ -42,6 +42,20 @@ export const PauseIcon = () => (
   </svg>
 );
 
+export const SoundIcon = () => (
+  <svg {...base} aria-hidden="true">
+    <path d="M2.5 6h2.5L8.5 3v10L5 10H2.5z" />
+    <path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.5a6 6 0 0 1 0 9" />
+  </svg>
+);
+
+export const SoundOffIcon = () => (
+  <svg {...base} aria-hidden="true">
+    <path d="M2.5 6h2.5L8.5 3v10L5 10H2.5z" />
+    <path d="M11 6l3.5 4M14.5 6L11 10" />
+  </svg>
+);
+
 export const PreviousIcon = () => (
   <svg {...base} aria-hidden="true">
     <path d="M10 3.5L5.5 8 10 12.5" />

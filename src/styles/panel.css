@@ -105,12 +105,16 @@
   margin: 0 0 8px;
 }
 .heartbeat {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 20px;
   margin-top: 10px;
 }
 .heartbeat-toggle {
   font-size: 14px;
 }
 .heartbeat-note {
+  flex-basis: 100%;
   margin: 0;
   font-size: 13px;
   color: var(--ink-muted);

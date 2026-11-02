@@ -1,5 +1,13 @@
 import { DraftNotice } from '@/components/common/DraftNotice';
-import { BackIcon, CloseIcon, ForwardIcon, PauseIcon, PlayIcon } from '@/components/common/Icons';
+import {
+  BackIcon,
+  CloseIcon,
+  ForwardIcon,
+  PauseIcon,
+  PlayIcon,
+  SoundIcon,
+  SoundOffIcon,
+} from '@/components/common/Icons';
 import { LatinTerm } from '@/components/common/LatinTerm';
 import { SourceList } from '@/components/common/SourceList';
 import { RichText } from '@/components/features/glossary/RichText';
@@ -9,6 +17,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { SceneUnit } from '@/models/scene';
 import { registerCalloutTarget } from '@/utils/calloutPath';
 import { contentForUnit, GUIDED_PATHS, hasGuidedPath } from '@/utils/content';
+import { unlockHeartSound } from '@/utils/heartSound';
 import { ORGANS_BY_ID } from '@/utils/organs';
 import { membershipLabel } from '@/utils/structures';
 import { Relations } from './Relations';
@@ -27,8 +36,9 @@ function BackToGuidedPath() {
 }
 
 /**
- * Comando del battito del cuore 3D (D41). Il movimento parte da solo e dura più di 5 secondi,
- * quindi si deve poter fermare (WCAG 2.2.2). Con il movimento ridotto il cuore è fermo e il comando non serve.
+ * Comandi del battito del cuore 3D (D41) e del suo suono (D42). Il movimento parte da solo e dura
+ * più di 5 secondi, quindi si deve poter fermare (WCAG 2.2.2); il suono invece parte solo su richiesta.
+ * Con il movimento ridotto il cuore è fermo e i comandi non servono.
  */
 function HeartbeatToggle() {
   const { state, dispatch } = useAtlas();
@@ -44,7 +54,22 @@ function HeartbeatToggle() {
         {state.heartbeat ? <PauseIcon /> : <PlayIcon />}
         {state.heartbeat ? 'Ferma il battito' : 'Riprendi il battito'}
       </button>
-      <p className="heartbeat-note">Battito semplificato: ritmo e ampiezza non sono in scala.</p>
+      {state.heartbeat && (
+        <button
+          type="button"
+          className="back heartbeat-toggle"
+          aria-pressed={state.heartSound}
+          onClick={() => {
+            if (state.heartSound || unlockHeartSound()) dispatch({ type: 'toggleHeartSound' });
+          }}
+        >
+          {state.heartSound ? <SoundOffIcon /> : <SoundIcon />}
+          {state.heartSound ? 'Togli il suono' : 'Ascolta il battito'}
+        </button>
+      )}
+      <p className="heartbeat-note">
+        Battito semplificato: ritmo e ampiezza non sono in scala; il suono è sintetizzato.
+      </p>
     </div>
   );
 }

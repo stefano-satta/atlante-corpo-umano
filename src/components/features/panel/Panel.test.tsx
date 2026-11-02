@@ -148,12 +148,33 @@ describe('battito del cuore', () => {
     expect(screen.getByRole('button', { name: 'Riprendi il battito' }).getAttribute('aria-pressed')).toBe('true');
   });
 
+  it('il suono parte solo su richiesta e sparisce fermando il battito', () => {
+    // jsdom non ha la Web Audio API: basta un contesto che si possa avviare.
+    vi.stubGlobal(
+      'AudioContext',
+      class {
+        sampleRate = 8000;
+        state = 'running';
+        resume = () => Promise.resolve();
+        createBuffer = () => ({ getChannelData: () => new Float32Array(1) });
+      },
+    );
+    open('/esplora/cuore');
+    const sound = screen.getByRole('button', { name: 'Ascolta il battito' });
+    expect(sound.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.click(sound);
+    expect(screen.getByRole('button', { name: 'Togli il suono' }).getAttribute('aria-pressed')).toBe('true');
+    fireEvent.click(screen.getByRole('button', { name: 'Ferma il battito' }));
+    expect(screen.queryByRole('button', { name: /suono|Ascolta/ })).toBeNull();
+    vi.unstubAllGlobals();
+  });
+
   it('con il movimento ridotto il cuore è fermo e il comando non compare', () => {
     vi.spyOn(window, 'matchMedia').mockImplementation(
       (query) =>
         ({ matches: true, media: query, addEventListener() {}, removeEventListener() {} }) as unknown as MediaQueryList,
     );
     open('/esplora/cuore');
-    expect(screen.queryByRole('button', { name: /battito/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /battito|suono/ })).toBeNull();
   });
 });

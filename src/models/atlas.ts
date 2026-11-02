@@ -41,6 +41,8 @@ export interface AtlasState {
   hover: string | null;
   /** Battito del cuore 3D quando il cuore è selezionato (D41); il cartellino lo ferma e lo riprende. */
   heartbeat: boolean;
+  /** Suono del battito (D42), spento all'inizio; si spegne da solo quando il cuore smette di battere. */
+  heartSound: boolean;
 }
 
 /** Parte dello stato che si legge e si scrive nell'indirizzo. */
@@ -52,6 +54,7 @@ export type AtlasAction =
   | { type: 'revealLayer'; layer: Layer }
   | { type: 'toggleSkin' }
   | { type: 'toggleHeartbeat' }
+  | { type: 'toggleHeartSound' }
   | { type: 'setBody'; body: BodyKind }
   | { type: 'select'; id: string | null }
   | { type: 'setSheet'; open: boolean }

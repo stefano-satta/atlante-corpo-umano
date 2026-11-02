@@ -9,6 +9,12 @@ export function bodyFor(current: BodyKind, selection: string | null): BodyKind {
 }
 
 export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
+  const next = reduce(s, a);
+  // Il suono del battito (D42) c'è solo mentre il cuore selezionato batte.
+  return next.heartSound && (next.selection !== 'cuore' || !next.heartbeat) ? { ...next, heartSound: false } : next;
+}
+
+function reduce(s: AtlasState, a: AtlasAction): AtlasState {
   switch (a.type) {
     case 'setLayer':
       return { ...s, layer: a.layer, selection: null, sheet: false };
@@ -18,6 +24,8 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
       return { ...s, skin: !s.skin };
     case 'toggleHeartbeat':
       return { ...s, heartbeat: !s.heartbeat };
+    case 'toggleHeartSound':
+      return { ...s, heartSound: !s.heartSound };
     case 'setBody': {
       // Un organo dell'altro corpo non si vede più: la selezione si chiude.
       const keep = bodyFor(a.body, s.selection) === a.body;
@@ -64,6 +72,7 @@ export function initialAtlasState(pathname: string): AtlasState {
     body: bodyFor('uomo', url.selection),
     skin: true,
     heartbeat: true,
+    heartSound: false,
     hover: null,
     tour: null,
     ...url,

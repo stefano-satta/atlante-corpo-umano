@@ -9,7 +9,8 @@ import { useAtlas } from '@/hooks/useAtlas';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { ModelElement, ModelLayer, SceneUnit } from '@/models/scene';
 import { GHOST_MODEL_LAYERS, LAYER_OF_MODEL_LAYER, VISIBLE_MODEL_LAYERS } from '@/utils/atlasReducer';
-import { BEAT_FADE } from '@/utils/heartbeat';
+import { BEAT_FADE, BEAT_PERIOD } from '@/utils/heartbeat';
+import { playHeartSound, soundsBetween } from '@/utils/heartSound';
 import { modelUrl } from '@/utils/layout';
 import { sceneApi } from '@/utils/sceneApi';
 import {
@@ -164,11 +165,17 @@ export function Body() {
   // dagli atri. Con il movimento ridotto il cuore resta fermo.
   const reducedMotion = useReducedMotion();
   const beating = state.selection === 'cuore' && state.heartbeat && !reducedMotion;
+  const sound = beating && state.heartSound;
   useFrame((_, delta) => {
     const { uBeatAmount, uBeatTime } = bodyUniforms;
     const dt = Math.min(delta, 0.1);
     uBeatAmount.value = THREE.MathUtils.clamp(uBeatAmount.value + (beating ? dt : -dt) / BEAT_FADE, 0, 1);
-    uBeatTime.value = uBeatAmount.value > 0 ? uBeatTime.value + dt : 0;
+    const previous = uBeatTime.value;
+    uBeatTime.value = uBeatAmount.value > 0 ? previous + dt : 0;
+    // I due toni (D42) suonano quando il ciclo animato passa per il loro istante.
+    if (sound && uBeatAmount.value > 0.5)
+      for (const tone of soundsBetween((previous / BEAT_PERIOD) % 1, (uBeatTime.value / BEAT_PERIOD) % 1))
+        playHeartSound(tone);
   });
 
   useFrame(() => {
