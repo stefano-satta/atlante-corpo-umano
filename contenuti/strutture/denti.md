@@ -17,6 +17,19 @@ limiti: >
   Il modello 3D di BodyParts3D ha 28 denti permanenti: mancano i quattro denti del
   giudizio. I denti si scelgono tutti insieme. Gengive e legamento periodontale
   non sono nel modello.
+figura:
+  schema: denti
+  titolo: Tipi di denti e struttura di un dente
+  sezione: Come è fatto
+  didascalia: >
+    A sinistra i 16 denti dell'arcata superiore permanente visti dal basso, con il davanti della
+    bocca in alto: dal centro verso il fondo incisivi, canini, premolari e molari, ognuno con l'età
+    media in cui spunta; l'arcata inferiore ha gli stessi tipi di denti [@openstax-ap-23-3]. A
+    destra la sezione lungo l'asse di un molare nel suo alveolo: la corona sporge dalla gengiva e
+    la radice è infissa nell'osso; la cavità della polpa, con vasi e nervi, continua nei canali
+    radicolari ed è circondata dalla dentina, coperta dallo smalto nella corona e dal cemento nella
+    radice; il legamento periodontale tiene il dente nell'alveolo [@openstax-ap-23-3]. Il disegno è
+    semplificato e non in scala; a differenza del modello 3D, mostra i denti del giudizio.
 risorse: []
 stato: approvato
 revisione: 2026-10-31

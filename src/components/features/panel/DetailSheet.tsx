@@ -30,6 +30,7 @@ const FIGURES = {
   vulva: lazy(() => import('@/components/features/reproductive-system/VulvaFigure')),
   orecchio: lazy(() => import('@/components/features/hearing-system/EarFigure')),
   mammella: lazy(() => import('@/components/features/reproductive-system/BreastFigure')),
+  denti: lazy(() => import('@/components/features/digestive-system/TeethFigure')),
 };
 
 type Apparatus = 'urinario' | 'riproduttivo' | 'endocrino' | 'visivo';
