@@ -1,10 +1,11 @@
 import { DraftNotice } from '@/components/common/DraftNotice';
-import { BackIcon, CloseIcon, ForwardIcon } from '@/components/common/Icons';
+import { BackIcon, CloseIcon, ForwardIcon, PauseIcon, PlayIcon } from '@/components/common/Icons';
 import { LatinTerm } from '@/components/common/LatinTerm';
 import { SourceList } from '@/components/common/SourceList';
 import { RichText } from '@/components/features/glossary/RichText';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useStructure } from '@/hooks/useContent';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { SceneUnit } from '@/models/scene';
 import { registerCalloutTarget } from '@/utils/calloutPath';
 import { contentForUnit, GUIDED_PATHS, hasGuidedPath } from '@/utils/content';
@@ -22,6 +23,29 @@ function BackToGuidedPath() {
     <button type="button" className="back back-to-path" onClick={() => dispatch({ type: 'select', id: null })}>
       <BackIcon /> Torna al percorso “{title}”, passo {path.step + 1}
     </button>
+  );
+}
+
+/**
+ * Comando del battito del cuore 3D (D41). Il movimento parte da solo e dura più di 5 secondi,
+ * quindi si deve poter fermare (WCAG 2.2.2). Con il movimento ridotto il cuore è fermo e il comando non serve.
+ */
+function HeartbeatToggle() {
+  const { state, dispatch } = useAtlas();
+  if (useReducedMotion()) return null;
+  return (
+    <div className="heartbeat">
+      <button
+        type="button"
+        className="back heartbeat-toggle"
+        aria-pressed={!state.heartbeat}
+        onClick={() => dispatch({ type: 'toggleHeartbeat' })}
+      >
+        {state.heartbeat ? <PauseIcon /> : <PlayIcon />}
+        {state.heartbeat ? 'Ferma il battito' : 'Riprendi il battito'}
+      </button>
+      <p className="heartbeat-note">Battito semplificato: ritmo e ampiezza non sono in scala.</p>
+    </div>
   );
 }
 
@@ -69,6 +93,7 @@ export function InfoCard({ unit }: { unit: SceneUnit }) {
         </p>
       )}
       {entry && <DraftNotice status={entry.stato} />}
+      {unit.id === 'cuore' && <HeartbeatToggle />}
 
       {structure && summary ? (
         <>

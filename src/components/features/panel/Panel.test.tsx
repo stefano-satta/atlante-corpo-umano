@@ -1,9 +1,9 @@
 // @vitest-environment jsdom
 import '../../../../test/dom-setup';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router';
 import { Box3, Vector3 } from 'three';
-import { beforeAll, describe, expect, it } from 'vitest';
+import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { AtlasProvider } from '@/contexts/AtlasContext';
 import { sceneApi } from '@/utils/sceneApi';
 import { Panel } from './Panel';
@@ -129,5 +129,31 @@ describe('pannello della struttura selezionata', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Chiudi il cartellino' }));
     expect(screen.queryByRole('complementary')).toBeNull();
     expect(location.pathname).toBe('/esplora');
+  });
+});
+
+describe('battito del cuore', () => {
+  afterEach(() => vi.restoreAllMocks());
+
+  it('solo il cartellino del cuore ha il comando, che ferma e riprende il battito', () => {
+    open('/esplora/FJ3259');
+    expect(screen.queryByRole('button', { name: /battito/ })).toBeNull();
+    cleanup();
+
+    open('/esplora/cuore');
+    const toggle = screen.getByRole('button', { name: 'Ferma il battito' });
+    expect(toggle.getAttribute('aria-pressed')).toBe('false');
+    expect(screen.getByText(/non sono in scala/)).toBeTruthy();
+    fireEvent.click(toggle);
+    expect(screen.getByRole('button', { name: 'Riprendi il battito' }).getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('con il movimento ridotto il cuore è fermo e il comando non compare', () => {
+    vi.spyOn(window, 'matchMedia').mockImplementation(
+      (query) =>
+        ({ matches: true, media: query, addEventListener() {}, removeEventListener() {} }) as unknown as MediaQueryList,
+    );
+    open('/esplora/cuore');
+    expect(screen.queryByRole('button', { name: /battito/ })).toBeNull();
   });
 });

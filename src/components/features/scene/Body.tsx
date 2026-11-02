@@ -6,8 +6,10 @@ import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.j
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { useActiveStep } from '@/hooks/useActiveStep';
 import { useAtlas } from '@/hooks/useAtlas';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { ModelElement, ModelLayer, SceneUnit } from '@/models/scene';
 import { GHOST_MODEL_LAYERS, LAYER_OF_MODEL_LAYER, VISIBLE_MODEL_LAYERS } from '@/utils/atlasReducer';
+import { BEAT_FADE } from '@/utils/heartbeat';
 import { modelUrl } from '@/utils/layout';
 import { sceneApi } from '@/utils/sceneApi';
 import {
@@ -50,9 +52,14 @@ export function Body() {
     const elements: ModelElement[] = JSON.parse(json);
     const units = createUnits(elements);
     const byId = new Map(elements.map((e) => [e.id, e]));
+    // Camere del cuore che batte: atrio sinistro, atrio destro, ventricoli (heartbeat.ts).
+    const chambers = [new THREE.Box3(), new THREE.Box3(), new THREE.Box3()];
     const geometries = Object.fromEntries(
-      MODEL_FILES.map((f, i) => [f, prepareLayer(gltf[i].scene, byId, units)]),
+      MODEL_FILES.map((f, i) => [f, prepareLayer(gltf[i].scene, byId, units, chambers)]),
     ) as Record<ModelFile, THREE.BufferGeometry | null>;
+    chambers.forEach((c, i) => {
+      if (!c.isEmpty()) c.getCenter(bodyUniforms.uBeatPivots.value[i]);
+    });
     const byIndex = new Map<number, SceneUnit>([...units.values()].map((u) => [u.index, u]));
     return { units, byIndex, geometries };
   }, [json, gltf]);
@@ -151,6 +158,17 @@ export function Body() {
       el.removeEventListener('pointerup', onUp);
       el.removeEventListener('pointerleave', onLeave);
     };
+  });
+
+  // Battito del cuore selezionato (D41): entra ed esce con una dissolvenza; ogni battito parte
+  // dagli atri. Con il movimento ridotto il cuore resta fermo.
+  const reducedMotion = useReducedMotion();
+  const beating = state.selection === 'cuore' && state.heartbeat && !reducedMotion;
+  useFrame((_, delta) => {
+    const { uBeatAmount, uBeatTime } = bodyUniforms;
+    const dt = Math.min(delta, 0.1);
+    uBeatAmount.value = THREE.MathUtils.clamp(uBeatAmount.value + (beating ? dt : -dt) / BEAT_FADE, 0, 1);
+    uBeatTime.value = uBeatAmount.value > 0 ? uBeatTime.value + dt : 0;
   });
 
   useFrame(() => {

@@ -16,6 +16,8 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
       return { ...s, layer: a.layer };
     case 'toggleSkin':
       return { ...s, skin: !s.skin };
+    case 'toggleHeartbeat':
+      return { ...s, heartbeat: !s.heartbeat };
     case 'setBody': {
       // Un organo dell'altro corpo non si vede più: la selezione si chiude.
       const keep = bodyFor(a.body, s.selection) === a.body;
@@ -61,6 +63,7 @@ export function initialAtlasState(pathname: string): AtlasState {
     layer: 'organi',
     body: bodyFor('uomo', url.selection),
     skin: true,
+    heartbeat: true,
     hover: null,
     tour: null,
     ...url,

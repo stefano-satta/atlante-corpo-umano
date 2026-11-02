@@ -4,6 +4,7 @@ import type { ModelElement } from '@/models/scene';
 import {
   calloutAnchor,
   createUnits,
+  prepareLayer,
   UNIT_DIMMED,
   UNIT_FULL,
   UNIT_GHOST,
@@ -103,5 +104,31 @@ describe('stati delle unità', () => {
 
   it('trova le unità di un contenuto per gruppo e per FMA', () => {
     expect(unitsForElements({ gruppi: ['cuore', 'inesistente'], fma: ['FMA24474'] }, units)).toEqual(['cuore', 'FJ4']);
+  });
+});
+
+describe('prepareLayer e battito del cuore', () => {
+  // Una mesh per elemento, chiamata con il suo id come nei file .glb.
+  const mesh = (id: string, x: number) => {
+    const g = new THREE.BoxGeometry(1, 1, 1).translate(x, 0, 0);
+    const m = new THREE.Mesh(g);
+    m.name = id;
+    return m;
+  };
+  const scene = new THREE.Group().add(mesh('FJ1', 0), mesh('FJ2', 4), mesh('FJ3', 10));
+  const units = createUnits(elements);
+  const chambers = [new THREE.Box3(), new THREE.Box3(), new THREE.Box3()];
+  const layer = prepareLayer(scene, new Map(elements.map((e) => [e.id, e])), units, chambers);
+
+  it('segna i vertici del cuore con la loro camera e lascia a 0 gli altri', () => {
+    const beat = layer?.getAttribute('aBeat');
+    const values = new Set(Array.from(beat?.array ?? []));
+    expect(values).toEqual(new Set([0, 1, 3]));
+  });
+
+  it('calcola il centro di ogni camera dalle sue pareti', () => {
+    expect(chambers[0].getCenter(new THREE.Vector3()).x).toBeCloseTo(0);
+    expect(chambers[1].isEmpty()).toBe(true);
+    expect(chambers[2].getCenter(new THREE.Vector3()).x).toBeCloseTo(4);
   });
 });

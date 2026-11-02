@@ -104,6 +104,17 @@
 .card-sources h3 {
   margin: 0 0 8px;
 }
+.heartbeat {
+  margin-top: 10px;
+}
+.heartbeat-toggle {
+  font-size: 14px;
+}
+.heartbeat-note {
+  margin: 0;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
 .back-to-path {
   align-self: flex-start;
   margin: 0 0 10px;

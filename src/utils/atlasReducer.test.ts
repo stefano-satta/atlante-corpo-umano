@@ -7,6 +7,7 @@ const base: AtlasState = {
   layer: 'organi',
   body: 'uomo',
   skin: true,
+  heartbeat: true,
   selection: null,
   sheet: false,
   page: null,
@@ -147,5 +148,14 @@ describe('corpo maschile e femminile (D29)', () => {
     expect(atlasReducer(donna, { type: 'select', id: 'pene' }).body).toBe('uomo');
     expect(atlasReducer(donna, { type: 'select', id: 'cuore' }).body).toBe('donna');
     expect(atlasReducer(base, { type: 'fromUrl', ...readUrl('/organo/ovaie') }).body).toBe('donna');
+  });
+});
+
+describe('battito del cuore', () => {
+  it("si ferma e riprende, e resta com'era cambiando selezione", () => {
+    const paused = atlasReducer({ ...base, selection: 'cuore' }, { type: 'toggleHeartbeat' });
+    expect(paused.heartbeat).toBe(false);
+    expect(atlasReducer(paused, { type: 'select', id: null }).heartbeat).toBe(false);
+    expect(atlasReducer(paused, { type: 'toggleHeartbeat' }).heartbeat).toBe(true);
   });
 });

@@ -3,6 +3,7 @@ import { mergeGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils.js
 import type { BodyKind } from '@/models/atlas';
 import type { ModelElements } from '@/models/content';
 import type { ModelElement, ModelLayer, SceneUnit } from '@/models/scene';
+import { heartbeatPart, isHeartWall } from './heartbeat';
 import { ORGANS_BY_ID } from './organs';
 
 const LAYER_COLORS: Record<ModelLayer, string> = {
@@ -73,13 +74,16 @@ export function calloutAnchor(
 
 /**
  * Converte le mesh di uno strato (quantizzate da meshopt) in geometrie float con
- * normali, colore per vertice e attributo aUnit; aggiorna l'ingombro delle unità.
- * Restituisce un'unica geometria per strato (D13: 3 chiamate di disegno invece di 484).
+ * normali, colore per vertice e attributi aUnit e aBeat (parte del cuore che batte);
+ * aggiorna l'ingombro delle unità e, con le pareti del cuore, quello delle sue camere
+ * (`chambers`, indicizzate come aBeat - 1). Restituisce un'unica geometria per strato
+ * (D13: 3 chiamate di disegno invece di 484).
  */
 export function prepareLayer(
   scene: THREE.Object3D,
   elements: Map<string, ModelElement>,
   units: Map<string, SceneUnit>,
+  chambers: THREE.Box3[] = [],
 ): THREE.BufferGeometry | null {
   scene.updateMatrixWorld(true);
   const geometries: THREE.BufferGeometry[] = [];
@@ -96,10 +100,13 @@ export function prepareLayer(
     const source = mesh.geometry.getAttribute('position');
     const n = source.count;
     const pos = new Float32Array(n * 3);
+    const beat = heartbeatPart(u.id, el.nome);
+    const chamber = beat && isHeartWall(el.nome) ? chambers[beat - 1] : undefined;
     for (let i = 0; i < n; i++) {
       v.fromBufferAttribute(source, i).applyMatrix4(mesh.matrixWorld);
       v.toArray(pos, i * 3);
       u.box.expandByPoint(v);
+      chamber?.expandByPoint(v);
     }
     const g = new THREE.BufferGeometry();
     g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
@@ -107,6 +114,7 @@ export function prepareLayer(
     g.computeVertexNormals();
     parts.set(u, [...(parts.get(u) ?? []), g]);
     g.setAttribute('aUnit', new THREE.BufferAttribute(new Float32Array(n).fill(u.index), 1));
+    g.setAttribute('aBeat', new THREE.BufferAttribute(new Uint8Array(n).fill(beat), 1));
     color.set(ORGANS_BY_ID.get(u.id)?.color ?? LAYER_COLORS[el.strato]);
     const col = new Float32Array(n * 3);
     for (let i = 0; i < n; i++) color.toArray(col, i * 3);

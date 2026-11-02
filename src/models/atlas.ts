@@ -39,6 +39,8 @@ export interface AtlasState {
    */
   guidedPath: ActiveGuidedPath | null;
   hover: string | null;
+  /** Battito del cuore 3D quando il cuore è selezionato (D41); il cartellino lo ferma e lo riprende. */
+  heartbeat: boolean;
 }
 
 /** Parte dello stato che si legge e si scrive nell'indirizzo. */
@@ -49,6 +51,7 @@ export type AtlasAction =
   /** Mostra lo strato che contiene la struttura selezionata, senza perdere la selezione (indirizzo diretto). */
   | { type: 'revealLayer'; layer: Layer }
   | { type: 'toggleSkin' }
+  | { type: 'toggleHeartbeat' }
   | { type: 'setBody'; body: BodyKind }
   | { type: 'select'; id: string | null }
   | { type: 'setSheet'; open: boolean }

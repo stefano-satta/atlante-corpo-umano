@@ -1,11 +1,16 @@
 import * as THREE from 'three';
+import { BEAT_GLSL } from './heartbeat';
 
 // Uniform condivisi da tutti i materiali del corpo: stato di ogni unità (nascosta, attenuata,
 // piena, fantasma; vedi unitStates) in una texture di una riga, e unità sotto il puntatore. Gli id delle
-// unità partono da 1; 0 significa "nessuna".
+// unità partono da 1; 0 significa "nessuna". Gli uniform uBeat* muovono il cuore che batte (heartbeat.ts):
+// tempo del battito, intensità da 0 a 1 e centri delle camere.
 export const bodyUniforms = {
   uStates: { value: new THREE.DataTexture(new Uint8Array(1), 1, 1, THREE.RedFormat) },
   uHover: { value: 0 },
+  uBeatTime: { value: 0 },
+  uBeatAmount: { value: 0 },
+  uBeatPivots: { value: [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()] },
 };
 
 /** Aggiorna gli stati delle unità letti dagli shader. */
@@ -28,8 +33,8 @@ const READ_STATE = 'float state = texelFetch(uStates, ivec2(int(vUnit + 0.5), 0)
 function injectUnit(shader: THREE.WebGLProgramParametersWithUniforms, fragment: string) {
   Object.assign(shader.uniforms, bodyUniforms);
   shader.vertexShader = shader.vertexShader
-    .replace('#include <common>', '#include <common>\nattribute float aUnit;\nvarying float vUnit;')
-    .replace('#include <begin_vertex>', '#include <begin_vertex>\nvUnit = aUnit;');
+    .replace('#include <common>', `#include <common>\nattribute float aUnit;\nvarying float vUnit;\n${BEAT_GLSL}`)
+    .replace('#include <begin_vertex>', '#include <begin_vertex>\nvUnit = aUnit;\ntransformed = beat(transformed);');
   shader.fragmentShader = shader.fragmentShader
     .replace(
       '#include <common>',
@@ -98,9 +103,10 @@ export const pickingMaterial = new THREE.ShaderMaterial({
   uniforms: bodyUniforms,
   vertexShader: `attribute float aUnit;
     varying float vUnit;
+    ${BEAT_GLSL}
     void main() {
       vUnit = aUnit;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(beat(position), 1.0);
     }`,
   fragmentShader: `precision highp float;
     uniform sampler2D uStates;
