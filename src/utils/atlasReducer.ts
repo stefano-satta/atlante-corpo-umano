@@ -5,6 +5,7 @@ import { readUrl } from './url';
 
 /** Corpo in cui si vede una struttura: quello attuale, salvo gli organi di un solo corpo (D29). */
 export function bodyFor(current: BodyKind, selection: string | null): BodyKind {
+  if (selection?.startsWith('vaso-uomo-')) return 'uomo';
   return (selection && ORGANS_BY_ID.get(selection)?.body) || current;
 }
 
@@ -84,6 +85,15 @@ export const VISIBLE_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   scheletro: ['ossa'],
   organi: ['organi'],
   muscoli: ['muscoli'],
+  vasi: ['vasi'],
+};
+
+/** Unità di un altro strato del modello che fanno parte dello strato della barra: il cuore fra i vasi (D44). */
+export const VISIBLE_UNITS: Record<Layer, string[]> = {
+  scheletro: [],
+  organi: [],
+  muscoli: [],
+  vasi: ['cuore'],
 };
 
 /** Strati del modello mostrati solo come contesto (fantasma, non selezionabili). */
@@ -91,11 +101,17 @@ export const GHOST_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   scheletro: [],
   organi: ['ossa'],
   muscoli: [],
+  vasi: ['ossa'],
 };
+
+/** I vasi stanno in un file a parte, che si scarica solo quando servono: strato aperto o vaso selezionato. */
+export const needsVessels = (layer: Layer, selection: string | null) =>
+  layer === 'vasi' || !!selection?.startsWith('vaso-');
 
 /** Strato della barra in cui una struttura del modello è piena e selezionabile. */
 export const LAYER_OF_MODEL_LAYER: Record<Exclude<ModelLayer, 'pelle'>, Layer> = {
   ossa: 'scheletro',
   organi: 'organi',
   muscoli: 'muscoli',
+  vasi: 'vasi',
 };

@@ -43,7 +43,7 @@ export function contentForUnit(unit: { id: string; layer: string; fma: string | 
 export const hasPage = (id: string) => id in caricaPagina;
 /** Una pagina del menu è disponibile: Informazioni se il suo testo è pubblicato, Glossario se ha voci. */
 export const pageAvailable = (id: string) => {
-  if (id === 'informazioni') return hasPage(id);
+  if (id === 'informazioni' || id === 'circolazione') return hasPage(id);
   if (id === 'glossario') return GLOSSARY.length > 0;
   if (id === 'percorsi') return GUIDED_PATHS.length > 0;
   return true;

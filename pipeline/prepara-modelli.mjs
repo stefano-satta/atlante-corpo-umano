@@ -13,9 +13,11 @@
 // (sclera, cornea, iride e cristallino), --donna <cartella> (predefinita
 // dati-sorgente/hra/allineati, prodotta da npm run modelli:donna), --triangoli-donna 3000,
 // --muscoli <cartella> (predefinita dati-sorgente/z-anatomy/muscoli, prodotta da
-// npm run modelli:muscoli), --triangoli-muscoli 2000.
+// npm run modelli:muscoli), --triangoli-muscoli 2000, --ratio-vasi 0.1 (strato dei vasi, D44),
+// --vasi <cartella> (predefinita dati-sorgente/z-anatomy/vasi, prodotta da npm run modelli:vasi),
+// --triangoli-vasi 500.
 //
-// Produce un file .glb per strato (ossa, muscoli, organi, pelle), organi-donna.glb con gli
+// Produce un file .glb per strato (ossa, muscoli, organi, pelle, vasi), organi-donna.glb con gli
 // organi del corpo femminile (D29) e strutture.json con i metadati di ogni struttura
 // (classificazione e coordinate: classifica.mjs).
 //
@@ -31,7 +33,7 @@ import { Document, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { meshopt, prune, simplifyPrimitive, weld } from '@gltf-transform/functions';
 import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
-import { classifica, convertiVertice } from './classifica.mjs';
+import { classifica, classificaVaso, convertiVertice } from './classifica.mjs';
 
 const arg = (nome, predefinito) => {
   const i = process.argv.indexOf(`--${nome}`);
@@ -60,6 +62,11 @@ const triangoliDonna = Number(arg('triangoli-donna', '3000'));
 // un numero massimo, così i piccoli muscoli del viso restano interi.
 const cartellaMuscoli = arg('muscoli', 'dati-sorgente/z-anatomy/muscoli');
 const triangoliMuscoli = Number(arg('triangoli-muscoli', '2000'));
+const ratioVasi = Number(arg('ratio-vasi', '0.1'));
+// I vasi di Z-Anatomy sono curve convertite in tubi molto fitti (in media 7.000 triangoli per vaso): anche
+// loro si riducono a un numero massimo.
+const cartellaVasi = arg('vasi', 'dati-sorgente/z-anatomy/vasi');
+const triangoliVasi = Number(arg('triangoli-vasi', '500'));
 for (const [cartellaDati, comando] of [
   [cartellaObj, 'npm run modelli:scarica'],
   [cartellaPolmoni, 'npm run modelli:polmoni'],
@@ -67,6 +74,7 @@ for (const [cartellaDati, comando] of [
   [cartellaParotidi, 'npm run modelli:parotidi'],
   [cartellaDonna, 'npm run modelli:donna'],
   [cartellaMuscoli, 'npm run modelli:muscoli'],
+  [cartellaVasi, 'npm run modelli:vasi'],
 ]) {
   if (!fs.existsSync(cartellaDati)) {
     console.error(`Mancano i dati in ${cartellaDati}: eseguire prima ${comando}`);
@@ -194,6 +202,18 @@ for (const f of fs.readdirSync(cartellaMuscoli).filter((f) => f.endsWith('.obj')
   fileObj.set(id, file);
 }
 
+// Vasi di Z-Anatomy assenti da BodyParts3D, già allineati da esporta-vasi.py (D44).
+for (const f of fs.readdirSync(cartellaVasi).filter((f) => f.endsWith('.obj'))) {
+  const file = path.join(cartellaVasi, f);
+  const testa = fs.readFileSync(file, 'utf8').slice(0, 1000);
+  const nome = /# English name : (.+)/.exec(testa)?.[1].trim();
+  const tipo = /# Vessel type : (.+)/.exec(testa)?.[1].trim();
+  if (!nome || !tipo) throw new Error(`${f}: nome o tipo del vaso mancante`);
+  const id = `ZA-${f.slice(0, -4).toLowerCase().replaceAll('_', '-')}`;
+  strutture.push({ id, nome, fma: null, ...classificaVaso(f, nome, tipo) });
+  fileObj.set(id, file);
+}
+
 const gruppoDi = new Map(strutture.map((s) => [s.id, s.gruppo]));
 
 // File .glb di una struttura: gli organi del solo corpo femminile stanno in un file a parte.
@@ -205,7 +225,7 @@ await MeshoptSimplifier.ready;
 await MeshoptEncoder.ready;
 
 const riepilogo = {};
-for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna']) {
+for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna', 'vasi']) {
   const doc = new Document();
   const buffer = doc.createBuffer();
   const scena = doc.createScene(strato);
@@ -227,18 +247,22 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna']) {
       const r =
         strato === 'pelle'
           ? ratioPelle
-          : strato === 'muscoli' && m.getName().startsWith('ZA-')
-            ? Math.min(1, triangoliMuscoli / triangoli)
-            : m.getName().startsWith('ZA-')
-              ? // Le paratiroidi hanno poco più di 100 triangoli: ridotte, perderebbero la forma.
-                triangoli < 200
-                ? 1
-                : ratioPolmoni
-              : m.getName().startsWith('HRA-')
-                ? Math.min(1, triangoliDonna / triangoli)
-                : gruppoDi.get(m.getName()) === 'occhi'
-                  ? ratioOcchi
-                  : ratio;
+          : strato === 'vasi'
+            ? m.getName().startsWith('ZA-')
+              ? Math.min(1, triangoliVasi / triangoli)
+              : ratioVasi
+            : strato === 'muscoli' && m.getName().startsWith('ZA-')
+              ? Math.min(1, triangoliMuscoli / triangoli)
+              : m.getName().startsWith('ZA-')
+                ? // Le paratiroidi hanno poco più di 100 triangoli: ridotte, perderebbero la forma.
+                  triangoli < 200
+                  ? 1
+                  : ratioPolmoni
+                : m.getName().startsWith('HRA-')
+                  ? Math.min(1, triangoliDonna / triangoli)
+                  : gruppoDi.get(m.getName()) === 'occhi'
+                    ? ratioOcchi
+                    : ratio;
       simplifyPrimitive(p, { simplifier: MeshoptSimplifier, ratio: r, error: errore });
     }
   }
@@ -260,7 +284,18 @@ fs.writeFileSync(path.join(uscita, 'strutture.json'), JSON.stringify(strutture))
 fs.writeFileSync(
   path.join(uscita, 'riepilogo.json'),
   JSON.stringify(
-    { ratio, ratioPelle, ratioPolmoni, ratioOcchi, triangoliDonna, triangoliMuscoli, errore, riepilogo },
+    {
+      ratio,
+      ratioPelle,
+      ratioPolmoni,
+      ratioOcchi,
+      ratioVasi,
+      triangoliVasi,
+      triangoliDonna,
+      triangoliMuscoli,
+      errore,
+      riepilogo,
+    },
     null,
     2,
   ),

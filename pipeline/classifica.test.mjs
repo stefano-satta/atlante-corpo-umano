@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { classifica, convertiVertice } from './classifica.mjs';
+import { classifica, classificaVaso, convertiVertice } from './classifica.mjs';
 
 describe('convertiVertice', () => {
   it('passa da millimetri Z-alto a metri Y-alto, con la parte anteriore verso +Z', () => {
@@ -32,9 +32,66 @@ describe('classifica', () => {
     expect(classifica('Z', 'Apical segment of right lung (SI)', ossa, muscoli)).toBeNull();
   });
 
-  it('esclude vasi e nervi anche se il nome cita un organo', () => {
-    expect(classifica('D', 'Branch of left middle cerebral artery to left angular gyrus', ossa, muscoli)).toBeNull();
+  it('esclude i nervi e porta i vasi nel loro strato anche se il nome cita un organo', () => {
+    expect(classifica('D', 'Branch of left middle cerebral artery to left angular gyrus', ossa, muscoli)?.strato).toBe(
+      'vasi',
+    );
     expect(classifica('D', 'Left lacrimal nerve', ossa, muscoli)).toBeNull();
+    expect(classifica('D', 'Medial superior tributary of left hepatic biliary tree', ossa, muscoli)?.strato).not.toBe(
+      'vasi',
+    );
+  });
+
+  it('riconosce arterie e vene, anche dai tronchi che non citano il tipo', () => {
+    expect(classifica('V', 'Left femoral artery', ossa, muscoli)).toEqual({
+      strato: 'vasi',
+      gruppo: 'vaso-left-femoral-artery',
+      vaso: 'arteria',
+      sangue: 'ricco',
+    });
+    for (const nome of ['Inferior vena cava', 'Coronary sinus', 'Tributary of plantar venous arch'])
+      expect(classifica('V', nome, ossa, muscoli)?.vaso).toBe('vena');
+    for (const nome of ['Celiac trunk', 'Left plantar arch', 'Arch of aorta'])
+      expect(classifica('V', nome, ossa, muscoli)?.vaso).toBe('arteria');
+  });
+
+  it('non scambia per vasi seni paranasali, dotti, parti del fegato e tronchi nervosi', () => {
+    for (const nome of [
+      'Frontal sinus',
+      'Common hepatic duct',
+      'Left ureter',
+      'Inferior branch of right oculomotor nerve',
+    ])
+      expect(classifica('V', nome, ossa, muscoli)).toBeNull();
+    expect(classifica('V', 'Hepatovenous segment VII', ossa, muscoli)?.gruppo).toBe('fegato');
+  });
+
+  it('nel circolo polmonare il sangue è invertito, nel fegato e nel rene no', () => {
+    expect(classifica('V', 'Pulmonary trunk', ossa, muscoli)?.sangue).toBe('povero');
+    expect(classifica('V', 'Left apical segmental artery', ossa, muscoli)?.sangue).toBe('povero');
+    expect(classifica('V', 'Left superior pulmonary vein', ossa, muscoli)?.sangue).toBe('ricco');
+    expect(classifica('V', 'Anterior superior segmental hepatic artery', ossa, muscoli)?.sangue).toBe('ricco');
+    expect(classifica('V', 'Inferior segmental branch of left renal artery', ossa, muscoli)?.sangue).toBe('ricco');
+    expect(classifica('V', 'Left renal vein', ossa, muscoli)?.sangue).toBe('povero');
+  });
+
+  it('accetta il tipo dichiarato dai vasi di Z-Anatomy e li riunisce agli omonimi di BodyParts3D', () => {
+    expect(classificaVaso('V', 'Superior sagittal sinus', 'vena')).toEqual({
+      strato: 'vasi',
+      gruppo: 'vaso-superior-sagittal-sinus',
+      vaso: 'vena',
+      sangue: 'povero',
+    });
+    expect(classificaVaso('Z', 'Left common carotid artery', 'arteria')?.gruppo).toBe(
+      classifica('F', 'Left common carotid artery', ossa, muscoli)?.gruppo,
+    );
+  });
+
+  it('segna i vasi solo maschili e scarta i doppioni', () => {
+    const v = classifica('V', 'Left testicular artery', ossa, muscoli);
+    expect(v?.corpo).toBe('uomo');
+    expect(v?.gruppo).toBe('vaso-uomo-left-testicular-artery');
+    expect(classifica('FJ3427', 'Descending aorta', ossa, muscoli)).toBeNull();
   });
 
   it('ammette il nervo ottico, unico nervo fra gli organi, con il tratto ottico', () => {

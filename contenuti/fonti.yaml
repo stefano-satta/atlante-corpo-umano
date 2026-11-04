@@ -779,3 +779,265 @@ statpearls-sternoioideo:
   aggiornata: 2023-07-24
   url: https://www.ncbi.nlm.nih.gov/books/NBK547693/
   consultata: 2026-10-30
+
+# Fonti aggiunte il 2026-11-04 per i vasi (D44). OpenStax 20.5 è stato letto con il consenso dell'utente,
+# nonostante la clausola sull'AI generativa; è la sola fonte qui usata del capitolo 20.
+
+openstax-ap-20-5:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 20.5 Circulatory Pathways"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/20-5-circulatory-pathways
+  consultata: 2026-11-04
+
+seer-vie-circolatorie:
+  tipo: istituzionale
+  titolo: "Circulatory Pathways"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/cardiovascular/blood/pathways.html
+  consultata: 2026-11-04
+
+seer-vasi-classificazione:
+  tipo: istituzionale
+  titolo: "Classification & Structure of Blood Vessels"
+  ente: SEER Training Modules, National Cancer Institute, National Institutes of Health
+  url: https://training.seer.cancer.gov/anatomy/cardiovascular/blood/classification.html
+  consultata: 2026-11-04
+
+# Schede StatPearls dei vasi: fatti riportati con parole proprie (D37, esteso ai vasi su scelta dell'utente).
+
+statpearls-vasi-addome-pelvi:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Arteries and Veins"
+  autori: [Shah A, Khan YS]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2024-05-04
+  url: https://www.ncbi.nlm.nih.gov/books/NBK560486/
+  consultata: 2026-11-04
+
+statpearls-vasi-arterie-arto-inf:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb: Arteries"
+  autori: [Arias DG, Marappa-Ganeshan R]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-12-09
+  url: https://www.ncbi.nlm.nih.gov/books/NBK544319/
+  consultata: 2026-11-04
+
+statpearls-vasi-ascellare:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Axillary Artery"
+  autori: [Thiel R, Munjal A, Daly DT]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2025-01-20
+  url: https://www.ncbi.nlm.nih.gov/books/NBK482174/
+  consultata: 2026-11-04
+
+statpearls-vasi-avambraccio:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Forearm Arteries"
+  autori: [Berezovsky DR, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-31
+  url: https://www.ncbi.nlm.nih.gov/books/NBK545155/
+  consultata: 2026-11-04
+
+statpearls-vasi-celiaco:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Celiac Trunk"
+  autori: [Garg R, Nassereddin A, Arbor TC]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2025-09-15
+  url: https://www.ncbi.nlm.nih.gov/books/NBK459241/
+  consultata: 2026-11-04
+
+statpearls-vasi-collo:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Neck"
+  autori: [Roesch ZK, Tadi P]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK542313/
+  consultata: 2026-11-04
+
+statpearls-vasi-epigastrica:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Epigastric Artery"
+  autori: [Omole AE, Van Fossen K]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2026-06-18
+  url: https://www.ncbi.nlm.nih.gov/books/NBK537156/
+  consultata: 2026-11-04
+
+statpearls-vasi-esofago:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Thorax, Esophagus"
+  autori: [Omole AE, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2026-01-31
+  url: https://www.ncbi.nlm.nih.gov/books/NBK482513/
+  consultata: 2026-11-04
+
+statpearls-vasi-faccia:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck: Face"
+  autori: [Nguyen JD, Duong H]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-06-05
+  url: https://www.ncbi.nlm.nih.gov/books/NBK551530/
+  consultata: 2026-11-04
+
+statpearls-vasi-facciale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck: Facial Artery"
+  autori: [Fakoya AO, Nessel TA, Downs BW]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2024-05-06
+  url: https://www.ncbi.nlm.nih.gov/books/NBK536932/
+  consultata: 2026-11-04
+
+statpearls-vasi-femorale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb: Femoral Artery"
+  autori: [Swift H, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-11-29
+  url: https://www.ncbi.nlm.nih.gov/books/NBK538262/
+  consultata: 2026-11-04
+
+statpearls-vasi-gastroepiploica:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Stomach Gastroepiploic Artery"
+  autori: [O'Malley J, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2022-10-10
+  url: https://www.ncbi.nlm.nih.gov/books/NBK545306/
+  consultata: 2026-11-04
+
+statpearls-vasi-giugulare-interna:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck: Internal Jugular Vein"
+  autori: [Rivard AB, Kortz MW, Burns B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK513258/
+  consultata: 2026-11-04
+
+statpearls-vasi-ileocolica:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Ileocolic Artery"
+  autori: [Omole AE, Byerly DW]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2026-05-13
+  url: https://www.ncbi.nlm.nih.gov/books/NBK544262/
+  consultata: 2026-11-04
+
+statpearls-vasi-mano:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Hand Arteries"
+  autori: [Nguyen JD, Black AC, Duong H]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-11-05
+  url: https://www.ncbi.nlm.nih.gov/books/NBK546583/
+  consultata: 2026-11-04
+
+statpearls-vasi-mascellare:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Maxillary Artery"
+  autori: [Brizuela M, Al Khalili Y]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2025-12-01
+  url: https://www.ncbi.nlm.nih.gov/books/NBK542301/
+  consultata: 2026-11-04
+
+statpearls-vasi-mesenterica-inf:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Inferior Mesenteric Artery"
+  autori: [Omole AE, Van Fossen K]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2026-09-14
+  url: https://www.ncbi.nlm.nih.gov/books/NBK482156/
+  consultata: 2026-11-04
+
+statpearls-vasi-mesenterica-sup:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Superior Mesenteric Artery"
+  autori: [Omole AE, Khorasani-Zadeh A]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2026-09-14
+  url: https://www.ncbi.nlm.nih.gov/books/NBK519560/
+  consultata: 2026-11-04
+
+statpearls-vasi-mesenterica-sup-vena:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis: Superior Mesenteric Vein"
+  autori: [Broussard A, Wehrle CJ, Samra NS]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-08
+  url: https://www.ncbi.nlm.nih.gov/books/NBK545162/
+  consultata: 2026-11-04
+
+statpearls-vasi-oftalmiche:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Ophthalmic Arteries"
+  autori: [Bird B, Stawicki SP]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-08
+  url: https://www.ncbi.nlm.nih.gov/books/NBK482317/
+  consultata: 2026-11-04
+
+statpearls-vasi-pene:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis, Penis"
+  autori: [Sam P, LaGrange CA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK482236/
+  consultata: 2026-11-04
+
+statpearls-vasi-radiale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Forearm Radial Artery"
+  autori: [Marchese RM, Launico MV, Geiger Z]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2025-03-03
+  url: https://www.ncbi.nlm.nih.gov/books/NBK546626/
+  consultata: 2026-11-04
+
+statpearls-vasi-toraciche-superiori:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Thorax, Superior Thoracic Arteries"
+  autori: [Arora Y, Sapra A]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK553140/
+  consultata: 2026-11-04
+
+statpearls-vasi-ulnare:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Ulnar Artery"
+  autori: [Marques E, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK546619/
+  consultata: 2026-11-04
+
+statpearls-vasi-vene-cuore:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Thorax, Heart Veins"
+  autori: [Miao JH, Makaryus AN]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK549786/
+  consultata: 2026-11-04
+
+statpearls-vasi-vene-scalpo:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Scalp Veins"
+  autori: [Germann AM, Jamal Z, Al Khalili Y]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-01-13
+  url: https://www.ncbi.nlm.nih.gov/books/NBK540961/
+  consultata: 2026-11-04

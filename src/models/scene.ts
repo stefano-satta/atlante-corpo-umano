@@ -2,7 +2,7 @@ import type { Box3, Vector3 } from 'three';
 import type { BodyKind } from './atlas';
 
 /** Strato del modello 3D: un file .glb per ciascuno. I valori sono quelli di strutture.json. */
-export type ModelLayer = 'ossa' | 'muscoli' | 'organi' | 'pelle';
+export type ModelLayer = 'ossa' | 'muscoli' | 'organi' | 'pelle' | 'vasi';
 
 /** Una riga di strutture.json, prodotto da pipeline/prepara-modelli.mjs. */
 export interface ModelElement {
@@ -13,6 +13,9 @@ export interface ModelElement {
   gruppo: string | null;
   /** Presente solo per gli organi di un solo corpo (D29). */
   corpo?: BodyKind;
+  /** Solo per i vasi (D44): tipo anatomico e colore con cui si mostra (il circolo polmonare è invertito). */
+  vaso?: 'arteria' | 'vena';
+  sangue?: 'ricco' | 'povero';
 }
 
 /** Ciò che l'utente seleziona: un organo intero, oppure un singolo osso o muscolo. */

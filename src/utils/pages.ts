@@ -3,8 +3,8 @@ import type { PageId } from '@/models/atlas';
 /** Pagine di lettura del menu, nell'ordine. La voce Percorsi, che le precede, la disegna la barra a parte. */
 export const PAGE_IDS: PageId[] = ['indice', 'glossario', 'fonti', 'informazioni'];
 
-/** Tutte le pagine di lettura, con la pagina dei percorsi: hanno una rotta ciascuna. */
-export const READING_PAGE_IDS: PageId[] = ['percorsi', ...PAGE_IDS];
+/** Tutte le pagine di lettura, con quella dei percorsi e la panoramica aperta dal cartellino dei vasi: hanno una rotta ciascuna. */
+export const READING_PAGE_IDS: PageId[] = ['percorsi', ...PAGE_IDS, 'circolazione'];
 
 export const PAGE_TITLES: Record<PageId, string> = {
   percorsi: 'Percorsi',
@@ -12,6 +12,7 @@ export const PAGE_TITLES: Record<PageId, string> = {
   glossario: 'Glossario',
   fonti: 'Fonti',
   informazioni: 'Informazioni',
+  circolazione: 'Come circola il sangue',
 };
 
 /** Titoli brevi per il menu su smartphone, dove cinque voci non stanno in una riga. */

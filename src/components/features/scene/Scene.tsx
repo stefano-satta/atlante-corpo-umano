@@ -32,7 +32,7 @@ const PATH_POLAR_ANGLE = Math.PI / 2 - 0.12;
  * Muove la telecamera in base a selezione, scheda aperta e passo di percorso. Su desktop
  * la struttura viene centrata nella parte di scena non coperta dal pannello.
  */
-function CameraDirector({ ready }: { ready: boolean }) {
+function CameraDirector({ ready, vesselsLoaded }: { ready: boolean; vesselsLoaded: boolean }) {
   const { state } = useAtlas();
   const { step } = useActiveStep();
   const reducedMotion = useReducedMotion();
@@ -41,10 +41,13 @@ function CameraDirector({ ready }: { ready: boolean }) {
   const first = useRef(true);
   const distance = useRef(0);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: vesselsLoaded fa ripetere l'inquadratura quando l'ingombro del vaso arriva
   useEffect(() => {
     const c = sceneApi.controls;
     const u = state.selection ? sceneApi.units.get(state.selection) : undefined;
     if (!c || !ready) return;
+    // Un vaso selezionato prima che il suo file arrivi non ha ancora un ingombro: si inquadra all'arrivo.
+    if (u?.box.isEmpty()) return;
     const animated = !reducedMotion && !first.current;
     first.current = false;
     let sphere: THREE.Sphere;
@@ -68,7 +71,7 @@ function CameraDirector({ ready }: { ready: boolean }) {
     }
     distance.current = sphere.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2));
     c.fitToSphere(sphere, animated);
-  }, [state.selection, state.home, step, reducedMotion, ready, camera, width]);
+  }, [state.selection, state.home, step, reducedMotion, ready, vesselsLoaded, camera, width]);
 
   useEffect(() => {
     const c = sceneApi.controls;
@@ -93,7 +96,7 @@ function CalloutTracker() {
   const point = useRef(new THREE.Vector3());
   useFrame(() => {
     const u = state.selection ? sceneApi.units.get(state.selection) : undefined;
-    if (!u) return updateCallout(null);
+    if (!u || u.box.isEmpty()) return updateCallout(null);
     const p = point.current.copy(u.anchor).project(camera);
     if (p.z > 1) return updateCallout(null);
     updateCallout({ x: ((p.x + 1) / 2) * innerWidth, y: ((1 - p.y) / 2) * innerHeight });
@@ -111,9 +114,11 @@ interface Props {
   onReady: () => void;
   /** Falso quando una pagina di lettura copre la scena: niente disegno, niente consumo. */
   active: boolean;
+  vesselsLoaded: boolean;
+  onVesselsLoaded: () => void;
 }
 
-export default function Scene({ ready, onReady, active }: Props) {
+export default function Scene({ ready, onReady, active, vesselsLoaded, onVesselsLoaded }: Props) {
   return (
     <Canvas
       className="scene"
@@ -128,10 +133,10 @@ export default function Scene({ ready, onReady, active }: Props) {
       <directionalLight position={[-2, 1.5, -2]} intensity={1.1} color="#b9aecb" />
       <Controls onReady={registerControls} minDistance={0.15} maxDistance={6} smoothTime={0.35} />
       <Suspense fallback={null}>
-        <Body />
+        <Body onVesselsLoaded={onVesselsLoaded} />
         <ReadySignal onReady={onReady} />
       </Suspense>
-      <CameraDirector ready={ready} />
+      <CameraDirector ready={ready} vesselsLoaded={vesselsLoaded} />
       <CalloutTracker />
     </Canvas>
   );

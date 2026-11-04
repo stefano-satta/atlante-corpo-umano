@@ -104,8 +104,8 @@ export function HomePage({ ready }: { ready: boolean }) {
         </p>
         <p className="home-note">
           Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni, tiroide, paratiroidi,
-          parotidi e 37 muscoli: Z-Anatomy, CC BY-SA 4.0; organi femminili: Human Reference Atlas, CC BY 4.0. Modelli
-          derivati CC BY-SA 4.0.
+          parotidi, 37 muscoli e parte dei vasi: Z-Anatomy, CC BY-SA 4.0; organi femminili: Human Reference Atlas, CC BY
+          4.0. Modelli derivati CC BY-SA 4.0.
         </p>
       </footer>
     </main>

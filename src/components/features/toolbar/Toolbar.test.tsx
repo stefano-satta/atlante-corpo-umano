@@ -23,7 +23,7 @@ describe('barra dei comandi', () => {
   it('mostra i tre strati come scelta esclusiva, con Organi attivo', () => {
     renderToolbar();
     const layers = within(screen.getByRole('radiogroup', { name: 'Strato visibile' })).getAllByRole('radio');
-    expect(layers.map((l) => l.getAttribute('aria-label'))).toEqual(['Scheletro', 'Organi', 'Muscoli']);
+    expect(layers.map((l) => l.getAttribute('aria-label'))).toEqual(['Scheletro', 'Organi', 'Muscoli', 'Vasi']);
     expect(screen.getByRole('radio', { name: 'Organi' }).getAttribute('aria-checked')).toBe('true');
     expect(within(screen.getByRole('toolbar')).queryByRole('radiogroup', { name: 'Strato visibile' })).toBeNull();
   });

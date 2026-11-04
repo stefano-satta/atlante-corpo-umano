@@ -136,7 +136,7 @@ describe('corpo femminile dallo Human Reference Atlas (D29)', () => {
   });
 
   it('gli organi genitali maschili e l’uretra maschile sono segnati come maschili', () => {
-    const maschili = new Set(strutture.filter((s) => s.corpo === 'uomo').map((s) => s.gruppo));
+    const maschili = new Set(strutture.filter((s) => s.corpo === 'uomo' && s.strato === 'organi').map((s) => s.gruppo));
     expect([...maschili].sort()).toEqual(
       ['dotti-deferenti', 'epididimi', 'pene', 'prostata', 'testicoli', 'uretra', 'vescichette-seminali'].sort(),
     );
@@ -214,5 +214,66 @@ describe('muscoli assenti da BodyParts3D, da Z-Anatomy', () => {
 
   it('le licenze dei modelli citano i muscoli di Z-Anatomy', () => {
     expect(fs.readFileSync('public/modelli/LICENZE.md', 'utf8')).toMatch(/37 muscoli di `muscoli\.glb`/);
+  });
+});
+
+describe('apparato cardiovascolare: i vasi (D44)', () => {
+  const vasi = strutture.filter((s) => s.strato === 'vasi');
+  const nomi = new Set(vasi.map((s) => s.nome));
+
+  it('ci sono i grandi vasi del circolo sistemico e polmonare', () => {
+    for (const nome of [
+      'Ascending aorta',
+      'Arch of aorta',
+      'Descending thoracic aorta',
+      'Abdominal aorta',
+      'Superior vena cava',
+      'Inferior vena cava',
+      'Pulmonary trunk',
+      'Left pulmonary artery',
+      'Left superior pulmonary vein',
+      'Trunk of right coronary artery',
+      'Left femoral artery',
+      'Right great saphenous vein',
+    ])
+      expect(nomi).toContain(nome);
+  });
+
+  it('non contengono nervi né altri organi, e ogni elemento dice tipo e colore', () => {
+    expect(vasi.filter((s) => /nerve|ganglion|duct|bronch(us|ial tree)/i.test(s.nome))).toEqual([]);
+    expect(vasi.filter((s) => !s.vaso || !s.sangue || !s.gruppo?.startsWith('vaso-'))).toEqual([]);
+    expect(new Set(vasi.map((s) => s.vaso))).toEqual(new Set(['arteria', 'vena']));
+  });
+
+  it('non doppiano la stessa geometria', () => {
+    for (const nome of ['Descending aorta', 'Pre-hepatic portal vein', 'Marginal artery of colon'])
+      expect(nomi).not.toContain(nome);
+  });
+
+  it('i vasi solo maschili sono segnati e il loro gruppo lo dice', () => {
+    const maschili = vasi.filter((s) => s.corpo === 'uomo');
+    expect(maschili.map((s) => s.nome)).toContain('Left testicular artery');
+    expect(maschili.every((s) => s.gruppo.startsWith('vaso-uomo-'))).toBe(true);
+    expect(vasi.filter((s) => !s.corpo && /penis|testicular/i.test(s.nome))).toEqual([]);
+  });
+
+  it('i vasi assenti da BodyParts3D arrivano da Z-Anatomy, e il collo non ha più il vuoto', () => {
+    for (const nome of [
+      'Left external carotid artery',
+      'Left facial artery',
+      'Superior sagittal sinus',
+      'Right fibular artery',
+      'Left deep femoral artery',
+    ])
+      expect(vasi.find((s) => s.nome === nome)?.id).toMatch(/^ZA-/);
+    const carotide = vasi.filter((s) => s.nome === 'Left common carotid artery');
+    expect(carotide.map((s) => s.id.slice(0, 2)).sort()).toEqual(['FJ', 'ZA']);
+    expect(new Set(carotide.map((s) => s.gruppo)).size).toBe(1);
+  });
+
+  // Si scarica solo aprendo lo strato: non pesa su chi non lo usa.
+  it('stanno in un file a parte, dentro il budget', () => {
+    expect(riepilogo.vasi.strutture).toBe(vasi.length);
+    expect(riepilogo.vasi.kB).toBeLessThanOrEqual(2100);
   });
 });

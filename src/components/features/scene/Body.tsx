@@ -1,5 +1,5 @@
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
-import { useEffect, useMemo, useRef } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { FileLoader } from 'three';
 import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
@@ -8,7 +8,13 @@ import { useActiveStep } from '@/hooks/useActiveStep';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import type { ModelElement, ModelLayer, SceneUnit } from '@/models/scene';
-import { GHOST_MODEL_LAYERS, LAYER_OF_MODEL_LAYER, VISIBLE_MODEL_LAYERS } from '@/utils/atlasReducer';
+import {
+  GHOST_MODEL_LAYERS,
+  LAYER_OF_MODEL_LAYER,
+  needsVessels,
+  VISIBLE_MODEL_LAYERS,
+  VISIBLE_UNITS,
+} from '@/utils/atlasReducer';
 import { BEAT_FADE, BEAT_PERIOD } from '@/utils/heartbeat';
 import { playHeartSound, soundsBetween } from '@/utils/heartSound';
 import { modelUrl } from '@/utils/layout';
@@ -25,31 +31,64 @@ import {
   createUnits,
   prepareLayer,
   UNIT_DIMMED,
+  UNIT_FULL,
   UNIT_GHOST,
-  UNIT_HIDDEN,
   unitStates,
   unitsForElements,
 } from '@/utils/sceneModel';
 
-const MODEL_LAYERS: ModelLayer[] = ['ossa', 'muscoli', 'organi', 'pelle'];
+// I vasi (D44) non sono fra questi file: pesano più degli organi e si scaricano solo quando servono.
 // Gli organi del solo corpo femminile (D29) stanno in un file a parte, piccolo: si caricano sempre,
 // così cambiare corpo non fa attendere e le loro unità hanno subito ingombro e ancoraggio.
-const MODEL_FILES = [...MODEL_LAYERS, 'organi-donna'] as const;
+const MODEL_FILES = ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna'] as const;
 type ModelFile = (typeof MODEL_FILES)[number];
 const PICKING_LAYER = 1;
+// I vasi sottili sono larghi pochi pixel: fra i vasi la selezione guarda anche attorno al puntatore (px CSS).
+const VESSEL_PICK_RADIUS = { mouse: 4, touch: 12 };
+const configureLoader = (loader: GLTFLoader) => {
+  loader.setMeshoptDecoder(MeshoptDecoder);
+};
+
+interface VesselsProps {
+  elements: Map<string, ModelElement>;
+  units: Map<string, SceneUnit>;
+  materials: { full: THREE.Material; dimmed: THREE.Material };
+  showFull: boolean;
+  showDimmed: boolean;
+  onLoaded: () => void;
+}
+
+/** Strato dei vasi, caricato la prima volta che serve. Ingombri e ancoraggi delle unità si riempiono qui. */
+function Vessels({ elements, units, materials, showFull, showDimmed, onLoaded }: VesselsProps) {
+  const gltf = useLoader(GLTFLoader, modelUrl('vasi.glb'), configureLoader);
+  const geometry = useMemo(() => prepareLayer(gltf.scene, elements, units), [gltf, elements, units]);
+  useEffect(onLoaded, [onLoaded]);
+  if (!geometry) return null;
+  return (
+    <>
+      <mesh
+        geometry={geometry}
+        material={materials.full}
+        visible={showFull}
+        onUpdate={(m) => m.layers.enable(PICKING_LAYER)}
+      />
+      <mesh geometry={geometry} material={materials.dimmed} renderOrder={2} visible={showDimmed} />
+    </>
+  );
+}
 
 /** Il corpo 3D: carica i modelli, disegna gli strati e sceglie la struttura sotto il puntatore. */
-export function Body() {
+export function Body({ onVesselsLoaded }: { onVesselsLoaded: () => void }) {
   const json = useLoader(FileLoader, modelUrl('strutture.json')) as string;
   const gltf = useLoader(
     GLTFLoader,
     MODEL_FILES.map((f) => modelUrl(`${f}.glb`)),
-    (loader) => loader.setMeshoptDecoder(MeshoptDecoder),
+    configureLoader,
   );
   const { state, dispatch } = useAtlas();
   const { gl, camera, scene, size } = useThree();
 
-  const { units, byIndex, geometries } = useMemo(() => {
+  const { units, byId, byIndex, geometries } = useMemo(() => {
     const elements: ModelElement[] = JSON.parse(json);
     const units = createUnits(elements);
     const byId = new Map(elements.map((e) => [e.id, e]));
@@ -62,7 +101,7 @@ export function Body() {
       if (!c.isEmpty()) c.getCenter(bodyUniforms.uBeatPivots.value[i]);
     });
     const byIndex = new Map<number, SceneUnit>([...units.values()].map((u) => [u.index, u]));
-    return { units, byIndex, geometries };
+    return { units, byId, byIndex, geometries };
   }, [json, gltf]);
 
   const materials = useMemo(() => ({ full: fullMaterial(), dimmed: dimmedMaterial(), skin: skinMaterial() }), []);
@@ -79,16 +118,28 @@ export function Body() {
   const visible = VISIBLE_MODEL_LAYERS[state.layer];
   const ghost = GHOST_MODEL_LAYERS[state.layer];
   const focus = useMemo(() => (selected ? new Set([selected.id]) : highlighted), [selected, highlighted]);
+  const alsoVisible = VISIBLE_UNITS[state.layer];
   const states = useMemo(
-    () => unitStates(units, visible, focus, ghost, state.body),
-    [units, visible, focus, ghost, state.body],
+    () => unitStates(units, visible, focus, ghost, state.body, alsoVisible),
+    [units, visible, focus, ghost, state.body, alsoVisible],
   );
-  // Si disegnano solo gli strati con almeno un'unità non nascosta, e le semitrasparenti
-  // (attenuate o fantasma) solo se ce ne sono.
-  const { activeLayers, anyDimmed } = useMemo(() => {
-    const activeLayers = new Set<ModelLayer>();
-    for (const u of units.values()) if (states[u.index] !== UNIT_HIDDEN) activeLayers.add(u.layer);
-    return { activeLayers, anyDimmed: states.includes(UNIT_DIMMED) || states.includes(UNIT_GHOST) };
+  // Una volta scaricati, i vasi restano: tornare allo strato non fa attendere.
+  const [vesselsWanted, setVesselsWanted] = useState(false);
+  const wantsVessels = needsVessels(state.layer, state.selection);
+  useEffect(() => {
+    if (wantsVessels) setVesselsWanted(true);
+  }, [wantsVessels]);
+  // Per ogni strato si disegnano solo le passate che servono: quella piena se ha unità piene,
+  // quella semitrasparente se ne ha di attenuate o fantasma. Il resto verrebbe solo scartato dallo shader.
+  const { fullLayers, dimmedLayers } = useMemo(() => {
+    const fullLayers = new Set<ModelLayer>();
+    const dimmedLayers = new Set<ModelLayer>();
+    for (const u of units.values()) {
+      const s = states[u.index];
+      if (s === UNIT_FULL) fullLayers.add(u.layer);
+      else if (s === UNIT_DIMMED || s === UNIT_GHOST) dimmedLayers.add(u.layer);
+    }
+    return { fullLayers, dimmedLayers };
   }, [units, states]);
   useEffect(() => setUnitStates(states), [states]);
   useEffect(() => {
@@ -98,17 +149,32 @@ export function Body() {
   useEffect(() => {
     // Una struttura aperta da un indirizzo diretto può stare in uno strato nascosto: lo si mostra.
     // Non serve per una struttura evidenziata da un passo, che si vede già.
-    if (selected && selected.layer !== 'pelle' && !visible.includes(selected.layer) && !highlighted.has(selected.id))
+    if (
+      selected &&
+      selected.layer !== 'pelle' &&
+      !visible.includes(selected.layer) &&
+      !alsoVisible.includes(selected.id) &&
+      !highlighted.has(selected.id)
+    )
       dispatch({ type: 'revealLayer', layer: LAYER_OF_MODEL_LAYER[selected.layer] });
-  }, [selected, visible, highlighted, dispatch]);
+  }, [selected, visible, alsoVisible, highlighted, dispatch]);
 
   // Selezione via GPU: si disegna l'id di ogni unità e si legge il pixel sotto il puntatore.
   const target = useMemo(() => new THREE.WebGLRenderTarget(1, 1), []);
-  const pixel = useMemo(() => new Uint8Array(4), []);
-  const unitAt = (x: number, y: number): SceneUnit | undefined => {
+  const unitAt = (x: number, y: number, radius = 0): SceneUnit | undefined => {
     const cam = camera as THREE.PerspectiveCamera;
     const dpr = gl.getPixelRatio();
-    cam.setViewOffset(size.width * dpr, size.height * dpr, Math.round(x * dpr), Math.round(y * dpr), 1, 1);
+    const r = Math.round(radius * dpr);
+    const side = 2 * r + 1;
+    target.setSize(side, side);
+    cam.setViewOffset(
+      size.width * dpr,
+      size.height * dpr,
+      Math.round(x * dpr) - r,
+      Math.round(y * dpr) - r,
+      side,
+      side,
+    );
     const previousLayers = cam.layers.mask;
     cam.layers.set(PICKING_LAYER);
     const background = scene.background;
@@ -120,14 +186,26 @@ export function Body() {
     gl.setRenderTarget(target);
     gl.clear();
     gl.render(scene, cam);
-    gl.readRenderTargetPixels(target, 0, 0, 1, 1, pixel);
+    const pixels = new Uint8Array(side * side * 4);
+    gl.readRenderTargetPixels(target, 0, 0, side, side, pixels);
     gl.setRenderTarget(null);
     gl.setClearColor(previousColor, previousAlpha);
     scene.overrideMaterial = null;
     scene.background = background;
     cam.layers.mask = previousLayers;
     cam.clearViewOffset();
-    return byIndex.get(pixel[0] + pixel[1] * 256);
+    // Il pixel sotto il puntatore, altrimenti la struttura più vicina nel raggio.
+    let best = 0;
+    let bestDistance = Number.POSITIVE_INFINITY;
+    for (let i = 0; i < side * side; i++) {
+      const id = pixels[i * 4] + pixels[i * 4 + 1] * 256;
+      const distance = ((i % side) - r) ** 2 + (Math.floor(i / side) - r) ** 2;
+      if (id && distance < bestDistance && distance <= r * r) {
+        best = id;
+        bestDistance = distance;
+      }
+    }
+    return byIndex.get(best);
   };
 
   const pointer = useRef({ x: 0, y: 0, dirty: false, downX: 0, downY: 0 });
@@ -146,7 +224,8 @@ export function Body() {
     const onUp = (e: PointerEvent) => {
       const p = pointer.current;
       if (Math.hypot(e.offsetX - p.downX, e.offsetY - p.downY) > 5) return; // era una rotazione
-      dispatch({ type: 'select', id: unitAt(e.offsetX, e.offsetY)?.id ?? null });
+      const radius = state.layer === 'vasi' ? VESSEL_PICK_RADIUS[e.pointerType === 'touch' ? 'touch' : 'mouse'] : 0;
+      dispatch({ type: 'select', id: unitAt(e.offsetX, e.offsetY, radius)?.id ?? null });
     };
     const onLeave = () => dispatch({ type: 'hover', id: null });
     el.addEventListener('pointermove', onMove);
@@ -182,7 +261,7 @@ export function Body() {
     const p = pointer.current;
     if (!p.dirty) return;
     p.dirty = false;
-    const u = unitAt(p.x, p.y);
+    const u = unitAt(p.x, p.y, state.layer === 'vasi' ? VESSEL_PICK_RADIUS.mouse : 0);
     dispatch({ type: 'hover', id: u?.id ?? null });
     gl.domElement.style.cursor = u ? 'pointer' : '';
   });
@@ -201,12 +280,29 @@ export function Body() {
         const g = geometries[f];
         if (!g) return null;
         return (
-          <group key={f} visible={activeLayers.has(layerOf[f]) && (f !== 'organi-donna' || state.body === 'donna')}>
-            <mesh geometry={g} material={materials.full} onUpdate={(m) => m.layers.enable(PICKING_LAYER)} />
-            <mesh geometry={g} material={materials.dimmed} renderOrder={2} visible={anyDimmed} />
+          <group key={f} visible={f !== 'organi-donna' || state.body === 'donna'}>
+            <mesh
+              geometry={g}
+              material={materials.full}
+              visible={fullLayers.has(layerOf[f])}
+              onUpdate={(m) => m.layers.enable(PICKING_LAYER)}
+            />
+            <mesh geometry={g} material={materials.dimmed} renderOrder={2} visible={dimmedLayers.has(layerOf[f])} />
           </group>
         );
       })}
+      {vesselsWanted && (
+        <Suspense fallback={null}>
+          <Vessels
+            elements={byId}
+            units={units}
+            materials={materials}
+            showFull={fullLayers.has('vasi')}
+            showDimmed={dimmedLayers.has('vasi')}
+            onLoaded={onVesselsLoaded}
+          />
+        </Suspense>
+      )}
       {/* La pelle del modello è maschile: nel corpo femminile la sagoma non si mostra (D29). */}
       {skin && (
         <mesh geometry={skin} material={materials.skin} renderOrder={3} visible={state.skin && state.body === 'uomo'} />

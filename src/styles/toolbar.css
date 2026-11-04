@@ -106,6 +106,14 @@
   }
 }
 
+/* Con il segmento Vasi la barra non sta più su una riga attorno ai 1000 px: i comandi si stringono. */
+@media (min-width: 761px) and (max-width: 1180px) {
+  .layer,
+  .command {
+    padding-inline: 9px;
+  }
+}
+
 /* Su smartphone la pila è rovesciata: in basso, accanto al badge, resta il selettore del corpo,
    il riquadro più stretto, che non lo tocca neppure a 320 px. */
 @media (max-width: 760px) {

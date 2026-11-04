@@ -46,8 +46,8 @@ export interface Relation {
 /** Voce dell'indice: abbastanza per nome, termine e collegamento al modello 3D. */
 export interface StructureSummary {
   id: string;
-  tipo: 'organo' | 'osso' | 'muscolo';
-  strato: 'organi' | 'ossa' | 'muscoli';
+  tipo: 'organo' | 'osso' | 'muscolo' | 'vaso';
+  strato: 'organi' | 'ossa' | 'muscoli' | 'vasi';
   apparato: string;
   nomeApparato: string;
   nome: string;

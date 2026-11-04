@@ -11,7 +11,11 @@ const LAYER_COLORS: Record<ModelLayer, string> = {
   muscoli: '#a8574f',
   organi: '#b0897c',
   pelle: '#e4e0d8',
+  vasi: '#b8434b',
 };
+
+// Vasi (D44): gli stessi colori del sangue dello schema del ciclo cardiaco.
+const BLOOD_COLORS = { ricco: '#b8434b', povero: '#4362a8' };
 
 /**
  * Come appare un'unità: nascosta, attenuata (semitrasparente), piena o fantasma (semitrasparente
@@ -115,7 +119,7 @@ export function prepareLayer(
     parts.set(u, [...(parts.get(u) ?? []), g]);
     g.setAttribute('aUnit', new THREE.BufferAttribute(new Float32Array(n).fill(u.index), 1));
     g.setAttribute('aBeat', new THREE.BufferAttribute(new Uint8Array(n).fill(beat), 1));
-    color.set(ORGANS_BY_ID.get(u.id)?.color ?? LAYER_COLORS[el.strato]);
+    color.set(el.sangue ? BLOOD_COLORS[el.sangue] : (ORGANS_BY_ID.get(u.id)?.color ?? LAYER_COLORS[el.strato]));
     const col = new Float32Array(n * 3);
     for (let i = 0; i < n; i++) color.toArray(col, i * 3);
     g.setAttribute('color', new THREE.BufferAttribute(col, 3));
@@ -139,6 +143,7 @@ export function prepareLayer(
  * da un passo di percorso) sono piene solo quelle del fuoco, anche se stanno in uno strato
  * nascosto, e le altre degli strati visibili sono attenuate. Le unità degli strati di
  * contesto, fuori dal fuoco, sono fantasma. Gli organi dell'altro corpo (D29) restano nascosti.
+ * `alsoVisible` aggiunge agli strati visibili singole unità di altri strati.
  */
 export function unitStates(
   units: Map<string, SceneUnit>,
@@ -146,12 +151,13 @@ export function unitStates(
   focus: ReadonlySet<string> | null,
   ghost: readonly ModelLayer[] = [],
   body: BodyKind = 'uomo',
+  alsoVisible: readonly string[] = [],
 ) {
   const states = new Uint8Array(units.size + 1);
   for (const u of units.values()) {
     if (u.body && u.body !== body) continue;
     const rest = ghost.includes(u.layer) ? UNIT_GHOST : UNIT_HIDDEN;
-    const isVisible = visible.includes(u.layer);
+    const isVisible = visible.includes(u.layer) || alsoVisible.includes(u.id);
     if (!focus?.size) states[u.index] = isVisible ? UNIT_FULL : rest;
     else states[u.index] = focus.has(u.id) ? UNIT_FULL : isVisible ? UNIT_DIMMED : rest;
   }

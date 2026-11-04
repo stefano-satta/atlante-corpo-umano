@@ -1076,3 +1076,70 @@ villo:
     moltiplica la superficie che assorbe [@openstax-ap-23-5] [@openstax-ap-23-7].
   stato: approvato
   revisione: 2026-10-31
+
+# Voci aggiunte il 2026-11-04 per i vasi (D44), verificate su SEER e OpenStax 20.5; termini latini sui dati del
+# TA2 Viewer 2.07.
+arteria:
+  termine: arteria
+  varianti: [arterie]
+  latino: arteriae
+  ta2: 3896
+  definizione: >
+    Vaso che porta il sangue lontano dal cuore. La sua parete ha tre strati: tonaca intima, tonaca media,
+    in gran parte di muscolo liscio, e tonaca esterna [@seer-vasi-classificazione].
+  stato: approvato
+  revisione: 2026-11-04
+arteriola:
+  termine: arteriola
+  varianti: [arteriole]
+  latino: arteriola
+  ta2: 3900
+  definizione: >
+    Arteria microscopica, in cui finiscono le ramificazioni delle arterie. Le arteriole hanno un ruolo chiave nel
+    regolare il sangue che entra nei capillari [@seer-vasi-classificazione].
+  stato: approvato
+  revisione: 2026-11-04
+vena:
+  termine: vena
+  varianti: [vene]
+  latino: venae
+  ta2: 3904
+  definizione: >
+    Vaso che riporta il sangue verso il cuore. La parete ha gli stessi tre strati delle arterie ma è più sottile,
+    e in ogni momento le vene contengono quasi il 70% del sangue [@seer-vasi-classificazione].
+  stato: approvato
+  revisione: 2026-11-04
+venula:
+  termine: venula
+  varianti: [venule]
+  latino: venula
+  ta2: 3903
+  definizione: >
+    La più piccola delle vene: raccoglie il sangue che esce dai capillari e confluisce in vene via via più grandi
+    [@seer-vasi-classificazione] [@seer-vie-circolatorie].
+  stato: approvato
+  revisione: 2026-11-04
+valvola-venosa:
+  termine: valvola venosa
+  varianti: [valvole venose]
+  latino: valvula venosa
+  ta2: 3923
+  definizione: >
+    Valvola delle vene medie e grandi, simile alle valvole semilunari del cuore, che aiuta il sangue ad andare verso
+    il cuore. Conta soprattutto in braccia e gambe, dove contrasta la gravità [@seer-vasi-classificazione].
+  stato: approvato
+  revisione: 2026-11-04
+circolo-polmonare:
+  termine: circolo polmonare
+  definizione: >
+    Il percorso del sangue dal ventricolo destro ai polmoni, dove si carica di ossigeno, e di ritorno all'atrio
+    sinistro [@seer-vie-circolatorie].
+  stato: approvato
+  revisione: 2026-11-04
+circolo-sistemico:
+  termine: circolo sistemico
+  definizione: >
+    Il percorso del sangue dal ventricolo sinistro, attraverso le arterie, ai capillari di tutti i tessuti, e di
+    ritorno per le vene all'atrio destro [@seer-vie-circolatorie].
+  stato: approvato
+  revisione: 2026-11-04

@@ -29,7 +29,7 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     title: 'Strati e sagoma',
-    text: 'Qui scegli cosa vedere: a sinistra il corpo maschile o femminile, poi lo scheletro, gli organi (con le ossa in trasparenza) o i muscoli (tasti 1, 2 e 3). Sagoma mostra o nasconde la pelle, Vista iniziale riporta il corpo di fronte (tasto 0).',
+    text: 'Qui scegli cosa vedere: a sinistra il corpo maschile o femminile, poi lo scheletro, gli organi (con le ossa in trasparenza), i muscoli o i vasi sanguigni (tasti da 1 a 4). Sagoma mostra o nasconde la pelle, Vista iniziale riporta il corpo di fronte (tasto 0).',
     target: '.view-controls',
   },
   {

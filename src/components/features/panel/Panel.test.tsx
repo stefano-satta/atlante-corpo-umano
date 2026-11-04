@@ -51,6 +51,16 @@ beforeAll(() => {
     box,
     anchor,
   });
+  sceneApi.units.set('vaso-left-lacrimal-artery', {
+    index: 5,
+    id: 'vaso-left-lacrimal-artery',
+    layer: 'vasi',
+    body: null,
+    fmaName: 'Left lacrimal artery',
+    fma: null,
+    box,
+    anchor,
+  });
 });
 
 const open = (path: string) => {
@@ -109,6 +119,16 @@ describe('pannello della struttura selezionata', () => {
     expect(screen.getByRole('heading', { name: 'Right example muscle' })).toBeTruthy();
     expect(screen.getByText(/Nome provvisorio in inglese, da Z-Anatomy/)).toBeTruthy();
     expect(screen.queryByText(/Identificativo FMA/)).toBeNull();
+  });
+
+  it('nei vasi il link alla circolazione sta tra il testo e la linea di separazione', async () => {
+    open('/esplora/vaso-left-lacrimal-artery');
+    const text = await screen.findByText(/secondo ramo dell'arteria oftalmica/);
+    const link = screen.getByRole('link', { name: 'Come circola il sangue' });
+    const relations = document.querySelector('.relations');
+    expect(relations).toBeTruthy();
+    expect(text.compareDocumentPosition(link) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(link.compareDocumentPosition(relations as Node) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it('si allarga nella scheda e torna al cartellino riportando il fuoco sul pulsante', () => {

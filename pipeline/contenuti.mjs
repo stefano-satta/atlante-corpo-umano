@@ -14,7 +14,7 @@ import { Marked } from 'marked';
 import { parse as leggiYaml } from 'yaml';
 
 export const STATI = ['bozza', 'verificato', 'approvato'];
-const TIPI = { organo: 'organi', osso: 'ossa', muscolo: 'muscoli' };
+const TIPI = { organo: 'organi', osso: 'ossa', muscolo: 'muscoli', vaso: 'vasi' };
 const TIPI_RELAZIONE = ['fa-parte-di', 'collegato-a'];
 const TIPI_FONTE = ['istituzionale', 'manuale', 'terminologia'];
 
@@ -586,7 +586,8 @@ export function leggiModello(file) {
   return {
     gruppi: new Set(elementi.map((e) => e.gruppo).filter(Boolean)),
     fma: new Set(elementi.map((e) => e.fma).filter(Boolean)),
-    id: new Set(elementi.map((e) => e.id)),
+    // I vasi senza FMA (quelli di Z-Anatomy) si indicano con il gruppo, che riunisce i loro pezzi.
+    id: new Set(elementi.flatMap((e) => (e.strato === 'vasi' && e.gruppo ? [e.id, e.gruppo] : [e.id]))),
     // FMA → unità selezionabile: il gruppo per gli organi, l'elemento stesso per ossa e muscoli.
     unita: new Map(elementi.filter((e) => e.fma).map((e) => [e.fma, e.gruppo ?? e.id])),
   };

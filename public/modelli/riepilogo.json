@@ -3,6 +3,8 @@
   "ratioPelle": 0.05,
   "ratioPolmoni": 0.3,
   "ratioOcchi": 0.03,
+  "ratioVasi": 0.1,
+  "triangoliVasi": 500,
   "triangoliDonna": 3000,
   "triangoliMuscoli": 2000,
   "errore": 0.01,
@@ -36,6 +38,12 @@
       "triangoliPrima": 558714,
       "triangoliDopo": 16544,
       "kB": 67
+    },
+    "vasi": {
+      "strutture": 1162,
+      "triangoliPrima": 2901612,
+      "triangoliDopo": 292423,
+      "kB": 1998
     }
   }
 }

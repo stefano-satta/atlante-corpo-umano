@@ -5,7 +5,7 @@ import { closeTour } from '@/utils/tour';
 import { useAtlas } from './useAtlas';
 import { useReducedMotion } from './useReducedMotion';
 
-const LAYER_KEYS: Record<string, Layer> = { '1': 'scheletro', '2': 'organi', '3': 'muscoli' };
+const LAYER_KEYS: Record<string, Layer> = { '1': 'scheletro', '2': 'organi', '3': 'muscoli', '4': 'vasi' };
 // Direzione dello spostamento con Maiusc + frecce: il corpo segue la freccia.
 const PAN_KEYS: Record<string, [number, number]> = {
   ArrowLeft: [1, 0],
@@ -16,7 +16,7 @@ const PAN_KEYS: Record<string, [number, number]> = {
 const PAN_STEP = 0.06;
 
 /**
- * Comandi da tastiera (D11): frecce per ruotare, Maiusc + frecce per spostare, + e − per lo zoom, 1–3 per gli strati,
+ * Comandi da tastiera (D11): frecce per ruotare, Maiusc + frecce per spostare, + e − per lo zoom, 1–4 per gli strati,
  * 0 per la vista iniziale, Esc per chiudere scheda o cartellino, ? per la guida, / per la ricerca di Indice e Glossario.
  */
 export function useKeyboardShortcuts() {

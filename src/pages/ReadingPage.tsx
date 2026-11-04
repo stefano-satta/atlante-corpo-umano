@@ -1,4 +1,5 @@
 import type { PageId } from '@/models/atlas';
+import { PAGE_TITLES } from '@/utils/pages';
 import { GlossaryPage } from './GlossaryPage';
 import { IndexPage } from './IndexPage';
 import { InfoPage } from './InfoPage';
@@ -11,5 +12,6 @@ export function ReadingPage({ page }: { page: PageId }) {
   if (page === 'indice') return <IndexPage />;
   if (page === 'glossario') return <GlossaryPage />;
   if (page === 'fonti') return <SourcesPage />;
+  if (page === 'circolazione') return <InfoPage id="circolazione" title={PAGE_TITLES.circolazione} />;
   return <InfoPage />;
 }

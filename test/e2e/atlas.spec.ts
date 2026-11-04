@@ -390,10 +390,10 @@ test("l'Indice cerca le strutture e le mostra nel corpo", async ({ page }) => {
   await page.keyboard.press('/');
   await expect(page.getByRole('searchbox', { name: "Cerca nell'atlante" })).toBeFocused();
 
-  await page.getByRole('searchbox', { name: "Cerca nell'atlante" }).fill('pulm');
+  await page.getByRole('searchbox', { name: "Cerca nell'atlante" }).fill('hepar');
   await expect(page.getByRole('status').filter({ hasText: 'risultat' })).toHaveText('1 risultato');
-  await expect(page).toHaveURL(/\/indice\?q=pulm$/);
-  await expect(page.locator('mark', { hasText: 'Pulm' })).toBeVisible();
+  await expect(page).toHaveURL(/\/indice\?q=hepar$/);
+  await expect(page.locator('mark', { hasText: 'hepar' })).toBeVisible();
   await page.getByRole('searchbox').fill('xyz');
   await expect(page.getByText(/Nessun risultato per «xyz»/)).toBeVisible();
   await page.getByRole('searchbox').fill('polmon');
@@ -480,4 +480,28 @@ test('senza WebGL si apre la versione testuale con Indice, schede e percorso', a
   await page.getByRole('button', { name: 'Avanti' }).click();
   await expect(page.getByRole('heading', { name: "Le vie dell'aria" })).toBeVisible();
   await checkAccessibility(page);
+});
+
+test('lo strato dei vasi si scarica solo quando si apre, e un vaso si apre dal suo indirizzo', async ({ page }) => {
+  const scaricati: string[] = [];
+  page.on('request', (r) => scaricati.push(r.url()));
+  await page.goto('/esplora');
+  await expect(page.getByRole('radio', { name: 'Vasi' })).toBeVisible();
+  await expect(page.locator('.loading')).toBeHidden({ timeout: 45_000 });
+  expect(scaricati.some((u) => u.endsWith('/vasi.glb'))).toBe(false);
+
+  await page.getByRole('radio', { name: 'Vasi' }).click();
+  await expect.poll(() => scaricati.some((u) => u.endsWith('/vasi.glb'))).toBe(true);
+  await expect(page.getByRole('radio', { name: 'Vasi' })).toHaveAttribute('aria-checked', 'true');
+
+  await page.goto('/esplora/vaso-left-femoral-artery');
+  const cartellino = page.getByRole('complementary', { name: 'Struttura selezionata' });
+  await expect(cartellino.getByRole('heading', { name: 'Arteria femorale' })).toBeVisible({ timeout: 45_000 });
+  await expect(page.getByRole('radio', { name: 'Vasi' })).toHaveAttribute('aria-checked', 'true');
+  await checkAccessibility(page);
+
+  // Un vaso solo maschile porta al corpo maschile anche partendo da quello femminile.
+  await page.getByRole('radio', { name: 'Donna' }).click();
+  await page.goto('/esplora/vaso-uomo-left-testicular-artery');
+  await expect(page.getByRole('radio', { name: 'Uomo' })).toHaveAttribute('aria-checked', 'true');
 });

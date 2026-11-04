@@ -5,6 +5,7 @@ const LAYERS: Array<{ id: Layer; name: string; short: string }> = [
   { id: 'scheletro', name: 'Scheletro', short: 'Ossa' },
   { id: 'organi', name: 'Organi', short: 'Organi' },
   { id: 'muscoli', name: 'Muscoli', short: 'Muscoli' },
+  { id: 'vasi', name: 'Vasi', short: 'Vasi' },
 ];
 
 /** Selettore dello strato visibile, in un riquadro separato dalla barra dei comandi. */

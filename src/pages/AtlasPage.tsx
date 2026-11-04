@@ -11,6 +11,7 @@ import { Tour } from '@/components/features/tour/Tour';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useOpenGuidedPath, useSelectedStructure } from '@/hooks/useSelectedStructure';
+import { needsVessels } from '@/utils/atlasReducer';
 import { ORGANS_BY_ID } from '@/utils/organs';
 import { HomePage } from './HomePage';
 
@@ -23,6 +24,8 @@ export function AtlasPage() {
   const { state } = useAtlas();
   const [ready, setReady] = useState(false);
   const onReady = useCallback(() => setReady(true), []);
+  const [vesselsLoaded, setVesselsLoaded] = useState(false);
+  const onVesselsLoaded = useCallback(() => setVesselsLoaded(true), []);
   useKeyboardShortcuts();
 
   // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta.
@@ -47,12 +50,24 @@ export function AtlasPage() {
           Sotto la soglia la scena continua a disegnare: il corpo si carica e gira dietro il testo. */}
       <div className="view" inert={!!state.page || state.home}>
         <Suspense fallback={null}>
-          <Scene ready={ready} onReady={onReady} active={!state.page} />
+          <Scene
+            ready={ready}
+            onReady={onReady}
+            active={!state.page}
+            vesselsLoaded={vesselsLoaded}
+            onVesselsLoaded={onVesselsLoaded}
+          />
         </Suspense>
         <TopBar />
         {!ready && !state.home && (
           <div className="loading" role="status">
             <span>Caricamento del modello 3D</span>
+            <LoadingBar />
+          </div>
+        )}
+        {ready && !vesselsLoaded && needsVessels(state.layer, state.selection) && (
+          <div className="loading" role="status">
+            <span>Caricamento dei vasi sanguigni</span>
             <LoadingBar />
           </div>
         )}
@@ -69,8 +84,8 @@ export function AtlasPage() {
           <p>Versione in sviluppo: alcuni nomi e testi sono in preparazione.</p>
           <p>
             Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni, tiroide, paratiroidi,
-            parotidi e 37 muscoli: Z-Anatomy, CC BY-SA 4.0; organi femminili: Human Reference Atlas, CC BY 4.0. Modelli
-            derivati CC BY-SA 4.0.
+            parotidi, 37 muscoli e parte dei vasi: Z-Anatomy, CC BY-SA 4.0; organi femminili: Human Reference Atlas, CC
+            BY 4.0. Modelli derivati CC BY-SA 4.0.
           </p>
         </footer>
         <p className="visually-hidden" aria-live="polite">

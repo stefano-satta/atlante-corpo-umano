@@ -5,9 +5,9 @@ import { ReadingLayout } from '@/components/features/layout/ReadingLayout';
 import { usePage } from '@/hooks/useContent';
 import { formatLongDate } from '@/utils/format';
 
-/** Pagina Informazioni: testo editoriale dai contenuti (contenuti/pagine/informazioni.md). */
-export function InfoPage() {
-  const { data: page, error } = usePage('informazioni');
+/** Pagina con un testo editoriale dai contenuti (contenuti/pagine/): Informazioni, se non è indicata un'altra. */
+export function InfoPage({ id = 'informazioni', title = 'Informazioni' }: { id?: string; title?: string }) {
+  const { data: page, error } = usePage(id);
 
   let content: ReactNode;
   if (error) content = <p className="notice">Non è stato possibile caricare la pagina.</p>;
@@ -21,5 +21,5 @@ export function InfoPage() {
       </>
     );
 
-  return <ReadingLayout title="Informazioni">{content}</ReadingLayout>;
+  return <ReadingLayout title={title}>{content}</ReadingLayout>;
 }

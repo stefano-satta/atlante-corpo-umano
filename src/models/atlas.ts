@@ -1,7 +1,7 @@
 // Stato dell'atlante: cosa si vede, cosa è selezionato e quale lettura è aperta.
 
 /** Strato mostrato dalla barra dei comandi. I valori sono quelli dei passi di percorso nei contenuti. */
-export type Layer = 'muscoli' | 'organi' | 'scheletro';
+export type Layer = 'muscoli' | 'organi' | 'scheletro' | 'vasi';
 
 /**
  * Corpo mostrato (D29): gli organi comuni sono quelli di BodyParts3D; il corpo femminile aggiunge
@@ -10,7 +10,7 @@ export type Layer = 'muscoli' | 'organi' | 'scheletro';
 export type BodyKind = 'uomo' | 'donna';
 
 /** Pagina di lettura; il valore è anche il suo indirizzo (`/indice`, `/glossario`, `/fonti`, `/informazioni`). */
-export type PageId = 'percorsi' | 'indice' | 'glossario' | 'fonti' | 'informazioni';
+export type PageId = 'percorsi' | 'indice' | 'glossario' | 'fonti' | 'informazioni' | 'circolazione';
 
 export interface ActiveGuidedPath {
   id: string;

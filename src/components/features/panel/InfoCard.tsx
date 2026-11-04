@@ -9,6 +9,7 @@ import {
   SoundOffIcon,
 } from '@/components/common/Icons';
 import { LatinTerm } from '@/components/common/LatinTerm';
+import { PageLink } from '@/components/common/PageLink';
 import { SourceList } from '@/components/common/SourceList';
 import { RichText } from '@/components/features/glossary/RichText';
 import { useAtlas } from '@/hooks/useAtlas';
@@ -112,9 +113,8 @@ export function InfoCard({ unit }: { unit: SceneUnit }) {
         </p>
       ) : (
         <p className="provisional">
-          Nome provvisorio in inglese,{' '}
-          {unit.id.startsWith('ZA-') ? 'da Z-Anatomy' : 'dalla Foundational Model of Anatomy'}. Il nome italiano
-          verificato è in preparazione.
+          Nome provvisorio in inglese, {unit.fma ? 'dalla Foundational Model of Anatomy' : 'da Z-Anatomy'}. Il nome
+          italiano verificato è in preparazione.
         </p>
       )}
       {entry && <DraftNotice status={entry.stato} />}
@@ -123,6 +123,11 @@ export function InfoCard({ unit }: { unit: SceneUnit }) {
       {structure && summary ? (
         <>
           <RichText className="text" html={summary.html} />
+          {unit.layer === 'vasi' && (
+            <p className="text">
+              <PageLink page="circolazione">Come circola il sangue</PageLink>
+            </p>
+          )}
           <Relations structure={structure} />
         </>
       ) : entry && !error ? (

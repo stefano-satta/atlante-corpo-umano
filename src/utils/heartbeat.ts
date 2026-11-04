@@ -8,6 +8,10 @@ export const BEAT_NONE = 0;
 export const BEAT_LEFT_ATRIUM = 1;
 export const BEAT_RIGHT_ATRIUM = 2;
 export const BEAT_VENTRICLES = 3;
+/** Radici dei grandi vasi: seguono ventricoli o atri e il movimento si spegne allontanandosi dal cuore. */
+export const BEAT_ROOT_VENTRICLES = 4;
+export const BEAT_ROOT_LEFT_ATRIUM = 5;
+export const BEAT_ROOT_RIGHT_ATRIUM = 6;
 
 /** Durata di un battito, in secondi. */
 export const BEAT_PERIOD = 1.1;
@@ -19,10 +23,25 @@ export const BEAT_FADE = 0.4;
  * ("Wall of ventricle"): tutto ciò che non è un atrio segue i ventricoli.
  */
 export function heartbeatPart(unitId: string, fmaName: string) {
+  if (unitId.startsWith('vaso-')) return vesselBeatPart(fmaName);
   if (unitId !== 'cuore') return BEAT_NONE;
   if (fmaName === 'Wall of left atrium') return BEAT_LEFT_ATRIUM;
   if (fmaName === 'Wall of right atrium') return BEAT_RIGHT_ATRIUM;
   return BEAT_VENTRICLES;
+}
+
+/** I vasi sulla parete del cuore la seguono (D44); ai grandi vasi si muove solo la radice, così non si staccano. */
+function vesselBeatPart(fmaName: string) {
+  if (
+    /coronary|cardiac vein|interventricular|marginal (vein|branch)|of left ventricle|anterior ventricular/i.test(
+      fmaName,
+    )
+  )
+    return BEAT_VENTRICLES;
+  if (/^(Ascending aorta|Pulmonary trunk)$/.test(fmaName)) return BEAT_ROOT_VENTRICLES;
+  if (/pulmonary vein$/.test(fmaName)) return BEAT_ROOT_LEFT_ATRIUM;
+  if (/^(Superior|Inferior) vena cava$/.test(fmaName)) return BEAT_ROOT_RIGHT_ATRIUM;
+  return BEAT_NONE;
 }
 
 /** Le pareti danno il centro di ogni camera; papillari e valvole no, perché lo sposterebbero. */
@@ -50,6 +69,12 @@ vec3 beat(vec3 p) {
   float c;
   if (aBeat < 1.5) { o = uBeatPivots[0]; c = 0.05 * beatPulse(t, 0.0, 0.18); }
   else if (aBeat < 2.5) { o = uBeatPivots[1]; c = 0.05 * beatPulse(t, 0.0, 0.18); }
-  else { o = uBeatPivots[2]; c = 0.08 * beatPulse(t, 0.16, 0.52); }
+  else if (aBeat < 3.5) { o = uBeatPivots[2]; c = 0.08 * beatPulse(t, 0.16, 0.52); }
+  else {
+    if (aBeat < 4.5) { o = uBeatPivots[2]; c = 0.08 * beatPulse(t, 0.16, 0.52); }
+    else if (aBeat < 5.5) { o = uBeatPivots[0]; c = 0.05 * beatPulse(t, 0.0, 0.18); }
+    else { o = uBeatPivots[1]; c = 0.05 * beatPulse(t, 0.0, 0.18); }
+    c *= 1.0 - smoothstep(0.03, 0.09, distance(p, o));
+  }
   return o + (p - o) * (1.0 - uBeatAmount * c);
 }`;

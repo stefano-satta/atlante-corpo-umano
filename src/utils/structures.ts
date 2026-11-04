@@ -3,7 +3,7 @@ import { STRUCTURES } from './content';
 import { BODY_SYSTEM_NAMES, ORGANS_BY_ID } from './organs';
 import { sceneApi } from './sceneApi';
 
-const PART_OF = { ossa: 'Scheletro', muscoli: 'Sistema muscolare' } as const;
+const PART_OF = { ossa: 'Scheletro', muscoli: 'Sistema muscolare', vasi: BODY_SYSTEM_NAMES.cardiovascolare } as const;
 
 /** Appartenenza mostrata per le strutture che non hanno ancora un contenuto. */
 export function membershipLabel(unit: SceneUnit) {
