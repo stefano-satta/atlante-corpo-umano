@@ -6,12 +6,13 @@
 //   virtual:contenuti/pagina/<id>        pagine editoriali (Informazioni)
 //   virtual:contenuti/percorso/<id>      percorsi guidati, come "Un respiro" (caricati su richiesta)
 //   virtual:contenuti/glossario          definizioni del glossario (caricate su richiesta)
+//   virtual:contenuti/modello            unità del modello 3D da conoscere prima di scaricare la scena
 //
 // In produzione entrano solo i contenuti "approvato" (D17); con ATLANTE_BOZZE=1, e sempre
 // in sviluppo, entrano anche bozze e testi verificati, segnalati nell'interfaccia.
 
 import path from 'node:path';
-import { leggiContenuti, leggiModello } from './contenuti.mjs';
+import { indiceModello, leggiContenuti, leggiModello } from './contenuti.mjs';
 
 const PREFISSO = 'virtual:contenuti';
 
@@ -96,6 +97,10 @@ export function contenuti({ radice = process.cwd() } = {}) {
           `export const caricaGlossario = () => import(${JSON.stringify(`${PREFISSO}/glossario`)});`,
           `export const caricaFonti = () => import(${JSON.stringify(`${PREFISSO}/fonti`)});`,
         ].join('\n');
+      }
+      if (percorso === '/modello') {
+        const { vasi, corpi } = indiceModello(fileModello);
+        return `export const UNITA_VASI = ${JSON.stringify(vasi)};\nexport const CORPO_UNITA = ${JSON.stringify(corpi)};`;
       }
       if (percorso === '/fonti') return `export default ${JSON.stringify(d.fonti)};`;
       if (percorso === '/glossario') return `export default ${JSON.stringify(d.glossario)};`;

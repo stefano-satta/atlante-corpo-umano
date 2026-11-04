@@ -20,7 +20,14 @@
 @import "./visual-system.css";
 @import "./hearing-system.css";
 @import "./guided-path.css";
-@import "./digestion.css";
+@import "./digestion/common.css";
+@import "./digestion/tract.css";
+@import "./digestion/mouth-swallow.css";
+@import "./digestion/stomach-duodenum.css";
+@import "./digestion/villus.css";
+@import "./digestion/colon.css";
+@import "./digestion/rectum.css";
+@import "./teeth.css";
 @import "./home.css";
 @import "./tour.css";
 @import "./atlas-index.css";

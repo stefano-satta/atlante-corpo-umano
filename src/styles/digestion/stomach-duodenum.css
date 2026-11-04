@@ -1,0 +1,160 @@
+/* 4 · Stomaco */
+.stomach-diagram .esophagus,
+.stomach-diagram .duodenum,
+.duodenum-diagram .duodenum,
+.duodenum-diagram .jejunum {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.duodenum-diagram .duodenum,
+.duodenum-diagram .jejunum {
+  stroke-width: 22;
+}
+.stomach-diagram .chyme-fill,
+.swatch.chyme {
+  fill: var(--chyme);
+  background: var(--chyme);
+}
+.stomach-diagram .rugae path {
+  fill: none;
+  stroke: var(--room);
+  stroke-width: 2;
+  opacity: 0.25;
+}
+.stomach-diagram .mucus {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 3;
+  stroke-dasharray: 1 5;
+  stroke-linecap: round;
+  opacity: 0.6;
+}
+.stomach-diagram .acid circle,
+.swatch.acid {
+  fill: var(--acid);
+  background: var(--acid);
+}
+.stomach-diagram .waves path {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 10;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+.stomach-diagram .wave-direction,
+.stomach-diagram .return-arrow {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2;
+  stroke-dasharray: 5 5;
+}
+.stomach-diagram .squirt circle {
+  fill: var(--chyme);
+  stroke: var(--slide);
+  stroke-width: 1;
+}
+
+/* 5 · Duodeno */
+.duodenum-diagram .chyme-line {
+  fill: none;
+  stroke: var(--acid);
+  stroke-width: 10;
+  stroke-linecap: round;
+  transition:
+    stroke-dasharray 1400ms cubic-bezier(0.45, 0, 0.25, 1),
+    stroke 800ms ease-out;
+}
+.duodenum-diagram .duct {
+  fill: none;
+  stroke: var(--room-text);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.45;
+}
+.duodenum-diagram .flow {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 5 5;
+}
+.duodenum-diagram .bile-flow,
+.swatch.bile {
+  stroke: var(--bile);
+  background: var(--bile);
+}
+.duodenum-diagram .juice-flow,
+.swatch.juice {
+  stroke: var(--juice);
+  background: var(--juice);
+}
+.duodenum-diagram .gallbladder-wrap {
+  transform-box: fill-box;
+  transform-origin: 50% 30%;
+  transition: transform 700ms var(--ease-out);
+}
+.duodenum-diagram .hormone {
+  fill: none;
+  stroke: var(--hormone);
+  stroke-width: 2;
+  stroke-dasharray: 2 5;
+  stroke-linecap: round;
+}
+.duodenum-diagram .hormone-head,
+.swatch.hormone {
+  fill: var(--hormone);
+  background: var(--hormone);
+}
+.duodenum-diagram .fat circle,
+.swatch.fat {
+  fill: var(--lymph);
+  background: var(--lymph);
+}
+.duodenum-diagram .fat g {
+  transition: opacity 600ms ease-out;
+}
+.stomach-diagram .chyme-fill[data-visible="true"] {
+  opacity: 0.75;
+}
+.cycle-diagram[data-playing="true"] .stomach-diagram .acid circle {
+  animation: digestion-pulse 1100ms ease-in-out infinite;
+}
+.cycle-diagram[data-playing="true"] .stomach-diagram .waves path {
+  animation: digestion-wave 2000ms ease-in-out infinite;
+}
+.stomach-diagram .waves path:nth-child(2) {
+  animation-delay: 400ms;
+}
+.stomach-diagram .waves path:nth-child(3) {
+  animation-delay: 800ms;
+}
+.stomach-diagram .waves path:nth-child(4) {
+  animation-delay: 1200ms;
+}
+.stomach-diagram .sphincter[data-open="true"] path:first-child,
+.duodenum-diagram .sphincter[data-open="true"] path:first-child {
+  transform: translateY(-4px);
+}
+.stomach-diagram .sphincter[data-open="true"] path:last-child,
+.duodenum-diagram .sphincter[data-open="true"] path:last-child {
+  transform: translateY(4px);
+}
+.duodenum-diagram .chyme-line[data-neutral="true"] {
+  stroke: var(--chyme);
+}
+.cycle-diagram[data-playing="true"] .duodenum-diagram .flow {
+  animation: flow-dash 900ms linear infinite;
+}
+.duodenum-diagram .gallbladder-wrap[data-contracted="true"] {
+  transform: scale(0.84);
+}
+.duodenum-diagram .fat .drops-small,
+.duodenum-diagram .fat[data-split="true"] .drops-big {
+  opacity: 0;
+}
+.duodenum-diagram .fat[data-split="true"] .drops-small {
+  opacity: 1;
+}

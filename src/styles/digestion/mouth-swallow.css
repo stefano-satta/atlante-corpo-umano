@@ -1,0 +1,165 @@
+/* 2 · Bocca */
+.swallow-diagram .tooth {
+  fill: #f1ece2;
+}
+.mouth-diagram .lip,
+.swallow-diagram .lip {
+  fill: none;
+  stroke: var(--tissue-strong);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.mouth-diagram .teeth rect {
+  fill: #f1ece2;
+  stroke: var(--room);
+  stroke-width: 1;
+}
+.mouth-diagram .tongue path,
+.swallow-diagram .tongue path {
+  fill: var(--tissue-strong);
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.mouth-diagram .jaw,
+.mouth-diagram .tongue,
+.swallow-diagram .tongue,
+.swallow-diagram .soft-palate,
+.swallow-diagram .larynx,
+.swallow-diagram .epiglottis,
+.mouth-diagram .soft-palate {
+  transform-box: view-box;
+  transition: transform 900ms cubic-bezier(0.45, 0, 0.25, 1);
+}
+.mouth-diagram .jaw {
+  transform-origin: 228px 100px;
+}
+.mouth-diagram .tongue {
+  transform-origin: 200px 200px;
+}
+.mouth-diagram .duct {
+  fill: none;
+  stroke: var(--gland);
+  stroke-width: 2;
+  opacity: 0.6;
+}
+.mouth-diagram .saliva-head,
+.swatch.saliva {
+  fill: var(--saliva);
+  background: var(--saliva);
+}
+.mouth-diagram .saliva-drops circle {
+  fill: var(--saliva);
+  opacity: 0;
+  transition: opacity 500ms ease-out;
+}
+
+/* 3 · Deglutizione */
+.swallow-diagram .air-flow {
+  fill: none;
+  stroke: var(--air);
+  stroke-width: 2;
+  stroke-dasharray: 4 6;
+  opacity: 0.7;
+  transition: opacity 400ms ease-out;
+}
+.swatch.air {
+  background: var(--air);
+}
+.swallow-diagram .breath-stop {
+  opacity: 0;
+  transition: opacity 400ms ease-out;
+}
+.swallow-diagram .labels .breath-stop {
+  fill: var(--air);
+  font-size: 12px;
+}
+.swallow-diagram .soft-palate {
+  transform-origin: 196px 96px;
+}
+.swallow-diagram .tongue {
+  transform-origin: 140px 200px;
+}
+.swallow-diagram .cartilage {
+  stroke: var(--bone);
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+.swallow-diagram .epiglottis {
+  fill: none;
+  stroke: var(--bone);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transform-origin: 220px 220px;
+}
+.swallow-diagram .trachea {
+  stroke: rgb(207 196 182 / 0.35);
+  stroke-width: 20;
+}
+.swallow-diagram .trachea-rings path {
+  stroke: var(--bone);
+  stroke-width: 2;
+  opacity: 0.6;
+}
+.swallow-diagram .esophagus {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 22;
+  stroke-linecap: round;
+}
+.swallow-diagram .peristalsis path {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.swallow-diagram .peristalsis .push {
+  stroke: var(--slide);
+  stroke-width: 2;
+}
+.mouth-diagram[data-phase="masticazione"] .jaw {
+  transform: rotate(4deg);
+}
+.mouth-diagram[data-phase="masticazione"][data-moving="true"] .jaw {
+  animation: digestion-chew 900ms ease-in-out infinite;
+}
+.mouth-diagram[data-phase="bolo"] .tongue {
+  transform: translate(2px, -6px) rotate(-3deg);
+}
+.mouth-diagram[data-phase="saliva"] .duct {
+  stroke: var(--saliva);
+  opacity: 1;
+  stroke-dasharray: 5 5;
+}
+.mouth-diagram[data-phase="saliva"][data-moving="true"] .duct {
+  animation: flow-dash 900ms linear infinite;
+}
+.mouth-diagram[data-phase="saliva"] .saliva-drops circle {
+  opacity: 0.9;
+}
+.swallow-diagram[data-phase="faringea"] .air-flow {
+  opacity: 0;
+}
+.swallow-diagram[data-phase="faringea"] .breath-stop {
+  opacity: 1;
+}
+.swallow-diagram[data-phase="faringea"] .soft-palate {
+  transform: rotate(-26deg);
+}
+.swallow-diagram[data-phase="volontaria"] .tongue {
+  transform: translate(6px, -8px) rotate(-2deg);
+}
+.swallow-diagram[data-phase="faringea"] .larynx {
+  transform: translateY(-8px);
+}
+.swallow-diagram[data-phase="faringea"] .epiglottis {
+  transform: rotate(-112deg);
+}
+.swallow-diagram .sphincter[data-open="true"] path:first-child {
+  transform: translateX(-4px);
+}
+.swallow-diagram .sphincter[data-open="true"] path:last-child {
+  transform: translateX(4px);
+}
+.swallow-diagram .peristalsis[data-visible="false"] {
+  opacity: 0;
+}

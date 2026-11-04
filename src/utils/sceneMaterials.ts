@@ -13,6 +13,9 @@ export const bodyUniforms = {
   uBeatPivots: { value: [new THREE.Vector3(), new THREE.Vector3(), new THREE.Vector3()] },
 };
 
+/** Livello della telecamera con le sole mesh che si possono scegliere col puntatore. */
+export const PICKING_LAYER = 1;
+
 /** Aggiorna gli stati delle unità letti dagli shader. */
 export function setUnitStates(states: Uint8Array) {
   const t = bodyUniforms.uStates.value;

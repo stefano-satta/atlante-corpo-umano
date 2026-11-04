@@ -1,5 +1,3 @@
-import type { BodyKind } from './atlas';
-
 export type BodySystem =
   | 'cardiovascolare'
   | 'nervoso'
@@ -20,6 +18,4 @@ export interface Organ {
   latinTerm: string;
   system: BodySystem;
   color: string;
-  /** Corpo in cui l'organo si vede, se non è comune ai due (D29). */
-  body?: BodyKind;
 }

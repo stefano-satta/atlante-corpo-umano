@@ -34,12 +34,12 @@ Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `pub
 
 `contenuti/` contiene i testi: `strutture/*.md`, `processi/`, `percorsi/` e `pagine/` (Markdown con intestazione YAML), insieme a `fonti.yaml`, `riferimenti.yaml` e `glossario.yaml`.
 
-- **Compilazione:** in build, `pipeline/contenuti.mjs` li legge, li controlla e li compila in HTML (con `marked` e `yaml`, che non arrivano mai nel sito). La build si ferma su:
+- **Compilazione:** in build, `pipeline/contenuti.mjs` coordina la lettura, il controllo e la compilazione in HTML (con `marked` e `yaml`, che non arrivano mai nel sito). In `pipeline/contenuti/` stanno i valori ammessi (`regole.mjs`), gli strumenti per i testi (`testo.mjs`) e un modulo per tipo di contenuto. La build si ferma su:
   - citazioni `[@id-fonte]` senza fonte e paragrafi senza citazione;
   - relazioni verso strutture sconosciute;
   - elementi 3D assenti da `public/modelli/strutture.json`;
   - voci del glossario sconosciute.
-- **Plugin Vite:** `pipeline/plugin-contenuti.mjs` (usato anche da Vitest) espone moduli virtuali. `virtual:contenuti` è un indice leggero con i caricatori; `virtual:contenuti/struttura/<id>`, `/fonti`, `/pagina/<id>`, `/percorso/<id>` e `/glossario` si caricano su richiesta. I tipi sono in `src/models/virtual-content.d.ts` e `src/models/content.ts`; l'accesso passa da `src/utils/content.ts` e dall'hook `useContent`.
+- **Plugin Vite:** `pipeline/plugin-contenuti.mjs` (usato anche da Vitest) espone moduli virtuali. `virtual:contenuti` è un indice leggero con i caricatori; `virtual:contenuti/struttura/<id>`, `/fonti`, `/pagina/<id>`, `/percorso/<id>` e `/glossario` si caricano su richiesta. `virtual:contenuti/modello` dice quali unità sono vasi e quali stanno in un solo corpo, prima che la scena sia scaricata (`utils/modelIndex.ts`): non si deduce dalla forma degli id. I tipi sono in `src/models/virtual-content.d.ts` e `src/models/content.ts`; l'accesso passa da `src/utils/content.ts` e dall'hook `useContent`.
 - **Stati** `bozza` → `verificato` → `approvato`: in produzione entra solo `approvato`, in `serve` o con `ATLANTE_BOZZE=1` entra tutto. `senzaVociMancanti` trasforma in testo semplice i link a voci del glossario non pubblicate.
 - **Glossario:** nei testi si scrive `[[parola mostrata|id-voce]]`, che diventa `<a class="glossary-term" data-term="id">`. `components/features/glossary/RichText.tsx` intercetta il clic e apre `GlossaryDefinition.tsx`; "Tutto il glossario" porta a `/glossario#glossario-<voce>` (`utils/glossaryRequest.ts`).
 
@@ -72,7 +72,7 @@ Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPag
 
 ### Scena 3D
 
-`components/features/scene/` è il motore 3D (three.js, R3F, camera-controls). `AtlasPage` lo carica con `lazy()` in un pacchetto separato: l'interfaccia deve restare leggera e non deve importarlo.
+`components/features/scene/` è il motore 3D (three.js, R3F, camera-controls). `AtlasPage` lo carica con `lazy()` in un pacchetto separato: l'interfaccia deve restare leggera e non deve importarlo. Solo la scena usa gli hook `useBodyModel`, `useUnitVisibility`, `useUnitPicking` e `useHeartbeatAnimation`, che importano three.js: non vanno usati dall'interfaccia.
 
 - **Accesso dalla UI:** `utils/sceneApi.ts` (`sceneApi`, `resetView`, `INITIAL_TARGET`/`INITIAL_POSITION`) dà accesso alla telecamera senza React.
 - **Inquadrature:** `CameraDirector` in `Scene.tsx` gestisce telecamera e offset focale per selezione, percorso e soglia; `CalloutTracker` aggiorna la linea di richiamo verso il cartellino.
@@ -81,8 +81,10 @@ Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPag
 
 ### Interfaccia
 
+- **Schemi delle schede:** `components/features/panel/schemaRegistry.tsx` associa ogni schema di processo e ogni figura al suo disegno e al suo apparato. Un nuovo schema si aggiunge lì e in `pipeline/contenuti/regole.mjs`: il tipo e un test controllano che i due elenchi coincidano.
 - **Versione solo testo:** senza WebGL 2 (`utils/webgl.ts`), `App.tsx` mostra `TextOnlyAtlasPage`, che usa gli stessi componenti con `TextOnlyContext` (D26).
 - **Tour:** ricordato in `localStorage` (`atlante.tour`, `utils/tour.ts`).
+- **Viaggio del cibo:** un file per schema in `components/features/guided-path/digestion/` (registro in `diagrams.ts`), stili in `styles/digestion/`, con le regole comuni in `common.css`.
 - **Stili:** token su `:root` in `styles/tokens.css`. La direzione visiva "Istologia" (D16) usa colori come `--eosin`, `--nucleus`, `--slide`, `--room` e `--ink`, con i caratteri Bricolage Grotesque e Atkinson Hyperlegible Next.
 
 ### Test

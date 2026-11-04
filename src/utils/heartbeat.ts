@@ -3,6 +3,8 @@
 // i ventricoli; muscoli papillari e valvole seguono i ventricoli. Lo spostamento si calcola nel
 // vertex shader, così ogni fotogramma aggiorna solo due uniform.
 
+import type { ModelLayer } from '@/models/scene';
+
 /** Parte del cuore di un vertice, nell'attributo aBeat: 0 nessuna. */
 export const BEAT_NONE = 0;
 export const BEAT_LEFT_ATRIUM = 1;
@@ -22,8 +24,8 @@ export const BEAT_FADE = 0.4;
  * Parte del cuore di un elemento del modello. Nel modello i due ventricoli sono una sola parete
  * ("Wall of ventricle"): tutto ciò che non è un atrio segue i ventricoli.
  */
-export function heartbeatPart(unitId: string, fmaName: string) {
-  if (unitId.startsWith('vaso-')) return vesselBeatPart(fmaName);
+export function heartbeatPart(layer: ModelLayer, unitId: string, fmaName: string) {
+  if (layer === 'vasi') return vesselBeatPart(fmaName);
   if (unitId !== 'cuore') return BEAT_NONE;
   if (fmaName === 'Wall of left atrium') return BEAT_LEFT_ATRIUM;
   if (fmaName === 'Wall of right atrium') return BEAT_RIGHT_ATRIUM;

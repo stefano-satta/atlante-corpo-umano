@@ -48,7 +48,6 @@ export const ORGANS: Organ[] = [
     latinTerm: 'urethra masculina',
     system: 'urinario',
     color: '#d6bcae',
-    body: 'uomo',
   },
   // Apparato genitale maschile (BodyParts3D riproduce un corpo maschile): toni carne e ocra, distinti da vescica e reni.
   {
@@ -56,7 +55,6 @@ export const ORGANS: Organ[] = [
     name: 'Testicoli',
     latinTerm: 'testis',
     system: 'genitale-maschile',
-    body: 'uomo',
     color: '#d2b4a2',
   },
   {
@@ -64,7 +62,6 @@ export const ORGANS: Organ[] = [
     name: 'Epididimi',
     latinTerm: 'epididymis',
     system: 'genitale-maschile',
-    body: 'uomo',
     color: '#a9786a',
   },
   {
@@ -72,7 +69,6 @@ export const ORGANS: Organ[] = [
     name: 'Dotti deferenti',
     latinTerm: 'ductus deferens',
     system: 'genitale-maschile',
-    body: 'uomo',
     color: '#d9c4ae',
   },
   {
@@ -80,7 +76,6 @@ export const ORGANS: Organ[] = [
     name: 'Vescichette seminali',
     latinTerm: 'glandula seminalis',
     system: 'genitale-maschile',
-    body: 'uomo',
     color: '#bf9f7e',
   },
   {
@@ -88,29 +83,26 @@ export const ORGANS: Organ[] = [
     name: 'Prostata',
     latinTerm: 'prostata',
     system: 'genitale-maschile',
-    body: 'uomo',
     color: '#a26c62',
   },
-  { id: 'pene', name: 'Pene', latinTerm: 'penis', system: 'genitale-maschile', body: 'uomo', color: '#b98a7c' },
+  { id: 'pene', name: 'Pene', latinTerm: 'penis', system: 'genitale-maschile', color: '#b98a7c' },
   // Apparato genitale femminile e mammelle dallo Human Reference Atlas (D29); la vagina è una
   // ricostruzione schematica. Toni rosati, distinti da quelli maschili e da vescica e intestino.
-  { id: 'utero', name: 'Utero', latinTerm: 'uterus', system: 'genitale-femminile', body: 'donna', color: '#b0686c' },
+  { id: 'utero', name: 'Utero', latinTerm: 'uterus', system: 'genitale-femminile', color: '#b0686c' },
   {
     id: 'tube-uterine',
     name: 'Tube uterine',
     latinTerm: 'tuba uterina',
     system: 'genitale-femminile',
-    body: 'donna',
     color: '#d5a59b',
   },
-  { id: 'ovaie', name: 'Ovaie', latinTerm: 'ovarium', system: 'genitale-femminile', body: 'donna', color: '#dcc6a8' },
-  { id: 'vagina', name: 'Vagina', latinTerm: 'vagina', system: 'genitale-femminile', body: 'donna', color: '#c78d91' },
+  { id: 'ovaie', name: 'Ovaie', latinTerm: 'ovarium', system: 'genitale-femminile', color: '#dcc6a8' },
+  { id: 'vagina', name: 'Vagina', latinTerm: 'vagina', system: 'genitale-femminile', color: '#c78d91' },
   {
     id: 'mammelle',
     name: 'Mammelle',
     latinTerm: 'mamma',
     system: 'genitale-femminile',
-    body: 'donna',
     color: '#e2c0a8',
   },
   {

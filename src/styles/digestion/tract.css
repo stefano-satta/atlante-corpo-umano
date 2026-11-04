@@ -1,0 +1,55 @@
+.tract-diagram .tube {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tract-diagram .tube.thin {
+  stroke-width: 7;
+}
+.tract-diagram .tube.wide {
+  stroke-width: 14;
+  stroke: #b98a8f;
+}
+.tract-diagram .mouth {
+  fill: none;
+  stroke: var(--tissue-strong);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.swatch.organ-active {
+  background: var(--tissue-strong);
+  outline: 2px solid var(--slide);
+  outline-offset: -2px;
+}
+.tract-diagram .tract-path path {
+  fill: none;
+  stroke: none;
+}
+.tract-diagram .halo {
+  fill: var(--food);
+  opacity: 0.25;
+}
+.tract-diagram [data-organ] {
+  transition: opacity 400ms ease-out;
+  opacity: 0.5;
+}
+.tract-diagram [data-organ][data-active="true"] {
+  opacity: 1;
+}
+.tract-diagram [data-active="true"] .tube,
+.tract-diagram [data-active="true"] .mouth {
+  stroke: var(--tissue-strong);
+}
+.tract-diagram [data-active="true"] .organ-fill,
+.tract-diagram [data-active="true"] .liver,
+.tract-diagram [data-active="true"] .pancreas,
+.tract-diagram [data-active="true"] .gallbladder,
+.tract-diagram [data-active="true"] .gland {
+  stroke: var(--slide);
+  stroke-width: 2;
+}
+.cycle-diagram[data-playing="true"] .tract-diagram .halo {
+  animation: digestion-pulse 1200ms ease-in-out infinite;
+}

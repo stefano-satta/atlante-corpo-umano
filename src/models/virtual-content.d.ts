@@ -22,3 +22,9 @@ declare module 'virtual:contenuti' {
   export const caricaGlossario: () => Promise<{ default: GlossaryDefinition[] }>;
   export const caricaFonti: () => Promise<{ default: CitedSource[] }>;
 }
+
+declare module 'virtual:contenuti/modello' {
+  import type { BodyKind } from '@/models/atlas';
+  export const UNITA_VASI: string[];
+  export const CORPO_UNITA: Record<string, BodyKind>;
+}

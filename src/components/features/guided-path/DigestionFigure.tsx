@@ -3,7 +3,7 @@ import { NextIcon, PauseIcon, PlayIcon, PreviousIcon } from '@/components/common
 import { usePlayback } from '@/hooks/usePlayback';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { DIGESTION_PHASES, type DigestionDiagramId } from '@/models/digestion';
-import { DIGESTION_DIAGRAMS } from './DigestionDiagrams';
+import { DIGESTION_DIAGRAMS } from './digestion/diagrams';
 
 const FIGURE_LABELS: Record<DigestionDiagramId, string> = {
   digerente: 'Schema del canale digerente',

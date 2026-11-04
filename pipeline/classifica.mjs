@@ -28,7 +28,7 @@ const VASI_DOPPI = new Set(['FJ1846', 'FJ2013', 'FJ2011', 'FJ2386', 'FJ2394', 'F
 /**
  * Dati di un vaso: `vaso` è il tipo anatomico, `sangue` il colore con cui si mostra (come nello schema
  * del ciclo cardiaco, il circolo polmonare è invertito). I pezzi con lo stesso nome formano una sola
- * unità; il gruppo dei vasi di un solo corpo lo dice nell'id, che così basta a `bodyFor`. I vasi di
+ * unità; i vasi di un solo corpo lo indicano in `corpo` e hanno un gruppo a parte. I vasi di
  * Z-Anatomy dichiarano il `tipo` nel file: fra loro ci sono nomi come "Superior sagittal sinus".
  */
 export function classificaVaso(id, nome, tipo) {

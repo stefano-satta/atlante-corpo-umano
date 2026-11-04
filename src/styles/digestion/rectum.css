@@ -1,0 +1,70 @@
+/* 8 · Retto */
+.rectum-diagram .colon {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 30;
+  stroke-linecap: round;
+}
+.rectum-diagram .rectum-lumen {
+  fill: rgb(201 158 164 / 0.32);
+}
+.rectum-diagram .rectum-walls path {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 9;
+  stroke-linejoin: round;
+  transition: transform 700ms var(--ease-out);
+}
+.rectum-diagram .squeeze path {
+  stroke: var(--slide);
+  stroke-width: 2.5;
+}
+.rectum-diagram .sphincter-internal rect {
+  fill: var(--smooth);
+  transition:
+    transform 700ms var(--ease-out),
+    opacity 500ms ease-out;
+}
+.rectum-diagram .sphincter-external rect {
+  fill: var(--muscle);
+  stroke: transparent;
+  stroke-width: 2;
+  transition:
+    transform 700ms var(--ease-out),
+    stroke 300ms ease-out;
+}
+.rectum-diagram .stool ellipse {
+  fill: var(--stool);
+  stroke: var(--room-text);
+  stroke-width: 1;
+}
+.rectum-diagram .rectum-walls[data-contracted="true"] path:first-child {
+  transform: translateX(5px);
+}
+.rectum-diagram .rectum-walls[data-contracted="true"] path:last-child {
+  transform: translateX(-5px);
+}
+.rectum-diagram .sphincter-internal[data-open="true"] rect {
+  opacity: 0.45;
+}
+.rectum-diagram .sphincter-internal[data-open="true"] .left {
+  transform: translateX(-4px);
+}
+.rectum-diagram .sphincter-internal[data-open="true"] .right {
+  transform: translateX(4px);
+}
+.rectum-diagram .sphincter-external[data-held="true"] rect {
+  stroke: var(--slide);
+}
+.rectum-diagram .sphincter-external[data-held="true"] .left {
+  transform: translateX(3px);
+}
+.rectum-diagram .sphincter-external[data-held="true"] .right {
+  transform: translateX(-3px);
+}
+.rectum-diagram .sphincter-external[data-open="true"] .left {
+  transform: translateX(-6px);
+}
+.rectum-diagram .sphincter-external[data-open="true"] .right {
+  transform: translateX(6px);
+}

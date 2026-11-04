@@ -104,7 +104,7 @@ export function prepareLayer(
     const source = mesh.geometry.getAttribute('position');
     const n = source.count;
     const pos = new Float32Array(n * 3);
-    const beat = heartbeatPart(u.id, el.nome);
+    const beat = heartbeatPart(u.layer, u.id, el.nome);
     const chamber = beat && isHeartWall(el.nome) ? chambers[beat - 1] : undefined;
     for (let i = 0; i < n; i++) {
       v.fromBufferAttribute(source, i).applyMatrix4(mesh.matrixWorld);

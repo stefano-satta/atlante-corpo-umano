@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { DraftNotice } from '@/components/common/DraftNotice';
 import { BackIcon } from '@/components/common/Icons';
 import { LatinTerm } from '@/components/common/LatinTerm';
@@ -13,43 +13,12 @@ import { registerCalloutTarget } from '@/utils/calloutPath';
 import { hasPage } from '@/utils/content';
 import { formatLongDate } from '@/utils/format';
 import { RelatedNames } from './Relations';
+import { APPARATUS, apparatusProcesses, FIGURE_SCHEMAS, renderProcess, sectionProcesses } from './schemaRegistry';
 
 const RELATION_TYPES: { type: Relation['tipo']; label: string }[] = [
   { type: 'fa-parte-di', label: 'Fa parte di' },
   { type: 'collegato-a', label: 'Collegato a' },
 ];
-
-// Le animazioni si scaricano solo quando si apre la scheda che le contiene.
-const CardiacCycle = lazy(() => import('@/components/features/cardiac-cycle/CardiacCycle'));
-const ReproductiveProcess = lazy(() => import('@/components/features/reproductive-system/ReproductiveProcess'));
-const UrinaryProcess = lazy(() => import('@/components/features/urinary-system/UrinaryProcess'));
-const ThyroidProcess = lazy(() => import('@/components/features/endocrine-system/ThyroidProcess'));
-const VisionProcess = lazy(() => import('@/components/features/visual-system/VisionProcess'));
-// Figure disegnate delle schede, una per schema.
-const FIGURES = {
-  vulva: lazy(() => import('@/components/features/reproductive-system/VulvaFigure')),
-  orecchio: lazy(() => import('@/components/features/hearing-system/EarFigure')),
-  mammella: lazy(() => import('@/components/features/reproductive-system/BreastFigure')),
-  denti: lazy(() => import('@/components/features/digestive-system/TeethFigure')),
-};
-
-type Apparatus = 'urinario' | 'riproduttivo' | 'endocrino' | 'visivo';
-
-/** Apparato di uno schema: dà il titolo della sua sottosezione in "Gli apparati al lavoro". */
-const apparatusOf = (p: Process): Apparatus =>
-  p.schema === 'urinario'
-    ? 'urinario'
-    : p.schema === 'tiroide'
-      ? 'endocrino'
-      : p.schema === 'vista'
-        ? 'visivo'
-        : 'riproduttivo';
-const APPARATUS_TITLES: Record<Apparatus, string> = {
-  urinario: 'Apparato urinario',
-  riproduttivo: 'Apparato riproduttivo',
-  endocrino: 'Sistema endocrino',
-  visivo: 'Apparato visivo',
-};
 
 /** Animazione di un processo, con l'avviso se il suo testo non è ancora approvato. */
 function ProcessFigure({ process, structure }: { process: Process; structure: string }) {
@@ -57,24 +26,14 @@ function ProcessFigure({ process, structure }: { process: Process; structure: st
   return (
     <Suspense fallback={<p role="status">Caricamento dell'animazione…</p>}>
       <DraftNotice status={process.stato} />
-      {process.schema === 'cuore' ? (
-        <CardiacCycle process={process} />
-      ) : process.schema === 'urinario' ? (
-        <UrinaryProcess process={process} current={structure} body={state.body} />
-      ) : process.schema === 'tiroide' ? (
-        <ThyroidProcess process={process} current={structure} />
-      ) : process.schema === 'vista' ? (
-        <VisionProcess process={process} current={structure} />
-      ) : (
-        <ReproductiveProcess process={process} current={structure} />
-      )}
+      {renderProcess(process, { structure, body: state.body })}
     </Suspense>
   );
 }
 
 /** Figura disegnata della scheda, scelta in base al suo schema. */
 function SheetFigure({ figure }: { figure: Figure }) {
-  const Drawing = FIGURES[figure.schema];
+  const Drawing = FIGURE_SCHEMAS[figure.schema];
   return <Drawing figure={figure} />;
 }
 
@@ -92,17 +51,9 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
     title.current?.focus({ preventScroll: true });
   }, [entry.id]);
 
-  // Gli schemi di un intero apparato hanno una sezione propria, dopo il testo dell'organo, con
-  // una sottosezione per apparato: prima quello dell'organo (l'uretra maschile è in entrambi).
-  const own: Apparatus =
-    entry.apparato === 'urinario' || entry.apparato === 'endocrino' || entry.apparato === 'visivo'
-      ? entry.apparato
-      : 'riproduttivo';
-  const apparatus = (s?.processi.filter((p) => p.schema !== 'cuore') ?? []).sort(
-    (a, b) => Number(apparatusOf(b) === own) - Number(apparatusOf(a) === own),
-  );
-  // Il sistema endocrino è un "sistema", non un "apparato": il titolo della sezione lo segue.
-  const single = apparatus.length === 1 && apparatusOf(apparatus[0]) === 'endocrino' ? 'Il sistema' : "L'apparato";
+  // Gli schemi di un intero apparato hanno una sezione propria, con una sottosezione per apparato.
+  const apparatus = apparatusProcesses(s?.processi ?? [], entry.apparato);
+  const single = apparatus.length === 1 ? APPARATUS[apparatus[0].apparatus].section : "L'apparato";
   const toc = [
     ...(s?.sezioni.map((x) => ({ anchor: x.ancora, title: x.chiave })) ?? []),
     ...(apparatus.length ? [{ anchor: 'apparato', title: apparatus.length > 1 ? 'Gli apparati' : single }] : []),
@@ -163,17 +114,15 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
               </Suspense>
             )}
             {x.chiave === 'Il processo' &&
-              s.processi
-                .filter((p) => p.schema === 'cuore')
-                .map((p) => <ProcessFigure key={p.id} process={p} structure={s.id} />)}
+              sectionProcesses(s.processi).map((p) => <ProcessFigure key={p.id} process={p} structure={s.id} />)}
           </section>
         ))}
         {apparatus.length > 0 && (
           <section id="sez-apparato" aria-labelledby="h-apparato">
             <h2 id="h-apparato">{apparatus.length > 1 ? 'Gli apparati al lavoro' : `${single} al lavoro`}</h2>
-            {apparatus.map((p) => (
+            {apparatus.map(({ process: p, apparatus: a }) => (
               <section key={p.id} className="apparatus-section" aria-labelledby={`h-apparato-${p.id}`}>
-                <h3 id={`h-apparato-${p.id}`}>{APPARATUS_TITLES[apparatusOf(p)]}</h3>
+                <h3 id={`h-apparato-${p.id}`}>{APPARATUS[a].title}</h3>
                 <ProcessFigure process={p} structure={entry.id} />
               </section>
             ))}

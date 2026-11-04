@@ -1,12 +1,11 @@
 import type { AtlasAction, AtlasState, BodyKind, Layer } from '@/models/atlas';
 import type { ModelLayer } from '@/models/scene';
-import { ORGANS_BY_ID } from './organs';
+import { isVesselUnit, singleBodyOf } from './modelIndex';
 import { readUrl } from './url';
 
-/** Corpo in cui si vede una struttura: quello attuale, salvo gli organi di un solo corpo (D29). */
+/** Corpo in cui si vede una struttura: quello attuale, salvo le strutture di un solo corpo (D29). */
 export function bodyFor(current: BodyKind, selection: string | null): BodyKind {
-  if (selection?.startsWith('vaso-uomo-')) return 'uomo';
-  return (selection && ORGANS_BY_ID.get(selection)?.body) || current;
+  return (selection && singleBodyOf(selection)) || current;
 }
 
 export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
@@ -106,7 +105,7 @@ export const GHOST_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
 
 /** I vasi stanno in un file a parte, che si scarica solo quando servono: strato aperto o vaso selezionato. */
 export const needsVessels = (layer: Layer, selection: string | null) =>
-  layer === 'vasi' || !!selection?.startsWith('vaso-');
+  layer === 'vasi' || (selection !== null && isVesselUnit(selection));
 
 /** Strato della barra in cui una struttura del modello è piena e selezionabile. */
 export const LAYER_OF_MODEL_LAYER: Record<Exclude<ModelLayer, 'pelle'>, Layer> = {

@@ -1,0 +1,80 @@
+/* 7 · Intestino crasso */
+.colon-diagram .colon,
+.colon-diagram .cecum,
+.colon-diagram .ileum,
+.colon-diagram .appendix {
+  fill: none;
+  stroke: var(--tissue);
+  stroke-width: 30;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.colon-diagram .cecum {
+  fill: var(--tissue);
+  stroke-width: 1;
+}
+.colon-diagram .ileum {
+  stroke-width: 12;
+  opacity: 0.7;
+}
+.colon-diagram .appendix {
+  stroke-width: 7;
+}
+.colon-diagram .haustra {
+  fill: none;
+  stroke: var(--room);
+  stroke-width: 30;
+  stroke-dasharray: 2 18;
+  opacity: 0.35;
+}
+.colon-diagram .colon-content {
+  fill: none;
+  stroke: #c19a62;
+  stroke-width: 16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition:
+    stroke-dasharray 1400ms cubic-bezier(0.45, 0, 0.25, 1),
+    stroke-dashoffset 1400ms cubic-bezier(0.45, 0, 0.25, 1),
+    stroke 900ms ease-out;
+}
+.swatch.stool {
+  background: var(--stool);
+}
+.colon-diagram .water path {
+  fill: none;
+  stroke: var(--water);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.colon-diagram .water-head,
+.swatch.water {
+  fill: var(--water);
+  background: var(--water);
+}
+.colon-diagram .bacteria rect,
+.swatch.bacteria {
+  fill: var(--bacteria);
+  background: var(--bacteria);
+}
+.colon-diagram .bacteria .gas {
+  fill: none;
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.colon-diagram .mass-arrow {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2.5;
+  stroke-dasharray: 6 5;
+}
+.colon-diagram .colon-content[data-phase="acqua"],
+.colon-diagram .colon-content[data-phase="flora"] {
+  stroke: #a0723f;
+}
+.colon-diagram .colon-content[data-phase="massa"] {
+  stroke: var(--stool);
+}
+.cycle-diagram[data-playing="true"] .colon-diagram .bacteria .gas {
+  animation: digestion-rise 1600ms ease-out infinite;
+}

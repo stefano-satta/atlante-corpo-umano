@@ -1,0 +1,228 @@
+/*
+ * Schemi del percorso "Il viaggio del cibo". Stessa sala scura degli altri schemi: rosso e blu
+ * restano al sangue (D10); il cibo è ambra e cambia colore man mano che diventa chimo e feci.
+ */
+.digestion {
+  --tissue: #c99ea4;
+  --tissue-strong: #d98f96;
+  --organ: #b77d86;
+  --bone: #d9d2c5;
+  --muscle: #c96b5f;
+  --smooth: #e0a796;
+  --food: #e3b45c;
+  --saliva: #9cc7e0;
+  --acid: #f2c14e;
+  --chyme: #d7a85a;
+  --bile: #a9c25a;
+  --juice: #c3baf2;
+  --hormone: #f0e6a0;
+  --liver: #8e4f58;
+  --pancreas: #d6b07a;
+  --gland: #e2c4a2;
+  --water: #7fb6e6;
+  --bacteria: #9fd18b;
+  --stool: #8a5a3c;
+  --lymph: #efe2b0;
+  --air: #cfc4b6;
+  margin: 18px 0 4px;
+}
+.digestion-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-text);
+}
+.digestion-diagram .orientation {
+  fill: var(--room-muted);
+  font-size: 12px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.digestion-diagram .labels text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.digestion-diagram .labels .minor {
+  fill: var(--room-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+.digestion-diagram .labels .on-organ {
+  fill: var(--room);
+  font-weight: 700;
+}
+.digestion-diagram .labels .sub {
+  font-style: italic;
+}
+.digestion-diagram .leader {
+  fill: none;
+  stroke: var(--room-dim);
+  stroke-width: 1;
+}
+.digestion-diagram .arrowhead {
+  fill: var(--slide);
+}
+.digestion-diagram .phase-note {
+  fill: var(--hormone);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Comparse e movimenti comuni a tutti gli schemi. */
+.digestion-diagram .moving {
+  transition:
+    transform 1400ms cubic-bezier(0.45, 0, 0.25, 1),
+    opacity 600ms ease-out;
+}
+.digestion-diagram .bolus,
+.digestion-diagram .food circle,
+.digestion-diagram .chunks circle,
+.swatch.food {
+  fill: var(--food);
+  background: var(--food);
+}
+.digestion-diagram .organ-fill {
+  fill: var(--organ);
+  stroke: var(--room-text);
+  stroke-width: 1.5;
+}
+.digestion-diagram .silhouette {
+  fill: none;
+  stroke: var(--room-border);
+  stroke-width: 1.5;
+}
+.digestion-diagram .diaphragm {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 4;
+  stroke-linecap: round;
+  opacity: 0.55;
+}
+.digestion-diagram .bone {
+  fill: none;
+  stroke: var(--bone);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.digestion-diagram .muscle,
+.digestion-diagram .pharynx-wall {
+  fill: none;
+  stroke: var(--muscle);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.digestion-diagram .uvula {
+  fill: var(--muscle);
+}
+.digestion-diagram .nasal {
+  fill: rgb(207 196 182 / 0.08);
+  stroke: var(--room-border);
+  stroke-width: 1;
+}
+.digestion-diagram .gland,
+.swatch.gland {
+  fill: var(--gland);
+  background: var(--gland);
+  opacity: 0.85;
+}
+.digestion-diagram .liver {
+  fill: var(--liver);
+  stroke: var(--room-text);
+  stroke-width: 1.5;
+}
+.digestion-diagram .pancreas {
+  fill: var(--pancreas);
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.digestion-diagram .gallbladder {
+  fill: #6f9a5c;
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.digestion-diagram .sphincter path {
+  stroke: var(--muscle);
+  stroke-width: 6;
+  stroke-linecap: round;
+  transition: transform 500ms var(--ease-out);
+}
+.swatch.muscle {
+  background: var(--muscle);
+}
+.swatch.smooth {
+  background: var(--smooth);
+}
+/* Didascalia della fase */
+.digestion-caption {
+  display: grid;
+  gap: 2px;
+  min-height: 3.2em;
+}
+.digestion-caption .label {
+  color: var(--room-muted);
+  font-size: 14px;
+}
+.digestion-caption p {
+  margin: 0;
+  font-size: 16px;
+}
+.digestion-caption strong {
+  font: 600 18px / 1.2 var(--font-display);
+}
+
+/* Stati delle fasi: dopo le regole di base, perché le precisano. */
+.digestion-diagram [data-visible] {
+  transition: opacity 420ms ease-out;
+}
+.digestion-diagram [data-visible="false"] {
+  opacity: 0;
+}
+@keyframes digestion-chew {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}
+@keyframes digestion-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+@keyframes digestion-wave {
+  0%,
+  100% {
+    opacity: 0.1;
+  }
+  40% {
+    opacity: 0.85;
+  }
+}
+@keyframes digestion-rise {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .digestion-diagram .labels text,
+  .digestion-diagram .orientation {
+    font-size: 15px;
+  }
+  .digestion-diagram .labels .minor {
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,80 @@
+/* 6 · Villo */
+.villus-diagram .lumen {
+  fill: rgb(215 168 90 / 0.08);
+}
+.villus-diagram .wall {
+  fill: var(--organ);
+  opacity: 0.6;
+}
+.villus-diagram .villus {
+  fill: var(--tissue);
+  stroke: var(--room-text);
+  stroke-width: 1.2;
+}
+.villus-diagram .villus.side {
+  opacity: 0.5;
+}
+.villus-diagram .brush {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 7;
+  stroke-dasharray: 1 3;
+  opacity: 0.7;
+}
+.villus-diagram .capillary {
+  fill: none;
+  stroke: url(#villus-blood);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.villus-diagram .capillary.thin {
+  stroke-width: 3;
+  opacity: 0.8;
+}
+.villus-diagram .stop-rich {
+  stop-color: var(--blood-rich);
+}
+.villus-diagram .stop-poor {
+  stop-color: var(--blood-poor);
+}
+.villus-diagram .lacteal,
+.villus-diagram .lymph-vessel {
+  fill: none;
+  stroke: var(--lymph);
+  stroke-width: 10;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+.swatch.lymph {
+  background: var(--lymph);
+}
+.villus-diagram .vein {
+  fill: none;
+  stroke: var(--blood-poor);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+.villus-diagram .flow-dash path {
+  fill: none;
+  stroke: var(--slide);
+  stroke-width: 2;
+  stroke-dasharray: 4 6;
+}
+.villus-diagram .particle.sugar,
+.swatch.sugar {
+  fill: var(--food);
+  background: var(--food);
+}
+.villus-diagram .particle.amino,
+.swatch.amino {
+  fill: #8fd3c3;
+  background: #8fd3c3;
+}
+.villus-diagram .particle.fat {
+  fill: var(--lymph);
+  stroke: var(--room);
+  stroke-width: 1;
+}
+.cycle-diagram[data-playing="true"] .villus-diagram .flow-dash path {
+  animation: flow-dash 900ms linear infinite;
+}
