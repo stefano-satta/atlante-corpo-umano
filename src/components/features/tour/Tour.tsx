@@ -8,6 +8,8 @@ import { closeTour } from '@/utils/tour';
 
 /** Larghezza massima della scheda della guida, in pixel: deve restare uguale a `.tour` in styles/tour.css. */
 const TOUR_MAX_WIDTH = 360;
+/** Un elemento più alto di così è la barra laterale: la scheda le sta accanto, non sopra o sotto. */
+const TOUR_BESIDE_HEIGHT = 160;
 
 interface TourStep {
   title: string;
@@ -28,13 +30,13 @@ const TOUR_STEPS: TourStep[] = [
     target: null,
   },
   {
-    title: 'Strati e sagoma',
-    text: 'Qui scegli cosa vedere: a sinistra il corpo maschile o femminile, poi lo scheletro, gli organi (con le ossa in trasparenza), i muscoli o i vasi sanguigni (tasti da 1 a 4). Sagoma mostra o nasconde la pelle, Vista iniziale riporta il corpo di fronte (tasto 0).',
-    target: '.view-controls',
+    title: 'Genere, apparati e sagoma',
+    text: 'Qui scegli cosa vedere: il corpo di un uomo o di una donna, poi gli organi (con le ossa in trasparenza), lo scheletro, i muscoli o l’apparato cardiocircolatorio (tasti da 1 a 4). In basso, l’icona della persona mostra o nasconde la pelle e la freccia circolare riporta il corpo di fronte (tasto 0).',
+    target: '.selector-panel, .selector-trigger',
   },
   {
     title: 'Percorsi, Indice e Fonti',
-    text: 'In alto trovi i percorsi guidati, l’Indice e il Glossario con la ricerca, e le fonti di tutti i testi. Il pulsante Aiuto, in basso, riapre questa guida.',
+    text: 'In alto trovi i percorsi guidati, l’Indice e il Glossario con la ricerca, e le fonti di tutti i testi. Il punto di domanda, in basso, riapre questa guida.',
     target: '.top-bar nav',
   },
 ];
@@ -68,16 +70,19 @@ export function Tour() {
 
   const last = number === TOUR_STEPS.length - 1;
   const close = () => closeTour(dispatch);
-  // La scheda sta sopra un elemento in basso e sotto uno in alto; senza elemento, in basso a sinistra.
+  // La scheda sta accanto alla barra laterale, sopra un elemento in basso e sotto uno in alto; senza elemento, in basso a sinistra.
   // Il centro resta dentro la finestra: la scheda è larga al massimo TOUR_MAX_WIDTH.
+  const beside = !!highlight && highlight.height > TOUR_BESIDE_HEIGHT;
   const above = highlight ? highlight.top > innerHeight / 2 : true;
   const half = Math.min(TOUR_MAX_WIDTH, innerWidth - 32) / 2;
   const center =
     highlight && Math.min(Math.max(highlight.left + highlight.width / 2, 16 + half), innerWidth - 16 - half);
   const position = highlight
-    ? above
-      ? { bottom: innerHeight - highlight.top + 16, left: center ?? 0 }
-      : { top: highlight.bottom + 16, left: center ?? 0 }
+    ? beside
+      ? { top: highlight.top, left: highlight.right + 16 }
+      : above
+        ? { bottom: innerHeight - highlight.top + 16, left: center ?? 0 }
+        : { top: highlight.bottom + 16, left: center ?? 0 }
     : undefined;
 
   return (
@@ -96,7 +101,7 @@ export function Tour() {
       )}
       <section
         className="tour"
-        data-placement={highlight ? (above ? 'above' : 'below') : 'center'}
+        data-placement={highlight ? (beside ? 'beside' : above ? 'above' : 'below') : 'center'}
         style={position}
         role="dialog"
         aria-modal="false"

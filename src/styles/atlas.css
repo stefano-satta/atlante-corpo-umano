@@ -28,16 +28,25 @@
   position: absolute;
   inset: 0;
 }
+/* Crediti: solo su desktop, in fondo a destra (in produzione il badge di Netlify può coprirli: l'utente lo accetta).
+   Sui dispositivi touch e sugli schermi stretti stanno nella pagina Informazioni. */
 .footer {
+  display: none;
   position: absolute;
   z-index: 1;
-  left: max(28px, env(safe-area-inset-left, 0px));
-  top: calc(56px + env(safe-area-inset-top, 0px));
+  right: max(28px, env(safe-area-inset-right, 0px));
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   max-width: 44ch;
   font-size: 12px;
   line-height: 1.45;
+  text-align: right;
   color: var(--room-dim);
   pointer-events: none;
+}
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .footer {
+    display: block;
+  }
 }
 .footer p {
   margin: 0;
@@ -46,24 +55,13 @@
 /* Sotto la soglia d'ingresso (D26) barre e crediti si nascondono: resta il corpo che gira. */
 .atlas[data-home] .top-bar,
 .atlas[data-home] .footer,
-.atlas[data-home] .view-controls {
+.atlas[data-home] .view-controls,
+.atlas[data-home] .selector-panel {
   visibility: hidden;
 }
 @media (max-width: 760px) {
   .atlas[data-panel="card"],
   .atlas[data-panel="path"] {
     --occupied: 0px;
-  }
-  .footer {
-    left: 20px;
-    top: calc(86px + env(safe-area-inset-top, 0px));
-    font-size: 11px;
-    max-width: 36ch;
-  }
-}
-/* Sotto i 340 px il menu in alto va su due righe (top-bar.css): i crediti scendono di una riga. */
-@media (max-width: 340px) {
-  .footer {
-    top: calc(110px + env(safe-area-inset-top, 0px));
   }
 }

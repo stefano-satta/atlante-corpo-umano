@@ -1,140 +1,269 @@
-/* Comandi della vista: in basso, centrati nello spazio libero della scena. Il selettore del corpo,
-   quello dello strato e la barra dei comandi sono riquadri separati, affiancati; su schermo stretto
-   uno sopra l'altro, a sinistra. In produzione Netlify fissa in basso a destra il suo badge
-   (un iframe di circa 202 × 64 px): i comandi lasciano libero quell'angolo (--badge-room). */
+/* Comandi della vista: una barra di icone orizzontale, in basso. Da 1024 px è centrata sulla finestra;
+   sotto, nello spazio lasciato libero dal pannello, e sui telefoni sale sopra il badge di Netlify.
+   Genere e apparati stanno nella barra laterale (più avanti in questo foglio). */
 .view-controls {
-  --badge-room: 220px;
-  --free-right: max(var(--occupied), var(--badge-room));
   position: absolute;
-  left: calc((100% - var(--free-right)) / 2);
+  left: 50%;
   bottom: calc(24px + env(safe-area-inset-bottom, 0px));
   transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  max-width: calc(100% - var(--free-right) - 32px);
-  transition: left var(--open-duration) var(--ease-out);
   z-index: 2;
 }
-.toolbar,
-.body-switch,
-.layer-switch {
+.toolbar {
   display: flex;
   align-items: center;
   gap: 2px;
   padding: 4px;
   background: var(--room-raised);
   border: 1px solid var(--room-border);
-  border-radius: 3px;
+  border-radius: var(--radius-group);
 }
-.toolbar {
-  min-width: 0;
-  overflow-x: auto;
-}
-.body-switch,
-.layer-switch {
-  flex: none;
-}
-.layer,
 .command {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
   background: none;
   border: 1px solid transparent;
-  border-radius: 2px;
-  padding: 8px 14px 9px;
-  white-space: nowrap;
-  font-size: 15px;
-  line-height: 1;
+  border-radius: var(--radius-option);
   color: var(--room-text);
   transition:
     background-color 180ms ease-out,
     color 180ms ease-out;
 }
-.layer:hover,
+.command svg {
+  width: 18px;
+  height: 18px;
+}
 .command:hover {
   background: var(--room-high);
 }
-.layer[aria-checked="true"] {
-  background: var(--slide);
-  color: var(--ink);
-}
-.layer:focus-visible,
 .command:focus-visible {
   outline-offset: -1px;
 }
-/* Simboli del corpo su schermo stretto: più grandi delle etichette, che sono in maiuscoletto. */
-.body-symbol {
-  font-size: 17px;
-  font-variant-caps: normal;
-  min-width: 1.1em;
-  text-align: center;
-}
 .command:disabled {
-  opacity: 0.45;
   cursor: not-allowed;
+}
+.command:disabled svg {
+  opacity: 0.45;
 }
 .command:disabled:hover {
   background: none;
 }
-/* Interruttore della sagoma: un cerchio pieno quando la pelle è visibile. */
-.command[aria-pressed]::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  border: 1.5px solid currentColor;
+/* Interruttore della sagoma: l'icona prende l'eosina quando la pelle è visibile. */
+.command[aria-pressed="true"] {
+  color: var(--eosin-room);
 }
-.command[aria-pressed="true"]::before {
-  background: var(--eosin-room);
-  border-color: var(--eosin-room);
+.command-tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%);
+  padding: 5px 8px 6px;
+  background: var(--slide);
+  color: var(--ink);
+  border-radius: var(--radius-option);
+  font-size: 13px;
+  font-variant-caps: normal;
+  letter-spacing: normal;
+  line-height: 1;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+}
+.command:focus-visible .command-tooltip {
+  opacity: 1;
+}
+@media (hover: hover) {
+  .command:hover .command-tooltip {
+    opacity: 1;
+  }
 }
 .short {
   display: none;
 }
 
-/* Sotto i 1000 px i tre riquadri affiancati arriverebbero sotto il badge: si impilano a sinistra. */
-@media (max-width: 1000px) {
+/* Barra laterale: genere e apparati, sotto il titolo e il menu. Margine e larghezza valgono anche in sidebarInset() (src/utils/layout.ts). */
+.selector-panel {
+  position: absolute;
+  z-index: 2;
+  left: max(28px, env(safe-area-inset-left, 0px));
+  top: calc(96px + env(safe-area-inset-top, 0px));
+  width: 288px;
+  max-height: calc(100dvh - 96px - 24px);
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--room-raised);
+  border: 1px solid var(--room-border);
+  border-radius: var(--radius-panel);
+  box-shadow: 0 18px 48px rgb(0 0 0 / 0.35);
+}
+.selector-group + .selector-group {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--room-border);
+}
+.selector-title {
+  display: block;
+  margin: 0 0 12px;
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--room-text);
+}
+.selector-option {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-option);
+  font-size: 16px;
+  line-height: 1.2;
+  color: var(--room-text);
+  transition:
+    background-color 180ms ease-out,
+    border-color 180ms ease-out,
+    color 180ms ease-out;
+}
+.selector-option:hover {
+  background: var(--room-high);
+}
+.selector-option:focus-visible {
+  outline-offset: 1px;
+}
+.selector-option[aria-checked="true"] {
+  font-weight: 600;
+}
+/* Genere: due segmenti uguali; quello attivo è il vetrino chiaro. */
+.selector-segments {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 3px;
+  background: var(--room);
+  border: 1px solid var(--room-border);
+  border-radius: var(--radius-group);
+}
+.selector-segments .selector-option {
+  padding: 11px 6px 12px;
+}
+.selector-segments .selector-option[aria-checked="true"] {
+  background: var(--slide);
+  color: var(--ink);
+}
+/* Apparati: righe a tutta larghezza con un cerchio; l'eosina segna solo quella attiva (D16). */
+.selector-list {
+  display: grid;
+  gap: 6px;
+}
+.selector-list .selector-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 8px 14px;
+  text-align: left;
+  background: var(--room);
+  border-color: var(--room-border);
+  border-radius: var(--radius-group);
+}
+.selector-list .selector-option:hover {
+  background: var(--room-high);
+}
+.selector-list .selector-option::before {
+  content: "";
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--room-dim);
+  transition:
+    background-color 180ms ease-out,
+    border-color 180ms ease-out,
+    box-shadow 180ms ease-out;
+}
+.selector-list .selector-option[aria-checked="true"] {
+  background: var(--room-high);
+  border-color: var(--eosin-room);
+}
+.selector-list .selector-option[aria-checked="true"]::before {
+  background: radial-gradient(circle, var(--room) 0 3.5px, var(--eosin-room) 4px);
+  border-color: var(--eosin-room);
+  box-shadow: 0 0 0 3px rgb(239 143 172 / 0.2);
+}
+
+/* Menu a comparsa, sotto i 1024 px (SIDEBAR_WIDTH in src/utils/layout.ts). Lo sfondo resta leggero:
+   si vede il corpo cambiare mentre si sceglie. */
+.selector-drawer {
+  margin: 0;
+  inset: 0 auto 0 0;
+  width: min(340px, calc(100vw - 40px));
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  overscroll-behavior: contain;
+  background: var(--room-raised);
+  color: var(--room-text);
+  border: 0;
+  border-right: 1px solid var(--room-border);
+  border-radius: 0 var(--radius-panel) var(--radius-panel) 0;
+}
+.selector-drawer[open] {
+  animation: drawer-enter 320ms var(--ease-out);
+}
+.selector-drawer::backdrop {
+  background: rgb(22 19 31 / 0.35);
+}
+@keyframes drawer-enter {
+  from {
+    transform: translateX(-100%);
+  }
+}
+.selector-drawer-content {
+  position: relative;
+  min-height: 100%;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 20px calc(22px + env(safe-area-inset-bottom, 0px))
+    max(20px, env(safe-area-inset-left, 0px));
+}
+.selector-drawer .selector-title {
+  /* Il primo titolo sta sulla stessa riga della X. */
+  min-height: 24px;
+  line-height: 24px;
+}
+.selector-close {
+  border-radius: var(--radius-option);
+  position: absolute;
+  top: calc(14px + env(safe-area-inset-top, 0px));
+  right: 20px;
+  margin: 0;
+  color: var(--room-muted);
+}
+.selector-close:hover {
+  background: var(--room-high);
+  color: var(--room-text);
+}
+
+/* Sotto la barra laterale i comandi si centrano nello spazio libero, con bersagli più grandi per il tocco. */
+@media (max-width: 1023px) {
   .view-controls {
-    left: max(16px, env(safe-area-inset-left, 0px));
-    transform: none;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    max-width: calc(100% - 32px);
+    left: calc((100% - var(--occupied)) / 2);
+    transition: left var(--open-duration) var(--ease-out);
   }
-}
-
-/* Con il segmento Vasi la barra non sta più su una riga attorno ai 1000 px: i comandi si stringono. */
-@media (min-width: 761px) and (max-width: 1180px) {
-  .layer,
   .command {
-    padding-inline: 9px;
+    width: 44px;
+    height: 44px;
   }
 }
 
-/* Su smartphone la pila è rovesciata: in basso, accanto al badge, resta il selettore del corpo,
-   il riquadro più stretto, che non lo tocca neppure a 320 px. */
+/* Su smartphone il cartellino e il percorso sono fogli dal basso: i comandi si nascondono.
+   Le voci del menu in alto usano la forma breve (TopBar). */
 @media (max-width: 760px) {
   .view-controls {
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-    flex-direction: column-reverse;
-  }
-  .toolbar {
-    max-width: 100%;
   }
   .atlas[data-panel="card"] .view-controls,
   .atlas[data-panel="path"] .view-controls {
     display: none;
-  }
-  .layer,
-  .command {
-    padding: 8px 6px 9px;
-    font-size: 14px;
-  }
-  .command[aria-pressed] {
-    gap: 6px;
   }
   .full {
     display: none;
@@ -144,11 +273,9 @@
   }
 }
 
-/* Telefoni più stretti: la barra dei comandi resta su una riga, senza scorrere. */
-@media (max-width: 380px) {
-  .layer,
-  .command {
-    padding: 8px 4px 9px;
-    font-size: 13px;
+/* Sotto i 640 px la barra centrata arriverebbe sotto il badge di Netlify (circa 202 × 64 px): sale sopra. */
+@media (max-width: 640px) {
+  .view-controls {
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 }

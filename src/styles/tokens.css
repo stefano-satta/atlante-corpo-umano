@@ -24,6 +24,11 @@
   --font-text: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --open-duration: 460ms;
+  /* Angoli: finestre, poi riquadri, poi pulsanti, poi dettagli minuti. Un riquadro esterno è più tondo di ciò che contiene. */
+  --radius-panel: 16px;
+  --radius-group: 12px;
+  --radius-option: 8px;
+  --radius-small: 4px;
   /* Larghezze del pannello: devono restare uguali a panelWidth() in src/utils/layout.ts. */
   --w-card: clamp(300px, 33.333vw, 640px);
   --w-sheet: min(52vw, 760px);

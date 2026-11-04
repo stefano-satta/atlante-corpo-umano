@@ -8,6 +8,7 @@
   background: var(--slide);
   color: var(--ink);
   border-left: 3px solid var(--eosin);
+  border-radius: var(--radius-panel) 0 0 var(--radius-panel);
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-color: var(--slide-border) transparent;
@@ -135,6 +136,7 @@
     max-height: 58vh;
     border-left: 0;
     border-top: 3px solid var(--eosin);
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
     animation-name: sheet-rise;
   }
   @keyframes sheet-rise {
@@ -145,6 +147,7 @@
   .panel[data-mode="sheet"] {
     width: 100%;
     border-left: 0;
+    border-radius: 0;
   }
   .panel[data-mode="path"] {
     max-height: 50vh;

@@ -1,35 +1,25 @@
 import { useAtlas } from '@/hooks/useAtlas';
 import type { Layer } from '@/models/atlas';
+import { SelectorGroup, type SelectorOption } from './SelectorGroup';
 
-const LAYERS: Array<{ id: Layer; name: string; short: string }> = [
-  { id: 'scheletro', name: 'Scheletro', short: 'Ossa' },
-  { id: 'organi', name: 'Organi', short: 'Organi' },
-  { id: 'muscoli', name: 'Muscoli', short: 'Muscoli' },
-  { id: 'vasi', name: 'Vasi', short: 'Vasi' },
+/** L'ordine è quello dei tasti da 1 a 4. */
+const LAYERS: Array<SelectorOption<Layer>> = [
+  { id: 'organi', name: 'Organi' },
+  { id: 'scheletro', name: 'Scheletro' },
+  { id: 'muscoli', name: 'Muscoli' },
+  { id: 'vasi', name: 'Cardiocircolatorio' },
 ];
 
-/** Selettore dello strato visibile, in un riquadro separato dalla barra dei comandi. */
+/** Selettore dell'apparato visibile (nello stato è lo strato del modello). */
 export function LayerSwitch() {
   const { state, dispatch } = useAtlas();
   return (
-    <div className="layer-switch" role="radiogroup" aria-label="Strato visibile">
-      {LAYERS.map((l) => (
-        // biome-ignore lint/a11y/useSemanticElements: pulsanti con ruolo radio per lo stile a segmenti; tastiera e lettori di schermo restano corretti
-        <button
-          type="button"
-          key={l.id}
-          role="radio"
-          aria-checked={state.layer === l.id}
-          className="layer"
-          aria-label={l.name}
-          onClick={() => dispatch({ type: 'setLayer', layer: l.id })}
-        >
-          <span className="full">{l.name}</span>
-          <span className="short" aria-hidden="true">
-            {l.short}
-          </span>
-        </button>
-      ))}
-    </div>
+    <SelectorGroup
+      title="Apparati"
+      variant="list"
+      options={LAYERS}
+      value={state.layer}
+      onChange={(layer) => dispatch({ type: 'setLayer', layer })}
+    />
   );
 }

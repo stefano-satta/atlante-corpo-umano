@@ -78,12 +78,68 @@ test('la scheda si apre, si chiude con Esc e la cronologia funziona', async ({ p
   await expect(page.getByRole('complementary')).toHaveCount(0);
 });
 
-test('i tasti 1–3 cambiano strato', async ({ page }) => {
+test('i tasti 1–4 cambiano apparato', async ({ page }) => {
   await enter(page);
-  await page.keyboard.press('1');
+  await page.keyboard.press('2');
   await expect(page.getByRole('radio', { name: 'Scheletro' })).toHaveAttribute('aria-checked', 'true');
   await page.keyboard.press('3');
   await expect(page.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
+});
+
+test('su desktop la barra è centrata sulla finestra, con i crediti in basso a destra', async ({ page }) => {
+  await enter(page);
+  const toolbar = page.getByRole('toolbar');
+  const box = await toolbar.boundingBox();
+  expect((box?.x ?? 0) + (box?.width ?? 0) / 2).toBeCloseTo(1440 / 2, 0);
+  await expect(toolbar.getByRole('button')).toHaveCount(3);
+  await expect(page.getByRole('button', { name: 'Apparati', exact: true })).toHaveCount(0);
+
+  await toolbar.getByRole('button', { name: 'Vista iniziale' }).hover();
+  await expect(toolbar.locator('.command-tooltip', { hasText: 'Vista iniziale' })).toHaveCSS('opacity', '1');
+
+  const credits = await page.locator('.footer').boundingBox();
+  expect((credits?.x ?? 0) + (credits?.width ?? 0)).toBeCloseTo(1440 - 28, 0);
+  expect((credits?.y ?? 0) + (credits?.height ?? 0)).toBeCloseTo(900 - 24, 0);
+  await checkAccessibility(page);
+});
+
+test('genere e apparati: barra laterale su schermo largo, menu a comparsa sotto i 1024 px', async ({ page }) => {
+  await enter(page);
+  const sidebar = page.getByRole('region', { name: 'Genere e apparati' });
+  await expect(sidebar.getByRole('radiogroup', { name: 'Genere' })).toBeVisible();
+  await checkAccessibility(page);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(sidebar).toHaveCount(0);
+  await expect(page.getByRole('radio')).toHaveCount(0);
+  await expect(page.locator('.footer')).toBeHidden();
+  const commands = page.getByRole('toolbar').getByRole('button');
+  await expect(commands).toHaveCount(4);
+  await expect(commands.first()).toHaveAccessibleName('Apparati');
+  // La barra resta orizzontale anche su smartphone.
+  const firstBox = await commands.first().boundingBox();
+  const lastBox = await commands.last().boundingBox();
+  expect(lastBox?.y).toBe(firstBox?.y);
+  expect(lastBox?.x ?? 0).toBeGreaterThan(firstBox?.x ?? 0);
+  await commands.first().click();
+  const drawer = page.getByRole('dialog', { name: 'Genere e apparati' });
+  await expect(drawer).toBeVisible();
+  await checkAccessibility(page);
+
+  await drawer.getByRole('radio', { name: 'Donna' }).click();
+  await drawer.getByRole('radio', { name: 'Muscoli' }).click();
+  await expect(drawer).toBeVisible();
+  // Esc chiude il menu, riporta il fuoco sul pulsante e non tocca la vista.
+  await page.keyboard.press('Escape');
+  await expect(drawer).toBeHidden();
+  await expect(commands.first()).toBeFocused();
+  await expect(page).toHaveURL(/\/esplora$/);
+
+  // Anche il clic sullo sfondo lo chiude; la scelta resta.
+  await commands.first().click();
+  await expect(drawer.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
+  await page.mouse.click(370, 400);
+  await expect(drawer).toBeHidden();
 });
 
 test('su schermo stretto il cartellino è un foglio dal basso e la barra si nasconde', async ({ page }) => {
@@ -344,7 +400,7 @@ test("la soglia d'ingresso porta all'atlante e il tour compare solo alla prima v
   const guide = page.getByRole('dialog', { name: 'Ruota, avvicinati e sposta' });
   await expect(guide.getByRole('heading', { name: 'Ruota, avvicinati e sposta' })).toBeFocused();
   await checkAccessibility(page);
-  for (const title of ['Scegli una struttura', 'Strati e sagoma', 'Percorsi, Indice e Fonti']) {
+  for (const title of ['Scegli una struttura', 'Genere, apparati e sagoma', 'Percorsi, Indice e Fonti']) {
     await page.getByRole('dialog').getByRole('button', { name: 'Avanti' }).click();
     await expect(page.getByRole('heading', { name: title })).toBeFocused();
   }
@@ -486,18 +542,18 @@ test('lo strato dei vasi si scarica solo quando si apre, e un vaso si apre dal s
   const scaricati: string[] = [];
   page.on('request', (r) => scaricati.push(r.url()));
   await page.goto('/esplora');
-  await expect(page.getByRole('radio', { name: 'Vasi' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Cardiocircolatorio' })).toBeVisible();
   await expect(page.locator('.loading')).toBeHidden({ timeout: 45_000 });
   expect(scaricati.some((u) => u.endsWith('/vasi.glb'))).toBe(false);
 
-  await page.getByRole('radio', { name: 'Vasi' }).click();
+  await page.getByRole('radio', { name: 'Cardiocircolatorio' }).click();
   await expect.poll(() => scaricati.some((u) => u.endsWith('/vasi.glb'))).toBe(true);
-  await expect(page.getByRole('radio', { name: 'Vasi' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: 'Cardiocircolatorio' })).toHaveAttribute('aria-checked', 'true');
 
   await page.goto('/esplora/vaso-left-femoral-artery');
   const cartellino = page.getByRole('complementary', { name: 'Struttura selezionata' });
   await expect(cartellino.getByRole('heading', { name: 'Arteria femorale' })).toBeVisible({ timeout: 45_000 });
-  await expect(page.getByRole('radio', { name: 'Vasi' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: 'Cardiocircolatorio' })).toHaveAttribute('aria-checked', 'true');
   await checkAccessibility(page);
 
   // Un vaso solo maschile porta al corpo maschile anche partendo da quello femminile.

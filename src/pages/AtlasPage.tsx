@@ -4,9 +4,7 @@ import { LoadingBar } from '@/components/common/LoadingBar';
 import { TopBar } from '@/components/features/layout/TopBar';
 import { Callout } from '@/components/features/panel/Callout';
 import { Panel } from '@/components/features/panel/Panel';
-import { BodySwitch } from '@/components/features/toolbar/BodySwitch';
-import { LayerSwitch } from '@/components/features/toolbar/LayerSwitch';
-import { Toolbar } from '@/components/features/toolbar/Toolbar';
+import { ViewControls } from '@/components/features/toolbar/ViewControls';
 import { Tour } from '@/components/features/tour/Tour';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
@@ -73,13 +71,7 @@ export function AtlasPage() {
         )}
         <Callout />
         <Panel />
-        {!sheet && (
-          <div className="view-controls">
-            <BodySwitch />
-            <LayerSwitch />
-            <Toolbar />
-          </div>
-        )}
+        {!sheet && <ViewControls />}
         <footer className="footer">
           <p>Versione in sviluppo: alcuni nomi e testi sono in preparazione.</p>
           <p>

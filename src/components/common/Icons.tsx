@@ -18,6 +18,35 @@ export const CloseIcon = () => (
   </svg>
 );
 
+export const SlidersIcon = () => (
+  <svg {...base} aria-hidden="true">
+    <path d="M2 5h6M12 5h2M2 11h2M8 11h6" />
+    <circle cx="10" cy="5" r="2" />
+    <circle cx="6" cy="11" r="2" />
+  </svg>
+);
+
+export const ResetViewIcon = () => (
+  <svg {...base} aria-hidden="true">
+    <path d="M3 8a5 5 0 1 0 1.5-3.5L2.5 6.5" />
+    <path d="M2.5 2.5v4h4" />
+  </svg>
+);
+
+export const UserOutlineIcon = () => (
+  <svg {...base} aria-hidden="true">
+    <circle cx="8" cy="5" r="2.75" />
+    <path d="M2.75 14c0-2.9 2.35-4.75 5.25-4.75s5.25 1.85 5.25 4.75" />
+  </svg>
+);
+
+export const HelpIcon = () => (
+  <svg {...base} aria-hidden="true">
+    <path d="M5.25 5.75a2.75 2.75 0 1 1 4.3 2.27C8.6 8.68 8 9.3 8 10.25" />
+    <path d="M8 13.1v.01" />
+  </svg>
+);
+
 export const ForwardIcon = () => (
   <svg {...base} aria-hidden="true">
     <path d="M2.5 8h11M9 3.5L13.5 8 9 12.5" />

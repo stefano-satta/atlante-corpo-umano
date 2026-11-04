@@ -15,7 +15,7 @@ Le arterie portano il sangue lontano dal cuore e si ramificano fino alle arterio
 
 ## Che cosa mostra il modello 3D
 
-Nello strato Vasi, rosso indica il sangue ricco di ossigeno e blu quello povero, come nello schema del ciclo cardiaco. Per questo nel circolo polmonare i colori si invertono: le arterie polmonari portano sangue povero di ossigeno e le vene polmonari sangue ricco (fonte: [SEER, Classification & Structure](https://training.seer.cancer.gov/anatomy/cardiovascular/blood/classification.html)).
+Nell'apparato Cardiocircolatorio del modello 3D, rosso indica il sangue ricco di ossigeno e blu quello povero, come nello schema del ciclo cardiaco. Per questo nel circolo polmonare i colori si invertono: le arterie polmonari portano sangue povero di ossigeno e le vene polmonari sangue ricco (fonte: [SEER, Classification & Structure](https://training.seer.cancer.gov/anatomy/cardiovascular/blood/classification.html)).
 
 ## Limiti
 

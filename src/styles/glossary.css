@@ -71,7 +71,7 @@
   color: var(--ink);
   border: 1px solid var(--slide-border);
   border-top: 3px solid var(--nucleus);
-  border-radius: 0 0 3px 3px;
+  border-radius: var(--radius-panel);
   box-shadow: 0 14px 40px rgb(22 19 31 / 0.32);
   font-size: 15px;
   line-height: 1.5;
@@ -136,7 +136,7 @@
 .letters button {
   background: none;
   border: 0;
-  border-radius: 3px;
+  border-radius: var(--radius-option);
   color: var(--nucleus);
 }
 .letters button:hover {

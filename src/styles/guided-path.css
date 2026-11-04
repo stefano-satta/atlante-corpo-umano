@@ -39,7 +39,7 @@
   min-width: 34px;
   height: 34px;
   border: 1px solid var(--slide-border);
-  border-radius: 2px;
+  border-radius: var(--radius-option);
   background: none;
   color: var(--ink);
   font-weight: 600;

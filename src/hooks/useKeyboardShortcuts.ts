@@ -5,7 +5,7 @@ import { closeTour } from '@/utils/tour';
 import { useAtlas } from './useAtlas';
 import { useReducedMotion } from './useReducedMotion';
 
-const LAYER_KEYS: Record<string, Layer> = { '1': 'scheletro', '2': 'organi', '3': 'muscoli', '4': 'vasi' };
+const LAYER_KEYS: Record<string, Layer> = { '1': 'organi', '2': 'scheletro', '3': 'muscoli', '4': 'vasi' };
 // Direzione dello spostamento con Maiusc + frecce: il corpo segue la freccia.
 const PAN_KEYS: Record<string, [number, number]> = {
   ArrowLeft: [1, 0],
@@ -26,7 +26,7 @@ export function useKeyboardShortcuts() {
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof Element && e.target.closest('input, textarea')) return;
+      if (e.target instanceof Element && e.target.closest('input, textarea, dialog')) return;
       // Con una pagina di lettura aperta i tasti servono solo a chiuderla e a raggiungere la ricerca.
       if (page) {
         if (e.key === 'Escape') dispatch({ type: 'setPage', page: null });

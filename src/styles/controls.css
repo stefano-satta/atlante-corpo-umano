@@ -7,7 +7,7 @@
   margin-right: -8px;
   background: none;
   border: 0;
-  border-radius: 3px;
+  border-radius: var(--radius-option);
   color: var(--ink-muted);
 }
 .close:hover {
@@ -24,7 +24,7 @@
   background: var(--eosin);
   color: #fff;
   border: 0;
-  border-radius: 3px;
+  border-radius: var(--radius-option);
   font-weight: 700;
   font-size: 15px;
   line-height: 1;
@@ -67,7 +67,7 @@
   margin: 0;
   padding: 12px 14px;
   background: var(--slide-veil);
-  border-radius: 3px;
+  border-radius: var(--radius-group);
   font-size: 15px;
   color: var(--ink);
 }
@@ -75,7 +75,7 @@
   margin: 14px 0 0;
   padding: 8px 12px;
   border: 1px dashed var(--eosin);
-  border-radius: 3px;
+  border-radius: var(--radius-option);
   font-size: 14px;
   color: var(--eosin-dark);
 }

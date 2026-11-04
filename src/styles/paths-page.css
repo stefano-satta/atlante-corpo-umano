@@ -21,7 +21,7 @@
   overflow: hidden;
   background: #fff;
   border: 1px solid var(--slide-border);
-  border-radius: 4px;
+  border-radius: var(--radius-panel);
   transition:
     border-color 220ms ease-out,
     box-shadow 320ms var(--ease-out),
@@ -182,7 +182,7 @@
 }
 .path-card-status {
   padding: 1px 8px;
-  border-radius: 2px;
+  border-radius: var(--radius-small);
   background: var(--slide-veil);
   color: var(--ink-muted);
   font-size: 13px;

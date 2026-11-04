@@ -23,9 +23,8 @@
   width: 100%;
   padding: 12px 44px 12px 14px;
   background: #fff;
-  border: 1px solid var(--slide-border);
-  border-bottom: 2px solid var(--ink);
-  border-radius: 3px 3px 0 0;
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius-group);
   font: inherit;
   font-size: 18px;
   color: var(--ink);
@@ -42,7 +41,7 @@
   min-width: 22px;
   padding: 1px 6px;
   border: 1px solid var(--slide-border);
-  border-radius: 3px;
+  border-radius: var(--radius-small);
   font: 600 13px / 1.4 var(--font-text);
   text-align: center;
   color: var(--ink-muted);
@@ -59,7 +58,7 @@
 .atlas-index mark {
   padding: 0;
   background: color-mix(in srgb, var(--eosin) 16%, transparent);
-  border-radius: 2px;
+  border-radius: var(--radius-small);
   color: inherit;
 }
 .search-result {
@@ -143,7 +142,7 @@ span.entry-name {
   padding: 6px 12px 7px;
   background: none;
   border: 1px solid var(--nucleus);
-  border-radius: 3px;
+  border-radius: var(--radius-option);
   font-size: 14px;
   font-weight: 600;
   font-variant-caps: all-small-caps;
@@ -189,7 +188,7 @@ span.entry-name {
   padding: 12px 14px 11px;
   background: #fff;
   border: 1px solid var(--slide-border);
-  border-radius: 3px;
+  border-radius: var(--radius-group);
   text-align: left;
   color: var(--ink);
 }
@@ -283,7 +282,7 @@ span.entry-name {
   padding: 6px 12px;
   background: #fff;
   border: 1px solid var(--slide-border);
-  border-radius: 3px;
+  border-radius: var(--radius-option);
   font-size: 16px;
   color: var(--nucleus);
 }

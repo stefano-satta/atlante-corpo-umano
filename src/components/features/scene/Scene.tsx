@@ -6,7 +6,7 @@ import { useActiveStep } from '@/hooks/useActiveStep';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { updateCallout } from '@/utils/calloutPath';
-import { NARROW_WIDTH, panelWidth } from '@/utils/layout';
+import { NARROW_WIDTH, panelWidth, sidebarInset } from '@/utils/layout';
 import { INITIAL_POSITION, INITIAL_TARGET, sceneApi } from '@/utils/sceneApi';
 import { boundingBoxOf, unitsForElements } from '@/utils/sceneModel';
 import { Body } from './Body';
@@ -82,8 +82,9 @@ function CameraDirector({ ready, vesselsLoaded }: { ready: boolean; vesselsLoade
       c.setFocalOffset(0, state.sheet ? 0 : halfHeight * (state.selection ? 0.45 : 0.62), 0, !reducedMotion);
       return;
     }
-    const panel = panelWidth(width, state.sheet);
-    c.setFocalOffset(halfHeight * camera.aspect * (panel / width), 0, 0, !reducedMotion);
+    // La struttura si centra nello spazio libero fra la barra laterale e il pannello.
+    const shift = panelWidth(width, state.sheet) - sidebarInset(width, state.sheet);
+    c.setFocalOffset(halfHeight * camera.aspect * (shift / width), 0, 0, !reducedMotion);
   }, [state.selection, state.sheet, step, reducedMotion, ready, camera, width]);
 
   return null;
