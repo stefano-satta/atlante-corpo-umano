@@ -5,6 +5,8 @@
   "ratioOcchi": 0.03,
   "ratioVasi": 0.1,
   "triangoliVasi": 500,
+  "triangoliNervi": 400,
+  "ratioMidollo": 0.2,
   "triangoliDonna": 3000,
   "triangoliMuscoli": 2000,
   "errore": 0.01,
@@ -44,6 +46,12 @@
       "triangoliPrima": 2901612,
       "triangoliDopo": 292423,
       "kB": 1998
+    },
+    "nervi": {
+      "strutture": 250,
+      "triangoliPrima": 1210786,
+      "triangoliDopo": 100055,
+      "kB": 570
     }
   }
 }

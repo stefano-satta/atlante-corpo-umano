@@ -1,12 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { bodyFor, needsVessels } from './atlasReducer';
-import { isVesselUnit, singleBodyOf } from './modelIndex';
+import { bodyFor, needsModelLayer } from './atlasReducer';
+import { lazyLayerOf, singleBodyOf } from './modelIndex';
 
 describe('indice del modello', () => {
-  it('riconosce i vasi dai dati del modello', () => {
-    expect(isVesselUnit('vaso-right-anterior-cerebral-artery')).toBe(true);
-    expect(isVesselUnit('vaso-che-non-esiste')).toBe(false);
-    expect(isVesselUnit('cuore')).toBe(false);
+  it('riconosce i vasi e i nervi dai dati del modello', () => {
+    expect(lazyLayerOf('vaso-right-anterior-cerebral-artery')).toBe('vasi');
+    expect(lazyLayerOf('nervo-right-median-nerve')).toBe('nervi');
+    expect(lazyLayerOf('nervo-spinal-cord')).toBe('nervi');
+    expect(lazyLayerOf('vaso-che-non-esiste')).toBeUndefined();
+    expect(lazyLayerOf('cuore')).toBeUndefined();
+    expect(lazyLayerOf('constructor')).toBeUndefined();
   });
 
   it('conosce gli organi e i vasi di un solo corpo', () => {
@@ -30,10 +33,14 @@ describe('uso dell’indice nello stato', () => {
     expect(bodyFor('donna', null)).toBe('donna');
   });
 
-  it('scarica i vasi per lo strato o per un vaso selezionato', () => {
-    expect(needsVessels('vasi', null)).toBe(true);
-    expect(needsVessels('organi', 'vaso-right-anterior-cerebral-artery')).toBe(true);
-    expect(needsVessels('organi', 'cuore')).toBe(false);
-    expect(needsVessels('organi', null)).toBe(false);
+  it('scarica i vasi e i nervi per lo strato o per una loro struttura selezionata', () => {
+    expect(needsModelLayer('vasi', 'vasi', null)).toBe(true);
+    expect(needsModelLayer('vasi', 'organi', 'vaso-right-anterior-cerebral-artery')).toBe(true);
+    expect(needsModelLayer('vasi', 'organi', 'cuore')).toBe(false);
+    expect(needsModelLayer('vasi', 'organi', null)).toBe(false);
+    expect(needsModelLayer('nervi', 'nervi', null)).toBe(true);
+    expect(needsModelLayer('nervi', 'organi', 'nervo-left-sciatic-nerve')).toBe(true);
+    expect(needsModelLayer('vasi', 'organi', 'nervo-left-sciatic-nerve')).toBe(false);
+    expect(needsModelLayer('nervi', 'vasi', null)).toBe(false);
   });
 });

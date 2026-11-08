@@ -78,12 +78,14 @@ test('la scheda si apre, si chiude con Esc e la cronologia funziona', async ({ p
   await expect(page.getByRole('complementary')).toHaveCount(0);
 });
 
-test('i tasti 1–4 cambiano apparato', async ({ page }) => {
+test('i tasti 1–5 cambiano apparato', async ({ page }) => {
   await enter(page);
   await page.keyboard.press('2');
   await expect(page.getByRole('radio', { name: 'Scheletro' })).toHaveAttribute('aria-checked', 'true');
   await page.keyboard.press('3');
   await expect(page.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
+  await page.keyboard.press('5');
+  await expect(page.getByRole('radio', { name: 'Nervoso' })).toHaveAttribute('aria-checked', 'true');
 });
 
 test('su desktop la barra è centrata sulla finestra, con i crediti in basso a destra', async ({ page }) => {
@@ -560,4 +562,23 @@ test('lo strato dei vasi si scarica solo quando si apre, e un vaso si apre dal s
   await page.getByRole('radio', { name: 'Donna' }).click();
   await page.goto('/esplora/vaso-uomo-left-testicular-artery');
   await expect(page.getByRole('radio', { name: 'Uomo' })).toHaveAttribute('aria-checked', 'true');
+});
+
+test('lo strato dei nervi si scarica solo quando si apre, e un nervo si apre dal suo indirizzo', async ({ page }) => {
+  const scaricati: string[] = [];
+  page.on('request', (r) => scaricati.push(r.url()));
+  await page.goto('/esplora');
+  await expect(page.getByRole('radio', { name: 'Nervoso' })).toBeVisible();
+  await expect(page.locator('.loading')).toBeHidden({ timeout: 45_000 });
+  expect(scaricati.some((u) => u.endsWith('/nervi.glb'))).toBe(false);
+
+  await page.getByRole('radio', { name: 'Nervoso' }).click();
+  await expect.poll(() => scaricati.some((u) => u.endsWith('/nervi.glb'))).toBe(true);
+  expect(scaricati.some((u) => u.endsWith('/vasi.glb'))).toBe(false);
+
+  await page.goto('/esplora/nervo-right-sciatic-nerve');
+  const cartellino = page.getByRole('complementary', { name: 'Struttura selezionata' });
+  await expect(cartellino.getByRole('heading', { name: 'Nervo sciatico' })).toBeVisible({ timeout: 45_000 });
+  await expect(page.getByRole('radio', { name: 'Nervoso' })).toHaveAttribute('aria-checked', 'true');
+  await checkAccessibility(page);
 });

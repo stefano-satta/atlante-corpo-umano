@@ -277,3 +277,37 @@ describe('apparato cardiovascolare: i vasi (D44)', () => {
     expect(riepilogo.vasi.kB).toBeLessThanOrEqual(2100);
   });
 });
+
+describe('sistema nervoso: midollo spinale e nervi (D46)', () => {
+  const nervi = strutture.filter((s) => s.strato === 'nervi');
+  const gruppi = new Set(nervi.map((s) => s.gruppo));
+
+  it('ci sono il midollo, la cauda equina e i nervi principali dei due lati', () => {
+    for (const g of ['nervo-spinal-cord', 'nervo-cauda-equina']) expect(gruppi).toContain(g);
+    for (const nervo of ['median-nerve', 'sciatic-nerve', 'vagus-nerve', 'brachial-plexus', 'sympathetic-trunk'])
+      for (const lato of ['left', 'right']) expect(gruppi).toContain(`nervo-${lato}-${nervo}`);
+  });
+
+  it('vengono tutti da Z-Anatomy e ogni elemento dice il tessuto', () => {
+    expect(nervi.every((s) => s.id.startsWith('ZA-') && s.fma === null && s.gruppo?.startsWith('nervo-'))).toBe(true);
+    expect(new Set(nervi.map((s) => s.nervo))).toEqual(new Set(['centrale', 'periferico', 'autonomo']));
+    expect(nervi.filter((s) => s.nervo === 'centrale').map((s) => s.gruppo)).toEqual(['nervo-spinal-cord']);
+  });
+
+  it('i rami minori stanno nell’unità del nervo da cui partono', () => {
+    const ramo = nervi.find((s) => s.nome === 'Left palmar branch of median nerve');
+    expect(ramo?.gruppo).toBe('nervo-left-median-nerve');
+    expect(nervi.find((s) => s.nome === 'Right lingual nerve')?.gruppo).toBe('nervo-right-trigeminal-nerve');
+  });
+
+  // Esclusi il nervo ottico (già in BodyParts3D) e l'orecchio interno di Z-Anatomy (CC BY-NC-SA, D6).
+  it('non contengono il nervo ottico né i nervi dell’orecchio interno', () => {
+    expect(nervi.filter((s) => /optic|cochlear nerve$|vestibular nerve$/i.test(s.nome))).toEqual([]);
+  });
+
+  // Si scarica solo aprendo lo strato o scegliendo un nervo.
+  it('stanno in un file a parte, dentro il budget', () => {
+    expect(riepilogo.nervi.strutture).toBe(nervi.length);
+    expect(riepilogo.nervi.kB).toBeLessThanOrEqual(650);
+  });
+});

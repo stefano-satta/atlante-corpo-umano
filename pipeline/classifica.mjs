@@ -47,6 +47,17 @@ export function classificaVaso(id, nome, tipo) {
 }
 
 /**
+ * Dati di un elemento del midollo spinale o di un nervo (D46), tutti da Z-Anatomy: `unita` è il nome del nervo
+ * principale con il lato ("Right median nerve"), che riunisce il nervo e i suoi rami minori in una sola unità;
+ * `tessuto` decide il colore (sistema nervoso centrale, nervi, sistema autonomo).
+ */
+export function classificaNervo(unita, tessuto) {
+  if (!['centrale', 'periferico', 'autonomo'].includes(tessuto))
+    throw new Error(`tessuto del nervo sconosciuto: ${tessuto}`);
+  return { strato: 'nervi', gruppo: `nervo-${unita.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`, nervo: tessuto };
+}
+
+/**
  * Strato e organo di un elemento. `ossa` e `muscoli` sono gli insiemi di id che
  * BodyParts3D colloca sotto "bone organ" e "muscle organ". I vasi formano uno strato a sé anche quando
  * il nome cita un organo (es. "Branch of … gyrus"); i nervi sono esclusi dagli organi, tranne quelli

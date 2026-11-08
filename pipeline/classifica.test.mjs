@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { classifica, classificaVaso, convertiVertice } from './classifica.mjs';
+import { classifica, classificaNervo, classificaVaso, convertiVertice } from './classifica.mjs';
 
 describe('convertiVertice', () => {
   it('passa da millimetri Z-alto a metri Y-alto, con la parte anteriore verso +Z', () => {
@@ -109,5 +109,20 @@ describe('classifica', () => {
 
   it('degli orecchi riconosce l’orecchio esterno', () => {
     expect(classifica('H', 'External ear', ossa, muscoli)).toEqual({ strato: 'organi', gruppo: 'orecchi' });
+  });
+});
+
+describe('classificaNervo', () => {
+  it('riunisce nervo e rami nell’unità del nervo principale e ne indica il tessuto', () => {
+    expect(classificaNervo('Right median nerve', 'periferico')).toEqual({
+      strato: 'nervi',
+      gruppo: 'nervo-right-median-nerve',
+      nervo: 'periferico',
+    });
+    expect(classificaNervo('Spinal cord', 'centrale').gruppo).toBe('nervo-spinal-cord');
+  });
+
+  it('rifiuta un tessuto sconosciuto', () => {
+    expect(() => classificaNervo('Right median nerve', 'osseo')).toThrow();
   });
 });

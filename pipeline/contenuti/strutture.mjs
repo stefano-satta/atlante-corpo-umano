@@ -5,6 +5,9 @@ import { compilaProcesso } from './processi.mjs';
 import { DATA, FIGURE, STATI, TIPI, TIPI_RELAZIONE } from './regole.mjs';
 import { ancora, controllaRimandi, dividiSezioni, fileMarkdown, leggiMarkdown, numeratore } from './testo.mjs';
 
+/** Tipi di struttura che hanno la scheda completa, oltre al cartellino (G1). */
+const TIPI_CON_SCHEDA = new Set(['organo', 'nervo']);
+
 function controllaIntestazione(d, file, { apparati, modello }, errore) {
   if (`${d.id}.md` !== file) errore(`l'id "${d.id}" deve coincidere con il nome del file`);
   if (!TIPI[d.tipo]) errore(`tipo deve essere uno tra ${Object.keys(TIPI).join(', ')}`);
@@ -117,7 +120,8 @@ export function compilaStruttura({ file, dati: d, corpo }, strutture, processiPe
     limiti: typeof d.limiti === 'string' ? d.limiti.trim() : null,
     sezioni: compilate,
     figura,
-    scheda: d.tipo === 'organo' && compilate.length > 1,
+    // Scheda completa per organi e nervi (G1 rivista il 2026-11-08); gli altri tipi hanno solo il cartellino.
+    scheda: TIPI_CON_SCHEDA.has(d.tipo) && compilate.length > 1,
     relazioni,
     processi,
     fonti: elenco(),

@@ -129,6 +129,14 @@ describe('contenuti reali dell’atlante', () => {
       .sort();
     expect(r.strutture.map((s) => s.id).sort()).toEqual(file);
   });
+
+  it('hanno la scheda completa solo organi e nervi con più di una sezione (G1)', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const tipi = new Set(r.strutture.filter((s) => s.scheda).map((s) => s.tipo));
+    expect([...tipi].sort()).toEqual(['nervo', 'organo']);
+    expect(r.strutture.find((s) => s.id === 'nervo-vago').scheda).toBe(true);
+    for (const s of r.strutture.filter((x) => x.scheda)) expect(s.sezioni.length).toBeGreaterThan(1);
+  });
 });
 
 describe('processi animati', () => {

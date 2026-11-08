@@ -3,25 +3,29 @@ import { useEffect, useMemo } from 'react';
 import type * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { configureLoader } from '@/hooks/useBodyModel';
-import type { ModelElement, SceneUnit } from '@/models/scene';
+import type { LazyModelLayer, ModelElement, SceneUnit } from '@/models/scene';
 import { modelUrl } from '@/utils/layout';
 import { PICKING_LAYER } from '@/utils/sceneMaterials';
 import { prepareLayer } from '@/utils/sceneModel';
 
-interface VesselsProps {
+interface LazyLayerProps {
+  layer: LazyModelLayer;
   elements: Map<string, ModelElement>;
   units: Map<string, SceneUnit>;
   materials: { full: THREE.Material; dimmed: THREE.Material };
   showFull: boolean;
   showDimmed: boolean;
-  onLoaded: () => void;
+  onLoaded: (layer: LazyModelLayer) => void;
 }
 
-/** Strato dei vasi, caricato la prima volta che serve. Ingombri e ancoraggi delle unità si riempiono qui. */
-export function Vessels({ elements, units, materials, showFull, showDimmed, onLoaded }: VesselsProps) {
-  const gltf = useLoader(GLTFLoader, modelUrl('vasi.glb'), configureLoader);
+/**
+ * Strato dei vasi o dei nervi (`vasi.glb`, `nervi.glb`), caricato la prima volta che serve. Ingombri e
+ * ancoraggi delle unità si riempiono qui.
+ */
+export function LazyLayer({ layer, elements, units, materials, showFull, showDimmed, onLoaded }: LazyLayerProps) {
+  const gltf = useLoader(GLTFLoader, modelUrl(`${layer}.glb`), configureLoader);
   const geometry = useMemo(() => prepareLayer(gltf.scene, elements, units), [gltf, elements, units]);
-  useEffect(onLoaded, [onLoaded]);
+  useEffect(() => onLoaded(layer), [onLoaded, layer]);
   if (!geometry) return null;
   return (
     <>

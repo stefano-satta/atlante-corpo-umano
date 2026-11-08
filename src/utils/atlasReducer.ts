@@ -1,6 +1,6 @@
 import type { AtlasAction, AtlasState, BodyKind, Layer } from '@/models/atlas';
-import type { ModelLayer } from '@/models/scene';
-import { isVesselUnit, singleBodyOf } from './modelIndex';
+import type { LazyModelLayer, ModelLayer } from '@/models/scene';
+import { lazyLayerOf, singleBodyOf } from './modelIndex';
 import { readUrl } from './url';
 
 /** Corpo in cui si vede una struttura: quello attuale, salvo le strutture di un solo corpo (D29). */
@@ -85,14 +85,19 @@ export const VISIBLE_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   organi: ['organi'],
   muscoli: ['muscoli'],
   vasi: ['vasi'],
+  nervi: ['nervi'],
 };
 
-/** Unità di un altro strato del modello che fanno parte dello strato della barra: il cuore fra i vasi (D44). */
+/**
+ * Unità di un altro strato del modello che fanno parte dello strato della barra: il cuore fra i vasi (D44),
+ * l'encefalo, l'ipotalamo e il nervo ottico fra i nervi (D46).
+ */
 export const VISIBLE_UNITS: Record<Layer, string[]> = {
   scheletro: [],
   organi: [],
   muscoli: [],
   vasi: ['cuore'],
+  nervi: ['encefalo', 'ipotalamo', 'nervo-ottico'],
 };
 
 /** Strati del modello mostrati solo come contesto (fantasma, non selezionabili). */
@@ -101,11 +106,18 @@ export const GHOST_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   organi: ['ossa'],
   muscoli: [],
   vasi: ['ossa'],
+  nervi: ['ossa'],
 };
 
-/** I vasi stanno in un file a parte, che si scarica solo quando servono: strato aperto o vaso selezionato. */
-export const needsVessels = (layer: Layer, selection: string | null) =>
-  layer === 'vasi' || (selection !== null && isVesselUnit(selection));
+/** Strati del modello in un file a parte, nell'ordine in cui la scena li disegna. */
+export const LAZY_MODEL_LAYERS: readonly LazyModelLayer[] = ['vasi', 'nervi'];
+
+/**
+ * I vasi e i nervi stanno ciascuno in un file a parte, che si scarica solo quando serve: strato aperto o
+ * struttura di quello strato selezionata. Lo strato della barra ha lo stesso nome di quello del modello.
+ */
+export const needsModelLayer = (model: LazyModelLayer, layer: Layer, selection: string | null) =>
+  layer === model || (selection !== null && lazyLayerOf(selection) === model);
 
 /** Strato della barra in cui una struttura del modello è piena e selezionabile. */
 export const LAYER_OF_MODEL_LAYER: Record<Exclude<ModelLayer, 'pelle'>, Layer> = {
@@ -113,4 +125,5 @@ export const LAYER_OF_MODEL_LAYER: Record<Exclude<ModelLayer, 'pelle'>, Layer> =
   organi: 'organi',
   muscoli: 'muscoli',
   vasi: 'vasi',
+  nervi: 'nervi',
 };

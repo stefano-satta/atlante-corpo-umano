@@ -5,8 +5,10 @@ import type { SceneUnit } from '@/models/scene';
 import { PICKING_LAYER, pickingMaterial } from '@/utils/sceneMaterials';
 import { useAtlas } from './useAtlas';
 
-// I vasi sottili sono larghi pochi pixel: fra i vasi la selezione guarda anche attorno al puntatore (px CSS).
-const VESSEL_PICK_RADIUS = { mouse: 4, touch: 12 };
+// Vasi e nervi sottili sono larghi pochi pixel: in quegli strati la selezione guarda anche attorno al puntatore
+// (px CSS).
+const THIN_PICK_RADIUS = { mouse: 4, touch: 12 };
+const THIN_LAYERS = new Set(['vasi', 'nervi']);
 
 /** Sceglie la struttura sotto il puntatore: al clic la seleziona, al passaggio la evidenzia. */
 export function useUnitPicking(byIndex: Map<number, SceneUnit>) {
@@ -78,7 +80,7 @@ export function useUnitPicking(byIndex: Map<number, SceneUnit>) {
     const onUp = (e: PointerEvent) => {
       const p = pointer.current;
       if (Math.hypot(e.offsetX - p.downX, e.offsetY - p.downY) > 5) return; // era una rotazione
-      const radius = state.layer === 'vasi' ? VESSEL_PICK_RADIUS[e.pointerType === 'touch' ? 'touch' : 'mouse'] : 0;
+      const radius = THIN_LAYERS.has(state.layer) ? THIN_PICK_RADIUS[e.pointerType === 'touch' ? 'touch' : 'mouse'] : 0;
       dispatch({ type: 'select', id: unitAt(e.offsetX, e.offsetY, radius)?.id ?? null });
     };
     const onLeave = () => dispatch({ type: 'hover', id: null });
@@ -98,7 +100,7 @@ export function useUnitPicking(byIndex: Map<number, SceneUnit>) {
     const p = pointer.current;
     if (!p.dirty) return;
     p.dirty = false;
-    const u = unitAt(p.x, p.y, state.layer === 'vasi' ? VESSEL_PICK_RADIUS.mouse : 0);
+    const u = unitAt(p.x, p.y, THIN_LAYERS.has(state.layer) ? THIN_PICK_RADIUS.mouse : 0);
     dispatch({ type: 'hover', id: u?.id ?? null });
     gl.domElement.style.cursor = u ? 'pointer' : '';
   });

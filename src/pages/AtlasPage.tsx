@@ -9,7 +9,8 @@ import { Tour } from '@/components/features/tour/Tour';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useOpenGuidedPath, useSelectedStructure } from '@/hooks/useSelectedStructure';
-import { needsVessels } from '@/utils/atlasReducer';
+import type { LazyModelLayer } from '@/models/scene';
+import { LAZY_MODEL_LAYERS, needsModelLayer } from '@/utils/atlasReducer';
 import { ORGANS_BY_ID } from '@/utils/organs';
 import { HomePage } from './HomePage';
 
@@ -17,13 +18,22 @@ import { HomePage } from './HomePage';
 // compare subito e il modello si carica in parallelo (D14).
 const Scene = lazy(() => import('@/components/features/scene/Scene'));
 
+const LOADING_TEXT: Record<LazyModelLayer, string> = {
+  vasi: 'Caricamento dei vasi sanguigni',
+  nervi: 'Caricamento dei nervi',
+};
+
 /** L'atlante con il corpo 3D: scena, barre, pannello, e sopra soglia, guida e pagine di lettura. */
 export function AtlasPage() {
   const { state } = useAtlas();
   const [ready, setReady] = useState(false);
   const onReady = useCallback(() => setReady(true), []);
-  const [vesselsLoaded, setVesselsLoaded] = useState(false);
-  const onVesselsLoaded = useCallback(() => setVesselsLoaded(true), []);
+  const [lazyLoaded, setLazyLoaded] = useState<ReadonlySet<LazyModelLayer>>(new Set());
+  const onLazyLayerLoaded = useCallback(
+    (layer: LazyModelLayer) => setLazyLoaded((s) => (s.has(layer) ? s : new Set([...s, layer]))),
+    [],
+  );
+  const loading = LAZY_MODEL_LAYERS.find((l) => !lazyLoaded.has(l) && needsModelLayer(l, state.layer, state.selection));
   useKeyboardShortcuts();
 
   // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta.
@@ -52,8 +62,8 @@ export function AtlasPage() {
             ready={ready}
             onReady={onReady}
             active={!state.page}
-            vesselsLoaded={vesselsLoaded}
-            onVesselsLoaded={onVesselsLoaded}
+            lazyLoaded={lazyLoaded}
+            onLazyLayerLoaded={onLazyLayerLoaded}
           />
         </Suspense>
         <TopBar />
@@ -63,9 +73,9 @@ export function AtlasPage() {
             <LoadingBar />
           </div>
         )}
-        {ready && !vesselsLoaded && needsVessels(state.layer, state.selection) && (
+        {ready && loading && (
           <div className="loading" role="status">
-            <span>Caricamento dei vasi sanguigni</span>
+            <span>{LOADING_TEXT[loading]}</span>
             <LoadingBar />
           </div>
         )}
@@ -76,8 +86,8 @@ export function AtlasPage() {
           <p>Versione in sviluppo: alcuni nomi e testi sono in preparazione.</p>
           <p>
             Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni, tiroide, paratiroidi,
-            parotidi, 37 muscoli e parte dei vasi: Z-Anatomy, CC BY-SA 4.0; organi femminili: Human Reference Atlas, CC
-            BY 4.0. Modelli derivati CC BY-SA 4.0.
+            parotidi, 37 muscoli, parte dei vasi, midollo spinale e nervi: Z-Anatomy, CC BY-SA 4.0; organi femminili:
+            Human Reference Atlas, CC BY 4.0. Modelli derivati CC BY-SA 4.0.
           </p>
         </footer>
         <p className="visually-hidden" aria-live="polite">

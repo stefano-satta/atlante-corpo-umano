@@ -15,15 +15,16 @@
 // --muscoli <cartella> (predefinita dati-sorgente/z-anatomy/muscoli, prodotta da
 // npm run modelli:muscoli), --triangoli-muscoli 2000, --ratio-vasi 0.1 (strato dei vasi, D44),
 // --vasi <cartella> (predefinita dati-sorgente/z-anatomy/vasi, prodotta da npm run modelli:vasi),
-// --triangoli-vasi 500.
+// --triangoli-vasi 500, --nervi <cartella> (predefinita dati-sorgente/z-anatomy/nervi, prodotta da
+// npm run modelli:nervi), --triangoli-nervi 400, --ratio-midollo 0.2 (strato dei nervi, D46).
 //
-// Produce un file .glb per strato (ossa, muscoli, organi, pelle, vasi), organi-donna.glb con gli
+// Produce un file .glb per strato (ossa, muscoli, organi, pelle, vasi, nervi), organi-donna.glb con gli
 // organi del corpo femminile (D29) e strutture.json con i metadati di ogni struttura
 // (classificazione e coordinate: classifica.mjs).
 //
 // Licenza dei dati di origine: BodyParts3D, © The Database Center for Life Science,
-// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni, tiroide, parotidi e i muscoli assenti
-// da BodyParts3D da Z-Anatomy,
+// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni, tiroide, parotidi, i muscoli e i vasi
+// assenti da BodyParts3D, il midollo spinale e i nervi da Z-Anatomy,
 // CC BY-SA 4.0; organi femminili dallo Human Reference Atlas, CC BY 4.0. I modelli derivati
 // sono distribuiti con licenza CC BY-SA 4.0.
 
@@ -33,7 +34,7 @@ import { Document, NodeIO } from '@gltf-transform/core';
 import { ALL_EXTENSIONS } from '@gltf-transform/extensions';
 import { meshopt, prune, simplifyPrimitive, weld } from '@gltf-transform/functions';
 import { MeshoptEncoder, MeshoptSimplifier } from 'meshoptimizer';
-import { classifica, classificaVaso, convertiVertice } from './classifica.mjs';
+import { classifica, classificaNervo, classificaVaso, convertiVertice } from './classifica.mjs';
 
 const arg = (nome, predefinito) => {
   const i = process.argv.indexOf(`--${nome}`);
@@ -67,6 +68,11 @@ const ratioVasi = Number(arg('ratio-vasi', '0.1'));
 // loro si riducono a un numero massimo.
 const cartellaVasi = arg('vasi', 'dati-sorgente/z-anatomy/vasi');
 const triangoliVasi = Number(arg('triangoli-vasi', '500'));
+// Anche i nervi di Z-Anatomy sono curve convertite in tubi: si riducono a un numero massimo per elemento. Il
+// midollo spinale (la superficie della sostanza bianca, 15.000 triangoli) si riduce in proporzione.
+const cartellaNervi = arg('nervi', 'dati-sorgente/z-anatomy/nervi');
+const triangoliNervi = Number(arg('triangoli-nervi', '400'));
+const ratioMidollo = Number(arg('ratio-midollo', '0.2'));
 for (const [cartellaDati, comando] of [
   [cartellaObj, 'npm run modelli:scarica'],
   [cartellaPolmoni, 'npm run modelli:polmoni'],
@@ -75,6 +81,7 @@ for (const [cartellaDati, comando] of [
   [cartellaDonna, 'npm run modelli:donna'],
   [cartellaMuscoli, 'npm run modelli:muscoli'],
   [cartellaVasi, 'npm run modelli:vasi'],
+  [cartellaNervi, 'npm run modelli:nervi'],
 ]) {
   if (!fs.existsSync(cartellaDati)) {
     console.error(`Mancano i dati in ${cartellaDati}: eseguire prima ${comando}`);
@@ -214,6 +221,19 @@ for (const f of fs.readdirSync(cartellaVasi).filter((f) => f.endsWith('.obj'))) 
   fileObj.set(id, file);
 }
 
+// Midollo spinale e nervi di Z-Anatomy, già allineati da esporta-nervi.py (D46).
+for (const f of fs.readdirSync(cartellaNervi).filter((f) => f.endsWith('.obj'))) {
+  const file = path.join(cartellaNervi, f);
+  const testa = fs.readFileSync(file, 'utf8').slice(0, 1000);
+  const nome = /# English name : (.+)/.exec(testa)?.[1].trim();
+  const unita = /# Nerve unit : (.+)/.exec(testa)?.[1].trim();
+  const tessuto = /# Nerve tissue : (.+)/.exec(testa)?.[1].trim();
+  if (!nome || !unita || !tessuto) throw new Error(`${f}: nome, unità o tessuto del nervo mancante`);
+  const id = `ZA-${f.slice(0, -4).toLowerCase().replaceAll('_', '-')}`;
+  strutture.push({ id, nome, fma: null, ...classificaNervo(unita, tessuto) });
+  fileObj.set(id, file);
+}
+
 const gruppoDi = new Map(strutture.map((s) => [s.id, s.gruppo]));
 
 // File .glb di una struttura: gli organi del solo corpo femminile stanno in un file a parte.
@@ -225,7 +245,7 @@ await MeshoptSimplifier.ready;
 await MeshoptEncoder.ready;
 
 const riepilogo = {};
-for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna', 'vasi']) {
+for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna', 'vasi', 'nervi']) {
   const doc = new Document();
   const buffer = doc.createBuffer();
   const scena = doc.createScene(strato);
@@ -245,24 +265,28 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna', 'vas
     for (const p of m.listPrimitives()) {
       const triangoli = p.getIndices().getCount() / 3;
       const r =
-        strato === 'pelle'
-          ? ratioPelle
-          : strato === 'vasi'
-            ? m.getName().startsWith('ZA-')
-              ? Math.min(1, triangoliVasi / triangoli)
-              : ratioVasi
-            : strato === 'muscoli' && m.getName().startsWith('ZA-')
-              ? Math.min(1, triangoliMuscoli / triangoli)
-              : m.getName().startsWith('ZA-')
-                ? // Le paratiroidi hanno poco più di 100 triangoli: ridotte, perderebbero la forma.
-                  triangoli < 200
-                  ? 1
-                  : ratioPolmoni
-                : m.getName().startsWith('HRA-')
-                  ? Math.min(1, triangoliDonna / triangoli)
-                  : gruppoDi.get(m.getName()) === 'occhi'
-                    ? ratioOcchi
-                    : ratio;
+        strato === 'nervi'
+          ? gruppoDi.get(m.getName()) === 'nervo-spinal-cord'
+            ? ratioMidollo
+            : Math.min(1, triangoliNervi / triangoli)
+          : strato === 'pelle'
+            ? ratioPelle
+            : strato === 'vasi'
+              ? m.getName().startsWith('ZA-')
+                ? Math.min(1, triangoliVasi / triangoli)
+                : ratioVasi
+              : strato === 'muscoli' && m.getName().startsWith('ZA-')
+                ? Math.min(1, triangoliMuscoli / triangoli)
+                : m.getName().startsWith('ZA-')
+                  ? // Le paratiroidi hanno poco più di 100 triangoli: ridotte, perderebbero la forma.
+                    triangoli < 200
+                    ? 1
+                    : ratioPolmoni
+                  : m.getName().startsWith('HRA-')
+                    ? Math.min(1, triangoliDonna / triangoli)
+                    : gruppoDi.get(m.getName()) === 'occhi'
+                      ? ratioOcchi
+                      : ratio;
       simplifyPrimitive(p, { simplifier: MeshoptSimplifier, ratio: r, error: errore });
     }
   }
@@ -291,6 +315,8 @@ fs.writeFileSync(
       ratioOcchi,
       ratioVasi,
       triangoliVasi,
+      triangoliNervi,
+      ratioMidollo,
       triangoliDonna,
       triangoliMuscoli,
       errore,

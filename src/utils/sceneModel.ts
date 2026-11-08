@@ -12,10 +12,13 @@ const LAYER_COLORS: Record<ModelLayer, string> = {
   organi: '#b0897c',
   pelle: '#e4e0d8',
   vasi: '#b8434b',
+  nervi: '#d8b75e',
 };
 
 // Vasi (D44): gli stessi colori del sangue dello schema del ciclo cardiaco.
 const BLOOD_COLORS = { ricco: '#b8434b', povero: '#4362a8' };
+// Nervi (D46): il midollo spinale come l'encefalo, i nervi gialli come nei preparati, il sistema autonomo più scuro.
+const NERVE_COLORS = { centrale: '#c4aea2', periferico: '#d8b75e', autonomo: '#b39448' };
 
 /**
  * Come appare un'unità: nascosta, attenuata (semitrasparente), piena o fantasma (semitrasparente
@@ -119,7 +122,13 @@ export function prepareLayer(
     parts.set(u, [...(parts.get(u) ?? []), g]);
     g.setAttribute('aUnit', new THREE.BufferAttribute(new Float32Array(n).fill(u.index), 1));
     g.setAttribute('aBeat', new THREE.BufferAttribute(new Uint8Array(n).fill(beat), 1));
-    color.set(el.sangue ? BLOOD_COLORS[el.sangue] : (ORGANS_BY_ID.get(u.id)?.color ?? LAYER_COLORS[el.strato]));
+    color.set(
+      el.sangue
+        ? BLOOD_COLORS[el.sangue]
+        : el.nervo
+          ? NERVE_COLORS[el.nervo]
+          : (ORGANS_BY_ID.get(u.id)?.color ?? LAYER_COLORS[el.strato]),
+    );
     const col = new Float32Array(n * 3);
     for (let i = 0; i < n; i++) color.toArray(col, i * 3);
     g.setAttribute('color', new THREE.BufferAttribute(col, 3));

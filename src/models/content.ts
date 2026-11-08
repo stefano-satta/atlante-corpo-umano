@@ -47,7 +47,7 @@ export interface Relation {
 export interface StructureSummary {
   id: string;
   tipo: 'organo' | 'osso' | 'muscolo' | 'vaso';
-  strato: 'organi' | 'ossa' | 'muscoli' | 'vasi';
+  strato: 'organi' | 'ossa' | 'muscoli' | 'vasi' | 'nervi';
   apparato: string;
   nomeApparato: string;
   nome: string;

@@ -37,7 +37,7 @@ function SheetFigure({ figure }: { figure: Figure }) {
   return <Drawing figure={figure} />;
 }
 
-/** Contenuto del pannello allargato: la scheda completa di un organo (sezioni di D11). */
+/** Contenuto del pannello allargato: la scheda completa di un organo o di un nervo (sezioni di D11, G1). */
 export function DetailSheet({ entry }: { entry: StructureSummary }) {
   const { dispatch } = useAtlas();
   const textOnly = useTextOnly();

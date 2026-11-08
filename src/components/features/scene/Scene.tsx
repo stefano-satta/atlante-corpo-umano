@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { useActiveStep } from '@/hooks/useActiveStep';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import type { LazyModelLayer } from '@/models/scene';
 import { updateCallout } from '@/utils/calloutPath';
 import { NARROW_WIDTH, panelWidth, sidebarInset } from '@/utils/layout';
 import { INITIAL_POSITION, INITIAL_TARGET, sceneApi } from '@/utils/sceneApi';
@@ -32,7 +33,7 @@ const PATH_POLAR_ANGLE = Math.PI / 2 - 0.12;
  * Muove la telecamera in base a selezione, scheda aperta e passo di percorso. Su desktop
  * la struttura viene centrata nella parte di scena non coperta dal pannello.
  */
-function CameraDirector({ ready, vesselsLoaded }: { ready: boolean; vesselsLoaded: boolean }) {
+function CameraDirector({ ready, lazyLoaded }: { ready: boolean; lazyLoaded: ReadonlySet<LazyModelLayer> }) {
   const { state } = useAtlas();
   const { step } = useActiveStep();
   const reducedMotion = useReducedMotion();
@@ -41,12 +42,12 @@ function CameraDirector({ ready, vesselsLoaded }: { ready: boolean; vesselsLoade
   const first = useRef(true);
   const distance = useRef(0);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: vesselsLoaded fa ripetere l'inquadratura quando l'ingombro del vaso arriva
+  // biome-ignore lint/correctness/useExhaustiveDependencies: lazyLoaded fa ripetere l'inquadratura quando arriva l'ingombro del vaso o del nervo
   useEffect(() => {
     const c = sceneApi.controls;
     const u = state.selection ? sceneApi.units.get(state.selection) : undefined;
     if (!c || !ready) return;
-    // Un vaso selezionato prima che il suo file arrivi non ha ancora un ingombro: si inquadra all'arrivo.
+    // Un vaso o un nervo selezionato prima che il suo file arrivi non ha ancora un ingombro: si inquadra all'arrivo.
     if (u?.box.isEmpty()) return;
     const animated = !reducedMotion && !first.current;
     first.current = false;
@@ -71,7 +72,7 @@ function CameraDirector({ ready, vesselsLoaded }: { ready: boolean; vesselsLoade
     }
     distance.current = sphere.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2));
     c.fitToSphere(sphere, animated);
-  }, [state.selection, state.home, step, reducedMotion, ready, vesselsLoaded, camera, width]);
+  }, [state.selection, state.home, step, reducedMotion, ready, lazyLoaded, camera, width]);
 
   useEffect(() => {
     const c = sceneApi.controls;
@@ -115,11 +116,12 @@ interface Props {
   onReady: () => void;
   /** Falso quando una pagina di lettura copre la scena: niente disegno, niente consumo. */
   active: boolean;
-  vesselsLoaded: boolean;
-  onVesselsLoaded: () => void;
+  /** Strati a parte (vasi, nervi) già scaricati. */
+  lazyLoaded: ReadonlySet<LazyModelLayer>;
+  onLazyLayerLoaded: (layer: LazyModelLayer) => void;
 }
 
-export default function Scene({ ready, onReady, active, vesselsLoaded, onVesselsLoaded }: Props) {
+export default function Scene({ ready, onReady, active, lazyLoaded, onLazyLayerLoaded }: Props) {
   return (
     <Canvas
       className="scene"
@@ -134,10 +136,10 @@ export default function Scene({ ready, onReady, active, vesselsLoaded, onVessels
       <directionalLight position={[-2, 1.5, -2]} intensity={1.1} color="#b9aecb" />
       <Controls onReady={registerControls} minDistance={0.15} maxDistance={6} smoothTime={0.35} />
       <Suspense fallback={null}>
-        <Body onVesselsLoaded={onVesselsLoaded} />
+        <Body onLazyLayerLoaded={onLazyLayerLoaded} />
         <ReadySignal onReady={onReady} />
       </Suspense>
-      <CameraDirector ready={ready} vesselsLoaded={vesselsLoaded} />
+      <CameraDirector ready={ready} lazyLoaded={lazyLoaded} />
       <CalloutTracker />
     </Canvas>
   );

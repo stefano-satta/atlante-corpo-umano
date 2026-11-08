@@ -1,7 +1,7 @@
 // Valori ammessi nei contenuti e forme dei segni usati nei testi.
 
 export const STATI = ['bozza', 'verificato', 'approvato'];
-export const TIPI = { organo: 'organi', osso: 'ossa', muscolo: 'muscoli', vaso: 'vasi' };
+export const TIPI = { organo: 'organi', osso: 'ossa', muscolo: 'muscoli', vaso: 'vasi', nervo: 'nervi' };
 export const TIPI_RELAZIONE = ['fa-parte-di', 'collegato-a'];
 export const TIPI_FONTE = ['istituzionale', 'manuale', 'terminologia'];
 

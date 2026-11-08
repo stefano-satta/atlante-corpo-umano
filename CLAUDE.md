@@ -17,13 +17,13 @@ npm run test:e2e       # Playwright: costruisce con ATLANTE_BOZZE=1 e serve su :
 npx playwright test -g "glossario"             # un singolo e2e
 ```
 
-Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `public/modelli/` sono già nel repository; si rigenerano con `modelli:scarica` → `modelli:polmoni`, `modelli:tiroide`, `modelli:parotidi` e `modelli:vasi` (da Z-Anatomy; richiedono Blender, avviato sempre con `-Y`) → `modelli:donna` (organi femminili dello Human Reference Atlas e vagina schematica, D29) → `modelli:prepara`, che leggono da `dati-sorgente/` (escluso da git).
+Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `public/modelli/` sono già nel repository; si rigenerano con `modelli:scarica` → `modelli:polmoni`, `modelli:tiroide`, `modelli:parotidi`, `modelli:vasi` e `modelli:nervi` (da Z-Anatomy; richiedono Blender, avviato sempre con `-Y`) → `modelli:donna` (organi femminili dello Human Reference Atlas e vagina schematica, D29) → `modelli:prepara`, che leggono da `dati-sorgente/` (escluso da git).
 
 ## Regole di progetto (vincolanti)
 
-- **`docs/DECISIONI.md`** è l'archivio delle decisioni approvate (D1…D45) e del registro delle modifiche. Non serve leggerlo per intero: cercarvi (`grep`) la decisione citata o l'area toccata quando una scelta potrebbe contraddirne una approvata. A fine lavoro si aggiunge una riga al registro (§ 6) per le modifiche di comportamento o di contenuto.
+- **`docs/DECISIONI.md`** è l'archivio delle decisioni approvate (D1…D46) e del registro delle modifiche. Non serve leggerlo per intero: cercarvi (`grep`) la decisione citata o l'area toccata quando una scelta potrebbe contraddirne una approvata. A fine lavoro si aggiunge una riga al registro (§ 6) per le modifiche di comportamento o di contenuto.
 - **Modo di lavoro:** il lavoro a milestone è concluso. Le richieste puntuali si eseguono direttamente; si chiede prima solo per scelte ambigue o che cambiano una decisione approvata.
-- **Contenuti medici:** niente informazioni inventate. Solo fonti autorevoli (OpenStax A&P 2e, NHLBI, FIPAT TA2; StatPearls per muscoli e vasi che OpenStax non descrive, D37 e D45), verificate leggendole; ogni paragrafo ha una citazione; distinguere fatti e incertezze, dichiarare i limiti; non affermare mai una revisione medica. Un testo passa a `approvato` solo con l'approvazione dell'utente.
+- **Contenuti medici:** niente informazioni inventate. Solo fonti autorevoli (OpenStax A&P 2e, NHLBI, FIPAT TA2; StatPearls per muscoli, vasi e nervi che OpenStax non descrive, D37, D45 e D46), verificate leggendole; ogni paragrafo ha una citazione; distinguere fatti e incertezze, dichiarare i limiti; non affermare mai una revisione medica. Un testo passa a `approvato` solo con l'approvazione dell'utente.
 - **Licenze (D6):** niente licenze NC. Dal pacchetto Z-Anatomy non si estraggono i modelli NC (orecchio interno CC BY-NC-SA, rene CC BY-NC).
 - Ogni download richiede il permesso dell'utente (nome del file, fonte, dimensione).
 - **Git:** remote `origin` su GitHub (`stefano-satta/atlante-corpo-umano`); si fa push solo su richiesta dell'utente. I commit terminano con `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`.
@@ -76,7 +76,7 @@ Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPag
 
 - **Accesso dalla UI:** `utils/sceneApi.ts` (`sceneApi`, `resetView`, `INITIAL_TARGET`/`INITIAL_POSITION`) dà accesso alla telecamera senza React.
 - **Inquadrature:** `CameraDirector` in `Scene.tsx` gestisce telecamera e offset focale per selezione, percorso e soglia; `CalloutTracker` aggiorna la linea di richiamo verso il cartellino.
-- **Modelli:** un `.glb` per strato (ossa, muscoli, organi, pelle) più `organi-donna.glb`; `vasi.glb` (D44) si scarica solo quando serve (`needsVessels`), dentro un proprio `Suspense`. `strutture.json` mappa le unità del modello agli id FMA e ai gruppi, e con `corpo` segna gli organi di un solo corpo; la logica sta in `utils/sceneModel.ts` e `utils/sceneMaterials.ts`.
+- **Modelli:** un `.glb` per strato (ossa, muscoli, organi, pelle) più `organi-donna.glb`; `vasi.glb` (D44) e `nervi.glb` (D46) si scaricano solo quando servono (`needsModelLayer`, `lazyLayerOf`), ciascuno dentro un proprio `Suspense` (`LazyLayer`). `strutture.json` mappa le unità del modello agli id FMA e ai gruppi, e con `corpo` segna gli organi di un solo corpo; la logica sta in `utils/sceneModel.ts` e `utils/sceneMaterials.ts`.
 - **Corpo Uomo/Donna (D29):** `state.body`; `unitStates` nasconde gli organi dell'altro corpo e `bodyFor` (in `atlasReducer.ts`) passa al corpo giusto quando si sceglie un organo di un solo corpo.
 
 ### Interfaccia

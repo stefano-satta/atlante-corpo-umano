@@ -15,6 +15,7 @@
     "modelli:parotidi": "node pipeline/z-anatomy.mjs esporta-parotidi.py",
     "modelli:muscoli": "node pipeline/z-anatomy.mjs esporta-muscoli.py",
     "modelli:vasi": "node pipeline/z-anatomy.mjs esporta-vasi.py",
+    "modelli:nervi": "node pipeline/z-anatomy.mjs esporta-nervi.py",
     "modelli:donna": "node pipeline/organi-donna.mjs",
     "modelli:prepara": "node pipeline/prepara-modelli.mjs",
     "test:e2e": "playwright test"

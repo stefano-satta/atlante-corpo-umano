@@ -1,7 +1,7 @@
 // Stato dell'atlante: cosa si vede, cosa è selezionato e quale lettura è aperta.
 
 /** Strato mostrato dalla barra dei comandi. I valori sono quelli dei passi di percorso nei contenuti. */
-export type Layer = 'muscoli' | 'organi' | 'scheletro' | 'vasi';
+export type Layer = 'muscoli' | 'organi' | 'scheletro' | 'vasi' | 'nervi';
 
 /**
  * Corpo mostrato (D29): gli organi comuni sono quelli di BodyParts3D; il corpo femminile aggiunge

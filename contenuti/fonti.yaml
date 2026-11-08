@@ -94,7 +94,7 @@ openstax-ap-13-4:
   editore: OpenStax, Rice University
   anno: 2022
   url: https://openstax.org/books/anatomy-and-physiology-2e/pages/13-4-the-peripheral-nervous-system
-  consultata: 2026-10-22
+  consultata: 2026-11-08
 
 openstax-ap-22-1:
   tipo: manuale
@@ -214,7 +214,7 @@ openstax-ap-13-2:
   editore: OpenStax, Rice University
   anno: 2022
   url: https://openstax.org/books/anatomy-and-physiology-2e/pages/13-2-the-central-nervous-system
-  consultata: 2026-10-24
+  consultata: 2026-11-08
 
 openstax-ap-13-3:
   tipo: manuale
@@ -1041,3 +1041,302 @@ statpearls-vasi-vene-scalpo:
   aggiornata: 2023-01-13
   url: https://www.ncbi.nlm.nih.gov/books/NBK540961/
   consultata: 2026-11-04
+
+# Fonti aggiunte il 2026-11-08 per il sistema nervoso (D46).
+
+openstax-ap-12-1:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 12.1 Basic Structure and Function of the Nervous System"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/12-1-basic-structure-and-function-of-the-nervous-system
+  consultata: 2026-11-08
+
+openstax-ap-15-1:
+  tipo: manuale
+  titolo: "Anatomy and Physiology 2e, 15.1 Divisions of the Autonomic Nervous System"
+  autori: [J. Gordon Betts, Kelly A. Young, James A. Wise, Eddie Johnson, Brandon Poe, Dean H. Kruse, Oksana Korol, Jody E. Johnson, Mark Womble, Peter DeSaix]
+  editore: OpenStax, Rice University
+  anno: 2022
+  url: https://openstax.org/books/anatomy-and-physiology-2e/pages/15-1-divisions-of-the-autonomic-nervous-system
+  consultata: 2026-11-08
+
+statpearls-nervo-ascellare:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Axillary Nerve"
+  autori: [Okwumabua E, Thompson JH]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK493212/
+  consultata: 2026-11-08
+
+statpearls-nervo-muscolocutaneo:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Musculocutaneous Nerve"
+  autori: [Desai SS, Arbor TC, Varacallo MA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-09-04
+  url: https://www.ncbi.nlm.nih.gov/books/NBK534199/
+  consultata: 2026-11-08
+
+statpearls-nervo-radiale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Radial Nerve"
+  autori: [Glover NM, Black AC, Murphy PB]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-11-05
+  url: https://www.ncbi.nlm.nih.gov/books/NBK534840/
+  consultata: 2026-11-08
+
+statpearls-nervo-mediano:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Median Nerve"
+  autori: [Murphy KA, Ryan N, Fakoya AO]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2025-12-01
+  url: https://www.ncbi.nlm.nih.gov/books/NBK448084/
+  consultata: 2026-11-08
+
+statpearls-nervo-ulnare:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Ulnar Nerve"
+  autori: [Becker RE, Manna B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK499892/
+  consultata: 2026-11-08
+
+statpearls-plesso-brachiale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Shoulder and Upper Limb, Brachial Plexus"
+  autori: [Bayot ML, Nassereddin A, Varacallo MA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK500016/
+  consultata: 2026-11-08
+
+statpearls-nervi-intercostali:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Thorax, Intercostal Nerves"
+  autori: [Glenesk NL, Rahman S, Lopez PP]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-05-22
+  url: https://www.ncbi.nlm.nih.gov/books/NBK538238/
+  consultata: 2026-11-08
+
+statpearls-plesso-lombare:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Back, Lumbar Plexus"
+  autori: [Singh O, Al Khalili Y]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-07
+  url: https://www.ncbi.nlm.nih.gov/books/NBK545137/
+  consultata: 2026-11-08
+
+statpearls-nervo-femorale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb: Thigh Femoral Nerve"
+  autori: [Refai NA, Black AC, Tadi P]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-22
+  url: https://www.ncbi.nlm.nih.gov/books/NBK556065/
+  consultata: 2026-11-08
+
+statpearls-nervo-safeno:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb: Saphenous Nerve, Artery, and Vein"
+  autori: [Mathew K, Varacallo MA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK541045/
+  consultata: 2026-11-08
+
+statpearls-nervo-otturatorio:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis, Obturator Nerve"
+  autori: [Koh M, Markovich B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK551640/
+  consultata: 2026-11-08
+
+statpearls-nervo-pudendo:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Abdomen and Pelvis, Pudendal Nerve"
+  autori: [Kinter KJ, Newton BW]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-02-10
+  url: https://www.ncbi.nlm.nih.gov/books/NBK554736/
+  consultata: 2026-11-08
+
+statpearls-nervo-sciatico:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Sciatic Nerve"
+  autori: [Giuffre BA, Black AC, Jeanmonod R]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-11-16
+  url: https://www.ncbi.nlm.nih.gov/books/NBK482431/
+  consultata: 2026-11-08
+
+statpearls-nervo-tibiale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb: Tibial Nerve"
+  autori: [Desai SS, La Rose J]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2026-09-14
+  url: https://www.ncbi.nlm.nih.gov/books/NBK537028/
+  consultata: 2026-11-08
+
+statpearls-nervo-fibulare-comune:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb: Calf Common Peroneal Nerve (Common Fibular Nerve)"
+  autori: [Hardin JM, Devendra S]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2022-10-17
+  url: https://www.ncbi.nlm.nih.gov/books/NBK532968/
+  consultata: 2026-11-08
+
+statpearls-nervo-surale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Bony Pelvis and Lower Limb: Sural Nerve"
+  autori: [Miniato MA, Nedeff N]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-11-02
+  url: https://www.ncbi.nlm.nih.gov/books/NBK546638/
+  consultata: 2026-11-08
+
+statpearls-cauda-equina:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Back, Cauda Equina"
+  autori: [Berg EJ, Ashurst JV]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-25
+  url: https://www.ncbi.nlm.nih.gov/books/NBK513251/
+  consultata: 2026-11-08
+
+statpearls-nervo-olfattivo:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 1 (Olfactory)"
+  autori: [Helwany M, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-08-14
+  url: https://www.ncbi.nlm.nih.gov/books/NBK556051/
+  consultata: 2026-11-08
+
+statpearls-nervo-oculomotore:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 3 (Oculomotor)"
+  autori: [Joyce C, Le PH, Peterson DC]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-03-27
+  url: https://www.ncbi.nlm.nih.gov/books/NBK537126/
+  consultata: 2026-11-08
+
+statpearls-nervo-trocleare:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 4 (Trochlear)"
+  autori: [Kim SY, Motlagh M, Naqvi IA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-07-15
+  url: https://www.ncbi.nlm.nih.gov/books/NBK537244/
+  consultata: 2026-11-08
+
+statpearls-nervo-trigemino:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 5 (Trigeminal)"
+  autori: [Huff T, Weisbrod LJ, Daly DT]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2024-04-20
+  url: https://www.ncbi.nlm.nih.gov/books/NBK482283/
+  consultata: 2026-11-08
+
+statpearls-nervo-abducente:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 6 (Abducens)"
+  autori: [Nguyen V, Reddy V, Varacallo MA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2022-11-21
+  url: https://www.ncbi.nlm.nih.gov/books/NBK430711/
+  consultata: 2026-11-08
+
+statpearls-nervo-facciale:
+  tipo: manuale
+  titolo: "StatPearls — Facial Nerve Anatomy and Clinical Applications"
+  autori: [Seneviratne SO, Patel BC]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-05-23
+  url: https://www.ncbi.nlm.nih.gov/books/NBK554569/
+  consultata: 2026-11-08
+
+statpearls-nervo-vestibolococleare:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 8 (Vestibulocochlear)"
+  autori: [Bordoni B, Omole AE, Daly DT]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2026-06-19
+  url: https://www.ncbi.nlm.nih.gov/books/NBK537359/
+  consultata: 2026-11-08
+
+statpearls-nervo-glossofaringeo:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 9 (Glossopharyngeal)"
+  autori: [Thomas K, Minutello K, Das JM]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2022-11-07
+  url: https://www.ncbi.nlm.nih.gov/books/NBK539877/
+  consultata: 2026-11-08
+
+statpearls-nervo-vago:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 10 (Vagus Nerve)"
+  autori: [Kenny BJ, Bordoni B]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2022-11-07
+  url: https://www.ncbi.nlm.nih.gov/books/NBK537171/
+  consultata: 2026-11-08
+
+statpearls-nervo-accessorio:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 11 (Accessory)"
+  autori: [Bordoni B, Varacallo MA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2025-12-01
+  url: https://www.ncbi.nlm.nih.gov/books/NBK507722/
+  consultata: 2026-11-08
+
+statpearls-nervo-ipoglosso:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Cranial Nerve 12 (Hypoglossal)"
+  autori: [Kim SY, Naqvi IA]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2022-11-07
+  url: https://www.ncbi.nlm.nih.gov/books/NBK532869/
+  consultata: 2026-11-08
+
+statpearls-catena-simpatica-cervicale:
+  tipo: manuale
+  titolo: "StatPearls — Anatomy, Head and Neck, Sympathetic Chain"
+  autori: [Kattar N, Flowers T]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2022-09-26
+  url: https://www.ncbi.nlm.nih.gov/books/NBK563206/
+  consultata: 2026-11-08
+
+statpearls-sistema-simpatico:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Sympathetic Nervous System"
+  autori: [Alshak MN, Das JM]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2023-05-08
+  url: https://www.ncbi.nlm.nih.gov/books/NBK542195/
+  consultata: 2026-11-08
+
+statpearls-riflesso-miotatico:
+  tipo: manuale
+  titolo: "StatPearls — Neuroanatomy, Spinal Cord Myotatic Reflex"
+  autori: [Chauhan PR, Omole AE]
+  editore: StatPearls Publishing, NCBI Bookshelf (National Library of Medicine)
+  aggiornata: 2026-05-24
+  url: https://www.ncbi.nlm.nih.gov/books/NBK551629/
+  consultata: 2026-11-08

@@ -66,16 +66,18 @@ export function leggiModello(file) {
   return {
     gruppi: new Set(elementi.map((e) => e.gruppo).filter(Boolean)),
     fma: new Set(elementi.map((e) => e.fma).filter(Boolean)),
-    // I vasi senza FMA (quelli di Z-Anatomy) si indicano con il gruppo, che riunisce i loro pezzi.
-    id: new Set(elementi.flatMap((e) => (e.strato === 'vasi' && e.gruppo ? [e.id, e.gruppo] : [e.id]))),
+    // I vasi e i nervi senza FMA (quelli di Z-Anatomy) si indicano con il gruppo, che riunisce i loro pezzi.
+    id: new Set(
+      elementi.flatMap((e) => ((e.strato === 'vasi' || e.strato === 'nervi') && e.gruppo ? [e.id, e.gruppo] : [e.id])),
+    ),
     // FMA → unità selezionabile: il gruppo per gli organi, l'elemento stesso per ossa e muscoli.
     unita: new Map(elementi.filter((e) => e.fma).map((e) => [e.fma, e.gruppo ?? e.id])),
   };
 }
 
 /**
- * Indice delle unità che il sito deve conoscere prima di scaricare la scena: quali sono vasi (il loro
- * file si scarica solo quando servono) e quali si vedono in un solo corpo (D29).
+ * Indice delle unità che il sito deve conoscere prima di scaricare la scena: quali sono vasi e nervi (i loro
+ * file si scaricano solo quando servono) e quali si vedono in un solo corpo (D29).
  */
 export function indiceModello(file) {
   const elementi = JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -84,6 +86,7 @@ export function indiceModello(file) {
   const voci = [...unita];
   return {
     vasi: voci.filter(([, e]) => e.strato === 'vasi').map(([id]) => id),
+    nervi: voci.filter(([, e]) => e.strato === 'nervi').map(([id]) => id),
     corpi: Object.fromEntries(voci.filter(([, e]) => e.corpo).map(([id, e]) => [id, e.corpo])),
   };
 }
