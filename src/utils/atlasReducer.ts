@@ -55,6 +55,7 @@ function reduce(s: AtlasState, a: AtlasAction): AtlasState {
       return {
         ...s,
         home: a.home,
+        layer: a.layer ?? s.layer,
         selection: a.selection,
         body: bodyFor(s.body, a.selection),
         sheet: a.sheet,
@@ -68,7 +69,6 @@ function reduce(s: AtlasState, a: AtlasAction): AtlasState {
 export function initialAtlasState(pathname: string): AtlasState {
   const url = readUrl(pathname);
   return {
-    layer: 'organi',
     body: bodyFor('uomo', url.selection),
     skin: true,
     heartbeat: true,
@@ -76,6 +76,7 @@ export function initialAtlasState(pathname: string): AtlasState {
     hover: null,
     tour: null,
     ...url,
+    layer: url.layer ?? 'organi',
   };
 }
 

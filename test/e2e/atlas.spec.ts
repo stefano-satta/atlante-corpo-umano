@@ -15,7 +15,7 @@ async function enter(page: Page, { tour = false } = {}) {
   const exploreButton = page.getByRole('button', { name: 'Esplora il corpo' });
   await expect(exploreButton).toHaveAttribute('aria-disabled', 'false', { timeout: 45_000 });
   await exploreButton.click();
-  await expect(page).toHaveURL(/\/esplora$/);
+  await expect(page).toHaveURL(/\/esplora\/organi$/);
   if (!tour)
     await page
       .getByRole('dialog', { name: 'Ruota, avvicinati e sposta' })
@@ -43,7 +43,7 @@ test('la vista iniziale si carica senza errori e senza problemi di accessibilit�
 });
 
 test('il cartellino è collegato alla struttura dalla linea di richiamo', async ({ page }) => {
-  await page.goto('/esplora/cuore');
+  await page.goto('/esplora/organi/cuore');
   await waitForScene(page);
   const panel = page.getByRole('complementary', { name: 'Struttura selezionata' });
   await expect(panel.getByRole('heading', { name: 'Cuore' })).toBeVisible();
@@ -60,19 +60,19 @@ test('il cartellino è collegato alla struttura dalla linea di richiamo', async 
 });
 
 test('la scheda si apre, si chiude con Esc e la cronologia funziona', async ({ page }) => {
-  await page.goto('/esplora/cuore');
+  await page.goto('/esplora/organi/cuore');
   await waitForScene(page);
   await page.getByRole('button', { name: 'Apri la scheda' }).click();
-  await expect(page).toHaveURL(/\/organo\/cuore$/);
+  await expect(page).toHaveURL(/\/esplora\/organi\/cuore\/scheda$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Cuore' })).toBeFocused();
   await expect(page.getByRole('toolbar')).toHaveCount(0);
   await checkAccessibility(page);
 
   await page.keyboard.press('Escape');
-  await expect(page).toHaveURL(/\/esplora\/cuore$/);
+  await expect(page).toHaveURL(/\/esplora\/organi\/cuore$/);
   await expect(page.getByRole('button', { name: 'Apri la scheda' })).toBeFocused();
   await page.goBack();
-  await expect(page).toHaveURL(/\/organo\/cuore$/);
+  await expect(page).toHaveURL(/\/esplora\/organi\/cuore\/scheda$/);
   await page.keyboard.press('Escape');
   await page.keyboard.press('Escape');
   await expect(page.getByRole('complementary')).toHaveCount(0);
@@ -135,7 +135,7 @@ test('genere e apparati: barra laterale su schermo largo, menu a comparsa sotto 
   await page.keyboard.press('Escape');
   await expect(drawer).toBeHidden();
   await expect(commands.first()).toBeFocused();
-  await expect(page).toHaveURL(/\/esplora$/);
+  await expect(page).toHaveURL(/\/esplora\/muscoli$/);
 
   // Anche il clic sullo sfondo lo chiude; la scelta resta.
   await commands.first().click();
@@ -146,7 +146,7 @@ test('genere e apparati: barra laterale su schermo largo, menu a comparsa sotto 
 
 test('su schermo stretto il cartellino è un foglio dal basso e la barra si nasconde', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/esplora/cuore');
+  await page.goto('/esplora/organi/cuore');
   await waitForScene(page);
   await expect(async () => {
     const box = await page.getByRole('complementary').boundingBox();
@@ -159,7 +159,7 @@ test('su schermo stretto il cartellino è un foglio dal basso e la barra si nasc
 });
 
 test('il cartellino mostra il testo verificato, i rimandi e le fonti', async ({ page }) => {
-  await page.goto('/esplora/cuore');
+  await page.goto('/esplora/organi/cuore');
   await waitForScene(page);
   const panel = page.getByRole('complementary');
   await expect(panel.getByText(/organo muscolare formato da quattro cavità/)).toBeVisible();
@@ -171,21 +171,32 @@ test('il cartellino mostra il testo verificato, i rimandi e le fonti', async ({ 
   await checkAccessibility(page);
 });
 
-test('un indirizzo diretto a un muscolo mostra lo strato dei muscoli', async ({ page }) => {
-  await page.goto('/esplora/FJ3131');
+test("un indirizzo diretto a un muscolo mostra lo strato dei muscoli e corregge l'apparato", async ({ page }) => {
+  await page.goto('/esplora/organi/FJ3131');
   await waitForScene(page);
   await expect(page.getByRole('heading', { name: 'Diaframma' })).toBeVisible();
   await expect(page.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page).toHaveURL(/\/esplora\/muscoli\/FJ3131$/);
+});
+
+test("gli indirizzi di prima si riscrivono nella forma con l'apparato (D47)", async ({ page }) => {
+  await page.goto('/organo/cuore');
+  await waitForScene(page);
+  await expect(page).toHaveURL(/\/esplora\/organi\/cuore\/scheda$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Cuore' })).toBeVisible();
+  await page.goto('/esplora/FJ3259');
+  await waitForScene(page);
+  await expect(page).toHaveURL(/\/esplora\/scheletro\/FJ3259$/);
 });
 
 test('un indirizzo diretto a un osso mostra lo strato dello scheletro', async ({ page }) => {
-  await page.goto('/esplora/FJ3259');
+  await page.goto('/esplora/scheletro/FJ3259');
   await waitForScene(page);
   await expect(page.getByRole('radio', { name: 'Scheletro' })).toHaveAttribute('aria-checked', 'true');
 });
 
 test('la scheda del cuore ha tutte le sezioni, i collegamenti e le fonti', async ({ page }) => {
-  await page.goto('/organo/cuore');
+  await page.goto('/esplora/organi/cuore/scheda');
   await waitForScene(page);
   const toc = page.getByRole('navigation', { name: 'Sezioni della scheda' }).getByRole('link');
   await expect(toc).toHaveText([
@@ -202,7 +213,7 @@ test('la scheda del cuore ha tutte le sezioni, i collegamenti e le fonti', async
 });
 
 test('le pagine Fonti e Informazioni si aprono dal menu e si chiudono con Esc', async ({ page }) => {
-  await page.goto('/esplora/cuore');
+  await page.goto('/esplora/organi/cuore');
   await waitForScene(page);
   await page.getByRole('button', { name: 'Fonti' }).click();
   await expect(page).toHaveURL(/\/fonti$/);
@@ -213,7 +224,7 @@ test('le pagine Fonti e Informazioni si aprono dal menu e si chiudono con Esc', 
   await checkAccessibility(page);
 
   await page.keyboard.press('Escape');
-  await expect(page).toHaveURL(/\/esplora\/cuore$/);
+  await expect(page).toHaveURL(/\/esplora\/organi\/cuore$/);
   await expect(page.getByRole('button', { name: 'Fonti' })).toBeFocused();
 
   await page.getByRole('button', { name: 'Informazioni' }).click();
@@ -221,12 +232,12 @@ test('le pagine Fonti e Informazioni si aprono dal menu e si chiudono con Esc', 
   await expect(page.getByText(/non sono stati rivisti da un medico/)).toBeVisible();
   await checkAccessibility(page);
   await page.goBack();
-  await expect(page).toHaveURL(/\/esplora\/cuore$/);
+  await expect(page).toHaveURL(/\/esplora\/organi\/cuore$/);
   await expect(page.getByRole('main')).toHaveCount(0);
 });
 
 test('il ciclo cardiaco nella scheda si comanda da tastiera e non ha problemi di accessibilità', async ({ page }) => {
-  await page.goto('/organo/cuore');
+  await page.goto('/esplora/organi/cuore/scheda');
   await waitForScene(page);
   const cycle = page.getByRole('figure', { name: 'Il ciclo cardiaco, passo per passo' });
   await cycle.scrollIntoViewIfNeeded();
@@ -242,7 +253,7 @@ test('il ciclo cardiaco nella scheda si comanda da tastiera e non ha problemi di
 
 test('con il movimento ridotto il ciclo cardiaco va solo passo per passo', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await page.goto('/organo/cuore');
+  await page.goto('/esplora/organi/cuore/scheda');
   await waitForScene(page);
   const cycle = page.getByRole('figure', { name: 'Il ciclo cardiaco, passo per passo' });
   await expect(cycle.getByRole('button', { name: 'Passo successivo' })).toBeVisible();
@@ -271,11 +282,11 @@ test("l'uso prolungato non crea nuovi contesti WebGL e la scena resta viva", asy
 });
 
 test('i polmoni si selezionano, hanno il loro testo e si raggiungono dal cuore', async ({ page }) => {
-  await page.goto('/esplora/cuore');
+  await page.goto('/esplora/organi/cuore');
   await waitForScene(page);
   const panel = page.getByRole('complementary');
   await panel.getByRole('link', { name: 'Polmoni', exact: true }).click();
-  await expect(page).toHaveURL(/\/esplora\/polmoni$/);
+  await expect(page).toHaveURL(/\/esplora\/organi\/polmoni$/);
   await expect(panel.getByRole('heading', { name: 'Polmoni' })).toBeVisible();
   await expect(panel.getByText(/principali organi dell'apparato respiratorio/)).toBeVisible();
   await expect(panel.getByRole('link', { name: /TA2 3265/ })).toHaveAttribute(
@@ -293,17 +304,17 @@ test('i polmoni si selezionano, hanno il loro testo e si raggiungono dal cuore',
 test('il selettore Uomo/Donna cambia gli organi e un organo femminile porta al corpo femminile (D29)', async ({
   page,
 }) => {
-  await page.goto('/esplora/prostata');
+  await page.goto('/esplora/organi/prostata');
   await waitForScene(page);
   const panel = page.getByRole('complementary');
   await expect(panel.getByRole('heading', { name: 'Prostata' })).toBeVisible();
   await page.getByRole('radio', { name: 'Donna' }).click();
   // La prostata non c'è nel corpo femminile: la selezione si chiude e la sagoma non è disponibile.
-  await expect(page).toHaveURL(/\/esplora$/);
+  await expect(page).toHaveURL(/\/esplora\/organi$/);
   await expect(page.getByRole('button', { name: 'Sagoma' })).toBeDisabled();
   await checkAccessibility(page);
   await page.getByRole('radio', { name: 'Uomo' }).click();
-  await page.goto('/esplora/utero');
+  await page.goto('/esplora/organi/utero');
   await waitForScene(page);
   await expect(page.getByRole('radio', { name: 'Donna' })).toHaveAttribute('aria-checked', 'true');
   await expect(panel.getByRole('heading', { name: 'Utero' })).toBeVisible();
@@ -337,7 +348,7 @@ test('il percorso "Un respiro" si segue passo per passo e si può lasciare per e
 
   // Si esplora una struttura (come con un clic nel corpo) e si torna allo stesso passo.
   await page.evaluate(() => {
-    history.pushState(null, '', '/esplora/polmoni');
+    history.pushState(null, '', '/esplora/organi/polmoni');
     dispatchEvent(new PopStateEvent('popstate'));
   });
   const card = page.getByRole('complementary', { name: 'Struttura selezionata' });
@@ -349,7 +360,7 @@ test('il percorso "Un respiro" si segue passo per passo e si può lasciare per e
   // I passi non riempiono la cronologia; Esc chiude il percorso.
   await page.keyboard.press('Escape');
   await expect(panel).toHaveCount(0);
-  await expect(page).toHaveURL(/\/esplora$/);
+  await expect(page).toHaveURL(/\/esplora\/[a-z]+$/);
   expect(errors).toEqual([]);
 });
 
@@ -420,7 +431,7 @@ test("la soglia d'ingresso porta all'atlante e il tour compare solo alla prima v
   await expect(page).toHaveURL(/\/$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Il corpo umano, strato per strato.' })).toBeVisible();
   await page.goForward();
-  await expect(page).toHaveURL(/\/esplora$/);
+  await expect(page).toHaveURL(/\/esplora\/organi$/);
   await expect(page.getByRole('toolbar')).toBeVisible();
 
   // Tornando alla soglia il tour non riparte.
@@ -456,7 +467,7 @@ test("l'Indice cerca le strutture e le mostra nel corpo", async ({ page }) => {
   await expect(page.getByText(/Nessun risultato per «xyz»/)).toBeVisible();
   await page.getByRole('searchbox').fill('polmon');
   await page.getByRole('button', { name: 'Polmoni: mostra nel corpo' }).click();
-  await expect(page).toHaveURL(/\/esplora\/polmoni$/, { timeout: 45_000 });
+  await expect(page).toHaveURL(/\/esplora\/organi\/polmoni$/, { timeout: 45_000 });
   await expect(
     page.getByRole('complementary', { name: 'Struttura selezionata' }).getByRole('heading', { name: 'Polmoni' }),
   ).toBeVisible({ timeout: 45_000 });
@@ -526,7 +537,7 @@ test('senza WebGL si apre la versione testuale con Indice, schede e percorso', a
 
   await page.locator('summary', { hasText: 'Apparato cardiovascolare' }).click();
   await page.getByRole('button', { name: 'Cuore: leggi il testo' }).click();
-  await expect(page).toHaveURL(/\/esplora\/cuore$/);
+  await expect(page).toHaveURL(/\/esplora\/organi\/cuore$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Cuore' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Il processo: il ciclo cardiaco' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Passo successivo' })).toBeVisible();
@@ -551,8 +562,9 @@ test('lo strato dei vasi si scarica solo quando si apre, e un vaso si apre dal s
   await page.getByRole('radio', { name: 'Cardiocircolatorio' }).click();
   await expect.poll(() => scaricati.some((u) => u.endsWith('/vasi.glb'))).toBe(true);
   await expect(page.getByRole('radio', { name: 'Cardiocircolatorio' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page).toHaveURL(/\/esplora\/cardiocircolatorio$/);
 
-  await page.goto('/esplora/vaso-left-femoral-artery');
+  await page.goto('/esplora/cardiocircolatorio/vaso-left-femoral-artery');
   const cartellino = page.getByRole('complementary', { name: 'Struttura selezionata' });
   await expect(cartellino.getByRole('heading', { name: 'Arteria femorale' })).toBeVisible({ timeout: 45_000 });
   await expect(page.getByRole('radio', { name: 'Cardiocircolatorio' })).toHaveAttribute('aria-checked', 'true');
@@ -560,7 +572,7 @@ test('lo strato dei vasi si scarica solo quando si apre, e un vaso si apre dal s
 
   // Un vaso solo maschile porta al corpo maschile anche partendo da quello femminile.
   await page.getByRole('radio', { name: 'Donna' }).click();
-  await page.goto('/esplora/vaso-uomo-left-testicular-artery');
+  await page.goto('/esplora/cardiocircolatorio/vaso-uomo-left-testicular-artery');
   await expect(page.getByRole('radio', { name: 'Uomo' })).toHaveAttribute('aria-checked', 'true');
 });
 
@@ -575,8 +587,9 @@ test('lo strato dei nervi si scarica solo quando si apre, e un nervo si apre dal
   await page.getByRole('radio', { name: 'Nervoso' }).click();
   await expect.poll(() => scaricati.some((u) => u.endsWith('/nervi.glb'))).toBe(true);
   expect(scaricati.some((u) => u.endsWith('/vasi.glb'))).toBe(false);
+  await expect(page).toHaveURL(/\/esplora\/nervoso$/);
 
-  await page.goto('/esplora/nervo-right-sciatic-nerve');
+  await page.goto('/esplora/nervoso/nervo-right-sciatic-nerve');
   const cartellino = page.getByRole('complementary', { name: 'Struttura selezionata' });
   await expect(cartellino.getByRole('heading', { name: 'Nervo sciatico' })).toBeVisible({ timeout: 45_000 });
   await expect(page.getByRole('radio', { name: 'Nervoso' })).toHaveAttribute('aria-checked', 'true');

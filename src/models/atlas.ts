@@ -46,7 +46,10 @@ export interface AtlasState {
 }
 
 /** Parte dello stato che si legge e si scrive nell'indirizzo. */
-export type UrlState = Pick<AtlasState, 'selection' | 'sheet' | 'page' | 'guidedPath' | 'home'>;
+export type UrlState = Pick<AtlasState, 'layer' | 'selection' | 'sheet' | 'page' | 'guidedPath' | 'home'>;
+
+/** Stato letto da un indirizzo: lo strato è null dove l'indirizzo non lo dice (percorsi, pagine, indirizzi di prima). */
+export type UrlRead = Omit<UrlState, 'layer'> & { layer: Layer | null };
 
 export type AtlasAction =
   | { type: 'setLayer'; layer: Layer }
@@ -63,6 +66,6 @@ export type AtlasAction =
   | { type: 'hover'; id: string | null }
   | { type: 'setHome'; open: boolean }
   | { type: 'setTour'; step: number | null }
-  | ({ type: 'fromUrl' } & UrlState);
+  | ({ type: 'fromUrl' } & UrlRead);
 
 export type AtlasDispatch = (action: AtlasAction) => void;

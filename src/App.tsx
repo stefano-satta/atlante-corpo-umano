@@ -15,7 +15,8 @@ export function App() {
     <Routes>
       <Route element={supportsWebGL2() ? <AtlasPage /> : <TextOnlyAtlasPage />}>
         <Route index />
-        <Route path="esplora/:id?" />
+        {/* /esplora/<apparato>/<struttura>/scheda (D47); /esplora/<struttura> e /organo/<struttura> sono gli indirizzi di prima. */}
+        <Route path="esplora/:layer?/:id?/:sheet?" />
         <Route path="organo/:id" />
         <Route path="percorsi/:pathId/:step?" />
         {READING_PAGE_IDS.map((p) => (

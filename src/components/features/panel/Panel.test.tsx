@@ -81,14 +81,14 @@ describe('pannello della struttura selezionata', () => {
   });
 
   it('mostra il cartellino di un organo con nome, termine e appartenenza', () => {
-    open('/esplora/cuore');
+    open('/esplora/organi/cuore');
     expect(screen.getByRole('heading', { level: 2, name: 'Cuore' })).toBeTruthy();
     expect(screen.getByText('cor').getAttribute('lang')).toBe('la');
     expect(screen.getAllByText('Apparato cardiovascolare').length).toBeGreaterThan(0);
   });
 
   it('mostra il testo verificato con i rimandi, le fonti e il termine TA2', async () => {
-    open('/esplora/cuore');
+    open('/esplora/organi/cuore');
     expect(await screen.findByText(/organo muscolare formato da quattro cavità/)).toBeTruthy();
     expect(screen.getByRole('link', { name: /TA2 3932/ }).getAttribute('href')).toBe(
       'https://ta2viewer.openanatomy.org/?id=3932',
@@ -132,12 +132,12 @@ describe('pannello della struttura selezionata', () => {
   });
 
   it('si allarga nella scheda e torna al cartellino riportando il fuoco sul pulsante', () => {
-    open('/esplora/cuore');
+    open('/esplora/organi/cuore');
     fireEvent.click(screen.getByRole('button', { name: 'Apri la scheda' }));
     const title = screen.getByRole('heading', { level: 1, name: 'Cuore' });
     expect(document.activeElement).toBe(title);
     expect(screen.getByRole('complementary').dataset.mode).toBe('sheet');
-    expect(location.pathname).toBe('/organo/cuore');
+    expect(location.pathname).toBe('/esplora/organi/cuore/scheda');
 
     fireEvent.click(screen.getByRole('button', { name: 'Torna al cartellino' }));
     expect(screen.getByRole('complementary').dataset.mode).toBe('card');
@@ -145,10 +145,10 @@ describe('pannello della struttura selezionata', () => {
   });
 
   it('si chiude con il pulsante di chiusura', () => {
-    open('/esplora/cuore');
+    open('/esplora/organi/cuore');
     fireEvent.click(screen.getByRole('button', { name: 'Chiudi il cartellino' }));
     expect(screen.queryByRole('complementary')).toBeNull();
-    expect(location.pathname).toBe('/esplora');
+    expect(location.pathname).toBe('/esplora/organi');
   });
 });
 
@@ -160,7 +160,7 @@ describe('battito del cuore', () => {
     expect(screen.queryByRole('button', { name: /battito/ })).toBeNull();
     cleanup();
 
-    open('/esplora/cuore');
+    open('/esplora/organi/cuore');
     const toggle = screen.getByRole('button', { name: 'Ferma il battito' });
     expect(toggle.getAttribute('aria-pressed')).toBe('false');
     expect(screen.getByText(/non sono in scala/)).toBeTruthy();
@@ -179,7 +179,7 @@ describe('battito del cuore', () => {
         createBuffer = () => ({ getChannelData: () => new Float32Array(1) });
       },
     );
-    open('/esplora/cuore');
+    open('/esplora/organi/cuore');
     const sound = screen.getByRole('button', { name: 'Ascolta il battito' });
     expect(sound.getAttribute('aria-pressed')).toBe('false');
     fireEvent.click(sound);
@@ -194,7 +194,7 @@ describe('battito del cuore', () => {
       (query) =>
         ({ matches: true, media: query, addEventListener() {}, removeEventListener() {} }) as unknown as MediaQueryList,
     );
-    open('/esplora/cuore');
+    open('/esplora/organi/cuore');
     expect(screen.queryByRole('button', { name: /battito|suono/ })).toBeNull();
   });
 });

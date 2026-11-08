@@ -21,12 +21,12 @@ export function AtlasProvider({ children }: { children: ReactNode }) {
     if (location.pathname !== urlFor(state)) dispatch({ type: 'fromUrl', ...readUrl(location.pathname) });
   }
 
-  const { selection, sheet, page, guidedPath, home } = state;
+  const { layer, selection, sheet, page, guidedPath, home } = state;
   const { pathname, search } = location;
   useEffect(() => {
-    const change = urlChange({ selection, sheet, page, guidedPath, home }, pathname);
+    const change = urlChange({ layer, selection, sheet, page, guidedPath, home }, pathname);
     if (change) navigate({ pathname: change.pathname, search: searchFor(search) }, { replace: change.replace });
-  }, [selection, sheet, page, guidedPath, home, pathname, search, navigate]);
+  }, [layer, selection, sheet, page, guidedPath, home, pathname, search, navigate]);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);
   return <AtlasContext.Provider value={value}>{children}</AtlasContext.Provider>;

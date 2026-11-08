@@ -1,0 +1,61 @@
+import { describe, expect, it } from 'vitest';
+import type { UrlState } from '@/models/atlas';
+import { readUrl, urlChange, urlFor } from './url';
+
+const explore: UrlState = { layer: 'organi', selection: null, sheet: false, page: null, guidedPath: null, home: false };
+
+describe('indirizzi di esplorazione (D47)', () => {
+  it('mettono apparato, struttura e scheda nel percorso', () => {
+    expect(urlFor({ ...explore, layer: 'scheletro' })).toBe('/esplora/scheletro');
+    expect(urlFor({ ...explore, selection: 'stomaco' })).toBe('/esplora/organi/stomaco');
+    expect(urlFor({ ...explore, selection: 'stomaco', sheet: true })).toBe('/esplora/organi/stomaco/scheda');
+    expect(urlFor({ ...explore, layer: 'vasi', selection: 'aorta' })).toBe('/esplora/cardiocircolatorio/aorta');
+    expect(urlFor({ ...explore, layer: 'nervi', selection: 'midollo-spinale' })).toBe(
+      '/esplora/nervoso/midollo-spinale',
+    );
+  });
+
+  it("si leggono nell'altro verso", () => {
+    expect(readUrl('/esplora/muscoli')).toMatchObject({ layer: 'muscoli', selection: null, sheet: false });
+    expect(readUrl('/esplora/cardiocircolatorio/aorta')).toMatchObject({
+      layer: 'vasi',
+      selection: 'aorta',
+      sheet: false,
+    });
+    expect(readUrl('/esplora/organi/cuore/scheda')).toMatchObject({ layer: 'organi', selection: 'cuore', sheet: true });
+    expect(readUrl('/esplora/nervoso/encefalo/')).toMatchObject({ layer: 'nervi', selection: 'encefalo' });
+    expect(readUrl('/esplora/muscoli/vaso%20x')).toMatchObject({ selection: 'vaso x' });
+  });
+
+  it('leggono ancora gli indirizzi di prima, senza apparato', () => {
+    expect(readUrl('/esplora')).toMatchObject({ layer: null, selection: null });
+    expect(readUrl('/esplora/cuore')).toMatchObject({ layer: null, selection: 'cuore', sheet: false });
+    expect(readUrl('/organo/cuore')).toMatchObject({ layer: null, selection: 'cuore', sheet: true });
+  });
+
+  it('ignorano gli indirizzi malformati', () => {
+    expect(readUrl('/esplora/cuore/aorta')).toMatchObject({ selection: null });
+    expect(readUrl('/esplora/organi/cuore/altro')).toMatchObject({ selection: null });
+  });
+
+  it("riscrivono senza nuova voce di cronologia quando cambia solo l'apparato", () => {
+    // Cambio di strato senza selezione, strato rivelato per una struttura, indirizzi di prima.
+    expect(urlChange({ ...explore, layer: 'muscoli' }, '/esplora/organi')).toEqual({
+      pathname: '/esplora/muscoli',
+      replace: true,
+    });
+    expect(urlChange({ ...explore, selection: 'cuore' }, '/esplora/scheletro/cuore')?.replace).toBe(true);
+    expect(urlChange({ ...explore, selection: 'cuore', sheet: true }, '/organo/cuore')).toEqual({
+      pathname: '/esplora/organi/cuore/scheda',
+      replace: true,
+    });
+    expect(urlChange(explore, '/esplora')?.replace).toBe(true);
+  });
+
+  it('creano una voce di cronologia aprendo struttura o scheda', () => {
+    expect(urlChange({ ...explore, selection: 'cuore' }, '/esplora/organi')?.replace).toBe(false);
+    expect(urlChange({ ...explore, selection: 'cuore', sheet: true }, '/esplora/organi/cuore')?.replace).toBe(false);
+    expect(urlChange(explore, '/esplora/organi/cuore')?.replace).toBe(false);
+    expect(urlChange({ ...explore, selection: 'cuore' }, '/indice')?.replace).toBe(false);
+  });
+});

@@ -1,26 +1,57 @@
-import type { UrlState } from '@/models/atlas';
+import type { Layer, UrlRead, UrlState } from '@/models/atlas';
 import { READING_PAGE_IDS } from './pages';
 
-// Indirizzi (D11): / (soglia), /esplora (atlante senza selezione), /esplora/<id>, /organo/<id>, /percorsi (elenco),
-// /percorsi/<id>/<passo>, /indice, /glossario, /fonti, /informazioni.
-// Nell'indirizzo il passo si conta da 1.
+// Indirizzi (D11, D47): / (soglia), /esplora/<apparato> (atlante senza selezione),
+// /esplora/<apparato>/<struttura> (cartellino), /esplora/<apparato>/<struttura>/scheda (scheda),
+// /percorsi (elenco), /percorsi/<id>/<passo>, /indice, /glossario, /fonti, /informazioni.
+// L'apparato è lo strato scelto nella barra laterale. Nell'indirizzo il passo si conta da 1.
+// Gli indirizzi di prima, /esplora, /esplora/<struttura> e /organo/<struttura>, si leggono ancora
+// e si riscrivono nella forma nuova.
 
-export function readUrl(pathname: string): UrlState {
+/** Nome dello strato nell'indirizzo: quello mostrato nella barra laterale. */
+export const LAYER_SLUGS: Record<Layer, string> = {
+  organi: 'organi',
+  scheletro: 'scheletro',
+  muscoli: 'muscoli',
+  vasi: 'cardiocircolatorio',
+  nervi: 'nervoso',
+};
+
+const LAYER_OF_SLUG = new Map(Object.entries(LAYER_SLUGS).map(([layer, slug]) => [slug, layer as Layer]));
+
+/** Indirizzo di una struttura (o della sua scheda) nello strato indicato. */
+export function exploreUrl(layer: Layer, selection: string | null, sheet = false) {
+  const base = `/esplora/${LAYER_SLUGS[layer]}`;
+  if (!selection) return base;
+  return `${base}/${encodeURIComponent(selection)}${sheet ? '/scheda' : ''}`;
+}
+
+export function readUrl(pathname: string): UrlRead {
   const page = READING_PAGE_IDS.find((p) => pathname === `/${p}`) ?? null;
   const p = /^\/percorsi\/([a-z0-9-]+)(?:\/(\d+))?\/?$/.exec(pathname);
   const guidedPath = p ? { id: p[1], step: Math.max(0, Number(p[2] ?? 1) - 1) } : null;
-  const m = /^\/(esplora|organo)\/([^/]+)/.exec(pathname);
   // La soglia sta solo su `/`, anche sotto una pagina di lettura aperta da lì.
   const home = pathname === '/';
-  if (!m) return { selection: null, sheet: false, page, guidedPath, home };
-  return { selection: decodeURIComponent(m[2]), sheet: m[1] === 'organo', page, guidedPath, home };
+  const none = { layer: null, selection: null, sheet: false, page, guidedPath, home };
+
+  const legacy = /^\/organo\/([^/]+)/.exec(pathname);
+  if (legacy) return { ...none, selection: decodeURIComponent(legacy[1]), sheet: true };
+
+  const e = /^\/esplora(?:\/([^/]+))?(?:\/([^/]+))?(?:\/(scheda))?\/?$/.exec(pathname);
+  if (!e) return none;
+  const [, first, second, sheet] = e;
+  const layer = first ? (LAYER_OF_SLUG.get(first) ?? null) : null;
+  // `/esplora/<struttura>`: il primo segmento non è un apparato, quindi è la struttura (indirizzo di prima).
+  const selection = layer ? (second ?? null) : (first ?? null);
+  if (!layer && second) return none;
+  return { ...none, layer, selection: selection && decodeURIComponent(selection), sheet: !!sheet && !!selection };
 }
 
 export function urlFor(s: UrlState) {
   if (s.page) return `/${s.page}`;
-  if (s.selection) return `/${s.sheet ? 'organo' : 'esplora'}/${encodeURIComponent(s.selection)}`;
+  if (s.selection) return exploreUrl(s.layer, s.selection, s.sheet);
   if (s.guidedPath) return `/percorsi/${s.guidedPath.id}/${s.guidedPath.step + 1}`;
-  return s.home ? '/' : '/esplora';
+  return s.home ? '/' : exploreUrl(s.layer, null);
 }
 
 /** Indirizzo verso cui portare il router perché rispecchi lo stato, oppure null se è già quello. */
@@ -30,7 +61,17 @@ export function urlChange(s: UrlState, pathname: string) {
   // Passare da un passo all'altro dello stesso percorso non crea una voce di cronologia per passo:
   // "Indietro" esce dal percorso invece di ripercorrerlo all'indietro.
   const samePath = !!s.guidedPath && !s.selection && !s.page && pathname.startsWith(`/percorsi/${s.guidedPath.id}/`);
-  return { pathname: next, replace: samePath };
+  // Nemmeno cambiare apparato a parità di struttura e di scheda: lo strato scelto nella barra, quello
+  // mostrato per la struttura aperta da un indirizzo diretto, un indirizzo di prima riscritto.
+  const now = readUrl(pathname);
+  const sameView =
+    !s.page &&
+    !now.page &&
+    !now.home &&
+    (pathname.startsWith('/esplora') || pathname.startsWith('/organo/')) &&
+    now.selection === s.selection &&
+    now.sheet === s.sheet;
+  return { pathname: next, replace: samePath || sameView };
 }
 
 /** Parametri dell'indirizzo da portare sul nuovo indirizzo: la ricerca (`?q=`) resta alla pagina che l'ha scritta. */

@@ -21,7 +21,7 @@ Su macOS manca `timeout`: lanciare Playwright direttamente. I modelli 3D in `pub
 
 ## Regole di progetto (vincolanti)
 
-- **`docs/DECISIONI.md`** è l'archivio delle decisioni approvate (D1…D46) e del registro delle modifiche. Non serve leggerlo per intero: cercarvi (`grep`) la decisione citata o l'area toccata quando una scelta potrebbe contraddirne una approvata. A fine lavoro si aggiunge una riga al registro (§ 6) per le modifiche di comportamento o di contenuto.
+- **`docs/DECISIONI.md`** è l'archivio delle decisioni approvate (D1…D47) e del registro delle modifiche. Non serve leggerlo per intero: cercarvi (`grep`) la decisione citata o l'area toccata quando una scelta potrebbe contraddirne una approvata. A fine lavoro si aggiunge una riga al registro (§ 6) per le modifiche di comportamento o di contenuto.
 - **Modo di lavoro:** il lavoro a milestone è concluso. Le richieste puntuali si eseguono direttamente; si chiede prima solo per scelte ambigue o che cambiano una decisione approvata.
 - **Contenuti medici:** niente informazioni inventate. Solo fonti autorevoli (OpenStax A&P 2e, NHLBI, FIPAT TA2; StatPearls per muscoli, vasi e nervi che OpenStax non descrive, D37, D45 e D46), verificate leggendole; ogni paragrafo ha una citazione; distinguere fatti e incertezze, dichiarare i limiti; non affermare mai una revisione medica. Un testo passa a `approvato` solo con l'approvazione dell'utente.
 - **Licenze (D6):** niente licenze NC. Dal pacchetto Z-Anatomy non si estraggono i modelli NC (orecchio interno CC BY-NC-SA, rene CC BY-NC).
@@ -60,11 +60,11 @@ Alias `@/` → `src/` (in `tsconfig.json`, `vite.config.ts` e `vitest.config.ts`
 
 ### Stato e indirizzi
 
-`contexts/AtlasContext.tsx` contiene un reducer unico (`utils/atlasReducer.ts`; dalla UI `useAtlas()` → `{state, dispatch}`), sincronizzato con il router (React Router, modalità dichiarativa con `BrowserRouter` in `main.tsx`) tramite `readUrl`, `urlFor` e `urlChange` in `utils/url.ts` (D11): l'indirizzo si legge con `useLocation` e si scrive con `useNavigate`. Le rotte sono dichiarate in `App.tsx`:
+`contexts/AtlasContext.tsx` contiene un reducer unico (`utils/atlasReducer.ts`; dalla UI `useAtlas()` → `{state, dispatch}`), sincronizzato con il router (React Router, modalità dichiarativa con `BrowserRouter` in `main.tsx`) tramite `readUrl`, `urlFor` e `urlChange` in `utils/url.ts` (D11, D47): l'indirizzo si legge con `useLocation` e si scrive con `useNavigate`. Le rotte sono dichiarate in `App.tsx`:
 
 - `/` (soglia d'ingresso; Indietro dall'atlante vi riporta);
-- `/esplora` (atlante senza selezione: "Esplora il corpo", chiusura del cartellino o del percorso);
-- `/esplora/<unità>` o `/organo/<id>`;
+- `/esplora/<apparato>` (atlante senza selezione: "Esplora il corpo", chiusura del cartellino o del percorso); l'apparato è lo strato della barra (`LAYER_SLUGS`: `organi`, `scheletro`, `muscoli`, `cardiocircolatorio`, `nervoso`, D47);
+- `/esplora/<apparato>/<unità>` (cartellino) e `/esplora/<apparato>/<unità>/scheda` (scheda); gli indirizzi di prima `/esplora`, `/esplora/<unità>` e `/organo/<id>` si riscrivono senza voce di cronologia, come il cambio del solo apparato;
 - `/percorsi/<id>/<passo>` (passo contato da 1);
 - `/indice`, `/glossario`, `/fonti`, `/informazioni` (`PAGE_IDS` in `utils/pages.ts`); Indice e Glossario tengono la ricerca in `?q=` (`useSearchQuery`), che `searchFor` toglie passando ad altri indirizzi.
 

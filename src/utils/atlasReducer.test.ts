@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { AtlasState } from '@/models/atlas';
+import type { AtlasState, UrlState } from '@/models/atlas';
 import { atlasReducer } from './atlasReducer';
 import { readUrl, searchFor, urlFor } from './url';
 
@@ -17,7 +17,7 @@ const base: AtlasState = {
   home: false,
   tour: null,
 };
-const noUrl = { selection: null, sheet: false, page: null, guidedPath: null, home: false };
+const noUrl: UrlState = { layer: 'organi', selection: null, sheet: false, page: null, guidedPath: null, home: false };
 
 describe("soglia d'ingresso", () => {
   const open = { ...base, home: true };
@@ -38,7 +38,7 @@ describe("soglia d'ingresso", () => {
   it("ha un indirizzo diverso dall'atlante: / è la soglia, /esplora l'atlante", () => {
     expect(readUrl('/').home).toBe(true);
     expect(readUrl('/esplora')).toMatchObject({ home: false, selection: null });
-    expect(urlFor(noUrl)).toBe('/esplora');
+    expect(urlFor(noUrl)).toBe('/esplora/organi');
     expect(atlasReducer(open, { type: 'setHome', open: false }).home).toBe(false);
   });
 
@@ -125,7 +125,7 @@ describe('indirizzi', () => {
     const state = { ...noUrl, guidedPath: { id: 'respirazione', step: 3 } };
     expect(urlFor(state)).toBe('/percorsi/respirazione/4');
     // La struttura esplorata durante il percorso ha il suo indirizzo.
-    expect(urlFor({ ...state, selection: 'polmoni' })).toBe('/esplora/polmoni');
+    expect(urlFor({ ...state, selection: 'polmoni' })).toBe('/esplora/organi/polmoni');
   });
 });
 

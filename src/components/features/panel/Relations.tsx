@@ -2,13 +2,14 @@ import { useAtlas } from '@/hooks/useAtlas';
 import { useTextOnly } from '@/hooks/useTextOnly';
 import type { Relation, Structure } from '@/models/content';
 import { unitForContent } from '@/utils/structures';
+import { exploreUrl } from '@/utils/url';
 
 /**
  * Nome di una struttura collegata, con il numero della fonte che documenta il collegamento.
  * Se la struttura ha un contenuto ed è nel modello, il nome la seleziona nel corpo (D18).
  */
 export function RelatedName({ relation: r }: { relation: Relation }) {
-  const { dispatch } = useAtlas();
+  const { state, dispatch } = useAtlas();
   const textOnly = useTextOnly();
   // Nella versione testuale si seleziona il contenuto stesso, che si apre come pagina.
   const unit = r.conContenuto ? (textOnly ? r.id : unitForContent(r.id)) : undefined;
@@ -16,7 +17,7 @@ export function RelatedName({ relation: r }: { relation: Relation }) {
     <>
       {unit ? (
         <a
-          href={`/esplora/${unit}`}
+          href={exploreUrl(state.layer, unit)}
           onClick={(e) => {
             e.preventDefault();
             dispatch({ type: 'select', id: unit });
