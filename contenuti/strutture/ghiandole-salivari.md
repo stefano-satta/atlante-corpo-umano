@@ -12,15 +12,19 @@ relazioni:
   - { tipo: fa-parte-di, id: apparato-digerente }
   - { tipo: collegato-a, id: lingua, fonte: openstax-ap-23-3 }
   - { tipo: collegato-a, id: denti, fonte: openstax-ap-23-3 }
+  - { tipo: collegato-a, id: nervo-facciale, fonte: statpearls-nervo-facciale }
+  - { tipo: collegato-a, id: nervo-glossofaringeo, fonte: statpearls-nervo-glossofaringeo }
+  - { tipo: collegato-a, id: vena-retromandibolare, fonte: statpearls-vasi-vene-scalpo }
 limiti: >
   Le parotidi vengono dal modello di Z-Anatomy, allineato a quello di
   BodyParts3D con uno scarto medio di circa 3 mm; sottomandibolari e
   sottolinguali vengono da BodyParts3D. I dotti e le piccole ghiandole salivari
   della mucosa non sono nel modello. Non sono riportati i dettagli del controllo
-  nervoso, che la fonte descrive solo in sintesi.
+  nervoso, che la fonte descrive solo in sintesi. Di vasi e nervi sono citati
+  solo i principali, con le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-31
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -44,6 +48,8 @@ La saliva è acqua per il 99,4%; il resto è una miscela di ioni, glicoproteine,
 - la saliva delle parotidi è acquosa e contiene l'[[amilasi]] salivare;
 - quella delle sottomandibolari contiene amilasi in un liquido reso più denso dal muco;
 - quella delle sottolinguali è la più densa e la più povera di amilasi.
+
+La saliva delle ghiandole sottomandibolari e sottolinguali è regolata da fibre del nervo facciale, che le raggiungono con la corda del timpano [@statpearls-nervo-facciale]; quella della parotide da fibre del glossofaringeo [@statpearls-nervo-glossofaringeo]. Il nervo facciale attraversa la parotide e al suo interno si divide nei rami per i muscoli del viso [@statpearls-nervo-facciale]; dentro la parotide si forma anche la vena retromandibolare [@statpearls-vasi-vene-scalpo].
 
 ## Cosa fa
 

@@ -60,6 +60,32 @@ describe('sistema endocrino: tiroide e paratiroidi da Z-Anatomy, ipotalamo e ipo
   });
 });
 
+describe('naso da Z-Anatomy (D50)', () => {
+  it('la cavità nasale è la sua mucosa, un solo elemento nello strato degli organi', () => {
+    expect(strutture.filter((s) => s.gruppo === 'cavita-nasale')).toEqual([
+      {
+        id: 'ZA-mucosa-of-nasal-cavity',
+        nome: 'Mucosa of nasal cavity',
+        fma: null,
+        strato: 'organi',
+        gruppo: 'cavita-nasale',
+      },
+    ]);
+  });
+
+  it('le cinque cartilagini del naso stanno nello strato delle ossa', () => {
+    const cartilagini = strutture.filter((s) => s.id.startsWith('ZA-') && /cartilage/.test(s.nome));
+    expect(cartilagini.map((s) => s.nome).sort()).toEqual([
+      'Left lateral process of nasal septal cartilage',
+      'Left major alar cartilage',
+      'Nasal septal cartilage',
+      'Right lateral process of nasal septal cartilage',
+      'Right major alar cartilage',
+    ]);
+    expect(new Set(cartilagini.map((s) => s.strato))).toEqual(new Set(['ossa']));
+  });
+});
+
 describe('apparato visivo (BodyParts3D)', () => {
   const nomi = (gruppo) =>
     strutture

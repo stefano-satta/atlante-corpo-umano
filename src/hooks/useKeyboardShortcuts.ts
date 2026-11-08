@@ -11,6 +11,8 @@ const LAYER_KEYS: Record<string, Layer> = {
   '3': 'muscoli',
   '4': 'vasi',
   '5': 'nervi',
+  '6': 'digerente',
+  '7': 'respiratorio',
 };
 // Direzione dello spostamento con Maiusc + frecce: il corpo segue la freccia.
 const PAN_KEYS: Record<string, [number, number]> = {
@@ -22,7 +24,7 @@ const PAN_KEYS: Record<string, [number, number]> = {
 const PAN_STEP = 0.06;
 
 /**
- * Comandi da tastiera (D11): frecce per ruotare, Maiusc + frecce per spostare, + e − per lo zoom, 1–5 per gli strati,
+ * Comandi da tastiera (D11): frecce per ruotare, Maiusc + frecce per spostare, + e − per lo zoom, 1–7 per gli strati,
  * 0 per la vista iniziale, Esc per chiudere scheda o cartellino, ? per la guida, / per la ricerca di Indice e Glossario.
  */
 export function useKeyboardShortcuts() {

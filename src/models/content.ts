@@ -164,7 +164,7 @@ export type PathDiagram = 'nessuno' | 'torace' | 'inspirazione' | 'espirazione' 
 export interface GuidedPathStep {
   titolo: string;
   html: string;
-  strato: 'muscoli' | 'organi' | 'scheletro';
+  strato: 'muscoli' | 'organi' | 'scheletro' | 'digerente' | 'respiratorio';
   /** Strutture mostrate piene; quelle di un altro strato si aggiungono alla vista. */
   evidenzia: ModelElements;
   /** Strutture da inquadrare, se diverse da quelle evidenziate. */

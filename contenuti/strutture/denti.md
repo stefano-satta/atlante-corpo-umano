@@ -13,10 +13,14 @@ relazioni:
   - { tipo: fa-parte-di, id: apparato-digerente }
   - { tipo: collegato-a, id: lingua, fonte: openstax-ap-23-3 }
   - { tipo: collegato-a, id: ghiandole-salivari, fonte: openstax-ap-23-3 }
+  - { tipo: collegato-a, id: arteria-alveolare-superiore-posteriore, fonte: statpearls-vasi-mascellare }
+  - { tipo: collegato-a, id: arteria-alveolare-inferiore, fonte: statpearls-vasi-mascellare }
+  - { tipo: collegato-a, id: nervo-trigemino, fonte: statpearls-nervo-trigemino }
 limiti: >
-  Il modello 3D di BodyParts3D ha 28 denti permanenti: mancano i quattro denti del
-  giudizio. I denti si scelgono tutti insieme. Gengive e legamento periodontale
-  non sono nel modello.
+  Il modello 3D di BodyParts3D ha 28 denti permanenti: mancano i quattro denti
+  del giudizio. I denti si scelgono tutti insieme. Gengive e legamento
+  periodontale non sono nel modello. Di vasi e nervi sono citati solo i
+  principali, con le fonti dei loro cartellini.
 figura:
   schema: denti
   titolo: Tipi di denti e struttura di un dente
@@ -32,7 +36,7 @@ figura:
     semplificato e non in scala; a differenza del modello 3D, mostra i denti del giudizio.
 risorse: []
 stato: approvato
-revisione: 2026-10-31
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -55,6 +59,8 @@ Dei 32 denti permanenti, dal centro della bocca verso l'esterno [@openstax-ap-23
 - 4 canini, appuntiti, per strappare;
 - 8 premolari, con due cuspidi arrotondate, per schiacciare;
 - 12 molari, i più grandi, per frantumare. Il terzo molare di ogni arcata è il dente del giudizio, che spesso spunta solo in età adulta o resta incluso nell'osso.
+
+I molari e i premolari superiori ricevono sangue dall'arteria alveolare superiore posteriore, i denti inferiori dall'arteria alveolare inferiore, che entra nella mandibola dal forame mandibolare [@statpearls-vasi-mascellare]; sono entrambe rami dell'arteria mascellare [@fipat-ta2]. I denti superiori sono serviti dal nervo mascellare, uno dei tre rami del trigemino [@statpearls-nervo-trigemino].
 
 ## Cosa fa
 

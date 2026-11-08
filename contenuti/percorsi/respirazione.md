@@ -7,24 +7,24 @@ descrizione: >
 # Per ogni passo: strato mostrato, strutture evidenziate (gruppi di organi o FMA di ossa e
 # muscoli; quelle di un altro strato si aggiungono da sole), inquadratura se diversa dalle
 # evidenziate, e schema 2D. Diaframma FMA13295; intercostali esterni FMA9756; ossa nasali
-# FMA53647 e FMA53648; conche nasali inferiori FMA54737 e FMA54738.
+# FMA53647 e FMA53648; conche nasali inferiori FMA54737 e FMA54738; cavità nasale (gruppo, D50).
 passi:
-  - { strato: organi, evidenzia: { gruppi: [polmoni, trachea-bronchi], fma: [FMA13295] }, schema: torace }
-  - { strato: organi, evidenzia: { gruppi: [trachea-bronchi], fma: [FMA53647, FMA53648, FMA54737, FMA54738] }, schema: nessuno }
-  - { strato: organi, evidenzia: { gruppi: [trachea-bronchi] }, inquadra: { gruppi: [polmoni] }, schema: nessuno }
-  - { strato: organi, evidenzia: { gruppi: [polmoni], fma: [FMA13295, FMA9756] }, schema: inspirazione }
-  - { strato: organi, evidenzia: { gruppi: [polmoni] }, schema: alveolo }
-  - { strato: organi, evidenzia: { gruppi: [polmoni], fma: [FMA13295, FMA9756] }, schema: espirazione }
+  - { strato: respiratorio, evidenzia: { gruppi: [polmoni, trachea-bronchi], fma: [FMA13295] }, schema: torace }
+  - { strato: respiratorio, evidenzia: { gruppi: [cavita-nasale, trachea-bronchi], fma: [FMA53647, FMA53648, FMA54737, FMA54738] }, schema: nessuno }
+  - { strato: respiratorio, evidenzia: { gruppi: [trachea-bronchi] }, inquadra: { gruppi: [polmoni] }, schema: nessuno }
+  - { strato: respiratorio, evidenzia: { gruppi: [polmoni], fma: [FMA13295, FMA9756] }, schema: inspirazione }
+  - { strato: respiratorio, evidenzia: { gruppi: [polmoni] }, schema: alveolo }
+  - { strato: respiratorio, evidenzia: { gruppi: [polmoni], fma: [FMA13295, FMA9756] }, schema: espirazione }
 limiti: >
   Il corpo 3D resta fermo: il movimento del respiro è mostrato solo nello schema,
-  che è semplificato e non in scala. Naso, faringe, laringe, bronchioli e alveoli
-  non sono nel modello 3D; del naso sono evidenziate le ossa nasali e le conche
-  nasali inferiori. Sul ruolo dei muscoli intercostali le fonti si esprimono in
+  che è semplificato e non in scala. Faringe, laringe, bronchioli e alveoli non
+  sono nel modello 3D; del naso sono evidenziate la cavità nasale, come una
+  superficie semplificata, le ossa nasali e le conche nasali inferiori. Sul ruolo dei muscoli intercostali le fonti si esprimono in
   modo diverso: OpenStax indica gli intercostali esterni, insieme al diaframma,
   tra i muscoli dell'inspirazione normale; NHLBI scrive che gli intercostali hanno
   un ruolo durante l'attività fisica. Il percorso segue OpenStax.
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## Un respiro
@@ -39,7 +39,7 @@ L'aria entra dal naso o dalla bocca, che la inumidiscono e la riscaldano [@nhlbi
 
 Dalla cavità nasale l'aria passa nella faringe, poi nella laringe e infine nella [[trachea]], che scende verso i polmoni. Lungo queste vie l'aria viene riscaldata e inumidita, e il muco trattiene polvere e germi [@openstax-ap-22-1].
 
-Nel corpo sono evidenziate la trachea e i bronchi, le ossa nasali, che stanno sotto la parte alta del naso, e le conche nasali inferiori, sporgenze ossee delle pareti della cavità nasale [@openstax-ap-22-1].
+Nel corpo sono evidenziate la cavità nasale, la trachea e i bronchi, le ossa nasali, che stanno sotto la parte alta del naso, e le conche nasali inferiori, sporgenze ossee delle pareti della cavità nasale [@openstax-ap-22-1].
 
 ## I bronchi
 

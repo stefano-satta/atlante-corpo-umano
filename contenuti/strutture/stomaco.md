@@ -14,15 +14,24 @@ relazioni:
   - { tipo: collegato-a, id: intestino-tenue, fonte: openstax-ap-23-4 }
   - { tipo: collegato-a, id: fegato, fonte: openstax-ap-23-4 }
   - { tipo: collegato-a, id: milza, fonte: seer-milza }
+  - { tipo: collegato-a, id: arteria-gastrica-sinistra, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: arteria-gastrica-destra, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: arterie-gastroomentali, fonte: statpearls-vasi-gastroepiploica }
+  - { tipo: collegato-a, id: vena-porta, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vena-splenica, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vena-mesenterica-superiore, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vene-gastroomentali, fonte: statpearls-vasi-mesenterica-sup-vena }
+  - { tipo: collegato-a, id: nervo-vago, fonte: openstax-ap-15-1 }
 limiti: >
   Il testo non riporta i volumi né i tempi di svuotamento, che dipendono dal
   pasto e variano da persona a persona. Le fonti chiamano le quattro regioni in
   modo leggermente diverso (OpenStax: cardias, fondo, corpo e piloro; SEER:
   regione cardiaca, fundica, corpo e regione pilorica); il testo usa i nomi di
-  OpenStax.
+  OpenStax. Di vasi e nervi sono citati solo i principali, con le fonti dei loro
+  cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -45,6 +54,8 @@ Lo stomaco ha quattro regioni [@openstax-ap-23-4]:
 La parete ha, oltre ai due strati di muscolo liscio circolare e longitudinale presenti nel resto del canale digerente, un terzo strato obliquo, che permette allo stomaco di rimescolare il cibo con forza [@openstax-ap-23-4]. Quando lo stomaco è vuoto, il rivestimento interno forma pieghe [@openstax-ap-23-4].
 
 Il rivestimento interno è punteggiato di piccole fossette che portano alle ghiandole gastriche, formate da diversi tipi di cellule: alcune producono muco, altre succo gastrico, altre ormoni [@seer-stomaco]. Le cellule parietali producono acido cloridrico; le cellule principali producono il pepsinogeno, che l'acido trasforma in pepsina, un enzima che scompone le proteine [@openstax-ap-23-4].
+
+Il sangue arriva allo stomaco dall'arteria gastrica sinistra, un ramo del tronco celiaco, e dall'arteria gastrica destra, un ramo dell'arteria epatica comune [@openstax-ap-20-5]. Altri rami gli arrivano dalle arterie gastroomentali, chiamate anche gastroepiploiche [@statpearls-vasi-gastroepiploica]. Il sangue dello stomaco va verso la vena porta, che lo porta al fegato insieme a quello dell'intestino e della milza [@openstax-ap-20-5]. Il nervo vago contribuisce a regolarne l'attività; il sistema simpatico, che prepara il corpo a reagire a una minaccia, rallenta invece la digestione [@openstax-ap-15-1].
 
 ## Cosa fa
 

@@ -29,6 +29,8 @@ describe('barra dei comandi', () => {
       'Muscoli',
       'Cardiocircolatorio',
       'Nervoso',
+      'Digerente',
+      'Respiratorio',
     ]);
     expect(screen.getByRole('radio', { name: 'Organi' }).getAttribute('aria-checked')).toBe('true');
     expect(within(screen.getByRole('toolbar')).queryByRole('radiogroup', { name: 'Apparati' })).toBeNull();
@@ -46,7 +48,7 @@ describe('barra dei comandi', () => {
     expect(document.activeElement).toBe(skeleton);
     fireEvent.keyDown(skeleton, { key: 'ArrowUp' });
     fireEvent.keyDown(organs, { key: 'ArrowUp' });
-    expect(screen.getByRole('radio', { name: 'Nervoso' }).getAttribute('aria-checked')).toBe('true');
+    expect(screen.getByRole('radio', { name: 'Respiratorio' }).getAttribute('aria-checked')).toBe('true');
   });
 
   it('cambia apparato al clic', () => {

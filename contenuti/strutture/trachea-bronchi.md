@@ -13,13 +13,15 @@ relazioni:
   - { tipo: collegato-a, id: polmoni, fonte: openstax-ap-22-1 }
   - { tipo: collegato-a, id: laringe, fonte: openstax-ap-22-1 }
   - { tipo: collegato-a, id: esofago, fonte: openstax-ap-22-1 }
+  - { tipo: collegato-a, id: arterie-bronchiali, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: nervo-vago, fonte: openstax-ap-15-1 }
 limiti: >
   Il modello 3D mostra la trachea, i due bronchi principali e le diramazioni
   fino ai bronchi segmentali; i bronchioli e gli alveoli sono troppo piccoli per
   essere rappresentati. Il testo non riporta valori numerici sulle ramificazioni.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -43,3 +45,11 @@ Dentro i polmoni i bronchi continuano a dividersi e formano l'albero bronchiale 
 Trachea e bronchi fanno parte delle vie che conducono l'aria: le vie respiratorie che portano l'aria ai polmoni la riscaldano, la umidificano e ne rimuovono detriti e microbi [@openstax-ap-22-1].
 
 Il rivestimento interno è un epitelio con ciglia, ricco di cellule che producono muco [@openstax-ap-22-1]: il muco trattiene le particelle e i microbi entrati con l'aria [@openstax-ap-22-1]. Gli anelli di cartilagine impediscono che le vie si chiudano [@nhlbi-polmoni-sistema].
+
+## Il processo: la respirazione
+
+Trachea e bronchi sono il passaggio per cui l'aria entra nei polmoni con l'inspirazione e ne esce con l'espirazione [@openstax-ap-22-1]. A ogni respiro la membrana sul retro della trachea le permette di allungarsi e allargarsi un poco, e durante l'espirazione il muscolo tracheale può contrarsi e spingere fuori l'aria [@openstax-ap-22-1].
+
+I bronchioli, con le loro pareti muscolari, possono allargarsi o restringersi e così aumentare o ridurre il flusso d'aria [@openstax-ap-22-1]. Questo calibro è regolato dal sistema nervoso autonomo: il parasimpatico restringe le vie aeree, il simpatico le allarga [@openstax-ap-22-2]. Nel torace il nervo vago agisce soprattutto su cuore, bronchi ed esofago [@openstax-ap-15-1].
+
+Il sangue che nutre le pareti delle vie respiratorie arriva dalle arterie bronchiali, rami dell'aorta che le seguono fino ai bronchioli [@openstax-ap-20-5].

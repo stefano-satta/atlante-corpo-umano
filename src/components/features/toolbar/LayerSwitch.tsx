@@ -2,13 +2,15 @@ import { useAtlas } from '@/hooks/useAtlas';
 import type { Layer } from '@/models/atlas';
 import { SelectorGroup, type SelectorOption } from './SelectorGroup';
 
-/** L'ordine è quello dei tasti da 1 a 5. */
+/** L'ordine è quello dei tasti da 1 a 7. */
 const LAYERS: Array<SelectorOption<Layer>> = [
   { id: 'organi', name: 'Organi' },
   { id: 'scheletro', name: 'Scheletro' },
   { id: 'muscoli', name: 'Muscoli' },
   { id: 'vasi', name: 'Cardiocircolatorio' },
   { id: 'nervi', name: 'Nervoso' },
+  { id: 'digerente', name: 'Digerente' },
+  { id: 'respiratorio', name: 'Respiratorio' },
 ];
 
 /** Selettore dell'apparato visibile (nello stato è lo strato del modello). */

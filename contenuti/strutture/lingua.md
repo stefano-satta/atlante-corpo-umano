@@ -13,15 +13,21 @@ relazioni:
   - { tipo: collegato-a, id: denti, fonte: openstax-ap-23-3 }
   - { tipo: collegato-a, id: ghiandole-salivari, fonte: openstax-ap-23-3 }
   - { tipo: collegato-a, id: faringe, fonte: openstax-ap-23-3 }
+  - { tipo: collegato-a, id: nervo-ipoglosso, fonte: statpearls-nervo-ipoglosso }
+  - { tipo: collegato-a, id: nervo-vago, fonte: statpearls-nervo-ipoglosso }
+  - { tipo: collegato-a, id: nervo-facciale, fonte: statpearls-nervo-facciale }
+  - { tipo: collegato-a, id: nervo-glossofaringeo, fonte: statpearls-nervo-glossofaringeo }
+  - { tipo: collegato-a, id: nervo-trigemino, fonte: statpearls-nervo-trigemino }
 limiti: >
-  Il modello 3D di BodyParts3D mostra la lingua come un pezzo unico; due dei suoi
-  muscoli estrinseci, il genioglosso e lo ioglosso, sono nello strato dei
+  Il modello 3D di BodyParts3D mostra la lingua come un pezzo unico; due dei
+  suoi muscoli estrinseci, il genioglosso e lo ioglosso, sono nello strato dei
   muscoli. Papille e calici gustativi non sono nel modello. OpenStax scrive che
   anche il miloioideo solleva la lingua, ma non lo elenca fra i muscoli
-  estrinseci: il testo segue l'elenco.
+  estrinseci: il testo segue l'elenco. Di vasi e nervi sono citati solo i
+  principali, con le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-31
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -40,6 +46,8 @@ Un setto lungo la linea mediana divide la lingua in due metà simmetriche, che h
 - i muscoli estrinseci nascono fuori dalla lingua e si inseriscono al suo interno. Sono il palatoglosso, l'ioglosso, che la tira in basso e indietro, lo stiloglosso, che la tira in alto e indietro, e il genioglosso, che la spinge in avanti.
 
 Sopra e ai lati la lingua è coperta di piccole sporgenze, le papille. Le papille fungiformi, a forma di fungo, contengono i calici gustativi; quelle filiformi, lunghe e sottili, hanno recettori del tatto e rendono ruvida la superficie [@openstax-ap-23-3].
+
+I muscoli della lingua sono comandati dal nervo ipoglosso, tranne il palatoglosso, che dipende dal vago [@statpearls-nervo-ipoglosso]. Il nervo facciale porta il gusto dei due terzi anteriori della lingua [@statpearls-nervo-facciale], il glossofaringeo la sensibilità e il gusto del terzo posteriore [@statpearls-nervo-glossofaringeo]; il nervo mandibolare, ramo del trigemino, ne porta la sensibilità [@statpearls-nervo-trigemino].
 
 ## Cosa fa
 

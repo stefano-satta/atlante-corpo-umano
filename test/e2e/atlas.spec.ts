@@ -78,7 +78,7 @@ test('la scheda si apre, si chiude con Esc e la cronologia funziona', async ({ p
   await expect(page.getByRole('complementary')).toHaveCount(0);
 });
 
-test('i tasti 1–5 cambiano apparato', async ({ page }) => {
+test('i tasti 1–7 cambiano apparato', async ({ page }) => {
   await enter(page);
   await page.keyboard.press('2');
   await expect(page.getByRole('radio', { name: 'Scheletro' })).toHaveAttribute('aria-checked', 'true');
@@ -86,6 +86,12 @@ test('i tasti 1–5 cambiano apparato', async ({ page }) => {
   await expect(page.getByRole('radio', { name: 'Muscoli' })).toHaveAttribute('aria-checked', 'true');
   await page.keyboard.press('5');
   await expect(page.getByRole('radio', { name: 'Nervoso' })).toHaveAttribute('aria-checked', 'true');
+  await page.keyboard.press('6');
+  await expect(page.getByRole('radio', { name: 'Digerente' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page).toHaveURL(/\/esplora\/digerente$/);
+  await page.keyboard.press('7');
+  await expect(page.getByRole('radio', { name: 'Respiratorio' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page).toHaveURL(/\/esplora\/respiratorio$/);
 });
 
 test('su desktop la barra è centrata sulla finestra, con i crediti in basso a destra', async ({ page }) => {
@@ -187,6 +193,46 @@ test("gli indirizzi di prima si riscrivono nella forma con l'apparato (D47)", as
   await page.goto('/esplora/FJ3259');
   await waitForScene(page);
   await expect(page).toHaveURL(/\/esplora\/scheletro\/FJ3259$/);
+});
+
+test("l'apparato respiratorio mostra polmoni, muscoli dell'inspirazione e naso (D49, D50)", async ({ page }) => {
+  await page.goto('/esplora/respiratorio/polmoni');
+  await waitForScene(page);
+  const panel = page.getByRole('complementary');
+  await expect(panel.getByRole('heading', { name: 'Polmoni' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Respiratorio' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page).toHaveURL(/\/esplora\/respiratorio\/polmoni$/);
+  // Diaframma, un osso nasale, la cavità nasale e la cartilagine del setto restano nello strato respiratorio.
+  for (const id of ['FJ3131', 'FJ3378', 'cavita-nasale', 'ZA-nasal-septal-cartilage']) {
+    await page.goto(`/esplora/respiratorio/${id}`);
+    await waitForScene(page);
+    await expect(page).toHaveURL(new RegExp(`/esplora/respiratorio/${id}$`));
+  }
+  await page.goto('/esplora/respiratorio/stomaco');
+  await waitForScene(page);
+  await expect(page).toHaveURL(/\/esplora\/organi\/stomaco$/);
+  await checkAccessibility(page);
+});
+
+test("l'apparato digerente mostra i suoi organi e i costrittori della faringe (D48)", async ({ page }) => {
+  await page.goto('/esplora/digerente/pancreas');
+  await waitForScene(page);
+  const panel = page.getByRole('complementary');
+  await expect(panel.getByRole('heading', { name: 'Pancreas' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Digerente' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page).toHaveURL(/\/esplora\/digerente\/pancreas$/);
+  await expect(panel.getByRole('link', { name: 'Arterie pancreatiche' })).toHaveAttribute(
+    'href',
+    '/esplora/digerente/vaso-caudal-pancreatic-artery',
+  );
+  // Un muscolo costrittore della faringe resta nello strato digerente; il diaframma no.
+  await page.goto('/esplora/digerente/FJ2759');
+  await waitForScene(page);
+  await expect(page).toHaveURL(/\/esplora\/digerente\/FJ2759$/);
+  await page.goto('/esplora/digerente/FJ3131');
+  await waitForScene(page);
+  await expect(page).toHaveURL(/\/esplora\/muscoli\/FJ3131$/);
+  await checkAccessibility(page);
 });
 
 test('un indirizzo diretto a un osso mostra lo strato dello scheletro', async ({ page }) => {

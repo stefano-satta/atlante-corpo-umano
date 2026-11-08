@@ -13,6 +13,8 @@ describe('indirizzi di esplorazione (D47)', () => {
     expect(urlFor({ ...explore, layer: 'nervi', selection: 'midollo-spinale' })).toBe(
       '/esplora/nervoso/midollo-spinale',
     );
+    expect(urlFor({ ...explore, layer: 'digerente', selection: 'fegato' })).toBe('/esplora/digerente/fegato');
+    expect(urlFor({ ...explore, layer: 'respiratorio', selection: 'polmoni' })).toBe('/esplora/respiratorio/polmoni');
   });
 
   it("si leggono nell'altro verso", () => {
@@ -24,6 +26,11 @@ describe('indirizzi di esplorazione (D47)', () => {
     });
     expect(readUrl('/esplora/organi/cuore/scheda')).toMatchObject({ layer: 'organi', selection: 'cuore', sheet: true });
     expect(readUrl('/esplora/nervoso/encefalo/')).toMatchObject({ layer: 'nervi', selection: 'encefalo' });
+    expect(readUrl('/esplora/digerente/stomaco/scheda')).toMatchObject({
+      layer: 'digerente',
+      selection: 'stomaco',
+      sheet: true,
+    });
     expect(readUrl('/esplora/muscoli/vaso%20x')).toMatchObject({ selection: 'vaso x' });
   });
 

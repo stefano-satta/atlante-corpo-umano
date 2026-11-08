@@ -31,7 +31,7 @@ const TOUR_STEPS: TourStep[] = [
   },
   {
     title: 'Genere, apparati e sagoma',
-    text: 'Qui scegli cosa vedere: il corpo di un uomo o di una donna, poi gli organi (con le ossa in trasparenza), lo scheletro, i muscoli, l’apparato cardiocircolatorio o il sistema nervoso (tasti da 1 a 5). In basso, l’icona della persona mostra o nasconde la pelle e la freccia circolare riporta il corpo di fronte (tasto 0).',
+    text: 'Qui scegli cosa vedere: il corpo di un uomo o di una donna, poi gli organi (con le ossa in trasparenza), lo scheletro, i muscoli, l’apparato cardiocircolatorio, il sistema nervoso, l’apparato digerente o quello respiratorio (tasti da 1 a 7). In basso, l’icona della persona mostra o nasconde la pelle e la freccia circolare riporta il corpo di fronte (tasto 0).',
     target: '.selector-panel, .selector-trigger',
   },
   {

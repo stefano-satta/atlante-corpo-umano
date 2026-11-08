@@ -14,16 +14,23 @@ relazioni:
   - { tipo: collegato-a, id: stomaco, fonte: openstax-ap-23-3 }
   - { tipo: collegato-a, id: diaframma, fonte: openstax-ap-23-3 }
   - { tipo: collegato-a, id: trachea-bronchi, fonte: openstax-ap-23-3 }
+  - { tipo: collegato-a, id: arterie-esofagee, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: arteria-gastrica-sinistra, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: aorta-toracica, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vene-gastriche, fonte: statpearls-vasi-esofago }
+  - { tipo: collegato-a, id: nervo-vago, fonte: statpearls-nervo-vago }
+  - { tipo: collegato-a, id: costrittore-inferiore-faringe, fonte: openstax-ap-23-3 }
 limiti: >
   OpenStax descrive in due modi diversi i muscoli della parete: in un punto dice
   che i due terzi superiori contengono muscolo scheletrico e muscolo liscio, in
   un altro che il terzo superiore è di muscolo scheletrico, quello medio misto e
-  quello inferiore liscio. Il testo segue la seconda descrizione, più dettagliata.
-  Non sono riportati la lunghezza né i tempi della deglutizione, che variano da
-  persona a persona.
+  quello inferiore liscio. Il testo segue la seconda descrizione, più
+  dettagliata. Non sono riportati la lunghezza né i tempi della deglutizione,
+  che variano da persona a persona. Di vasi e nervi sono citati solo i
+  principali, con le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -42,6 +49,8 @@ All'inizio e alla fine l'esofago ha due anelli muscolari, gli sfinteri, che funz
 - lo sfintere esofageo inferiore regola il passaggio dall'esofago allo stomaco.
 
 La parete interna è rivestita da un epitelio a più strati che la protegge dallo sfregamento del cibo e contiene ghiandole che producono muco [@openstax-ap-23-3]. Lo strato muscolare è di muscolo scheletrico nel terzo superiore, di muscolo scheletrico e liscio nel terzo medio e di muscolo liscio nel terzo inferiore [@openstax-ap-23-3].
+
+Il sangue arriva all'esofago dalle arterie esofagee, rami dell'aorta toracica, e dall'arteria gastrica sinistra, che porta sangue anche allo stomaco [@openstax-ap-20-5]. Dalla parte più bassa il sangue raggiunge il sistema della vena porta attraverso le vene gastriche [@statpearls-vasi-esofago]. Lungo l'esofago scendono i due nervi vaghi, che attorno a esso formano il plesso esofageo e ne regolano l'attività [@statpearls-nervo-vago].
 
 ## Cosa fa
 

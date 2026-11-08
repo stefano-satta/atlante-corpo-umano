@@ -12,14 +12,17 @@ relazioni:
   - { tipo: fa-parte-di, id: apparato-digerente }
   - { tipo: collegato-a, id: fegato, fonte: openstax-ap-23-6 }
   - { tipo: collegato-a, id: intestino-tenue, fonte: openstax-ap-23-6 }
+  - { tipo: collegato-a, id: arteria-epatica-comune, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: nervo-vago, fonte: openstax-ap-15-1 }
 limiti: >
   OpenStax dice che la colecisti spinge la bile nel duodeno "quando viene
-  stimolata", senza indicare in quella sezione quale segnale la fa contrarre:
-  il testo non lo specifica. Non sono riportate misure, che variano da persona
-  a persona.
+  stimolata", senza indicare in quella sezione quale segnale la fa contrarre: il
+  testo non lo specifica. Non sono riportate misure, che variano da persona a
+  persona. L'arteria cistica non è nel modello 3D. Di vasi e nervi sono citati
+  solo i principali, con le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -35,6 +38,8 @@ La colecisti è accolta in un incavo poco profondo sulla faccia posteriore del l
 La colecisti ha tre parti: il fondo, la parte più larga; il corpo, che si restringe; il collo, la parte più stretta, rivolta verso il dotto epatico [@openstax-ap-23-6]. Dal collo parte un breve condotto, il dotto cistico, che si unisce al dotto epatico comune e forma il dotto biliare comune, attraverso cui la bile raggiunge l'intestino tenue [@openstax-ap-23-6].
 
 La parete ha un rivestimento interno ripiegato in pieghe e uno strato di muscolo liscio, che contraendosi spinge fuori la bile [@openstax-ap-23-6].
+
+Il sangue arriva alla colecisti dall'arteria cistica, che OpenStax descrive come un ramo dell'arteria epatica comune [@openstax-ap-20-5]. Il nervo vago contribuisce a regolarne l'attività [@openstax-ap-15-1].
 
 ## Cosa fa
 

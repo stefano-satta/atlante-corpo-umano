@@ -13,9 +13,9 @@ relazioni:
   - { tipo: collegato-a, id: osso-frontale, fonte: openstax-ap-7-2 }
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
 
-Le due ossa nasali sono piccole ossa che si uniscono tra loro e formano la base ossea del naso [@openstax-ap-7-2]. Sostengono le cartilagini delle pareti laterali del naso e sono le ossa che si danneggiano quando il naso si rompe [@openstax-ap-7-2].
+Le due ossa nasali sono piccole ossa che si uniscono tra loro e formano la base ossea del naso [@openstax-ap-7-2], sotto la radice e il dorso [@openstax-ap-22-1]. Il naso è la via principale per cui l'aria entra nell'apparato respiratorio e ne esce [@openstax-ap-22-1]. Sostengono le cartilagini delle pareti laterali del naso e sono le ossa che si danneggiano quando il naso si rompe [@openstax-ap-7-2].

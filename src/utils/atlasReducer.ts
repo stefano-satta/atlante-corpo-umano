@@ -80,6 +80,45 @@ export function initialAtlasState(pathname: string): AtlasState {
   };
 }
 
+/** Gruppi di organi dell'apparato digerente, dalla bocca all'intestino crasso. */
+export const DIGESTIVE_ORGANS = [
+  'lingua',
+  'denti',
+  'ghiandole-salivari',
+  'esofago',
+  'stomaco',
+  'intestino-tenue',
+  'intestino-crasso',
+  'fegato',
+  'colecisti',
+  'pancreas',
+];
+
+/** Muscoli costrittori della faringe (superiori, medi, inferiori) e sfintere esterno dell'ano. */
+const DIGESTIVE_MUSCLES = ['FJ2759', 'FJ2747', 'FJ2742', 'FJ2754', 'FJ2752', 'FJ2740', 'FJ1450M', 'FJ2543', 'FJ2548'];
+
+/** Organi dell'apparato respiratorio presenti nel modello: faringe e laringe non ci sono. */
+export const RESPIRATORY_ORGANS = ['cavita-nasale', 'trachea-bronchi', 'polmoni'];
+
+/**
+ * Muscoli dell'inspirazione tranquilla (diaframma e intercostali esterni), ossa nasali e cornetti nasali
+ * inferiori, come nel percorso "Un respiro", e cartilagini del naso di Z-Anatomy (D50).
+ */
+const RESPIRATORY_UNITS = [
+  'FJ3131',
+  'FJ1451',
+  'FJ1451M',
+  'FJ3378',
+  'FJ3272',
+  'FJ3369',
+  'FJ3263',
+  'ZA-nasal-septal-cartilage',
+  'ZA-right-lateral-process-of-nasal-septal-cartilage',
+  'ZA-left-lateral-process-of-nasal-septal-cartilage',
+  'ZA-right-major-alar-cartilage',
+  'ZA-left-major-alar-cartilage',
+];
+
 /** Strati del modello visibili per ciascuno strato della barra dei comandi. */
 export const VISIBLE_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   scheletro: ['ossa'],
@@ -87,11 +126,17 @@ export const VISIBLE_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   muscoli: ['muscoli'],
   vasi: ['vasi'],
   nervi: ['nervi'],
+  digerente: [],
+  respiratorio: [],
 };
 
 /**
  * Unità di un altro strato del modello che fanno parte dello strato della barra: il cuore fra i vasi (D44),
- * l'encefalo, l'ipotalamo e il nervo ottico fra i nervi (D46).
+ * l'encefalo, l'ipotalamo e il nervo ottico fra i nervi (D46). L'apparato digerente (D48) non ha uno strato
+ * del modello: mostra gli organi del canale digerente e le ghiandole annesse, con i muscoli costrittori della
+ * faringe (che nel modello manca) e lo sfintere esterno dell'ano, come nel percorso "Il viaggio del cibo".
+ * Allo stesso modo l'apparato respiratorio (D49, D50) mostra cavità nasale, trachea e bronchi, polmoni, i
+ * muscoli dell'inspirazione tranquilla e le ossa e le cartilagini del naso.
  */
 export const VISIBLE_UNITS: Record<Layer, string[]> = {
   scheletro: [],
@@ -99,6 +144,8 @@ export const VISIBLE_UNITS: Record<Layer, string[]> = {
   muscoli: [],
   vasi: ['cuore'],
   nervi: ['encefalo', 'ipotalamo', 'nervo-ottico'],
+  digerente: [...DIGESTIVE_ORGANS, ...DIGESTIVE_MUSCLES],
+  respiratorio: [...RESPIRATORY_ORGANS, ...RESPIRATORY_UNITS],
 };
 
 /** Strati del modello mostrati solo come contesto (fantasma, non selezionabili). */
@@ -108,6 +155,8 @@ export const GHOST_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   muscoli: [],
   vasi: ['ossa'],
   nervi: ['ossa'],
+  digerente: ['ossa'],
+  respiratorio: ['ossa'],
 };
 
 /** Strati del modello in un file a parte, nell'ordine in cui la scena li disegna. */

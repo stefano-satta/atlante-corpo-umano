@@ -13,14 +13,22 @@ relazioni:
   - { tipo: collegato-a, id: intestino-tenue, fonte: openstax-ap-23-6 }
   - { tipo: collegato-a, id: stomaco, fonte: openstax-ap-23-6 }
   - { tipo: collegato-a, id: milza, fonte: openstax-ap-23-6 }
+  - { tipo: collegato-a, id: arterie-pancreatiche, fonte: statpearls-vasi-celiaco }
+  - { tipo: collegato-a, id: arterie-pancreaticoduodenali-superiori, fonte: statpearls-vasi-celiaco }
+  - { tipo: collegato-a, id: arterie-pancreaticoduodenali-inferiori, fonte: statpearls-vasi-mesenterica-sup }
+  - { tipo: collegato-a, id: arteria-mesenterica-superiore, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vena-splenica, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vene-pancreaticoduodenali, fonte: statpearls-vasi-mesenterica-sup-vena }
+  - { tipo: collegato-a, id: nervo-vago, fonte: statpearls-nervo-vago }
 limiti: >
   Il pancreas appartiene sia all'apparato digerente sia al sistema endocrino:
   l'atlante lo colloca nell'apparato digerente e ne descrive in breve la parte
   endocrina. Il dotto pancreatico accessorio non è presente in tutte le persone
-  e il testo non lo nomina.
+  e il testo non lo nomina. Di vasi e nervi sono citati solo i principali, con
+  le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -36,6 +44,8 @@ Il pancreas è disposto di traverso dietro lo stomaco, nello spazio dietro il pe
 La parte che produce il succo digestivo è formata da piccoli grappoli di cellule, gli acini, alle estremità di dotti che confluiscono in un dotto principale [@openstax-ap-23-6]. Il dotto pancreatico si unisce al dotto biliare comune poco prima del duodeno; uno sfintere di muscolo liscio regola il passaggio di succo pancreatico e bile nell'intestino [@openstax-ap-23-6].
 
 Sparse tra gli acini ci sono piccole isole di cellule endocrine, le isole pancreatiche, che producono insulina, glucagone e altri ormoni [@openstax-ap-23-6].
+
+Il corpo e la coda del pancreas ricevono sangue dai rami pancreatici dell'arteria splenica; la testa dalle arterie pancreaticoduodenali superiori, rami dell'arteria gastroduodenale [@statpearls-vasi-celiaco], e da quelle inferiori, rami dell'arteria mesenterica superiore [@statpearls-vasi-mesenterica-sup]. Il sangue esce dal pancreas verso la vena splenica, che confluisce nella vena porta [@openstax-ap-20-5], e, attraverso le vene pancreaticoduodenali, verso la vena mesenterica superiore [@statpearls-vasi-mesenterica-sup-vena]. Il nervo vago raggiunge il pancreas con i suoi rami celiaci [@statpearls-nervo-vago].
 
 ## Cosa fa
 

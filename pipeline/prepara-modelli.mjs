@@ -8,7 +8,8 @@
 // --polmoni <cartella> (predefinita dati-sorgente/z-anatomy/polmoni, prodotta da
 // npm run modelli:polmoni), --tiroide <cartella> (predefinita dati-sorgente/z-anatomy/tiroide,
 // prodotta da npm run modelli:tiroide, con le paratiroidi), --parotidi <cartella> (predefinita
-// dati-sorgente/z-anatomy/parotidi, prodotta da npm run modelli:parotidi), --ratio-polmoni 0.3 (per gli organi
+// dati-sorgente/z-anatomy/parotidi, prodotta da npm run modelli:parotidi), --naso <cartella> (predefinita
+// dati-sorgente/z-anatomy/naso, prodotta da npm run modelli:naso, D50), --triangoli-naso 2000, --ratio-polmoni 0.3 (per gli organi
 // di Z-Anatomy, tranne le superfici sotto i 200 triangoli, che non si riducono), --ratio-occhi 0.03
 // (sclera, cornea, iride e cristallino), --donna <cartella> (predefinita
 // dati-sorgente/hra/allineati, prodotta da npm run modelli:donna), --triangoli-donna 3000,
@@ -23,7 +24,8 @@
 // (classificazione e coordinate: classifica.mjs).
 //
 // Licenza dei dati di origine: BodyParts3D, © The Database Center for Life Science,
-// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni, tiroide, parotidi, i muscoli e i vasi
+// CC BY 4.0 (i file OBJ riportano la precedente CC BY-SA 2.1 JP); polmoni, tiroide, parotidi, cavità e cartilagini
+// del naso, i muscoli e i vasi
 // assenti da BodyParts3D, il midollo spinale e i nervi da Z-Anatomy,
 // CC BY-SA 4.0; organi femminili dallo Human Reference Atlas, CC BY 4.0. I modelli derivati
 // sono distribuiti con licenza CC BY-SA 4.0.
@@ -51,6 +53,8 @@ const cartellaObj = arg('obj', path.join(cartella, 'isa_BP3D_4.0_obj_99'));
 const cartellaPolmoni = arg('polmoni', 'dati-sorgente/z-anatomy/polmoni');
 const cartellaTiroide = arg('tiroide', 'dati-sorgente/z-anatomy/tiroide');
 const cartellaParotidi = arg('parotidi', 'dati-sorgente/z-anatomy/parotidi');
+const cartellaNaso = arg('naso', 'dati-sorgente/z-anatomy/naso');
+const triangoliNaso = Number(arg('triangoli-naso', '2000'));
 const ratioPolmoni = Number(arg('ratio-polmoni', '0.3'));
 // Sclera, cornea, iride e cristallino sono superfici lisce con molti più triangoli del necessario
 // (la sclera quasi 40.000): ridotti di più, restano rotondi e tengono lo strato nel suo peso.
@@ -78,6 +82,7 @@ for (const [cartellaDati, comando] of [
   [cartellaPolmoni, 'npm run modelli:polmoni'],
   [cartellaTiroide, 'npm run modelli:tiroide'],
   [cartellaParotidi, 'npm run modelli:parotidi'],
+  [cartellaNaso, 'npm run modelli:naso'],
   [cartellaDonna, 'npm run modelli:donna'],
   [cartellaMuscoli, 'npm run modelli:muscoli'],
   [cartellaVasi, 'npm run modelli:vasi'],
@@ -188,6 +193,27 @@ for (const [cartellaZa, gruppi] of [
   }
 }
 
+// Cavità nasale (la sua mucosa) e cartilagini del naso di Z-Anatomy, già allineate da esporta-naso.py (D50).
+// La mucosa è un organo; le cartilagini stanno nello strato delle ossa, come le cartilagini costali. Le
+// cartilagini (circa 350 triangoli) restano intere; la mucosa, suddivisa da Blender in quasi 10.000
+// triangoli, si riduce a un numero massimo, come i muscoli di Z-Anatomy.
+const CARTILAGINI_NASO =
+  /^((Right|Left) (lateral process of nasal septal|major alar) cartilage|Nasal septal cartilage)$/;
+const nasoIntero = new Set();
+for (const f of fs.readdirSync(cartellaNaso).filter((f) => f.endsWith('.obj'))) {
+  const file = path.join(cartellaNaso, f);
+  const nome = /# English name : (.+)/.exec(fs.readFileSync(file, 'utf8').slice(0, 1000))?.[1].trim();
+  const id = `ZA-${f.slice(0, -4).toLowerCase().replaceAll('_', '-')}`;
+  const c = CARTILAGINI_NASO.test(nome ?? '')
+    ? { strato: 'ossa', gruppo: null }
+    : nome && classifica(f, nome, new Set(), new Set());
+  if (c?.strato !== 'ossa' && c?.gruppo !== 'cavita-nasale')
+    throw new Error(`${f}: parte del naso non riconosciuta (${nome})`);
+  strutture.push({ id, nome, fma: null, ...c });
+  fileObj.set(id, file);
+  nasoIntero.add(id);
+}
+
 // Organi femminili dell'HRA e vagina schematica, già allineati da organi-donna.mjs.
 for (const f of fs.readdirSync(cartellaDonna).filter((f) => f.endsWith('.obj'))) {
   const file = path.join(cartellaDonna, f);
@@ -264,8 +290,9 @@ for (const strato of ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna', 'vas
   for (const m of doc.getRoot().listMeshes()) {
     for (const p of m.listPrimitives()) {
       const triangoli = p.getIndices().getCount() / 3;
-      const r =
-        strato === 'nervi'
+      const r = nasoIntero.has(m.getName())
+        ? Math.min(1, triangoliNaso / triangoli)
+        : strato === 'nervi'
           ? gruppoDi.get(m.getName()) === 'nervo-spinal-cord'
             ? ratioMidollo
             : Math.min(1, triangoliNervi / triangoli)
@@ -319,6 +346,7 @@ fs.writeFileSync(
       ratioMidollo,
       triangoliDonna,
       triangoliMuscoli,
+      triangoliNaso,
       errore,
       riepilogo,
     },

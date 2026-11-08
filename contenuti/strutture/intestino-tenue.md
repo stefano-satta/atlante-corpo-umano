@@ -14,15 +14,23 @@ relazioni:
   - { tipo: collegato-a, id: intestino-crasso, fonte: openstax-ap-23-5 }
   - { tipo: collegato-a, id: pancreas, fonte: openstax-ap-23-5 }
   - { tipo: collegato-a, id: fegato, fonte: openstax-ap-23-5 }
+  - { tipo: collegato-a, id: arteria-mesenterica-superiore, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: arterie-ileali, fonte: statpearls-vasi-mesenterica-sup }
+  - { tipo: collegato-a, id: arterie-pancreaticoduodenali-superiori, fonte: statpearls-vasi-celiaco }
+  - { tipo: collegato-a, id: arterie-pancreaticoduodenali-inferiori, fonte: statpearls-vasi-mesenterica-sup }
+  - { tipo: collegato-a, id: vena-mesenterica-superiore, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vena-porta, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: nervo-vago, fonte: statpearls-nervo-vago }
 limiti: >
   Il testo non riporta le misure di lunghezza e superficie: OpenStax le indica
   come valori approssimati e precisa che nel cadavere l'intestino appare molto
   più lungo che nella persona viva. Sulla stessa pagina il rapporto di lunghezza
   con l'intestino crasso è indicato in due modi non coerenti. Tra digiuno e ileo
-  non c'è un confine netto.
+  non c'è un confine netto. Di vasi e nervi sono citati solo i principali, con
+  le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -44,6 +52,8 @@ L'intestino tenue ha tre parti, dallo stomaco verso l'intestino crasso [@opensta
 Digiuno e ileo sono legati alla parete posteriore dell'addome da una piega di peritoneo, il mesentere [@openstax-ap-23-5]. Nella parete del duodeno sbocca il condotto comune che porta la bile del fegato e il succo del pancreas [@openstax-ap-23-5].
 
 Il rivestimento interno è fatto per assorbire: ha pieghe circolari, è coperto da minuscole sporgenze chiamate villi e le cellule dei villi hanno a loro volta sottilissimi microvilli. Insieme, queste strutture moltiplicano la superficie di assorbimento [@openstax-ap-23-5]. Ogni villo contiene una rete di [[capillari|capillare]] e un vaso linfatico [@openstax-ap-23-5].
+
+Il sangue arriva all'intestino tenue soprattutto dall'arteria mesenterica superiore, un ramo dell'aorta addominale [@openstax-ap-20-5]. Le arterie ileali formano arcate nel mesentere, da cui partono piccole arterie diritte per la parete; il duodeno riceve sangue anche dalle arterie pancreaticoduodenali, che irrorano pure la testa del pancreas [@statpearls-vasi-mesenterica-sup]. Il sangue, ricco delle sostanze assorbite, passa nella vena mesenterica superiore e da lì nella vena porta, che lo porta al fegato [@openstax-ap-20-5]. Il nervo vago raggiunge l'intestino tenue con i suoi rami celiaci [@statpearls-nervo-vago].
 
 ## Cosa fa
 

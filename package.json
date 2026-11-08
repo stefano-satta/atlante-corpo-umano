@@ -13,6 +13,7 @@
     "modelli:polmoni": "node pipeline/z-anatomy.mjs esporta-polmoni.py",
     "modelli:tiroide": "node pipeline/z-anatomy.mjs esporta-tiroide.py",
     "modelli:parotidi": "node pipeline/z-anatomy.mjs esporta-parotidi.py",
+    "modelli:naso": "node pipeline/z-anatomy.mjs esporta-naso.py",
     "modelli:muscoli": "node pipeline/z-anatomy.mjs esporta-muscoli.py",
     "modelli:vasi": "node pipeline/z-anatomy.mjs esporta-vasi.py",
     "modelli:nervi": "node pipeline/z-anatomy.mjs esporta-nervi.py",

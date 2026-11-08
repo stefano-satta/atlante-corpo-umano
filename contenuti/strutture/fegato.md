@@ -15,16 +15,27 @@ relazioni:
   - { tipo: collegato-a, id: stomaco, fonte: openstax-ap-23-6 }
   - { tipo: collegato-a, id: diaframma, fonte: openstax-ap-23-6 }
   - { tipo: collegato-a, id: milza, fonte: openstax-ap-23-6 }
+  - { tipo: collegato-a, id: arteria-epatica-propria, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: arteria-epatica-comune, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: arteria-epatica-destra, fonte: fipat-ta2 }
+  - { tipo: collegato-a, id: arteria-epatica-sinistra, fonte: fipat-ta2 }
+  - { tipo: collegato-a, id: vena-porta, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: rami-vena-porta, fonte: openstax-ap-23-6 }
+  - { tipo: collegato-a, id: vene-epatiche, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: tributarie-vene-epatiche, fonte: openstax-ap-23-6 }
+  - { tipo: collegato-a, id: vena-cava-inferiore, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: nervo-vago, fonte: openstax-ap-15-1 }
 limiti: >
   La divisione in lobi non è descritta da tutti allo stesso modo: OpenStax
   indica due lobi principali e aggiunge che alcuni anatomisti distinguono anche
   un lobo quadrato e un lobo caudato. Il modello 3D di BodyParts3D divide invece
   il fegato in segmenti, secondo le vene che lo drenano. Le funzioni del fegato
   diverse dalla digestione sono citate solo in generale, perché la fonte non le
-  elenca.
+  elenca. Di vasi e nervi sono citati solo i principali, con le fonti dei loro
+  cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -46,10 +57,12 @@ Il sangue entra nel fegato da una zona chiamata ilo epatico, attraverso due vasi
 
 Il fegato è formato soprattutto da cellule chiamate epatociti, disposte in file attorno a piccoli spazi in cui scorre il sangue [@openstax-ap-23-6]. Tra un epatocita e l'altro sottili canali raccolgono la bile, che confluisce in dotti sempre più grandi fino al dotto epatico comune [@openstax-ap-23-6]. Lungo gli spazi del sangue si trovano cellule che eliminano globuli rossi e bianchi vecchi, batteri e altro materiale estraneo [@openstax-ap-23-6].
 
+L'arteria epatica propria è un ramo dell'arteria epatica comune, che a sua volta nasce dal tronco celiaco [@openstax-ap-20-5]; nel fegato si divide nelle arterie epatiche destra e sinistra, con rami per i diversi segmenti [@fipat-ta2]. La vena porta nasce dall'unione della vena mesenterica superiore con la vena splenica e raccoglie il sangue di stomaco, intestino e milza [@openstax-ap-20-5]. Le vene epatiche, che fanno uscire il sangue dal fegato, sono tre: destra, sinistra e media [@openstax-ap-20-5]. Il nervo vago contribuisce a regolare l'attività del fegato [@openstax-ap-15-1].
+
 ## Cosa fa
 
 Gli epatociti producono la bile, che scompone le grosse gocce di grasso in goccioline più piccole, più facili da attaccare per gli enzimi digestivi [@openstax-ap-23-6]. Tra un pasto e l'altro la bile viene deviata verso la colecisti, dove si concentra e resta in deposito fino al pasto successivo [@openstax-ap-23-6].
 
-Gli epatociti elaborano anche le sostanze nutritive, le sostanze tossiche e gli scarti che arrivano con il sangue: alcune sostanze vengono immagazzinate, altre rilasciate nel sangue [@openstax-ap-23-6]. Dal fegato il sangue esce attraverso la vena epatica e raggiunge la vena cava inferiore [@openstax-ap-23-6].
+Gli epatociti elaborano anche le sostanze nutritive, le sostanze tossiche e gli scarti che arrivano con il sangue: alcune sostanze vengono immagazzinate, altre rilasciate nel sangue [@openstax-ap-23-6]. Dal fegato il sangue esce attraverso le vene epatiche e raggiunge la vena cava inferiore [@openstax-ap-23-6].
 
 Nella bile il fegato elimina la bilirubina, uno scarto dei globuli rossi vecchi eliminati dalla milza, che arriva al fegato con il sangue; i batteri dell'intestino la trasformano in una sostanza che dà alle feci il loro colore [@openstax-ap-23-6].

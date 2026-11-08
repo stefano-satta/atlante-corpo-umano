@@ -10,14 +10,14 @@ descrizione: >
 # FMA46633 e FMA46634, inferiori FMA46635 e FMA46636; diaframma FMA13295; sfintere esterno
 # dell'ano FMA21930.
 passi:
-  - { strato: organi, evidenzia: { gruppi: [lingua, denti, ghiandole-salivari, esofago, stomaco, intestino-tenue, intestino-crasso, fegato, colecisti, pancreas] }, schema: digerente }
-  - { strato: organi, evidenzia: { gruppi: [lingua, denti, ghiandole-salivari] }, schema: bocca }
-  - { strato: organi, evidenzia: { gruppi: [lingua, esofago], fma: [FMA46631, FMA46632, FMA46633, FMA46634, FMA46635, FMA46636, FMA13295] }, schema: deglutizione }
-  - { strato: organi, evidenzia: { gruppi: [stomaco] }, schema: stomaco }
-  - { strato: organi, evidenzia: { gruppi: [fegato, colecisti, pancreas, intestino-tenue] }, inquadra: { gruppi: [fegato, colecisti, pancreas, stomaco] }, schema: duodeno }
-  - { strato: organi, evidenzia: { gruppi: [intestino-tenue] }, schema: villo }
-  - { strato: organi, evidenzia: { gruppi: [intestino-crasso] }, schema: colon }
-  - { strato: organi, evidenzia: { gruppi: [intestino-crasso], fma: [FMA21930] }, schema: retto }
+  - { strato: digerente, evidenzia: { gruppi: [lingua, denti, ghiandole-salivari, esofago, stomaco, intestino-tenue, intestino-crasso, fegato, colecisti, pancreas] }, schema: digerente }
+  - { strato: digerente, evidenzia: { gruppi: [lingua, denti, ghiandole-salivari] }, schema: bocca }
+  - { strato: digerente, evidenzia: { gruppi: [lingua, esofago], fma: [FMA46631, FMA46632, FMA46633, FMA46634, FMA46635, FMA46636, FMA13295] }, schema: deglutizione }
+  - { strato: digerente, evidenzia: { gruppi: [stomaco] }, schema: stomaco }
+  - { strato: digerente, evidenzia: { gruppi: [fegato, colecisti, pancreas, intestino-tenue] }, inquadra: { gruppi: [fegato, colecisti, pancreas, stomaco] }, schema: duodeno }
+  - { strato: digerente, evidenzia: { gruppi: [intestino-tenue] }, schema: villo }
+  - { strato: digerente, evidenzia: { gruppi: [intestino-crasso] }, schema: colon }
+  - { strato: digerente, evidenzia: { gruppi: [intestino-crasso], fma: [FMA21930] }, schema: retto }
 limiti: >
   Il corpo 3D resta fermo: il movimento è mostrato solo negli schemi, che sono
   semplificati e non in scala. Nel modello 3D mancano la faringe, il canale

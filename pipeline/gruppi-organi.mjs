@@ -1,7 +1,7 @@
 // Raggruppa gli elementi di BodyParts3D negli organi selezionabili del prototipo,
 // in base al nome inglese (FMA) riportato nell'intestazione di ogni OBJ.
-// Polmoni, tiroide, paratiroidi e parotidi mancano in BodyParts3D: arrivano da Z-Anatomy (esporta-polmoni.py,
-// un lobo per file, esporta-tiroide.py ed esporta-parotidi.py).
+// Polmoni, tiroide, paratiroidi, parotidi e cavità nasale mancano in BodyParts3D: arrivano da Z-Anatomy
+// (esporta-polmoni.py, un lobo per file, esporta-tiroide.py, esporta-parotidi.py ed esporta-naso.py).
 // Vince il primo gruppo che corrisponde: ipotalamo e ipofisi precedono l'encefalo, il cui elenco
 // contiene "thalamus" (che corrisponderebbe anche a "Hypothalamus").
 // Gli organi femminili arrivano dallo Human Reference Atlas (organi-donna.mjs, D29). `corpo` segna
@@ -58,6 +58,8 @@ export const GRUPPI_ORGANI = [
   { id: 'vescichette-seminali', corpo: 'uomo', elementi: /^(Right|Left) seminal vesicle$/ },
   { id: 'prostata', corpo: 'uomo', elementi: /^Prostate$/ },
   { id: 'pene', corpo: 'uomo', elementi: /^(Corpus cavernosum of penis|Corpus spongiosum of penis|Glans penis)$/ },
+  // La cavità nasale è la sua mucosa, da Z-Anatomy (esporta-naso.py, D50).
+  { id: 'cavita-nasale', elementi: /^Mucosa of nasal cavity$/ },
   {
     id: 'trachea-bronchi',
     elementi:

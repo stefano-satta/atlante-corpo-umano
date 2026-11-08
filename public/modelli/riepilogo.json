@@ -9,13 +9,14 @@
   "ratioMidollo": 0.2,
   "triangoliDonna": 3000,
   "triangoliMuscoli": 2000,
+  "triangoliNaso": 2000,
   "errore": 0.01,
   "riepilogo": {
     "ossa": {
-      "strutture": 217,
-      "triangoliPrima": 520766,
-      "triangoliDopo": 76334,
-      "kB": 470
+      "strutture": 222,
+      "triangoliPrima": 522508,
+      "triangoliDopo": 78076,
+      "kB": 481
     },
     "muscoli": {
       "strutture": 499,
@@ -24,10 +25,10 @@
       "kB": 1614
     },
     "organi": {
-      "strutture": 350,
-      "triangoliPrima": 937952,
-      "triangoliDopo": 129020,
-      "kB": 788
+      "strutture": 351,
+      "triangoliPrima": 947760,
+      "triangoliDopo": 131018,
+      "kB": 797
     },
     "pelle": {
       "strutture": 1,
