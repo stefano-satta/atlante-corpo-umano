@@ -29,7 +29,8 @@
   --radius-group: 12px;
   --radius-option: 8px;
   --radius-small: 4px;
-  /* Larghezze del pannello: devono restare uguali a panelWidth() in src/utils/layout.ts. */
+  /* Larghezze del pannello e suo distacco dai bordi: devono restare uguali a panelWidth() e PANEL_GAP in src/utils/layout.ts. */
+  --panel-gap: 12px;
   --w-card: clamp(300px, 33.333vw, 640px);
   --w-sheet: min(52vw, 760px);
   color-scheme: dark;

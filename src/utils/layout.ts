@@ -14,11 +14,15 @@ export function sidebarInset(viewportWidth: number, sheet: boolean) {
   return viewportWidth >= SIDEBAR_WIDTH && !sheet ? 28 + 288 : 0;
 }
 
+/** Distacco del pannello dai bordi alto, basso e destro, in pixel (`--panel-gap` in styles/tokens.css). */
+export const PANEL_GAP = 12;
+
 /**
- * Larghezza del pannello ancorato a destra, in pixel. Deve restare uguale alle regole
+ * Spazio occupato a destra dal pannello (larghezza più distacco dal bordo), in pixel. Deve restare uguale alle regole
  * di `.panel` in styles/panel.css: serve alla telecamera per centrare la struttura nello spazio libero.
  */
 export function panelWidth(viewportWidth: number, sheet: boolean) {
   if (viewportWidth <= NARROW_WIDTH) return 0;
-  return sheet ? Math.min(viewportWidth * 0.52, 760) : Math.min(Math.max(viewportWidth / 3, 300), 640);
+  const width = sheet ? Math.min(viewportWidth * 0.52, 760) : Math.min(Math.max(viewportWidth / 3, 300), 640);
+  return width + PANEL_GAP;
 }

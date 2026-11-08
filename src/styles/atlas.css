@@ -6,7 +6,7 @@
 }
 .atlas[data-panel="card"],
 .atlas[data-panel="path"] {
-  --occupied: var(--w-card);
+  --occupied: calc(var(--w-card) + var(--panel-gap));
 }
 /* Velo in alto: tiene leggibili titolo, menu e crediti quando il corpo passa sotto. */
 .atlas::before {
