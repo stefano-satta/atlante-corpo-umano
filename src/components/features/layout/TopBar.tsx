@@ -4,17 +4,28 @@ import type { PageId } from '@/models/atlas';
 import { GUIDED_PATHS, pageAvailable } from '@/utils/content';
 import { PAGE_IDS, PAGE_SHORT_TITLES, PAGE_TITLES } from '@/utils/pages';
 
-/** Barra in alto della vista 3D (D11): marchio, percorsi e pagine di lettura. */
+/** Barra in alto della vista 3D (D11): marchio, esplorazione, percorsi e pagine di lettura. */
 export function TopBar() {
   const { state, dispatch } = useAtlas();
   const pathOpen = useOpenGuidedPath();
   // La voce Percorsi apre la pagina con tutti i percorsi; resta segnata anche durante un percorso.
   const pathsCurrent = pathOpen || state.page === 'percorsi';
+  // La voce Esplora è l'atlante libero, con qualunque apparato: segnata quando non c'è un percorso
+  // né una pagina di lettura. Porta a `/esplora/<apparato>` chiudendo percorso e struttura.
+  const exploreCurrent = !pathsCurrent && !state.page && !state.home;
+  const explore = () => {
+    dispatch({ type: 'setGuidedPath', guidedPath: null });
+    dispatch({ type: 'select', id: null });
+    dispatch({ type: 'setPage', page: null });
+  };
 
   return (
     <header className="top-bar">
       <span className="brand">Atlante del corpo umano</span>
       <nav aria-label="Sezioni">
+        <button type="button" className="nav-item" aria-current={exploreCurrent ? 'true' : undefined} onClick={explore}>
+          Esplora
+        </button>
         {GUIDED_PATHS.length > 0 ? (
           <button
             type="button"
