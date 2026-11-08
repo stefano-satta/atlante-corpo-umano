@@ -41,6 +41,7 @@ export const ORGANS: Organ[] = [
   { id: 'pancreas', name: 'Pancreas', latinTerm: 'pancreas', system: 'digerente', color: '#d0a57c' },
   { id: 'milza', name: 'Milza', latinTerm: 'splen', system: 'linfatico', color: '#6c3a3e' },
   { id: 'reni', name: 'Reni', latinTerm: 'ren', system: 'urinario', color: '#8b4a40' },
+  { id: 'ureteri', name: 'Ureteri', latinTerm: 'ureter', system: 'urinario', color: '#a8695c' },
   { id: 'vescica', name: 'Vescica urinaria', latinTerm: 'vesica urinaria', system: 'urinario', color: '#c7a99a' },
   {
     id: 'uretra',

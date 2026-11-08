@@ -12,15 +12,21 @@ relazioni:
   - { tipo: fa-parte-di, id: apparato-genitale-maschile }
   - { tipo: collegato-a, id: uretra, fonte: seer-pene }
   - { tipo: collegato-a, id: osso-dell-anca, fonte: seer-pene }
+  - { tipo: collegato-a, id: arteria-pudenda-interna, fonte: statpearls-vasi-addome-pelvi }
+  - { tipo: collegato-a, id: arteria-dorsale-pene, fonte: statpearls-vasi-pene }
+  - { tipo: collegato-a, id: vena-dorsale-profonda-pene, fonte: statpearls-vasi-pene }
+  - { tipo: collegato-a, id: vene-dorsali-superficiali-pene, fonte: statpearls-vasi-pene }
+  - { tipo: collegato-a, id: nervo-pudendo, fonte: statpearls-nervo-pudendo }
 limiti: >
   Le fonti descrivono in modo diverso la posizione dei corpi cavernosi: SEER li
   chiama colonne dorsali, OpenStax camere laterali; il testo segue SEER. Il
   modello 3D unisce corpi cavernosi, corpo spongioso e glande in un'unica
   struttura selezionabile e non riproduce il prepuzio. Il testo non riporta
-  misure.
+  misure. Di vasi e nervi sono citati solo i principali, con le fonti dei loro
+  cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-25
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -39,6 +45,8 @@ Si trova davanti allo scroto [@seer-pene]. La radice lo fissa all'arco pubico; i
 - il corpo spongioso, più piccolo, sulla linea mediana del lato ventrale, che circonda l'uretra [@seer-pene] [@openstax-ap-27-1].
 
 All'estremità il corpo spongioso si allarga e forma il glande, ricco di terminazioni nervose e ricoperto da una piega di pelle, il prepuzio [@seer-pene] [@openstax-ap-27-1]. L'uretra percorre tutto il corpo spongioso e si apre all'esterno sulla punta del glande [@seer-pene].
+
+L'arteria pudenda interna termina, fra l'altro, con l'arteria dorsale del pene [@statpearls-vasi-addome-pelvi]. Questa corre tra i corpi cavernosi, accanto alla vena dorsale, e porta sangue al tessuto fibroso che li circonda, al corpo spongioso, all'uretra spongiosa e alla cute del pene [@statpearls-vasi-pene]. Il sangue degli spazi cavernosi passa in un plesso venoso e da lì nella vena dorsale profonda; la cute e il tessuto sottocutaneo sono drenati dalle vene dorsali superficiali [@statpearls-vasi-pene]. Il nervo pudendo porta la sensibilità dei genitali esterni e comanda i muscoli che partecipano all'erezione e all'eiaculazione [@statpearls-nervo-pudendo].
 
 ## Cosa fa
 

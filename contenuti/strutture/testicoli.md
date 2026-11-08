@@ -12,6 +12,8 @@ relazioni:
   - { tipo: fa-parte-di, id: apparato-genitale-maschile }
   - { tipo: collegato-a, id: epididimi, fonte: seer-dotti-genitali }
   - { tipo: collegato-a, id: dotti-deferenti, fonte: seer-dotti-genitali }
+  - { tipo: collegato-a, id: arteria-testicolare, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vene-testicolari, fonte: openstax-ap-20-5 }
 limiti: >
   La Terminologia Anatomica registra il termine al singolare ("testis",
   testicolo); l'atlante mostra i due testicoli in un'unica scheda. Le fonti
@@ -19,10 +21,11 @@ limiti: >
   da 4 a 5 cm per OpenStax), per il numero dei lobuli (circa 250 per SEER, da
   300 a 400 per OpenStax) e per la differenza di temperatura rispetto al corpo
   (circa 3 °C per SEER, da 2 a 4 °C per OpenStax): il testo non riporta questi
-  numeri. Nel modello 3D lo scroto non è rappresentato come struttura a sé.
+  numeri. Nel modello 3D lo scroto non è rappresentato come struttura a sé. Di
+  vasi e nervi sono citati solo i principali, con le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -40,6 +43,8 @@ In questa posizione i testicoli restano qualche grado sotto la temperatura del c
 Ogni testicolo ha forma ovale ed è avvolto da una capsula di tessuto connettivo fibroso, bianca e resistente, la tonaca albuginea, che si spinge verso l'interno e divide l'organo in lobuli [@seer-testicoli]. Gran parte del testicolo è formata dai tubuli seminiferi, sottili tubi strettamente avvolti [@openstax-ap-27-1].
 
 Dai tubuli gli spermatozoi passano in una rete di canalicoli, la rete del testicolo, ed escono attraverso i dotti efferenti, che portano all'epididimo [@openstax-ap-27-1] [@seer-dotti-genitali]. Tra i tubuli si trovano le cellule interstiziali (di Leydig), che producono gli ormoni sessuali maschili [@seer-testicoli].
+
+Ogni testicolo riceve sangue dall'arteria testicolare, che nasce dall'aorta addominale, esce dalla cavità del corpo e lo raggiunge come parte del funicolo spermatico [@openstax-ap-20-5]. Il sangue esce dalle vene testicolari, anch'esse nel funicolo: la destra sbocca direttamente nella vena cava inferiore, la sinistra nella vena renale sinistra [@openstax-ap-20-5].
 
 ## Cosa fa
 

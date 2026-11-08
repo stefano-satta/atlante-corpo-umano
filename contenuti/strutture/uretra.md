@@ -15,15 +15,19 @@ relazioni:
   - { tipo: collegato-a, id: prostata, fonte: seer-dotti-genitali }
   - { tipo: collegato-a, id: pene, fonte: seer-pene }
   - { tipo: collegato-a, id: vagina, fonte: seer-uretra }
+  - { tipo: collegato-a, id: arteria-dorsale-pene, fonte: statpearls-vasi-pene }
+  - { tipo: collegato-a, id: nervo-pudendo, fonte: statpearls-nervo-pudendo }
+  - { tipo: collegato-a, id: elevatore-ano, fonte: openstax-ap-11-4 }
 limiti: >
   Il modello 3D dell'atlante contiene solo l'uretra maschile ("urethra
   masculina" nella Terminologia Anatomica), visibile nel corpo Uomo; l'uretra
   femminile è descritta nel testo e disegnata nello schema animato, ma non è nel
   modello. Le fonti consultate danno la lunghezza totale delle due uretre ma non
-  quella dei tre tratti dell'uretra maschile.
+  quella dei tre tratti dell'uretra maschile. Di vasi e nervi sono citati solo i
+  principali, con le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-25
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -51,6 +55,8 @@ Nell'uomo l'uretra si divide in tre tratti [@seer-uretra] [@seer-dotti-genitali]
 - l'[[uretra spongiosa]], o peniena, la più lunga, che percorre tutto il pene all'interno del corpo spongioso fino all'orifizio esterno [@seer-uretra] [@seer-pene].
 
 Nell'uretra spongiosa sboccano anche i dotti delle ghiandole bulbouretrali [@seer-dotti-genitali].
+
+Nell'uomo l'arteria dorsale del pene, un ramo dell'arteria pudenda interna, porta sangue anche all'uretra spongiosa [@fipat-ta2] [@statpearls-vasi-pene]. Il nervo pudendo comanda lo sfintere esterno dell'uretra [@statpearls-nervo-pudendo]; il muscolo elevatore dell'ano, nel pavimento pelvico, forma sfinteri di muscolo scheletrico intorno all'uretra [@openstax-ap-11-4].
 
 ## Cosa fa
 

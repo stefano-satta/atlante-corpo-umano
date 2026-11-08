@@ -78,7 +78,7 @@ test('la scheda si apre, si chiude con Esc e la cronologia funziona', async ({ p
   await expect(page.getByRole('complementary')).toHaveCount(0);
 });
 
-test('i tasti 1–7 cambiano apparato', async ({ page }) => {
+test('i tasti 1–9 cambiano apparato', async ({ page }) => {
   await enter(page);
   await page.keyboard.press('2');
   await expect(page.getByRole('radio', { name: 'Scheletro' })).toHaveAttribute('aria-checked', 'true');
@@ -92,6 +92,12 @@ test('i tasti 1–7 cambiano apparato', async ({ page }) => {
   await page.keyboard.press('7');
   await expect(page.getByRole('radio', { name: 'Respiratorio' })).toHaveAttribute('aria-checked', 'true');
   await expect(page).toHaveURL(/\/esplora\/respiratorio$/);
+  await page.keyboard.press('8');
+  await expect(page.getByRole('radio', { name: 'Urinario' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page).toHaveURL(/\/esplora\/urinario$/);
+  await page.keyboard.press('9');
+  await expect(page.getByRole('radio', { name: 'Riproduttivo' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page).toHaveURL(/\/esplora\/riproduttivo$/);
 });
 
 test('su desktop la barra è centrata sulla finestra, con i crediti in basso a destra', async ({ page }) => {
@@ -211,6 +217,35 @@ test("l'apparato respiratorio mostra polmoni, muscoli dell'inspirazione e naso (
   await page.goto('/esplora/respiratorio/stomaco');
   await waitForScene(page);
   await expect(page).toHaveURL(/\/esplora\/organi\/stomaco$/);
+  await checkAccessibility(page);
+});
+
+test("gli apparati urinario e riproduttivo hanno i loro organi; l'uretra sta in entrambi (D51, D52)", async ({
+  page,
+}) => {
+  await page.goto('/esplora/urinario/uretra');
+  await waitForScene(page);
+  const panel = page.getByRole('complementary');
+  await expect(panel.getByRole('heading', { name: 'Uretra' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Urinario' })).toHaveAttribute('aria-checked', 'true');
+  await expect(panel.getByText('Apparato urinario, Apparato genitale maschile')).toBeVisible();
+  // Gli ureteri, aggiunti al modello (D52), restano nello strato urinario.
+  await page.goto('/esplora/urinario/ureteri');
+  await waitForScene(page);
+  await expect(panel.getByRole('heading', { name: 'Ureteri' })).toBeVisible();
+  await expect(page).toHaveURL(/\/esplora\/urinario\/ureteri$/);
+  await page.goto('/esplora/riproduttivo/uretra');
+  await waitForScene(page);
+  await expect(page).toHaveURL(/\/esplora\/riproduttivo\/uretra$/);
+  // Un organo femminile passa al corpo della donna e resta nello strato riproduttivo.
+  await page.goto('/esplora/riproduttivo/utero');
+  await waitForScene(page);
+  await expect(page).toHaveURL(/\/esplora\/riproduttivo\/utero$/);
+  await expect(page.getByRole('radio', { name: 'Donna' })).toHaveAttribute('aria-checked', 'true');
+  // Un organo di un altro apparato riporta allo strato degli organi.
+  await page.goto('/esplora/urinario/testicoli');
+  await waitForScene(page);
+  await expect(page).toHaveURL(/\/esplora\/organi\/testicoli$/);
   await checkAccessibility(page);
 });
 

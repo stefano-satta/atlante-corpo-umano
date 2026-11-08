@@ -337,3 +337,11 @@ describe('sistema nervoso: midollo spinale e nervi (D46)', () => {
     expect(riepilogo.nervi.kB).toBeLessThanOrEqual(650);
   });
 });
+
+describe('ureteri da BodyParts3D (D52)', () => {
+  it('i due ureteri formano un gruppo dello strato degli organi, comune ai due corpi', () => {
+    const ureteri = strutture.filter((s) => s.gruppo === 'ureteri');
+    expect(ureteri.map((s) => s.fma).sort()).toEqual(['FMA15571', 'FMA15572']);
+    expect(ureteri.every((s) => s.strato === 'organi' && !s.corpo)).toBe(true);
+  });
+});

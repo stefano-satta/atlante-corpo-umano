@@ -10,9 +10,16 @@ sinonimi: []
 elementi3d: { gruppo: reni }
 relazioni:
   - { tipo: fa-parte-di, id: apparato-urinario }
+  - { tipo: collegato-a, id: ureteri, fonte: seer-ureteri }
   - { tipo: collegato-a, id: vescica, fonte: niddk-reni }
   - { tipo: collegato-a, id: fegato, fonte: openstax-ap-25-3 }
-  - { tipo: collegato-a, id: aorta, fonte: openstax-ap-25-3 }
+  - { tipo: collegato-a, id: aorta-addominale, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: arteria-renale, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: ramo-anteriore-renale, fonte: fipat-ta2 }
+  - { tipo: collegato-a, id: ramo-posteriore-renale, fonte: fipat-ta2 }
+  - { tipo: collegato-a, id: vena-renale-destra, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: vena-renale-sinistra, fonte: openstax-ap-20-5 }
+  - { tipo: collegato-a, id: nervo-vago, fonte: statpearls-nervo-vago }
 limiti: >
   La Terminologia Anatomica registra il termine al singolare ("ren", rene);
   l'atlante mostra i due reni in un'unica scheda. Le fonti riportano misure non
@@ -23,10 +30,11 @@ limiti: >
   eritropoietina. Le quantità di sangue filtrato e di urina prodotta sono
   convertite dalle unità americane della fonte (150 "quarts" di sangue, 1-2 di
   urina) e arrotondate; un'altra pagina dello stesso NIDDK indica da 120 a 150
-  "quarts" di sangue al giorno.
+  "quarts" di sangue al giorno. Di vasi e nervi sono citati solo i principali,
+  con le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-25
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -50,6 +58,8 @@ All'interno si distinguono [@seer-reni]:
 - i calici e la pelvi renale, cavità che raccolgono l'urina e la portano all'uretere.
 
 Ogni rene contiene circa un milione di piccole unità filtranti, i nefroni [@niddk-reni]. Ogni nefrone è formato da un glomerulo, un gomitolo di [[capillari|capillare]] che filtra il sangue, e da un tubulo [@niddk-reni].
+
+Dentro il rene l'arteria renale si divide per prima cosa in arterie segmentali, che proseguono nelle arterie interlobari [@openstax-ap-25-3]. L'arteria renale destra è più lunga della sinistra, perché l'aorta sta a sinistra della colonna vertebrale; la vena renale sinistra invece è più lunga della destra, perché la vena cava inferiore sta soprattutto a destra della colonna [@openstax-ap-20-5]. Il nervo vago raggiunge i reni con i suoi rami celiaci [@statpearls-nervo-vago].
 
 ## Cosa fa
 

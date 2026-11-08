@@ -49,6 +49,7 @@ export const GRUPPI_ORGANI = [
   { id: 'pancreas', elementi: /^Pancreas$/ },
   { id: 'milza', elementi: /^Spleen$/ },
   { id: 'reni', elementi: /^(Right|Left) kidney$/ },
+  { id: 'ureteri', elementi: /^(Right|Left) ureter$/ },
   { id: 'vescica', elementi: /^Urinary bladder$/ },
   // L'uretra di BodyParts3D è maschile: attraversa prostata e pene.
   { id: 'uretra', corpo: 'uomo', elementi: /^Urethra$/ },

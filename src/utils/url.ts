@@ -17,6 +17,8 @@ export const LAYER_SLUGS: Record<Layer, string> = {
   nervi: 'nervoso',
   digerente: 'digerente',
   respiratorio: 'respiratorio',
+  urinario: 'urinario',
+  riproduttivo: 'riproduttivo',
 };
 
 const LAYER_OF_SLUG = new Map(Object.entries(LAYER_SLUGS).map(([layer, slug]) => [slug, layer as Layer]));

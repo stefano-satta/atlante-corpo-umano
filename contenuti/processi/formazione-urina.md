@@ -2,9 +2,9 @@
 id: formazione-urina
 # Il processo compare nella scheda di ogni organo dell'apparato urinario del modello e in quelle
 # degli organi genitali attraversati dall'uretra o vicini al suo sbocco: prostata e pene
-# nell'uomo, vagina nella donna. La prima struttura è quella dell'Indice. Gli ureteri, che il
-# modello 3D non contiene, sono solo nel disegno.
-strutture: [reni, vescica, uretra, prostata, pene, vagina]
+# nell'uomo, vagina nella donna. La prima struttura è quella dell'Indice. L'uretra femminile, che il
+# modello 3D non contiene, è solo nel disegno.
+strutture: [reni, ureteri, vescica, uretra, prostata, pene, vagina]
 schema: urinario
 titolo: Dal sangue all'urina, passo per passo
 # Fonti: NIDDK e SEER; le quantità americane (quarts) sono convertite in litri e arrotondate.

@@ -119,6 +119,28 @@ const RESPIRATORY_UNITS = [
   'ZA-left-major-alar-cartilage',
 ];
 
+/** Organi dell'apparato urinario presenti nel modello: l'uretra è solo maschile. */
+export const URINARY_ORGANS = ['reni', 'ureteri', 'vescica', 'uretra'];
+
+/**
+ * Organi dell'apparato riproduttivo, maschili e femminili: ogni corpo mostra i suoi (D29). L'uretra
+ * maschile fa parte anche dell'apparato urinario.
+ */
+export const REPRODUCTIVE_ORGANS = [
+  'testicoli',
+  'epididimi',
+  'dotti-deferenti',
+  'vescichette-seminali',
+  'prostata',
+  'uretra',
+  'pene',
+  'ovaie',
+  'tube-uterine',
+  'utero',
+  'vagina',
+  'mammelle',
+];
+
 /** Strati del modello visibili per ciascuno strato della barra dei comandi. */
 export const VISIBLE_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   scheletro: ['ossa'],
@@ -128,6 +150,8 @@ export const VISIBLE_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   nervi: ['nervi'],
   digerente: [],
   respiratorio: [],
+  urinario: [],
+  riproduttivo: [],
 };
 
 /**
@@ -136,7 +160,8 @@ export const VISIBLE_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
  * del modello: mostra gli organi del canale digerente e le ghiandole annesse, con i muscoli costrittori della
  * faringe (che nel modello manca) e lo sfintere esterno dell'ano, come nel percorso "Il viaggio del cibo".
  * Allo stesso modo l'apparato respiratorio (D49, D50) mostra cavità nasale, trachea e bronchi, polmoni, i
- * muscoli dell'inspirazione tranquilla e le ossa e le cartilagini del naso.
+ * muscoli dell'inspirazione tranquilla e le ossa e le cartilagini del naso. Gli apparati urinario e
+ * riproduttivo (D51) mostrano solo i loro organi.
  */
 export const VISIBLE_UNITS: Record<Layer, string[]> = {
   scheletro: [],
@@ -146,6 +171,8 @@ export const VISIBLE_UNITS: Record<Layer, string[]> = {
   nervi: ['encefalo', 'ipotalamo', 'nervo-ottico'],
   digerente: [...DIGESTIVE_ORGANS, ...DIGESTIVE_MUSCLES],
   respiratorio: [...RESPIRATORY_ORGANS, ...RESPIRATORY_UNITS],
+  urinario: URINARY_ORGANS,
+  riproduttivo: REPRODUCTIVE_ORGANS,
 };
 
 /** Strati del modello mostrati solo come contesto (fantasma, non selezionabili). */
@@ -157,6 +184,8 @@ export const GHOST_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
   nervi: ['ossa'],
   digerente: ['ossa'],
   respiratorio: ['ossa'],
+  urinario: ['ossa'],
+  riproduttivo: ['ossa'],
 };
 
 /** Strati del modello in un file a parte, nell'ordine in cui la scena li disegna. */

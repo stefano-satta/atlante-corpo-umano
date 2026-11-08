@@ -14,23 +14,25 @@ relazioni:
   - { tipo: collegato-a, id: vescica, fonte: seer-tratto-genitale-femminile }
   - { tipo: collegato-a, id: uretra, fonte: seer-uretra }
   - { tipo: collegato-a, id: intestino-crasso, fonte: seer-tratto-genitale-femminile }
+  - { tipo: collegato-a, id: arteria-iliaca-interna, fonte: openstax-ap-20-5 }
 limiti: >
   Il modello 3D della vagina è una ricostruzione schematica e non riproduce la
-  forma di una persona reale: lo Human Reference Atlas, da cui vengono gli
-  altri organi femminili, non la contiene. È un tubo a sezione ellittica che
-  parte dalla giunzione con la cervice del modello dell'utero, ne riprende
-  larghezza e spessore e scende quasi ad angolo retto rispetto alla cervice,
-  come indica SEER. La lunghezza delle fonti, circa 10 cm, è stata riportata
-  alla scala del corpo dell'atlante e poi ridotta a circa 6 cm, perché nel
-  modello la cervice è vicina all'uscita della pelvi e un tubo più lungo
-  scenderebbe sotto il perineo. Il modello non mostra il fornice, le pieghe
-  della parete né i genitali esterni (vulva), che la scheda mostra in uno
-  schema disegnato per l'atlante, semplificato e non in scala. Lo schema indica
-  solo le parti che le fonti consultate descrivono o indicano nelle loro figure:
-  non mostra le commessure e il frenulo delle labbra, né le parti del clitoride
-  e i bulbi del vestibolo che stanno sotto la superficie. Anche l'uretra femminile manca dal
+  forma di una persona reale: lo Human Reference Atlas, da cui vengono gli altri
+  organi femminili, non la contiene. È un tubo a sezione ellittica che parte
+  dalla giunzione con la cervice del modello dell'utero, ne riprende larghezza e
+  spessore e scende quasi ad angolo retto rispetto alla cervice, come indica
+  SEER. La lunghezza delle fonti, circa 10 cm, è stata riportata alla scala del
+  corpo dell'atlante e poi ridotta a circa 6 cm, perché nel modello la cervice è
+  vicina all'uscita della pelvi e un tubo più lungo scenderebbe sotto il
+  perineo. Il modello non mostra il fornice, le pieghe della parete né i
+  genitali esterni (vulva), che la scheda mostra in uno schema disegnato per
+  l'atlante, semplificato e non in scala. Lo schema indica solo le parti che le
+  fonti consultate descrivono o indicano nelle loro figure: non mostra le
+  commessure e il frenulo delle labbra, né le parti del clitoride e i bulbi del
+  vestibolo che stanno sotto la superficie. Anche l'uretra femminile manca dal
   modello: si vede solo nello schema animato dell'apparato urinario, e il
-  collegamento all'uretra apre il corpo maschile, l'unico che la contiene.
+  collegamento all'uretra apre il corpo maschile, l'unico che la contiene. Di
+  vasi e nervi sono citati solo i principali, con le fonti dei loro cartellini.
 figura:
   schema: vulva
   titolo: I genitali esterni (vulva)
@@ -45,7 +47,7 @@ figura:
     contiene l'ano [@openstax-ap-11-4].
 risorse: []
 stato: approvato
-revisione: 2026-10-25
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -63,6 +65,8 @@ L'[[apertura della vagina|orifizio-vaginale]] si trova tra l'apertura dell'uretr
 È lunga circa 10 cm [@seer-tratto-genitale-femminile] [@openstax-ap-27-2]. La parete ha tre strati: all'esterno un'avventizia fibrosa, in mezzo uno strato di muscolo liscio, all'interno un epitelio pavimentoso stratificato appoggiato a una lamina propria [@openstax-ap-27-2]. L'epitelio forma pieghe trasversali, le rughe, che aumentano la superficie e permettono alla parete di distendersi [@openstax-ap-27-2].
 
 Una membrana sottile, l'[[imene]], può coprire in parte l'ingresso della vagina [@openstax-ap-27-2].
+
+Il sangue arriva alla vagina dall'arteria iliaca interna [@openstax-ap-20-5] [@seer-vie-circolatorie].
 
 ## Cosa fa
 

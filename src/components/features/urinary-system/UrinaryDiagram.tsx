@@ -4,8 +4,8 @@ import type { UrinaryPhase } from '@/models/content';
 
 // Schema frontale dell'apparato urinario, disegnato per l'atlante. Come negli altri schemi, il
 // lato destro del corpo è a sinistra di chi guarda: lì il rene è un po' più in basso, perché il
-// fegato lo spinge giù (SEER). Forme e proporzioni sono semplificate e non in scala. Gli ureteri,
-// che il modello 3D non contiene, esistono solo qui.
+// fegato lo spinge giù (SEER). Forme e proporzioni sono semplificate e non in scala. L'uretra
+// femminile, che il modello 3D non contiene, esiste solo qui.
 
 /** Organi al lavoro in ogni fase: si colorano nel disegno. */
 const ACTIVE: Record<UrinaryPhase, string[]> = {

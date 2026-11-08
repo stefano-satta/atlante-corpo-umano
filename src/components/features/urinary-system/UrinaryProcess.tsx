@@ -35,7 +35,7 @@ export default function UrinaryProcess({
           </li>
         </>
       }
-      disclaimer="Schema semplificato, visto di fronte: forme, proporzioni e tempi non sono in scala. Il lato destro del corpo è a sinistra dell'immagine. Gli ureteri non sono nel modello 3D."
+      disclaimer={`Schema semplificato, visto di fronte: forme, proporzioni e tempi non sono in scala. Il lato destro del corpo è a sinistra dell'immagine.${body === 'donna' ? ' L’uretra femminile non è nel modello 3D.' : ''}`}
     />
   );
 }

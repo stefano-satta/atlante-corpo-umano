@@ -56,14 +56,10 @@ describe('classifica', () => {
   });
 
   it('non scambia per vasi seni paranasali, dotti, parti del fegato e tronchi nervosi', () => {
-    for (const nome of [
-      'Frontal sinus',
-      'Common hepatic duct',
-      'Left ureter',
-      'Inferior branch of right oculomotor nerve',
-    ])
+    for (const nome of ['Frontal sinus', 'Common hepatic duct', 'Inferior branch of right oculomotor nerve'])
       expect(classifica('V', nome, ossa, muscoli)).toBeNull();
     expect(classifica('V', 'Hepatovenous segment VII', ossa, muscoli)?.gruppo).toBe('fegato');
+    expect(classifica('V', 'Left ureter', ossa, muscoli)).toEqual({ strato: 'organi', gruppo: 'ureteri' });
   });
 
   it('nel circolo polmonare il sangue è invertito, nel fegato e nel rene no', () => {

@@ -15,6 +15,8 @@ describe('indirizzi di esplorazione (D47)', () => {
     );
     expect(urlFor({ ...explore, layer: 'digerente', selection: 'fegato' })).toBe('/esplora/digerente/fegato');
     expect(urlFor({ ...explore, layer: 'respiratorio', selection: 'polmoni' })).toBe('/esplora/respiratorio/polmoni');
+    expect(urlFor({ ...explore, layer: 'urinario', selection: 'reni' })).toBe('/esplora/urinario/reni');
+    expect(urlFor({ ...explore, layer: 'riproduttivo', selection: 'utero' })).toBe('/esplora/riproduttivo/utero');
   });
 
   it("si leggono nell'altro verso", () => {
@@ -31,6 +33,7 @@ describe('indirizzi di esplorazione (D47)', () => {
       selection: 'stomaco',
       sheet: true,
     });
+    expect(readUrl('/esplora/riproduttivo/uretra')).toMatchObject({ layer: 'riproduttivo', selection: 'uretra' });
     expect(readUrl('/esplora/muscoli/vaso%20x')).toMatchObject({ selection: 'vaso x' });
   });
 

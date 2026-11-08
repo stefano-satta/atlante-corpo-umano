@@ -14,15 +14,17 @@ relazioni:
   - { tipo: collegato-a, id: ovaie, fonte: openstax-ap-27-2 }
   - { tipo: collegato-a, id: vagina, fonte: seer-tratto-genitale-femminile }
   - { tipo: collegato-a, id: vescica, fonte: openstax-ap-25-2 }
+  - { tipo: collegato-a, id: arteria-iliaca-interna, fonte: openstax-ap-20-5 }
 limiti: >
   Il modello 3D viene dallo Human Reference Atlas, costruito sui dati di una
   donna di 59 anni, ed è stato portato nella posizione del corpo dell'atlante,
   che è maschile, confrontando le pelvi dei due modelli: forma e posizione sono
-  approssimate. Il modello non mostra i legamenti né gli strati della parete.
-  Il testo non descrive il ciclo mestruale nei dettagli.
+  approssimate. Il modello non mostra i legamenti né gli strati della parete. Il
+  testo non descrive il ciclo mestruale nei dettagli. Di vasi e nervi sono
+  citati solo i principali, con le fonti dei loro cartellini.
 risorse: []
 stato: approvato
-revisione: 2026-10-24
+revisione: 2026-11-08
 ---
 
 ## In breve
@@ -46,6 +48,8 @@ Prima della prima gravidanza ha più o meno la forma e la grandezza di una pera,
 - la cervice, o collo dell'utero, la parte inferiore e più stretta, che sporge nella vagina [@openstax-ap-27-2].
 
 La parete ha tre strati: all'esterno una membrana sierosa, il perimetrio; in mezzo il miometrio, uno spesso strato di muscolo liscio che forma la maggior parte dell'organo; all'interno l'endometrio, che riveste la cavità [@openstax-ap-27-2]. L'endometrio ha uno strato funzionale, che si sfalda con le mestruazioni, e uno strato basale più profondo, da cui lo strato funzionale si ricostruisce [@seer-tratto-genitale-femminile] [@openstax-ap-27-2].
+
+Il sangue arriva all'utero dall'arteria iliaca interna [@openstax-ap-20-5] [@seer-vie-circolatorie].
 
 ## Cosa fa
 
