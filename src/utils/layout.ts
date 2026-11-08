@@ -11,7 +11,7 @@ export const SIDEBAR_WIDTH = 1024;
  * in styles/toolbar.css). Con la scheda aperta la barra non c'è.
  */
 export function sidebarInset(viewportWidth: number, sheet: boolean) {
-  return viewportWidth >= SIDEBAR_WIDTH && !sheet ? 28 + 288 : 0;
+  return viewportWidth >= SIDEBAR_WIDTH && !sheet ? 28 + 372 : 0;
 }
 
 /** Distacco del pannello dai bordi alto, basso e destro, in pixel (`--panel-gap` in styles/tokens.css). */
