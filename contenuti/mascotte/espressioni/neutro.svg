@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img">
+  <title>Globo neutro</title>
+  <desc>Globo, la mascotte dell'atlante: un globulo rosso ovale con occhi tondi, sopracciglia e guance rosa. Espressione: neutro.</desc>
+  <g id="gambe"><path d="M87 166 L83 188" fill="none" stroke="#f4f1f5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M87 166 L83 188" fill="none" stroke="#221a33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M113 166 L117 188" fill="none" stroke="#f4f1f5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M113 166 L117 188" fill="none" stroke="#221a33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><ellipse cx="81" cy="190" rx="11.5" ry="5.5" fill="#f4f1f5"/><ellipse cx="81" cy="190" rx="10" ry="4" fill="#221a33"/><ellipse cx="119" cy="190" rx="11.5" ry="5.5" fill="#f4f1f5"/><ellipse cx="119" cy="190" rx="10" ry="4" fill="#221a33"/></g>
+  <g id="corpo"><ellipse cx="100" cy="110" rx="46" ry="58" fill="#b8434b"/></g>
+  <g id="braccio-sx"><path d="M57 115 Q41 125 43 142" fill="none" stroke="#f4f1f5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M57 115 Q41 125 43 142" fill="none" stroke="#221a33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g id="braccio-dx"><path d="M143 115 Q159 125 157 142" fill="none" stroke="#f4f1f5" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><path d="M143 115 Q159 125 157 142" fill="none" stroke="#221a33" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g id="guance"><circle cx="73" cy="114" r="6" fill="#ef8fac"/><circle cx="127" cy="114" r="6" fill="#ef8fac"/></g>
+  <g id="occhi"><circle cx="86" cy="92" r="11" fill="#ffffff"/><circle cx="114" cy="92" r="11" fill="#ffffff"/></g>
+  <g id="pupille"><circle cx="88" cy="94" r="5.5" fill="#221a33"/><circle cx="116" cy="94" r="5.5" fill="#221a33"/></g>
+  <g id="sopracciglia"><path d="M77 76 Q86 71 95 75" fill="none" stroke="#221a33" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M105 75 Q114 71 123 76" fill="none" stroke="#221a33" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></g>
+  <g id="bocca"><path d="M90 118 Q100 126 110 118" fill="none" stroke="#3a1420" stroke-width="2.5" stroke-linecap="round"/></g>
+</svg>

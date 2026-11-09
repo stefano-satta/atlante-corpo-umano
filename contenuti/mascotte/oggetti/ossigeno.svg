@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" role="img">
+  <title>Molecola di ossigeno</title>
+  <desc>Due atomi di ossigeno uniti da un doppio legame: oggetto di scena per i video sulla respirazione.</desc>
+  <g id="ossigeno"><circle cx="34" cy="30" r="18" fill="#8fd3c3"/><circle cx="66" cy="30" r="18" fill="#8fd3c3"/><path d="M44 25 L56 25 M44 35 L56 35" stroke="#1d3d36" stroke-width="2.5" stroke-linecap="round"/></g>
+</svg>
