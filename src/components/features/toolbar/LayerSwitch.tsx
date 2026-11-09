@@ -3,7 +3,7 @@ import type { Layer } from '@/models/atlas';
 import { SelectorGroup, type SelectorOption } from './SelectorGroup';
 
 /** L'ordine è quello dei tasti da 1 a 9. */
-const LAYERS: Array<SelectorOption<Layer>> = [
+export const LAYERS: Array<SelectorOption<Layer>> = [
   { id: 'organi', name: 'Organi' },
   { id: 'scheletro', name: 'Scheletro' },
   { id: 'muscoli', name: 'Muscoli' },

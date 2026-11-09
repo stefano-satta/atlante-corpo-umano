@@ -1,0 +1,120 @@
+# Quiz dell'apparato Scheletro (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+- id: femore-lunghezza
+  tipo: testo
+  domanda: "Qual è l'osso più lungo e più resistente del corpo?"
+  risposte: [Il femore, La tibia, L'omero, La fibula]
+  struttura: femore
+  spiegazione: "Il femore è l'unico osso della coscia ed è l'osso più lungo e più resistente del corpo [@openstax-ap-8-4]."
+  stato: approvato
+- id: femore-indica
+  tipo: indica
+  domanda: "Quale osso è evidenziato nel corpo?"
+  risposte: [Femore, Tibia, Omero, Fibula]
+  struttura: femore
+  spiegazione: "Il femore è l'osso della coscia: da solo corrisponde a circa un quarto della statura [@openstax-ap-8-4]."
+  stato: approvato
+- id: omero-spalla
+  tipo: testo
+  domanda: "Con quale parte della scapola si articola la testa dell'omero?"
+  risposte: [Con la cavità glenoidea, Con l'acromion, Con l'acetabolo, Con l'olecrano]
+  struttura: omero
+  spiegazione: "La testa dell'omero si articola con la cavità glenoidea della scapola e forma l'articolazione della spalla [@openstax-ap-8-2]."
+  stato: approvato
+- id: coste-paia
+  tipo: testo
+  domanda: "Quante paia di coste ha il corpo umano?"
+  risposte: [Dodici, Dieci, Sette, Quattordici]
+  struttura: coste
+  spiegazione: "Le coste sono dodici paia e, con le cartilagini costali e lo sterno, formano la gabbia toracica [@openstax-ap-7-4]."
+  stato: approvato
+- id: coste-vere
+  tipo: testo
+  domanda: "Quante paia di coste sono \"vere\", cioè unite direttamente allo sterno dalla loro cartilagine?"
+  risposte: [Sette, Cinque, Dodici, Tre]
+  struttura: coste
+  spiegazione: "Le prime sette paia sono coste vere, perché la loro cartilagine si unisce direttamente allo sterno [@openstax-ap-7-4]."
+  stato: approvato
+- id: anca-tre-ossa
+  tipo: testo
+  domanda: "Da quali tre ossa è formato l'osso dell'anca?"
+  risposte: ["Ileo, ischio e pube", "Sacro, coccige e ileo", "Femore, ischio e pube", "Ileo, sacro e femore"]
+  struttura: osso-dell-anca
+  spiegazione: "Ogni osso dell'anca è formato da tre ossa, ileo, ischio e pube, che si saldano alla fine dell'adolescenza [@openstax-ap-8-3]."
+  stato: approvato
+- id: tibia-peso
+  tipo: testo
+  domanda: "Quale osso della gamba porta il peso del corpo?"
+  risposte: [La tibia, La fibula, La rotula, Il calcagno]
+  struttura: tibia
+  spiegazione: "La tibia è il principale osso che porta il peso nella gamba; la fibula non porta il peso e serve soprattutto ad attaccare i muscoli [@openstax-ap-8-4]."
+  stato: approvato
+- id: tibia-indica
+  tipo: indica
+  domanda: "Quale osso è evidenziato nel corpo?"
+  risposte: [Tibia, Fibula, Femore, Ulna]
+  struttura: tibia
+  spiegazione: "La tibia è l'osso del lato interno della gamba, il secondo più lungo del corpo dopo il femore [@openstax-ap-8-4]."
+  stato: approvato
+- id: radio-pollice
+  tipo: testo
+  domanda: "Quale osso dell'avambraccio sta dalla parte del pollice?"
+  risposte: [Il radio, L'ulna, L'omero, Lo scafoide]
+  struttura: radio
+  spiegazione: "Il radio è l'osso del lato esterno dell'avambraccio, dalla parte del pollice, parallelo all'ulna [@openstax-ap-8-2]."
+  stato: approvato
+- id: ulna-olecrano
+  tipo: testo
+  domanda: "Come si chiama la parte dell'ulna che forma la punta ossea del gomito?"
+  risposte: [Olecrano, Acromion, Malleolo, Condilo]
+  struttura: ulna
+  spiegazione: "L'estremità superiore dell'ulna, l'olecrano, forma la punta ossea del gomito [@openstax-ap-8-2]."
+  stato: approvato
+- id: clavicola-forma
+  tipo: testo
+  domanda: "Quale osso a forma di S è l'unico osso lungo disposto in orizzontale?"
+  risposte: [La clavicola, La scapola, La costa, La mandibola]
+  struttura: clavicola
+  spiegazione: "La clavicola è un osso a forma di S sulla parte anteriore della spalla ed è l'unico osso lungo disposto in orizzontale [@openstax-ap-8-1]."
+  stato: approvato
+- id: mandibola-mobile
+  tipo: testo
+  domanda: "Qual è l'unico osso mobile del cranio?"
+  risposte: [La mandibola, La mascella, L'osso zigomatico, L'osso temporale]
+  struttura: mandibola
+  spiegazione: "La mandibola forma la mascella inferiore ed è l'unico osso mobile del cranio [@openstax-ap-7-2]."
+  stato: approvato
+- id: rotula-sesamoide
+  tipo: testo
+  domanda: "Che tipo di osso è la rotula?"
+  risposte: [Un osso sesamoide, Un osso piatto del cranio, Una vertebra, Un osso del tarso]
+  struttura: rotula
+  spiegazione: "La rotula è il più grande osso sesamoide del corpo, cioè un osso incluso nel tendine di un muscolo dove attraversa un'articolazione [@openstax-ap-8-4]."
+  stato: approvato
+- id: epistrofeo-rotazione
+  tipo: testo
+  domanda: "Attorno a quale vertebra ruota la testa quando si gira a destra e a sinistra?"
+  risposte: [L'epistrofeo, L'atlante, La prima vertebra toracica, L'osso sacro]
+  struttura: epistrofeo
+  spiegazione: "L'epistrofeo, la seconda vertebra cervicale, è l'asse attorno a cui ruota la testa [@openstax-ap-7-3]."
+  stato: approvato
+- id: atlante-indica
+  tipo: indica
+  domanda: "Quale osso è evidenziato nel corpo?"
+  risposte: [Atlante, Epistrofeo, Osso occipitale, Vertebre lombari]
+  struttura: atlante
+  spiegazione: "L'atlante è la prima vertebra cervicale e sostiene il cranio, articolandosi con l'osso occipitale [@openstax-ap-7-3]."
+  stato: approvato
+- id: sacro-vertebre
+  tipo: testo
+  domanda: "Da quante vertebre fuse è formato l'osso sacro?"
+  risposte: [Cinque, Tre, Sette, Dodici]
+  struttura: osso-sacro
+  spiegazione: "L'osso sacro è un osso triangolare formato dalla fusione di cinque vertebre sacrali [@openstax-ap-7-3]."
+  stato: approvato
+- id: calcagno-tallone
+  tipo: testo
+  domanda: "Qual è l'osso più grande del piede, che forma il tallone?"
+  risposte: [Il calcagno, Il talo, Il cuboide, Il navicolare]
+  struttura: calcagno
+  spiegazione: "Il calcagno è l'osso più grande del piede e forma il tallone, che poggia a terra [@openstax-ap-8-4]."
+  stato: approvato

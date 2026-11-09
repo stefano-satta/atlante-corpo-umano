@@ -9,6 +9,7 @@ import { readUrl } from '@/utils/url';
 import { ReadingPage } from './ReadingPage';
 
 const GuidedPathPanel = lazy(() => import('@/components/features/guided-path/GuidedPathPanel'));
+const QuizPanel = lazy(() => import('@/components/features/quiz/QuizPanel'));
 
 /**
  * Atlante senza grafica 3D (D26, E1): si apre l'Indice, e da lì si leggono i testi delle
@@ -27,6 +28,18 @@ export function TextOnlyAtlasPage() {
 
   let content: ReactNode;
   if (routePage) content = readingPage;
+  // Quiz senza corpo 3D (D53): solo le domande a parole.
+  else if (state.quiz && !state.page)
+    content = (
+      <main className="reading-page text-reading" aria-label="Quiz">
+        <div className="reading-column">
+          <TextOnlyHeader />
+          <Suspense fallback={<p role="status">Caricamento del quiz…</p>}>
+            <QuizPanel />
+          </Suspense>
+        </div>
+      </main>
+    );
   else if (state.page || (!entry && !path)) content = <ReadingPage page={state.page ?? 'indice'} />;
   else
     content = (

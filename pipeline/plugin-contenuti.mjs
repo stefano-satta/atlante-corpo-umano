@@ -6,6 +6,7 @@
 //   virtual:contenuti/pagina/<id>        pagine editoriali (Informazioni)
 //   virtual:contenuti/percorso/<id>      percorsi guidati, come "Un respiro" (caricati su richiesta)
 //   virtual:contenuti/glossario          definizioni del glossario (caricate su richiesta)
+//   virtual:contenuti/quiz/<tema>        domande del quiz di un apparato (D53, caricate su richiesta)
 //   virtual:contenuti/modello            unità del modello 3D da conoscere prima di scaricare la scena
 //
 // In produzione entrano solo i contenuti "approvato" (D17); con ATLANTE_BOZZE=1, e sempre
@@ -56,6 +57,12 @@ export function contenuti({ radice = process.cwd() } = {}) {
           .map((s) => ({ ...s, processi: s.processi.filter(pubblicabile) })),
         pagine: letti.pagine.filter(pubblicabile),
         percorsi: letti.percorsi.filter(pubblicabile),
+        // Temi del quiz con almeno una domanda pubblicabile.
+        quiz: Object.fromEntries(
+          Object.entries(letti.quiz)
+            .map(([tema, domande]) => [tema, domande.filter(pubblicabile)])
+            .filter(([, domande]) => domande.length),
+        ),
         glossario,
         fonti: letti.fonti,
       },
@@ -96,6 +103,10 @@ export function contenuti({ radice = process.cwd() } = {}) {
           `export const GLOSSARIO = ${JSON.stringify(d.glossario.map(({ id, termine, varianti, latino, ta2, parteDi, nelModello }) => ({ id, termine, varianti, latino, ta2, parteDi, nelModello })))};`,
           `export const caricaGlossario = () => import(${JSON.stringify(`${PREFISSO}/glossario`)});`,
           `export const caricaFonti = () => import(${JSON.stringify(`${PREFISSO}/fonti`)});`,
+          `export const QUIZ = ${JSON.stringify(Object.fromEntries(Object.entries(d.quiz).map(([tema, domande]) => [tema, { domande: domande.length, indica: domande.filter((q) => q.tipo === 'indica').length }])))};`,
+          `export const caricaQuiz = {${Object.keys(d.quiz)
+            .map((tema) => `${JSON.stringify(tema)}: () => import(${JSON.stringify(`${PREFISSO}/quiz/${tema}`)})`)
+            .join(',')}};`,
         ].join('\n');
       }
       if (percorso === '/modello') {
@@ -105,6 +116,10 @@ export function contenuti({ radice = process.cwd() } = {}) {
       if (percorso === '/fonti') return `export default ${JSON.stringify(d.fonti)};`;
       if (percorso === '/glossario') return `export default ${JSON.stringify(d.glossario)};`;
       const [, tipo, chiave] = percorso.split('/');
+      if (tipo === 'quiz') {
+        if (!d.quiz[chiave]) this.error(`Quiz inesistente: ${chiave}`);
+        return `export default ${JSON.stringify(d.quiz[chiave])};`;
+      }
       const elenco = { struttura: d.strutture, pagina: d.pagine, percorso: d.percorsi }[tipo] ?? [];
       const voce = elenco.find((c) => c.id === chiave);
       if (!voce) this.error(`Contenuto inesistente: ${percorso}`);

@@ -1,0 +1,121 @@
+# Quiz dell'apparato Cardiocircolatorio (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+# I fatti vengono dai testi delle schede, con le stesse fonti; tutte le domande partono in bozza.
+- id: aorta-origine
+  tipo: testo
+  domanda: "Da quale cavità del cuore nasce l'aorta?"
+  risposte: ["Dal ventricolo sinistro", "Dal ventricolo destro", "Dall'atrio destro", "Dall'atrio sinistro"]
+  struttura: aorta-ascendente
+  spiegazione: "L'aorta ascendente è il primo tratto dell'aorta, l'arteria più grande del corpo: nasce dal ventricolo sinistro [@openstax-ap-20-5]."
+  stato: approvato
+- id: aorta-coronarie
+  tipo: testo
+  domanda: "Quali sono i primi vasi che partono dall'aorta?"
+  risposte: ["Le arterie coronarie", "Le arterie carotidi", "Le arterie succlavie", "Le arterie renali"]
+  struttura: aorta-ascendente
+  spiegazione: "I primi vasi che partono dall'aorta ascendente sono le due arterie coronarie, che portano il sangue al cuore [@openstax-ap-20-5] [@seer-vie-circolatorie]."
+  stato: approvato
+- id: aorta-indica
+  tipo: indica
+  domanda: "Quale vaso è evidenziato nel corpo?"
+  risposte: ["Arco aortico", "Tronco polmonare", "Arteria carotide comune", "Vena cava superiore"]
+  struttura: arco-aortico
+  spiegazione: "L'arco aortico è il tratto curvo dell'aorta, che piega verso sinistra e collega l'aorta ascendente a quella discendente [@openstax-ap-20-5]."
+  stato: approvato
+- id: arco-rami
+  tipo: testo
+  domanda: "Quanti grandi rami partono dall'arco aortico?"
+  risposte: ["Tre", "Due", "Quattro", "Uno"]
+  struttura: arco-aortico
+  spiegazione: "Dall'arco aortico partono tre grandi rami: il tronco brachiocefalico, la carotide comune sinistra e la succlavia sinistra [@openstax-ap-20-5] [@seer-vie-circolatorie]."
+  stato: approvato
+- id: aorta-iliache
+  tipo: testo
+  domanda: "In quali arterie si divide l'aorta addominale in basso?"
+  risposte: ["Nelle due arterie iliache comuni", "Nelle due arterie femorali", "Nelle due arterie renali", "Nelle arterie mesenteriche"]
+  struttura: aorta-addominale
+  spiegazione: "All'altezza della quarta vertebra lombare l'aorta addominale si divide nelle due arterie iliache comuni [@openstax-ap-20-5] [@seer-vie-circolatorie]."
+  stato: approvato
+- id: polmonare-sangue
+  tipo: testo
+  domanda: "Che sangue porta il tronco polmonare verso i polmoni?"
+  risposte: ["Sangue povero di ossigeno", "Sangue ricco di ossigeno", "Sangue ricco di sostanze nutritive", "Linfa"]
+  struttura: tronco-polmonare
+  spiegazione: "Il tronco polmonare è il solo vaso che esce dal ventricolo destro e porta verso i polmoni il sangue povero di ossigeno [@openstax-ap-20-5] [@seer-vie-circolatorie]."
+  stato: approvato
+- id: polmonare-indica
+  tipo: indica
+  domanda: "Quale vaso è evidenziato nel corpo?"
+  risposte: ["Tronco polmonare", "Arco aortico", "Vena cava inferiore", "Aorta ascendente"]
+  struttura: tronco-polmonare
+  spiegazione: "Il tronco polmonare esce dal ventricolo destro e si divide subito nelle arterie polmonari destra e sinistra [@openstax-ap-20-5]."
+  stato: approvato
+- id: vene-polmonari-atrio
+  tipo: testo
+  domanda: "In quale cavità del cuore riportano il sangue ossigenato le vene polmonari?"
+  risposte: ["Nell'atrio sinistro", "Nell'atrio destro", "Nel ventricolo destro", "Nel ventricolo sinistro"]
+  struttura: vene-polmonari
+  spiegazione: "Le quattro vene polmonari riportano all'atrio sinistro il sangue appena ossigenato nei polmoni, chiudendo il circolo polmonare [@openstax-ap-20-5] [@seer-vie-circolatorie]."
+  stato: approvato
+- id: cava-superiore
+  tipo: testo
+  domanda: "Da quali parti del corpo raccoglie il sangue la vena cava superiore?"
+  risposte: ["Da testa, collo, torace, spalle e arti superiori", "Da addome, bacino e arti inferiori", "Da stomaco, intestino e milza", "Solo dai polmoni"]
+  struttura: vena-cava-superiore
+  spiegazione: "La vena cava superiore raccoglie il sangue di quasi tutto il corpo sopra il diaframma e sfocia nell'atrio destro [@openstax-ap-20-5] [@seer-vie-circolatorie]."
+  stato: approvato
+- id: cava-inferiore-atrio
+  tipo: testo
+  domanda: "Dove sfocia la vena cava inferiore?"
+  risposte: ["Nell'atrio destro", "Nell'atrio sinistro", "Nella vena porta", "Nel ventricolo sinistro"]
+  struttura: vena-cava-inferiore
+  spiegazione: "La vena cava inferiore raccoglie il sangue da sotto il diaframma, corre accanto all'aorta addominale e sfocia nell'atrio destro [@openstax-ap-20-5] [@seer-vie-circolatorie]."
+  stato: approvato
+- id: carotide-divisione
+  tipo: testo
+  domanda: "In quali arterie si divide la carotide comune?"
+  risposte: ["Nelle carotidi interna ed esterna", "Nelle arterie radiale e ulnare", "Nelle iliache interna ed esterna", "Nelle arterie vertebrali"]
+  struttura: arteria-carotide-comune
+  spiegazione: "L'arteria carotide comune porta sangue a testa e collo e si divide nelle carotidi interna ed esterna [@openstax-ap-20-5] [@seer-vie-circolatorie]."
+  stato: approvato
+- id: carotide-indica
+  tipo: indica
+  domanda: "Quale vaso è evidenziato nel corpo?"
+  risposte: ["Arteria carotide comune", "Arteria succlavia", "Arteria femorale", "Vena grande safena"]
+  struttura: arteria-carotide-comune
+  spiegazione: "La carotide comune destra nasce dal tronco brachiocefalico, la sinistra direttamente dall'arco aortico [@openstax-ap-20-5]."
+  stato: approvato
+- id: giugulare-encefalo
+  tipo: testo
+  domanda: "Quale vena riceve soprattutto il sangue dell'encefalo?"
+  risposte: ["La vena giugulare interna", "La vena cava inferiore", "La vena porta epatica", "La vena grande safena"]
+  struttura: vena-giugulare-interna
+  spiegazione: "La vena giugulare interna corre parallela alla carotide comune e riceve soprattutto il sangue dell'encefalo [@openstax-ap-20-5]."
+  stato: approvato
+- id: porta-fegato
+  tipo: testo
+  domanda: "A quale organo porta il sangue di stomaco, intestino e milza la vena porta?"
+  risposte: ["Al fegato", "Al cuore", "Ai reni", "Ai polmoni"]
+  struttura: vena-porta
+  spiegazione: "La vena porta epatica porta direttamente al fegato il sangue di stomaco, intestino e milza, perché venga elaborato prima di tornare in circolo [@openstax-ap-20-5]."
+  stato: approvato
+- id: femorale-poplitea
+  tipo: testo
+  domanda: "Che nome prende l'arteria femorale dietro il ginocchio?"
+  risposte: ["Arteria poplitea", "Arteria tibiale", "Arteria iliaca", "Arteria safena"]
+  struttura: arteria-femorale
+  spiegazione: "L'arteria femorale continua l'iliaca esterna nella coscia e dietro il ginocchio prende il nome di arteria poplitea [@openstax-ap-20-5]."
+  stato: approvato
+- id: renale-destra
+  tipo: testo
+  domanda: "Perché l'arteria renale destra è più lunga della sinistra?"
+  risposte: ["Perché l'aorta sta a sinistra della colonna vertebrale", "Perché il rene destro è più grande", "Perché nasce dall'arco aortico", "Perché passa dietro il fegato"]
+  struttura: arteria-renale
+  spiegazione: "L'arteria renale nasce dall'aorta addominale; la destra è più lunga, perché l'aorta sta a sinistra della colonna vertebrale [@openstax-ap-20-5]."
+  stato: approvato
+- id: safena-indica
+  tipo: indica
+  domanda: "Quale vaso è evidenziato nel corpo?"
+  risposte: ["Vena grande safena", "Arteria femorale", "Vena cava inferiore", "Arteria carotide comune"]
+  struttura: vena-grande-safena
+  spiegazione: "La vena grande safena è una vena superficiale ben evidente, sul lato interno di gamba e coscia, che sbocca nella vena femorale [@openstax-ap-20-5]."
+  stato: approvato

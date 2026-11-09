@@ -18,6 +18,7 @@ import { controllaParti, leggiGlossario } from './contenuti/glossario.mjs';
 import { leggiPagine } from './contenuti/pagine.mjs';
 import { leggiPercorsi } from './contenuti/percorsi.mjs';
 import { leggiProcessi } from './contenuti/processi.mjs';
+import { leggiQuiz } from './contenuti/quiz.mjs';
 import { compilaStruttura, leggiIntestazioni } from './contenuti/strutture.mjs';
 import { compilatore } from './contenuti/testo.mjs';
 
@@ -56,8 +57,17 @@ export function leggiContenuti(cartella, modello) {
   const strutture = grezze.map((g) => compilaStruttura(g, perId, processiPer, contesto));
   const pagine = leggiPagine(contesto);
   const percorsi = leggiPercorsi(contesto);
+  const quiz = leggiQuiz(contesto, new Map(strutture.map((s) => [s.id, s])));
 
-  return { strutture, pagine, percorsi, glossario, fonti: elencoFonti(fonti, strutture, percorsi, glossario), errori };
+  return {
+    strutture,
+    pagine,
+    percorsi,
+    glossario,
+    quiz,
+    fonti: elencoFonti(fonti, strutture, percorsi, glossario, quiz),
+    errori,
+  };
 }
 
 /** Strutture e gruppi presenti nel modello 3D, da public/modelli/strutture.json. */

@@ -3,10 +3,12 @@ import {
   caricaGlossario,
   caricaPagina,
   caricaPercorso,
+  caricaQuiz,
   caricaStruttura,
   GLOSSARIO,
   PERCORSI,
   PROCESSI,
+  QUIZ,
   STRUTTURE,
 } from 'virtual:contenuti';
 import type { StructureSummary } from '@/models/content';
@@ -16,12 +18,15 @@ export const STRUCTURES = STRUTTURE;
 export const GUIDED_PATHS = PERCORSI;
 export const PROCESSES = PROCESSI;
 export const GLOSSARY = GLOSSARIO;
+/** Temi del quiz con domande pubblicate (D53): numero di domande, e quante sono "Quale struttura è evidenziata?". */
+export const QUIZ_THEMES = QUIZ;
 export const loaders = {
   structure: caricaStruttura,
   page: caricaPagina,
   guidedPath: caricaPercorso,
   glossary: caricaGlossario,
   sources: caricaFonti,
+  quiz: caricaQuiz,
 };
 
 const byGroup = new Map<string, StructureSummary>();

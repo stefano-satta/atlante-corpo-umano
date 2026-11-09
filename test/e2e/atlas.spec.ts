@@ -632,6 +632,27 @@ test('senza WebGL si apre la versione testuale con Indice, schede e percorso', a
   await checkAccessibility(page);
 });
 
+test('le sezioni Percorsi e Quiz si scaricano solo al clic sulla loro voce', async ({ page }) => {
+  const scaricati: string[] = [];
+  page.on('request', (r) => scaricati.push(r.url()));
+  const scaricato = (nome: string) => scaricati.some((u) => u.includes(nome));
+  await enter(page);
+  expect(scaricato('PathsPage')).toBe(false);
+  expect(scaricato('QuizPanel')).toBe(false);
+
+  const sezioni = page.getByRole('navigation', { name: 'Sezioni' });
+  await sezioni.getByRole('button', { name: 'Percorsi' }).click();
+  await expect(page.getByRole('heading', { name: 'Percorsi', level: 1 })).toBeVisible();
+  expect(scaricato('PathsPage')).toBe(true);
+  expect(scaricato('QuizPanel')).toBe(false);
+
+  // La pagina di lettura copre la barra: si torna all'atlante e da lì si apre il quiz.
+  await page.getByRole('button', { name: "Torna all'atlante" }).click();
+  await sezioni.getByRole('button', { name: 'Quiz' }).click();
+  await expect(page.getByRole('heading', { name: 'Mettiti alla prova' })).toBeVisible();
+  expect(scaricato('QuizPanel')).toBe(true);
+});
+
 test('lo strato dei vasi si scarica solo quando si apre, e un vaso si apre dal suo indirizzo', async ({ page }) => {
   const scaricati: string[] = [];
   page.on('request', (r) => scaricati.push(r.url()));
@@ -675,4 +696,56 @@ test('lo strato dei nervi si scarica solo quando si apre, e un nervo si apre dal
   await expect(cartellino.getByRole('heading', { name: 'Nervo sciatico' })).toBeVisible({ timeout: 45_000 });
   await expect(page.getByRole('radio', { name: 'Nervoso' })).toHaveAttribute('aria-checked', 'true');
   await checkAccessibility(page);
+});
+
+test('il quiz evidenzia la struttura e segna le risposte giuste e sbagliate (D53)', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await enter(page);
+  await page.getByRole('navigation', { name: 'Sezioni' }).getByRole('button', { name: 'Quiz' }).click();
+  await expect(page).toHaveURL(/\/quiz$/);
+  const panel = page.getByRole('complementary', { name: 'Quiz' });
+  await expect(panel.getByRole('heading', { name: 'Mettiti alla prova' })).toBeVisible();
+  await checkAccessibility(page);
+
+  // Il tema sceglie l'apparato della barra.
+  await panel.getByRole('combobox', { name: 'Apparato' }).selectOption('respiratorio');
+  await expect(page).toHaveURL(/\/quiz\/respiratorio$/);
+  await expect(page.getByRole('radio', { name: 'Respiratorio' })).toHaveAttribute('aria-checked', 'true');
+  await panel.getByRole('button', { name: /Inizia il quiz/ }).click();
+  await expect(panel.getByText('Domanda 1 di 10')).toBeVisible();
+  // Nel quiz i tasti degli strati non cambiano apparato: il giro non ricomincia.
+  await page.keyboard.press('2');
+  await expect(page).toHaveURL(/\/quiz\/respiratorio$/);
+  await expect(panel.getByText('Domanda 1 di 10')).toBeVisible();
+
+  // Una risposta qualsiasi: se è sbagliata compare anche la giusta, in verde.
+  const answers = panel.locator('.quiz-answer');
+  await expect(answers).toHaveCount(4);
+  await answers.first().click();
+  await expect(panel.locator('.quiz-answer[data-result="correct"]')).toHaveCount(1);
+  const verdict = panel.locator('.quiz-verdict');
+  await expect(verdict).toBeVisible();
+  if ((await verdict.getAttribute('data-result')) === 'wrong')
+    await expect(answers.first()).toHaveAttribute('data-result', 'wrong');
+  await checkAccessibility(page);
+
+  for (let i = 1; i < 10; i++) {
+    await panel.getByRole('button', { name: 'Avanti' }).click();
+    await panel.locator('.quiz-answer').first().click();
+  }
+  await panel.getByRole('button', { name: 'Vedi il risultato' }).click();
+  await expect(panel.getByRole('heading', { name: /\d+ su 10/ })).toBeVisible();
+  await checkAccessibility(page);
+
+  // Il quiz completo cambia apparato seguendo le domande; Esc chiude il quiz.
+  await panel.getByRole('button', { name: 'Cambia apparato' }).click();
+  await panel.getByRole('combobox', { name: 'Apparato' }).selectOption('completa');
+  await expect(page).toHaveURL(/\/quiz\/completa$/);
+  await panel.getByRole('button', { name: /Inizia il quiz/ }).click();
+  await expect(panel.getByText('Domanda 1 di 20')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(panel).toHaveCount(0);
+  await expect(page).toHaveURL(/\/esplora\//);
+  expect(errors).toEqual([]);
 });

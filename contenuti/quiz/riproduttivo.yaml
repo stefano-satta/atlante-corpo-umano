@@ -1,0 +1,114 @@
+# Quiz dell'apparato Riproduttivo (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+# I fatti vengono dai testi delle schede, con le stesse fonti; tutte le domande partono in bozza.
+- id: testicoli-funzione
+  tipo: testo
+  domanda: "Che cosa producono i testicoli?"
+  risposte: ["Spermatozoi e testosterone", "Ovociti ed estrogeni", "Il liquido lattiginoso dello sperma", "Il 60 per cento dello sperma"]
+  struttura: testicoli
+  spiegazione: "I testicoli sono le due gonadi maschili: producono gli spermatozoi e ormoni androgeni come il testosterone [@openstax-ap-27-1]."
+  stato: approvato
+- id: testicoli-discesa
+  tipo: testo
+  domanda: "Dove si formano i testicoli, prima di scendere nello scroto?"
+  risposte: ["In alto nella cavità addominale, vicino ai reni", "Nel bacino, dietro la vescica", "Già nello scroto", "Nel canale inguinale"]
+  struttura: testicoli
+  spiegazione: "I testicoli si formano in alto nella cavità addominale, vicino ai reni, e prima della nascita scendono attraverso il canale inguinale nello scroto [@seer-testicoli] [@openstax-ap-27-1]."
+  stato: approvato
+- id: epididimo-maturazione
+  tipo: testo
+  domanda: "In quale organo gli spermatozoi appena formati completano la maturazione?"
+  risposte: ["Nell'epididimo", "Nella prostata", "Nelle vescichette seminali", "Nell'uretra"]
+  struttura: epididimi
+  spiegazione: "L'epididimo è un tubo avvolto su se stesso, attaccato a ciascun testicolo, in cui gli spermatozoi appena formati completano la maturazione [@openstax-ap-27-1]."
+  stato: approvato
+- id: epididimo-lunghezza
+  tipo: testo
+  domanda: "Quanto sarebbe lungo l'epididimo, se fosse disteso?"
+  risposte: ["Circa 6 metri", "Circa 6 centimetri", "Circa 60 centimetri", "Circa 20 metri"]
+  struttura: epididimi
+  spiegazione: "L'epididimo è un unico tubo strettamente avvolto che, disteso, sarebbe lungo circa 6 metri [@seer-dotti-genitali] [@openstax-ap-27-1]."
+  stato: approvato
+- id: deferente-funzione
+  tipo: testo
+  domanda: "Che cosa fa il dotto deferente?"
+  risposte: ["Porta gli spermatozoi dall'epididimo verso l'uretra", "Produce il testosterone", "Porta l'urina alla vescica", "Produce il liquido seminale"]
+  struttura: dotti-deferenti
+  spiegazione: "Il dotto deferente è un tubo muscolare che porta gli spermatozoi dall'epididimo verso l'uretra [@openstax-ap-27-1] [@seer-dotti-genitali]."
+  stato: approvato
+- id: vescichette-volume
+  tipo: testo
+  domanda: "Quale parte del volume dello sperma producono le vescichette seminali?"
+  risposte: ["Circa il 60 per cento", "Circa il 10 per cento", "Quasi tutto", "Circa il 30 per cento"]
+  struttura: vescichette-seminali
+  spiegazione: "Le vescichette seminali sono due ghiandole che producono circa il 60 per cento del volume dello sperma [@seer-ghiandole-genitali] [@openstax-ap-27-1]."
+  stato: approvato
+- id: prostata-posizione
+  tipo: testo
+  domanda: "Dove si trova la prostata?"
+  risposte: ["Subito sotto la vescica, attorno al primo tratto dell'uretra", "Dietro i reni", "Nello scroto", "Sopra la vescica"]
+  struttura: prostata
+  spiegazione: "La prostata si trova subito sotto la vescica urinaria e davanti al retto, e circonda il primo tratto dell'uretra, detto uretra prostatica [@seer-ghiandole-genitali] [@openstax-ap-27-1]."
+  stato: approvato
+- id: prostata-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Prostata", "Vescichette seminali", "Testicoli", "Epididimi"]
+  struttura: prostata
+  spiegazione: "La prostata è una ghiandola grande circa come una noce, che aggiunge allo sperma un liquido lattiginoso [@seer-ghiandole-genitali]."
+  stato: approvato
+- id: pene-colonne
+  tipo: testo
+  domanda: "Da quante colonne di tessuto erettile è formato il pene?"
+  risposte: ["Tre", "Due", "Una", "Quattro"]
+  struttura: pene
+  spiegazione: "Il pene è formato da tre colonne di tessuto erettile, avvolte da tessuto connettivo e ricoperte di pelle [@seer-pene]."
+  stato: approvato
+- id: utero-funzione
+  tipo: testo
+  domanda: "Qual è il compito dell'utero?"
+  risposte: ["Accogliere l'ovocita fecondato e sostenere l'embrione", "Produrre gli ovociti", "Produrre il latte", "Portare l'ovocita dall'ovaio"]
+  struttura: utero
+  spiegazione: "L'utero è l'organo muscolare che accoglie l'ovocita fecondato e nutre e sostiene l'embrione durante lo sviluppo [@seer-tratto-genitale-femminile] [@openstax-ap-27-2]."
+  stato: approvato
+- id: utero-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Utero", "Ovaie", "Tube uterine", "Vagina"]
+  struttura: utero
+  spiegazione: "L'utero si trova nella pelvi, dietro la vescica urinaria [@openstax-ap-25-2]."
+  stato: approvato
+- id: ovaie-ormoni
+  tipo: testo
+  domanda: "Quali ormoni producono le ovaie?"
+  risposte: ["Estrogeni e progesterone", "Testosterone e insulina", "Ossitocina e prolattina", "Tiroxina e calcitonina"]
+  struttura: ovaie
+  spiegazione: "Nelle ovaie si sviluppano gli ovociti; producono anche ormoni come estrogeni e progesterone [@seer-ovaie] [@openstax-ap-27-2]."
+  stato: approvato
+- id: ovaie-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Ovaie", "Utero", "Mammelle", "Tube uterine"]
+  struttura: ovaie
+  spiegazione: "Le ovaie si trovano nella cavità pelvica, una per lato dell'utero, nelle fosse ovariche [@seer-ovaie]."
+  stato: approvato
+- id: tube-fecondazione
+  tipo: testo
+  domanda: "Dove avviene di solito la fecondazione?"
+  risposte: ["Nelle tube uterine", "Nell'utero", "Nelle ovaie", "Nella vagina"]
+  struttura: tube-uterine
+  spiegazione: "Le tube uterine portano l'ovocita dall'ovaio all'utero; di solito è al loro interno che avviene la fecondazione [@openstax-ap-27-2] [@seer-tratto-genitale-femminile]."
+  stato: approvato
+- id: vagina-urina
+  tipo: testo
+  domanda: "Da quale canale esce l'urina nella donna?"
+  risposte: ["Dall'uretra, un canale separato dalla vagina", "Dalla vagina", "Dalla cervice dell'utero", "Dalle tube uterine"]
+  struttura: vagina
+  spiegazione: "La vagina non fa parte dell'apparato urinario: l'urina esce dall'uretra, un canale separato che si apre appena davanti all'apertura della vagina [@seer-uretra]."
+  stato: approvato
+- id: mammelle-accessori
+  tipo: testo
+  domanda: "A quale apparato appartengono le mammelle, come organi accessori?"
+  risposte: ["All'apparato genitale femminile", "All'apparato digerente", "Al sistema endocrino", "Al sistema linfatico"]
+  struttura: mammelle
+  spiegazione: "Pur trovandosi lontano dagli altri organi genitali femminili, le mammelle sono considerate organi accessori di questo apparato [@openstax-ap-27-2]."
+  stato: approvato

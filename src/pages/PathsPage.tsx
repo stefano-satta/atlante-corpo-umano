@@ -10,7 +10,7 @@ const STATUS_LABELS = { bozza: 'Bozza', verificato: 'Verificato', approvato: nul
  * Pagina Percorsi: una card per ogni percorso guidato, con illustrazione, titolo e presentazione.
  * La card apre il primo passo del percorso, come prima faceva la voce Percorsi del menu (D24).
  */
-export function PathsPage() {
+export default function PathsPage() {
   const { dispatch } = useAtlas();
   const start = (id: string) => {
     dispatch({ type: 'setGuidedPath', guidedPath: { id, step: 0 } });

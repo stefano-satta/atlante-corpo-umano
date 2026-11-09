@@ -36,6 +36,9 @@ const PATH_POLAR_ANGLE = Math.PI / 2 - 0.12;
 function CameraDirector({ ready, lazyLoaded }: { ready: boolean; lazyLoaded: ReadonlySet<LazyModelLayer> }) {
   const { state } = useAtlas();
   const { step } = useActiveStep();
+  // La domanda del quiz (D53) si inquadra come un passo di percorso.
+  const quizFocus = state.quiz?.focus ?? null;
+  const framed = step ? (step.inquadra ?? step.evidenzia) : quizFocus;
   const reducedMotion = useReducedMotion();
   const camera = useThree((s) => s.camera) as THREE.PerspectiveCamera;
   const width = useThree((s) => s.size.width);
@@ -55,9 +58,9 @@ function CameraDirector({ ready, lazyLoaded }: { ready: boolean; lazyLoaded: Rea
     if (u) {
       sphere = u.box.getBoundingSphere(new THREE.Sphere());
       sphere.radius = Math.max(sphere.radius, 0.05) * SELECTION_MARGIN;
-    } else if (step) {
-      // Telecamera narrante (D24): inquadra le strutture del passo, viste di fronte.
-      const box = boundingBoxOf(unitsForElements(step.inquadra ?? step.evidenzia, sceneApi.units), sceneApi.units);
+    } else if (framed) {
+      // Telecamera narrante (D24): inquadra le strutture del passo o della domanda, viste di fronte.
+      const box = boundingBoxOf(unitsForElements(framed, sceneApi.units), sceneApi.units);
       if (box.isEmpty()) return;
       sphere = box.getBoundingSphere(new THREE.Sphere());
       // Su smartphone il percorso occupa la metà bassa dello schermo: le strutture stanno nella metà alta.
@@ -72,11 +75,11 @@ function CameraDirector({ ready, lazyLoaded }: { ready: boolean; lazyLoaded: Rea
     }
     distance.current = sphere.radius / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2));
     c.fitToSphere(sphere, animated);
-  }, [state.selection, state.home, step, reducedMotion, ready, lazyLoaded, camera, width]);
+  }, [state.selection, state.home, framed, reducedMotion, ready, lazyLoaded, camera, width]);
 
   useEffect(() => {
     const c = sceneApi.controls;
-    if (!c || !ready || (!state.selection && !step)) return;
+    if (!c || !ready || (!state.selection && !framed)) return;
     const halfHeight = distance.current * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
     if (width <= NARROW_WIDTH) {
       // Su smartphone cartellino e percorso sono un foglio in basso: la struttura sale nella metà superiore.
@@ -86,7 +89,7 @@ function CameraDirector({ ready, lazyLoaded }: { ready: boolean; lazyLoaded: Rea
     // La struttura si centra nello spazio libero fra la barra laterale e il pannello.
     const shift = panelWidth(width, state.sheet) - sidebarInset(width, state.sheet);
     c.setFocalOffset(halfHeight * camera.aspect * (shift / width), 0, 0, !reducedMotion);
-  }, [state.selection, state.sheet, step, reducedMotion, ready, camera, width]);
+  }, [state.selection, state.sheet, framed, reducedMotion, ready, camera, width]);
 
   return null;
 }

@@ -22,11 +22,15 @@ export function AtlasProvider({ children }: { children: ReactNode }) {
   }
 
   const { layer, selection, sheet, page, guidedPath, home } = state;
+  // Del quiz conta solo il tema: cambiare domanda non tocca l'indirizzo.
+  const quizOpen = !!state.quiz;
+  const quizTheme = state.quiz?.theme ?? null;
   const { pathname, search } = location;
   useEffect(() => {
-    const change = urlChange({ layer, selection, sheet, page, guidedPath, home }, pathname);
+    const quiz = quizOpen ? { theme: quizTheme } : null;
+    const change = urlChange({ layer, selection, sheet, page, guidedPath, home, quiz }, pathname);
     if (change) navigate({ pathname: change.pathname, search: searchFor(search) }, { replace: change.replace });
-  }, [layer, selection, sheet, page, guidedPath, home, pathname, search, navigate]);
+  }, [layer, selection, sheet, page, guidedPath, home, quizOpen, quizTheme, pathname, search, navigate]);
 
   const value = useMemo(() => ({ state, dispatch }), [state]);
   return <AtlasContext.Provider value={value}>{children}</AtlasContext.Provider>;

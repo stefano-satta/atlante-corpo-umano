@@ -17,7 +17,14 @@ export function atlasReducer(s: AtlasState, a: AtlasAction): AtlasState {
 function reduce(s: AtlasState, a: AtlasAction): AtlasState {
   switch (a.type) {
     case 'setLayer':
-      return { ...s, layer: a.layer, selection: null, sheet: false };
+      // Nel quiz (D53) scegliere un apparato dalla barra o dai tasti cambia il tema: si ricomincia da lì.
+      return {
+        ...s,
+        layer: a.layer,
+        selection: null,
+        sheet: false,
+        quiz: s.quiz && { theme: a.layer, focus: null },
+      };
     case 'revealLayer':
       return { ...s, layer: a.layer };
     case 'toggleSkin':
@@ -33,14 +40,48 @@ function reduce(s: AtlasState, a: AtlasAction): AtlasState {
     }
     case 'select':
       // Scegliere un organo di un solo corpo, dall'Indice o da un collegamento, porta a quel corpo.
-      return { ...s, selection: a.id, sheet: false, home: s.home && !a.id, body: bodyFor(s.body, a.id) };
+      // Una struttura scelta chiude il quiz, che non deve mostrare cartellini (D53).
+      return {
+        ...s,
+        selection: a.id,
+        sheet: false,
+        home: s.home && !a.id,
+        body: bodyFor(s.body, a.id),
+        quiz: a.id ? null : s.quiz,
+      };
     case 'setSheet':
       return { ...s, sheet: a.open && s.selection !== null };
     case 'setPage':
       return { ...s, page: a.page };
     case 'setGuidedPath':
       // Scegliere un passo chiude la struttura che si stava esplorando.
-      return { ...s, guidedPath: a.guidedPath, selection: null, sheet: false, home: s.home && !a.guidedPath };
+      return {
+        ...s,
+        guidedPath: a.guidedPath,
+        selection: null,
+        sheet: false,
+        home: s.home && !a.guidedPath,
+        quiz: a.guidedPath ? null : s.quiz,
+      };
+    case 'setQuiz': {
+      // Il quiz (D53) prende il pannello: chiude struttura, scheda, percorso e soglia. Un apparato
+      // come tema mostra subito quello strato; "completa" cambia strato a ogni domanda.
+      if (!a.quiz) return { ...s, quiz: null };
+      const theme = a.quiz.theme;
+      const layer = theme && theme !== 'completa' ? theme : s.layer;
+      return {
+        ...s,
+        quiz: { theme, focus: s.quiz?.theme === theme ? s.quiz.focus : null },
+        layer,
+        selection: null,
+        sheet: false,
+        guidedPath: null,
+        home: false,
+      };
+    }
+    case 'setQuizFocus':
+      if (!s.quiz) return s;
+      return { ...s, quiz: { ...s.quiz, focus: a.focus }, layer: a.layer ?? s.layer, body: a.body ?? s.body };
     case 'hover':
       return s.hover === a.id ? s : { ...s, hover: a.id };
     case 'setHome':
@@ -61,6 +102,8 @@ function reduce(s: AtlasState, a: AtlasAction): AtlasState {
         sheet: a.sheet,
         page: null,
         guidedPath: a.guidedPath ?? (a.selection ? s.guidedPath : null),
+        // Tornando allo stesso tema del quiz resta la domanda in corso.
+        quiz: a.quiz ? { theme: a.quiz.theme, focus: s.quiz?.theme === a.quiz.theme ? s.quiz.focus : null } : null,
       };
   }
 }
@@ -76,6 +119,7 @@ export function initialAtlasState(pathname: string): AtlasState {
     hover: null,
     tour: null,
     ...url,
+    quiz: url.quiz ? { theme: url.quiz.theme, focus: null } : null,
     layer: url.layer ?? 'organi',
   };
 }

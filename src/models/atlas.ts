@@ -21,6 +21,21 @@ export type BodyKind = 'uomo' | 'donna';
 /** Pagina di lettura; il valore è anche il suo indirizzo (`/indice`, `/glossario`, `/fonti`, `/informazioni`). */
 export type PageId = 'percorsi' | 'indice' | 'glossario' | 'fonti' | 'informazioni' | 'circolazione';
 
+/** Tema del quiz (D53): un apparato della barra laterale, oppure "completa" con domande di tutti. */
+export type QuizTheme = Layer | 'completa';
+
+/** Domanda del quiz mostrata nel corpo 3D: strutture evidenziate e inquadrate. */
+export interface QuizFocus {
+  gruppi: string[];
+  fma: string[];
+}
+
+/** Quiz aperto: il tema (null finché non lo si sceglie) e la struttura della domanda in corso. */
+export interface ActiveQuiz {
+  theme: QuizTheme | null;
+  focus: QuizFocus | null;
+}
+
 export interface ActiveGuidedPath {
   id: string;
   /** Passo contato da 0. */
@@ -47,6 +62,8 @@ export interface AtlasState {
    * può tornare al passo da cui si era partiti.
    */
   guidedPath: ActiveGuidedPath | null;
+  /** Quiz aperto nel pannello (D53): selezione e percorso sono chiusi. */
+  quiz: ActiveQuiz | null;
   hover: string | null;
   /** Battito del cuore 3D quando il cuore è selezionato (D41); il cartellino lo ferma e lo riprende. */
   heartbeat: boolean;
@@ -55,10 +72,16 @@ export interface AtlasState {
 }
 
 /** Parte dello stato che si legge e si scrive nell'indirizzo. */
-export type UrlState = Pick<AtlasState, 'layer' | 'selection' | 'sheet' | 'page' | 'guidedPath' | 'home'>;
+export type UrlState = Pick<AtlasState, 'layer' | 'selection' | 'sheet' | 'page' | 'guidedPath' | 'home'> & {
+  /** Nell'indirizzo c'è solo il tema del quiz, non la domanda. */
+  quiz?: { theme: QuizTheme | null } | null;
+};
 
 /** Stato letto da un indirizzo: lo strato è null dove l'indirizzo non lo dice (percorsi, pagine, indirizzi di prima). */
-export type UrlRead = Omit<UrlState, 'layer'> & { layer: Layer | null };
+export type UrlRead = Omit<UrlState, 'layer' | 'quiz'> & {
+  layer: Layer | null;
+  quiz?: { theme: QuizTheme | null } | null;
+};
 
 export type AtlasAction =
   | { type: 'setLayer'; layer: Layer }
@@ -72,6 +95,10 @@ export type AtlasAction =
   | { type: 'setSheet'; open: boolean }
   | { type: 'setPage'; page: PageId | null }
   | { type: 'setGuidedPath'; guidedPath: ActiveGuidedPath | null }
+  /** Apre il quiz su un tema (o sulla scelta del tema, con null), oppure lo chiude. */
+  | { type: 'setQuiz'; quiz: { theme: QuizTheme | null } | null }
+  /** Domanda in corso: strato e corpo in cui si vede la sua struttura, e le unità da evidenziare. */
+  | { type: 'setQuizFocus'; focus: QuizFocus | null; layer?: Layer; body?: BodyKind }
   | { type: 'hover'; id: string | null }
   | { type: 'setHome'; open: boolean }
   | { type: 'setTour'; step: number | null }

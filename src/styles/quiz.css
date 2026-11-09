@@ -1,0 +1,189 @@
+/* Quiz di autoverifica nel pannello (D53): scelta dell'apparato, domande a quattro risposte, risultato. */
+.quiz {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: calc(22px + env(safe-area-inset-top, 0px)) 32px calc(28px + env(safe-area-inset-bottom, 0px));
+  animation: fade-in 280ms var(--ease-out);
+}
+.quiz-intro {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.quiz-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 24px;
+}
+.quiz-field select {
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--slide-border);
+  border-radius: var(--radius-option);
+  font: inherit;
+  font-size: 16px;
+}
+.quiz-field select:focus-visible {
+  outline: 2px solid var(--eosin);
+  outline-offset: 2px;
+}
+.quiz-round {
+  margin-top: 12px;
+}
+.quiz .action:disabled {
+  background: var(--ink-muted);
+  opacity: 0.6;
+  cursor: default;
+}
+.quiz .action:disabled svg {
+  transform: none;
+}
+.quiz-question {
+  margin: 4px 0 0;
+  font: 600 clamp(24px, 2.1vw, 30px) / 1.15 var(--font-display);
+  font-variation-settings: "opsz" 48;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+  outline: none;
+}
+.quiz-hint {
+  margin-top: 10px;
+}
+.quiz-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.quiz-answer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  background: #fff;
+  color: var(--ink);
+  border: 1px solid var(--slide-border);
+  border-radius: var(--radius-option);
+  font: inherit;
+  font-size: 16px;
+  text-align: left;
+  transition:
+    border-color 160ms ease-out,
+    background-color 160ms ease-out;
+}
+.quiz-answer:not([aria-disabled]):hover {
+  border-color: var(--eosin);
+}
+.quiz-answer[aria-disabled] {
+  cursor: default;
+}
+.quiz-letter {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--slide-veil);
+  color: var(--ink-muted);
+  font-weight: 700;
+  font-size: 14px;
+}
+/* Risposta giusta in verde, quella sbagliata scelta in rosso; il segno ✓/✗ e il testo dicono lo stesso senza colore. */
+.quiz-answer[data-result="correct"] {
+  background: var(--correct-veil);
+  border-color: var(--correct);
+  color: var(--correct);
+  font-weight: 700;
+}
+.quiz-answer[data-result="correct"] .quiz-letter {
+  background: var(--correct);
+  color: #fff;
+}
+.quiz-answer[data-result="wrong"] {
+  background: var(--wrong-veil);
+  border-color: var(--wrong);
+  color: var(--wrong);
+  font-weight: 700;
+}
+.quiz-answer[data-result="wrong"] .quiz-letter {
+  background: var(--wrong);
+  color: #fff;
+}
+.quiz-answer[data-result="other"] {
+  color: var(--ink-muted);
+}
+.quiz-feedback .text p {
+  margin: 0 0 12px;
+}
+.quiz-verdict {
+  margin: 18px 0 8px;
+  font-weight: 700;
+}
+.quiz-verdict[data-result="correct"] {
+  color: var(--correct);
+}
+.quiz-verdict[data-result="wrong"] {
+  color: var(--wrong);
+}
+.quiz .action {
+  margin-top: 16px;
+}
+.quiz-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+.quiz-actions .back {
+  margin-top: 16px;
+}
+
+@media (max-width: 760px) {
+  .panel[data-mode="quiz"] {
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    max-height: 50vh;
+    border-left: 0;
+    border-top: 3px solid var(--eosin);
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+    animation-name: sheet-rise;
+  }
+  .quiz {
+    padding: 16px 20px calc(22px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quiz {
+    animation: none;
+  }
+}
+
+/* Tasti per rispondere: si mostrano solo dove c'è una tastiera. */
+.quiz-keys {
+  margin-top: 10px;
+}
+.quiz-keys kbd {
+  display: inline-block;
+  min-width: 20px;
+  padding: 0 5px;
+  border: 1px solid var(--slide-border);
+  border-radius: var(--radius-small);
+  font: 600 12px / 1.5 var(--font-text);
+  text-align: center;
+  color: var(--ink);
+}
+@media (hover: none) {
+  .quiz-keys {
+    display: none;
+  }
+}

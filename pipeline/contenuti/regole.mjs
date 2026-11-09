@@ -65,3 +65,21 @@ export const GRUPPO_CITAZIONI = /(?:\s*\[@[^\]\s]+\])+/g;
 // Termine del glossario nel testo: [[alveoli|alveolo]] mostra "alveoli" e rimanda alla voce "alveolo";
 // [[alveolo]] usa la voce con lo stesso nome.
 export const SEGNO_GLOSSARIO = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
+
+/**
+ * Temi del quiz (D53): uno per apparato della barra laterale, con il nome dell'indirizzo
+ * (`LAYER_SLUGS` in src/utils/url.ts). Un file contenuti/quiz/<tema>.yaml per tema.
+ */
+export const TEMI_QUIZ = [
+  'organi',
+  'scheletro',
+  'muscoli',
+  'cardiocircolatorio',
+  'nervoso',
+  'digerente',
+  'respiratorio',
+  'urinario',
+  'riproduttivo',
+];
+/** `testo`: domanda a parole; `indica`: "Quale struttura è evidenziata?", solo con il corpo 3D. */
+export const TIPI_DOMANDA = ['testo', 'indica'];

@@ -69,3 +69,31 @@ describe('indirizzi di esplorazione (D47)', () => {
     expect(urlChange({ ...explore, selection: 'cuore' }, '/indice')?.replace).toBe(false);
   });
 });
+
+describe('indirizzi del quiz (D53)', () => {
+  it('mettono il tema nel percorso', () => {
+    expect(urlFor({ ...explore, quiz: { theme: null } })).toBe('/quiz');
+    expect(urlFor({ ...explore, quiz: { theme: 'vasi' } })).toBe('/quiz/cardiocircolatorio');
+    expect(urlFor({ ...explore, quiz: { theme: 'completa' } })).toBe('/quiz/completa');
+    expect(urlFor({ ...explore, quiz: { theme: 'organi' }, page: 'fonti' })).toBe('/fonti');
+  });
+
+  it("si leggono nell'altro verso, con l'apparato come strato", () => {
+    expect(readUrl('/quiz')).toMatchObject({ quiz: { theme: null }, layer: null });
+    expect(readUrl('/quiz/nervoso')).toMatchObject({ quiz: { theme: 'nervi' }, layer: 'nervi' });
+    expect(readUrl('/quiz/completa/')).toMatchObject({ quiz: { theme: 'completa' }, layer: null });
+    expect(readUrl('/quiz/pelle')).toMatchObject({ quiz: { theme: null } });
+    expect(readUrl('/esplora/organi').quiz).toBeNull();
+  });
+
+  it('cambiare tema non crea voci di cronologia; entrare nel quiz sì', () => {
+    expect(urlChange({ ...explore, quiz: { theme: 'muscoli' } }, '/quiz')).toEqual({
+      pathname: '/quiz/muscoli',
+      replace: true,
+    });
+    expect(urlChange({ ...explore, quiz: { theme: null } }, '/esplora/organi')).toEqual({
+      pathname: '/quiz',
+      replace: false,
+    });
+  });
+});

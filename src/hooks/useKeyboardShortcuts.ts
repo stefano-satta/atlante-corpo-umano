@@ -26,13 +26,15 @@ const PAN_KEYS: Record<string, [number, number]> = {
 const PAN_STEP = 0.06;
 
 /**
- * Comandi da tastiera (D11): frecce per ruotare, Maiusc + frecce per spostare, + e − per lo zoom, 1–9 per gli strati,
+ * Comandi da tastiera (D11): frecce per ruotare, Maiusc + frecce per spostare, + e − per lo zoom, 1–9 per gli strati (non nel quiz),
  * 0 per la vista iniziale, Esc per chiudere scheda o cartellino, ? per la guida, / per la ricerca di Indice e Glossario.
  */
 export function useKeyboardShortcuts() {
   const { state, dispatch } = useAtlas();
   const reducedMotion = useReducedMotion();
   const { sheet, page, selection, guidedPath, home, tour } = state;
+  // Nel quiz l'apparato si sceglie dal suo menu: con 1–9 si ricomincerebbe il giro per sbaglio (D53).
+  const quizOpen = !!state.quiz;
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -70,7 +72,8 @@ export function useKeyboardShortcuts() {
       }
       switch (e.key) {
         case 'Escape':
-          if (sheet) dispatch({ type: 'setSheet', open: false });
+          if (quizOpen) dispatch({ type: 'setQuiz', quiz: null });
+          else if (sheet) dispatch({ type: 'setSheet', open: false });
           else if (selection || !guidedPath) dispatch({ type: 'select', id: null });
           else dispatch({ type: 'setGuidedPath', guidedPath: null });
           return;
@@ -98,12 +101,12 @@ export function useKeyboardShortcuts() {
           resetView(animated);
           break;
         default:
-          if (LAYER_KEYS[e.key]) dispatch({ type: 'setLayer', layer: LAYER_KEYS[e.key] });
+          if (LAYER_KEYS[e.key] && !quizOpen) dispatch({ type: 'setLayer', layer: LAYER_KEYS[e.key] });
           else return;
       }
       e.preventDefault();
     };
     addEventListener('keydown', onKeyDown);
     return () => removeEventListener('keydown', onKeyDown);
-  }, [sheet, page, selection, guidedPath, home, tour, dispatch, reducedMotion]);
+  }, [sheet, page, selection, guidedPath, home, tour, quizOpen, dispatch, reducedMotion]);
 }

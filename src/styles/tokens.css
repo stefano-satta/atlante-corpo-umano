@@ -20,6 +20,11 @@
   --eosin-dark: #962f50;
   --eosin-room: #ef8fac;
   --nucleus: #4a3c8c;
+  /* Esito delle risposte del quiz (D53), solo nel pannello chiaro: contrasto AA sul vetrino. */
+  --correct: #2e6b3f;
+  --correct-veil: #e0efe3;
+  --wrong: #b3261e;
+  --wrong-veil: #f8e1de;
   --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", system-ui, sans-serif;
   --font-text: "Atkinson Hyperlegible Next Variable", "Atkinson Hyperlegible Next", system-ui, sans-serif;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

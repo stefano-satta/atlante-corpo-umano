@@ -222,3 +222,30 @@ export interface GlossaryDefinition extends GlossaryEntry {
   stato: ContentStatus;
   revisione: string;
 }
+
+/** Tema del quiz nell'indice (D53): quante domande ha e quante mostrano la struttura nel 3D. */
+export interface QuizThemeSummary {
+  domande: number;
+  indica: number;
+}
+
+/** Domanda del quiz: la prima risposta è quella giusta, l'interfaccia le mescola. */
+export interface QuizQuestion {
+  id: string;
+  /** Apparato della barra laterale, con il nome dell'indirizzo (`LAYER_SLUGS`). */
+  tema: string;
+  /** `indica`: "Quale struttura è evidenziata?", solo con il corpo 3D. */
+  tipo: 'testo' | 'indica';
+  domanda: string;
+  risposte: [string, string, string, string];
+  struttura: string;
+  nomeStruttura: string;
+  /** Unità del modello che rappresenta la struttura (per il corpo Uomo/Donna). */
+  unita: string | null;
+  /** Unità da evidenziare e inquadrare: gruppi o id di unità, e FMA. */
+  evidenzia: ModelElements;
+  /** Spiegazione della risposta, in HTML con i rimandi numerati alle fonti della domanda. */
+  spiegazione: string;
+  fonti: NumberedSource[];
+  stato: ContentStatus;
+}

@@ -3,7 +3,7 @@ import { SourceReference } from '@/components/common/SourceReference';
 import { ReadingLayout } from '@/components/features/layout/ReadingLayout';
 import { useSources } from '@/hooks/useContent';
 import type { CitedSource } from '@/models/content';
-import { GLOSSARY, GUIDED_PATHS, STRUCTURES } from '@/utils/content';
+import { GLOSSARY, GUIDED_PATHS, QUIZ_THEMES, STRUCTURES } from '@/utils/content';
 
 const GROUPS: Array<{ type: CitedSource['tipo']; title: string; description: string }> = [
   {
@@ -30,6 +30,7 @@ export function SourcesPage() {
     ...STRUCTURES.map((s) => s.id),
     ...GUIDED_PATHS.map((p) => `percorsi/${p.id}`),
     ...GLOSSARY.map((g) => `glossario/${g.id}`),
+    ...Object.keys(QUIZ_THEMES).map((t) => `quiz/${t}`),
   ]);
 
   let content: ReactNode;

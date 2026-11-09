@@ -1,0 +1,121 @@
+# Quiz dell'apparato Respiratorio (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+# I fatti vengono dai testi delle schede, con le stesse fonti; tutte le domande partono in bozza.
+- id: polmoni-scambio
+  tipo: testo
+  domanda: "Qual è la funzione principale dei polmoni?"
+  risposte: ["Scambiare ossigeno e anidride carbonica con l'aria", "Filtrare il sangue dalle scorie", "Pompare il sangue nel corpo", "Produrre ormoni"]
+  struttura: polmoni
+  spiegazione: "La funzione principale dei polmoni è lo scambio di ossigeno e anidride carbonica con l'aria che respiriamo [@openstax-ap-22-2]."
+  stato: approvato
+- id: polmoni-lobi-destro
+  tipo: testo
+  domanda: "In quanti lobi è diviso il polmone destro?"
+  risposte: ["Tre", "Due", "Quattro", "Cinque"]
+  struttura: polmoni
+  spiegazione: "Il polmone destro ha tre lobi, superiore, medio e inferiore; il sinistro ne ha due [@openstax-ap-22-2]."
+  stato: approvato
+- id: polmoni-sinistro-piccolo
+  tipo: testo
+  domanda: "Perché il polmone sinistro è un po' più piccolo del destro?"
+  risposte: ["Perché parte dello spazio è occupata dal cuore", "Perché a sinistra c'è il fegato", "Perché ha meno bronchi", "Perché è più vicino al diaframma"]
+  struttura: polmoni
+  spiegazione: "Il polmone sinistro è un po' più piccolo perché a sinistra parte dello spazio è occupata dal cuore [@nhlbi-polmoni-sistema]."
+  stato: approvato
+- id: polmoni-alveoli
+  tipo: testo
+  domanda: "Come si chiamano le minuscole sacche d'aria in cui terminano i bronchioli?"
+  risposte: ["Alveoli", "Lobi", "Scissure", "Villi"]
+  struttura: polmoni
+  spiegazione: "I bronchioli terminano in grappoli di minuscole sacche d'aria, gli alveoli, dove avviene lo scambio dei gas [@nhlbi-polmoni-sistema]."
+  stato: approvato
+- id: polmoni-pleura
+  tipo: testo
+  domanda: "Come si chiama la membrana a due foglietti che avvolge ogni polmone?"
+  risposte: ["Pleura", "Pericardio", "Peritoneo", "Meninge"]
+  struttura: polmoni
+  spiegazione: "Ogni polmone è avvolto dalla pleura, una membrana a due foglietti [@openstax-ap-22-2]."
+  stato: approvato
+- id: polmoni-indica
+  tipo: indica
+  domanda: "Quale struttura è evidenziata nel corpo?"
+  risposte: ["Polmoni", "Trachea e bronchi", "Diaframma", "Cavità nasale"]
+  struttura: polmoni
+  spiegazione: "I polmoni sono i principali organi dell'apparato respiratorio e si trovano nella cavità toracica, uno per lato del cuore [@nhlbi-polmoni-sistema]."
+  stato: approvato
+- id: trachea-cartilagine
+  tipo: testo
+  domanda: "Che forma hanno i pezzi di cartilagine della trachea?"
+  risposte: ["A C", "A O, chiusi", "A V", "A spirale"]
+  struttura: trachea-bronchi
+  spiegazione: "La trachea è formata da una pila di pezzi di cartilagine a forma di C, uniti da tessuto connettivo [@openstax-ap-22-1]."
+  stato: approvato
+- id: trachea-carena
+  tipo: testo
+  domanda: "Come si chiama il punto in cui la trachea si divide nei due bronchi?"
+  risposte: ["Carena", "Ilo", "Laringe", "Apice"]
+  struttura: trachea-bronchi
+  spiegazione: "Il punto in cui la trachea si divide si chiama carena: un corpo estraneo che la raggiunge provoca una tosse violenta [@openstax-ap-22-1]."
+  stato: approvato
+- id: trachea-muco
+  tipo: testo
+  domanda: "A che cosa serve il muco prodotto dal rivestimento di trachea e bronchi?"
+  risposte: ["A trattenere polvere e microbi", "A sciogliere il cibo", "A produrre ossigeno", "A lubrificare le coste"]
+  struttura: trachea-bronchi
+  spiegazione: "Il rivestimento di trachea e bronchi produce muco che intrappola polvere e microbi [@openstax-ap-22-1]."
+  stato: approvato
+- id: trachea-indica
+  tipo: indica
+  domanda: "Quale struttura è evidenziata nel corpo?"
+  risposte: ["Trachea e bronchi", "Polmoni", "Cavità nasale", "Diaframma"]
+  struttura: trachea-bronchi
+  spiegazione: "Trachea e bronchi sono i condotti che portano l'aria dalla laringe ai polmoni e la riportano fuori [@openstax-ap-22-1]."
+  stato: approvato
+- id: bronchioli-cartilagine
+  tipo: testo
+  domanda: "Che cosa manca ai bronchioli, le diramazioni più sottili dei bronchi?"
+  risposte: ["La cartilagine", "Le pareti muscolari", "Il rivestimento interno", "Il sangue"]
+  struttura: trachea-bronchi
+  spiegazione: "I bronchioli non hanno cartilagine e hanno pareti muscolari capaci di allargarli o restringerli [@openstax-ap-22-1]."
+  stato: approvato
+- id: diaframma-principale
+  tipo: testo
+  domanda: "Qual è il principale muscolo della respirazione?"
+  risposte: ["Il diaframma", "Gli intercostali esterni", "Il retto dell'addome", "Il grande pettorale"]
+  struttura: diaframma
+  spiegazione: "Il diaframma è il principale muscolo della respirazione [@nhlbi-respirazione]."
+  stato: approvato
+- id: diaframma-inspirazione
+  tipo: testo
+  domanda: "Che cosa fa il diaframma quando si contrae?"
+  risposte: ["Si abbassa e fa entrare l'aria nei polmoni", "Si alza e spinge fuori l'aria", "Chiude la trachea", "Restringe i bronchi"]
+  struttura: diaframma
+  spiegazione: "Quando si contrae il diaframma si abbassa verso l'addome, la cavità toracica si allarga e l'aria entra nei polmoni [@openstax-ap-22-3]."
+  stato: approvato
+- id: diaframma-indica
+  tipo: indica
+  domanda: "Quale struttura è evidenziata nel corpo?"
+  risposte: ["Diaframma", "Intercostali esterni", "Polmoni", "Trachea e bronchi"]
+  struttura: diaframma
+  spiegazione: "Il diaframma è il muscolo a forma di cupola che separa la cavità toracica da quella addominale [@openstax-ap-11-4]."
+  stato: approvato
+- id: intercostali-inspirazione
+  tipo: testo
+  domanda: "Che cosa fanno gli intercostali esterni quando si contraggono?"
+  risposte: ["Sollevano e allargano la gabbia toracica", "Abbassano il diaframma", "Chiudono la glottide", "Spingono l'aria fuori con forza"]
+  struttura: intercostali-esterni
+  spiegazione: "Contraendosi gli intercostali esterni sollevano la gabbia toracica e la allargano, aiutando l'inspirazione [@openstax-ap-11-4]."
+  stato: approvato
+- id: naso-aria
+  tipo: testo
+  domanda: "Che cosa succede all'aria lungo la cavità nasale?"
+  risposte: ["Viene ripulita, riscaldata e inumidita", "Viene raffreddata e asciugata", "Perde l'ossigeno", "Diventa più secca"]
+  struttura: cavita-nasale
+  spiegazione: "Lungo la cavità nasale l'aria viene ripulita, riscaldata e inumidita prima di proseguire verso la faringe [@openstax-ap-22-1]."
+  stato: approvato
+- id: cornetto-indipendente
+  tipo: testo
+  domanda: "Quale dei tre cornetti nasali è un osso indipendente, e non parte dell'etmoide?"
+  risposte: ["Il cornetto inferiore", "Il cornetto superiore", "Il cornetto medio", "Nessuno dei tre"]
+  struttura: cornetto-nasale-inferiore
+  spiegazione: "Il cornetto nasale inferiore è il più grande dei tre e, a differenza degli altri due, che fanno parte dell'etmoide, è un osso indipendente [@openstax-ap-7-2]."
+  stato: approvato

@@ -24,7 +24,8 @@ export function leggiFonti(cartella, errorePer) {
 }
 
 /** Tutte le fonti, ognuna con i contenuti che la citano. */
-export function elencoFonti(fonti, strutture, percorsi, glossario) {
+export function elencoFonti(fonti, strutture, percorsi, glossario, quiz = {}) {
+  const domande = Object.values(quiz).flat();
   const citataDa = (idFonte) => [
     ...strutture.filter((s) => s.fonti.some((f) => f.id === idFonte)).map((s) => ({ id: s.id, nome: s.nome })),
     ...percorsi
@@ -33,6 +34,10 @@ export function elencoFonti(fonti, strutture, percorsi, glossario) {
     ...glossario
       .filter((v) => v.fonti.some((f) => f.id === idFonte))
       .map((v) => ({ id: `glossario/${v.id}`, nome: 'glossario' })),
+    ...[...new Set(domande.filter((q) => q.fonti.some((f) => f.id === idFonte)).map((q) => q.tema))].map((tema) => ({
+      id: `quiz/${tema}`,
+      nome: `quiz “${tema[0].toUpperCase()}${tema.slice(1)}”`,
+    })),
   ];
   return Object.entries(fonti).map(([id, f]) => ({ id, ...f, citataDa: citataDa(id) }));
 }

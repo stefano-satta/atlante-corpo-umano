@@ -20,6 +20,7 @@
 @import "./visual-system.css";
 @import "./hearing-system.css";
 @import "./guided-path.css";
+@import "./quiz.css";
 @import "./digestion/common.css";
 @import "./digestion/tract.css";
 @import "./digestion/mouth-swallow.css";

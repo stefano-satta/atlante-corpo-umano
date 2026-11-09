@@ -19,6 +19,8 @@ export function App() {
         <Route path="esplora/:layer?/:id?/:sheet?" />
         <Route path="organo/:id" />
         <Route path="percorsi/:pathId/:step?" />
+        {/* Quiz (D53): /quiz sceglie il tema, /quiz/<apparato> e /quiz/completa lo aprono. */}
+        <Route path="quiz/:theme?" />
         {READING_PAGE_IDS.map((p) => (
           <Route key={p} path={p} element={<ReadingPage key={p} page={p} />} />
         ))}

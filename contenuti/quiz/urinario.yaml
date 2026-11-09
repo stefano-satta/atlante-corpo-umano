@@ -1,0 +1,114 @@
+# Quiz dell'apparato Urinario (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+# I fatti vengono dai testi delle schede, con le stesse fonti; tutte le domande partono in bozza.
+- id: reni-forma
+  tipo: testo
+  domanda: "Che forma hanno i reni?"
+  risposte: ["A fagiolo", "A farfalla", "A palloncino", "A piramide"]
+  struttura: reni
+  spiegazione: "I reni sono due organi a forma di fagiolo, grandi più o meno come un pugno [@niddk-reni]."
+  stato: approvato
+- id: reni-funzione
+  tipo: testo
+  domanda: "Che cosa fanno i reni?"
+  risposte: ["Filtrano il sangue e producono l'urina", "Producono la bile", "Immagazzinano l'urina", "Producono i globuli rossi"]
+  struttura: reni
+  spiegazione: "I reni filtrano il sangue, ne eliminano le scorie e l'acqua in eccesso e producono l'urina [@niddk-reni]."
+  stato: approvato
+- id: reni-destro-basso
+  tipo: testo
+  domanda: "Perché il rene destro di solito sta un po' più in basso del sinistro?"
+  risposte: ["Perché il fegato lo spinge verso il basso", "Perché è più grande", "Perché il cuore sta a destra", "Perché l'aorta lo tira verso il basso"]
+  struttura: reni
+  spiegazione: "Il rene destro di solito si trova un po' più in basso del sinistro, perché il fegato lo spinge verso il basso [@seer-reni]."
+  stato: approvato
+- id: reni-surrenale
+  tipo: testo
+  domanda: "Quale ghiandola si trova sopra ogni rene?"
+  risposte: ["La ghiandola surrenale", "La tiroide", "Il pancreas", "La prostata"]
+  struttura: reni
+  spiegazione: "Sopra ogni rene si trova una ghiandola surrenale [@openstax-ap-25-3]."
+  stato: approvato
+- id: reni-ilo
+  tipo: testo
+  domanda: "Come si chiama l'incavo del rene da cui entra l'arteria renale ed esce l'uretere?"
+  risposte: ["Ilo renale", "Pelvi renale", "Corticale", "Trigono"]
+  struttura: reni
+  spiegazione: "Sul lato rivolto verso la colonna c'è un incavo, l'ilo renale, da cui entra l'arteria renale ed escono la vena renale e l'uretere [@seer-reni]."
+  stato: approvato
+- id: reni-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Reni", "Vescica urinaria", "Ureteri", "Uretra"]
+  struttura: reni
+  spiegazione: "I reni si trovano appena sotto le coste, uno per lato della colonna vertebrale [@niddk-reni]."
+  stato: approvato
+- id: ureteri-funzione
+  tipo: testo
+  domanda: "Che cosa collegano gli ureteri?"
+  risposte: ["I reni alla vescica", "La vescica all'esterno", "I reni all'aorta", "La vescica al retto"]
+  struttura: ureteri
+  spiegazione: "Gli ureteri sono due sottili tubi muscolari che collegano i reni alla vescica e vi portano l'urina [@niddk-vie-urinarie]."
+  stato: approvato
+- id: ureteri-peristalsi
+  tipo: testo
+  domanda: "Che cosa spinge l'urina lungo gli ureteri?"
+  risposte: ["Onde di contrazione della parete, la peristalsi", "Solo la forza di gravità", "Le ciglia del rivestimento", "La pressione del sangue"]
+  struttura: ureteri
+  spiegazione: "L'urina non scende da sola: la spingono onde di contrazione della parete degli ureteri, la peristalsi [@openstax-ap-25-2] [@seer-ureteri]."
+  stato: approvato
+- id: ureteri-lunghezza
+  tipo: testo
+  domanda: "Quanto è lungo circa ciascun uretere?"
+  risposte: ["Fra 25 e 30 centimetri", "Fra 3 e 4 centimetri", "Circa 1 metro", "Circa 10 centimetri"]
+  struttura: ureteri
+  spiegazione: "Ogni uretere è lungo fra 25 e 30 centimetri circa [@seer-ureteri] [@openstax-ap-25-2]."
+  stato: approvato
+- id: ureteri-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Ureteri", "Uretra", "Reni", "Vescica urinaria"]
+  struttura: ureteri
+  spiegazione: "Gli ureteri scendono lungo la parete posteriore dell'addome, dietro il peritoneo, e sboccano nella vescica [@seer-ureteri]."
+  stato: approvato
+- id: vescica-forma
+  tipo: testo
+  domanda: "Che forma ha la vescica urinaria?"
+  risposte: ["A palloncino", "A fagiolo", "A C", "A ventaglio"]
+  struttura: vescica
+  spiegazione: "La vescica urinaria è un organo cavo e muscolare, a forma di palloncino, che si allarga man mano che si riempie [@niddk-vie-urinarie]."
+  stato: approvato
+- id: vescica-detrusore
+  tipo: testo
+  domanda: "Come si chiama il muscolo della parete della vescica?"
+  risposte: ["Detrusore", "Diaframma", "Sfintere pilorico", "Trasverso"]
+  struttura: vescica
+  spiegazione: "Le fibre di muscolo liscio della parete della vescica si intrecciano in tutte le direzioni e formano il muscolo detrusore [@seer-vescica]."
+  stato: approvato
+- id: vescica-trigono
+  tipo: testo
+  domanda: "Come si chiama l'area triangolare sul fondo della vescica, tra gli sbocchi degli ureteri e l'uretra?"
+  risposte: ["Trigono", "Ilo", "Carena", "Calice"]
+  struttura: vescica
+  spiegazione: "Sul fondo della vescica tre aperture delimitano un'area triangolare, il trigono: ai due angoli alla base sboccano gli ureteri, al vertice parte l'uretra [@seer-vescica]."
+  stato: approvato
+- id: vescica-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Vescica urinaria", "Reni", "Ureteri", "Uretra"]
+  struttura: vescica
+  spiegazione: "La vescica si trova nella pelvi, dietro l'osso pubico e davanti al retto [@openstax-ap-25-2]."
+  stato: approvato
+- id: uretra-donna
+  tipo: testo
+  domanda: "Quanto è lunga l'uretra nella donna?"
+  risposte: ["Solo 3-4 centimetri", "Circa 20 centimetri", "Fra 25 e 30 centimetri", "Circa 10 centimetri"]
+  struttura: uretra
+  spiegazione: "Nella donna l'uretra è lunga solo 3-4 centimetri; nell'uomo è lunga circa 20 centimetri [@seer-uretra]."
+  stato: approvato
+- id: uretra-sfintere
+  tipo: testo
+  domanda: "Quale sfintere dell'uretra è volontario?"
+  risposte: ["Lo sfintere esterno", "Lo sfintere interno", "Entrambi", "Nessuno dei due"]
+  struttura: uretra
+  spiegazione: "Lo sfintere interno dell'uretra è di muscolo liscio e involontario; lo sfintere esterno è di muscolo scheletrico e volontario [@seer-uretra]."
+  stato: approvato

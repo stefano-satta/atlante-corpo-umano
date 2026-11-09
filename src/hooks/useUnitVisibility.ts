@@ -11,10 +11,15 @@ export function useUnitVisibility(units: Map<string, SceneUnit>) {
   const { state, dispatch } = useAtlas();
 
   // Fuoco della vista: la struttura selezionata, altrimenti le strutture evidenziate dal passo
-  // di percorso in corso (D24), che possono stare anche in uno strato nascosto.
+  // di percorso in corso (D24) o dalla domanda del quiz, che possono stare anche in uno strato nascosto.
   const selected = state.selection ? units.get(state.selection) : undefined;
   const { step } = useActiveStep();
-  const highlighted = useMemo(() => new Set(step ? unitsForElements(step.evidenzia, units) : []), [step, units]);
+  // Nel quiz (D53) il fuoco è la struttura della domanda in corso.
+  const quizFocus = state.quiz?.focus;
+  const highlighted = useMemo(() => {
+    const elements = step?.evidenzia ?? quizFocus;
+    return new Set(elements ? unitsForElements(elements, units) : []);
+  }, [step, quizFocus, units]);
   const visible = VISIBLE_MODEL_LAYERS[state.layer];
   const ghost = GHOST_MODEL_LAYERS[state.layer];
   const focus = useMemo(() => (selected ? new Set([selected.id]) : highlighted), [selected, highlighted]);

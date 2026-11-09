@@ -1,0 +1,121 @@
+# Quiz dell'apparato Nervoso (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+# I fatti vengono dai testi delle schede, con le stesse fonti; tutte le domande partono in bozza.
+- id: midollo-snc
+  tipo: testo
+  domanda: "Con quale organo il midollo spinale forma il sistema nervoso centrale?"
+  risposte: ["Con l'encefalo", "Con il tronco simpatico", "Con i nervi spinali", "Con il plesso brachiale"]
+  struttura: midollo-spinale
+  spiegazione: "Il midollo spinale e l'encefalo formano il sistema nervoso centrale [@openstax-ap-12-1]."
+  stato: approvato
+- id: midollo-indica
+  tipo: indica
+  domanda: "Quale struttura del sistema nervoso è evidenziata nel corpo?"
+  risposte: ["Midollo spinale", "Nervo sciatico", "Tronco simpatico", "Plesso brachiale"]
+  struttura: midollo-spinale
+  spiegazione: "Il midollo spinale è contenuto nel canale della colonna vertebrale e collega l'encefalo al resto del corpo [@openstax-ap-12-1] [@openstax-ap-13-2]."
+  stato: approvato
+- id: cauda-nome
+  tipo: testo
+  domanda: "Da dove prende il nome la cauda equina?"
+  risposte: ["Ricorda la coda di un cavallo", "Ha la forma di un arco", "È il fascio di nervi più corto", "Nasce dal coccige"]
+  struttura: cauda-equina
+  spiegazione: "La cauda equina è il fascio di radici nervose sotto la fine del midollo spinale: ricorda la coda di un cavallo, da cui il nome [@openstax-ap-13-2]."
+  stato: approvato
+- id: spinali-paia
+  tipo: testo
+  domanda: "Quante paia di nervi spinali ci sono?"
+  risposte: ["31", "12", "24", "33"]
+  struttura: nervi-spinali
+  spiegazione: "I nervi spinali sono 31 paia: 8 cervicali, 12 toracici, 5 lombari, 5 sacrali e 1 coccigeo [@openstax-ap-13-4]."
+  stato: approvato
+- id: spinali-fibre
+  tipo: testo
+  domanda: "Che fibre contiene ogni nervo spinale?"
+  risposte: ["Sia sensitive sia motorie", "Solo sensitive", "Solo motorie", "Solo fibre del sistema autonomo"]
+  struttura: nervi-spinali
+  spiegazione: "Ognuno dei nervi spinali contiene sia fibre sensitive sia fibre motorie [@openstax-ap-13-4]."
+  stato: approvato
+- id: sciatico-grande
+  tipo: testo
+  domanda: "Qual è il nervo più grande del corpo umano?"
+  risposte: ["Il nervo sciatico", "Il nervo vago", "Il nervo femorale", "Il nervo trigemino"]
+  struttura: nervo-sciatico
+  spiegazione: "Il nervo sciatico è il nervo più grande del corpo umano [@statpearls-nervo-sciatico]."
+  stato: approvato
+- id: sciatico-rami
+  tipo: testo
+  domanda: "In quali due nervi si divide il nervo sciatico sopra il ginocchio?"
+  risposte: ["Tibiale e fibulare comune", "Femorale e safeno", "Ulnare e radiale", "Pudendo e otturatorio"]
+  struttura: nervo-sciatico
+  spiegazione: "Sopra il ginocchio il nervo sciatico si divide nei suoi due rami, il nervo tibiale e il nervo fibulare comune [@statpearls-nervo-sciatico]."
+  stato: approvato
+- id: sciatico-indica
+  tipo: indica
+  domanda: "Quale struttura del sistema nervoso è evidenziata nel corpo?"
+  risposte: ["Nervo sciatico", "Nervo femorale", "Midollo spinale", "Nervo ulnare"]
+  struttura: nervo-sciatico
+  spiegazione: "Il nervo sciatico nasce dai nervi spinali da L4 a S3 e scende nella parte posteriore della coscia [@statpearls-nervo-sciatico]."
+  stato: approvato
+- id: vago-organi
+  tipo: testo
+  domanda: "Qual è l'unico nervo cranico che raggiunge gli organi del torace e dell'addome?"
+  risposte: ["Il nervo vago", "Il nervo facciale", "Il nervo ipoglosso", "Il nervo trigemino"]
+  struttura: nervo-vago
+  spiegazione: "Il nervo vago, il decimo nervo cranico, è l'unico nervo cranico che raggiunge gli organi del torace e dell'addome [@openstax-ap-13-4]."
+  stato: approvato
+- id: facciale-espressione
+  tipo: testo
+  domanda: "Quale nervo cranico comanda i muscoli dell'espressione del viso?"
+  risposte: ["Il nervo facciale", "Il nervo trigemino", "Il nervo ipoglosso", "Il nervo oculomotore"]
+  struttura: nervo-facciale
+  spiegazione: "Il nervo facciale, il settimo nervo cranico, comanda i muscoli dell'espressione del viso e partecipa al gusto e alla produzione di saliva [@openstax-ap-13-4]."
+  stato: approvato
+- id: trigemino-masticazione
+  tipo: testo
+  domanda: "Quale nervo cranico porta le sensazioni della pelle del viso e comanda i muscoli della masticazione?"
+  risposte: ["Il nervo trigemino", "Il nervo facciale", "Il nervo vago", "Il nervo olfattivo"]
+  struttura: nervo-trigemino
+  spiegazione: "Il nervo trigemino, il quinto nervo cranico e il più grande, porta le sensazioni della pelle del viso e comanda i muscoli della masticazione [@statpearls-nervo-trigemino]."
+  stato: approvato
+- id: ipoglosso-lingua
+  tipo: testo
+  domanda: "Quali muscoli comanda il nervo ipoglosso?"
+  risposte: ["I muscoli della lingua", "I muscoli dell'occhio", "I muscoli della masticazione", "I muscoli del collo"]
+  struttura: nervo-ipoglosso
+  spiegazione: "Il nervo ipoglosso, il dodicesimo nervo cranico, è solo motorio e comanda i muscoli della lingua [@openstax-ap-13-4]."
+  stato: approvato
+- id: olfattivo-primo
+  tipo: testo
+  domanda: "Qual è il primo dei dodici nervi cranici?"
+  risposte: ["Il nervo olfattivo", "Il nervo ottico", "Il nervo oculomotore", "Il nervo vago"]
+  struttura: nervo-olfattivo
+  spiegazione: "Il nervo olfattivo, il nervo dell'olfatto, è il primo dei dodici nervi cranici ed è solo sensitivo [@openstax-ap-13-4]."
+  stato: approvato
+- id: plesso-brachiale-arto
+  tipo: testo
+  domanda: "Quali parti del corpo serve il plesso brachiale?"
+  risposte: ["Spalla, braccio, avambraccio e mano", "Coscia, gamba e piede", "Torace e addome", "Viso e collo"]
+  struttura: plesso-brachiale
+  spiegazione: "Il plesso brachiale è la rete di nervi che porta i comandi di movimento e le sensazioni di spalla, braccio, avambraccio e mano [@statpearls-plesso-brachiale]."
+  stato: approvato
+- id: ulnare-mano
+  tipo: testo
+  domanda: "Quale nervo comanda la maggior parte dei piccoli muscoli della mano?"
+  risposte: ["Il nervo ulnare", "Il nervo radiale", "Il nervo femorale", "Il nervo ascellare"]
+  struttura: nervo-ulnare
+  spiegazione: "Il nervo ulnare comanda alcuni muscoli dell'avambraccio e la maggior parte dei piccoli muscoli della mano [@statpearls-nervo-ulnare]."
+  stato: approvato
+- id: femorale-lombare
+  tipo: testo
+  domanda: "Qual è il nervo più grande del plesso lombare?"
+  risposte: ["Il nervo femorale", "Il nervo sciatico", "Il nervo pudendo", "Il nervo surale"]
+  struttura: nervo-femorale
+  spiegazione: "Il nervo femorale è il nervo più grande del plesso lombare e nasce dai nervi spinali da L2 a L4 [@statpearls-nervo-femorale]."
+  stato: approvato
+- id: simpatico-catena
+  tipo: testo
+  domanda: "Che cos'è il tronco simpatico?"
+  risposte: ["Una catena di gangli lungo i lati della colonna vertebrale", "Il fascio di radici sotto la fine del midollo", "Un nervo cranico", "Una rete di nervi del braccio"]
+  struttura: tronco-simpatico
+  spiegazione: "Il tronco simpatico è una catena di gangli che corre lungo i lati della colonna vertebrale e fa parte del sistema nervoso simpatico [@openstax-ap-15-1]."
+  stato: approvato

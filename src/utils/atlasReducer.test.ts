@@ -9,6 +9,7 @@ const base: AtlasState = {
   skin: true,
   heartbeat: true,
   heartSound: false,
+  quiz: null,
   selection: null,
   sheet: false,
   page: null,
@@ -178,5 +179,47 @@ describe('suono del battito', () => {
 
   it('resta acceso aprendo la scheda del cuore', () => {
     expect(atlasReducer(listening, { type: 'setSheet', open: true }).heartSound).toBe(true);
+  });
+});
+
+describe('quiz (D53)', () => {
+  const focus = { gruppi: ['polmoni'], fma: [] };
+
+  it('aprendo un tema mostra il suo apparato e chiude struttura, percorso e soglia', () => {
+    const open = { ...base, selection: 'cuore', guidedPath: { id: 'respirazione', step: 1 }, home: true };
+    const s = atlasReducer(open, { type: 'setQuiz', quiz: { theme: 'respiratorio' } });
+    expect(s).toMatchObject({ layer: 'respiratorio', selection: null, guidedPath: null, home: false });
+    expect(s.quiz).toEqual({ theme: 'respiratorio', focus: null });
+  });
+
+  it('il quiz completo lascia lo strato alla domanda, che porta anche il corpo', () => {
+    const s = atlasReducer(base, { type: 'setQuiz', quiz: { theme: 'completa' } });
+    expect(s.layer).toBe('organi');
+    const q = atlasReducer(s, { type: 'setQuizFocus', focus, layer: 'riproduttivo', body: 'donna' });
+    expect(q).toMatchObject({ layer: 'riproduttivo', body: 'donna', quiz: { theme: 'completa', focus } });
+  });
+
+  it('scegliere una struttura o un percorso chiude il quiz', () => {
+    const s = atlasReducer(base, { type: 'setQuiz', quiz: { theme: 'organi' } });
+    expect(atlasReducer(s, { type: 'select', id: 'cuore' }).quiz).toBeNull();
+    expect(atlasReducer(s, { type: 'setGuidedPath', guidedPath: { id: 'respirazione', step: 0 } }).quiz).toBeNull();
+    expect(atlasReducer(s, { type: 'select', id: null }).quiz).not.toBeNull();
+  });
+
+  it("la domanda resta se l'indirizzo riporta allo stesso tema", () => {
+    const s = atlasReducer(atlasReducer(base, { type: 'setQuiz', quiz: { theme: 'organi' } }), {
+      type: 'setQuizFocus',
+      focus,
+    });
+    expect(atlasReducer(s, { type: 'fromUrl', ...readUrl('/quiz/organi') }).quiz?.focus).toEqual(focus);
+    expect(atlasReducer(s, { type: 'fromUrl', ...readUrl('/esplora/organi') }).quiz).toBeNull();
+  });
+});
+
+describe('quiz e barra degli apparati (D53)', () => {
+  it('scegliere un apparato durante il quiz ne cambia il tema', () => {
+    const s = atlasReducer(base, { type: 'setQuiz', quiz: { theme: 'completa' } });
+    expect(atlasReducer(s, { type: 'setLayer', layer: 'muscoli' }).quiz).toEqual({ theme: 'muscoli', focus: null });
+    expect(atlasReducer(base, { type: 'setLayer', layer: 'muscoli' }).quiz).toBeNull();
   });
 });

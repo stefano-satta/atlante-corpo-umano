@@ -54,6 +54,14 @@ describe('pubblicazione dei contenuti', () => {
     expect(indice).toContain('virtual:contenuti/pagina/informazioni');
     expect(indice).not.toContain('"id":"femore"');
     expect(indice).toContain('export const PERCORSI = [];');
+    // Le domande del quiz (D53) sono approvate: in produzione il quiz c'è.
+    expect(indice).toMatch(/export const QUIZ = \{"cardiocircolatorio":\{"domande":\d+/);
+  });
+
+  it('in sviluppo espone le domande del quiz di ogni apparato', () => {
+    const indice = caricaIndice('serve');
+    expect(indice).toMatch(/export const QUIZ = \{"cardiocircolatorio":\{"domande":\d+/);
+    expect(indice).toContain('virtual:contenuti/quiz/urinario');
   });
 
   it('toglie i collegamenti ai termini del glossario non pubblicati, lasciando la parola', () => {

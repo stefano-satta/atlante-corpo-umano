@@ -1,0 +1,121 @@
+# Quiz dell'apparato Digerente (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+# I fatti vengono dai testi delle schede, con le stesse fonti; tutte le domande partono in bozza.
+- id: stomaco-chimo
+  tipo: testo
+  domanda: "Come si chiama la poltiglia in cui lo stomaco trasforma il cibo?"
+  risposte: ["Chimo", "Bolo", "Bile", "Chilo"]
+  struttura: stomaco
+  spiegazione: "Lo stomaco mescola il cibo con i succhi gastrici fino a trasformarlo in una poltiglia, il chimo, e lo lascia passare nell'intestino poco alla volta [@openstax-ap-23-4]."
+  stato: approvato
+- id: stomaco-duodeno
+  tipo: testo
+  domanda: "Con quale parte dell'intestino è collegato lo stomaco?"
+  risposte: ["Con il duodeno", "Con il colon", "Con il cieco", "Con il retto"]
+  struttura: stomaco
+  spiegazione: "Lo stomaco si trova subito sotto l'esofago e lo collega al duodeno, la prima parte dell'intestino tenue [@openstax-ap-23-4]."
+  stato: approvato
+- id: stomaco-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Stomaco", "Fegato", "Pancreas", "Colecisti"]
+  struttura: stomaco
+  spiegazione: "Lo stomaco si trova nel quadrante superiore sinistro dell'addome, sotto il diaframma [@seer-stomaco] [@openstax-ap-23-4]."
+  stato: approvato
+- id: esofago-peristalsi
+  tipo: testo
+  domanda: "Come si chiamano le onde di contrazione che spingono il boccone lungo l'esofago?"
+  risposte: ["Peristalsi", "Deglutizione", "Segmentazione", "Masticazione"]
+  struttura: esofago
+  spiegazione: "Quando si deglutisce, onde di contrazione chiamate peristalsi spingono il boccone verso lo stomaco [@openstax-ap-23-3]."
+  stato: approvato
+- id: esofago-iato
+  tipo: testo
+  domanda: "Attraverso quale apertura l'esofago entra nell'addome?"
+  risposte: ["Lo iato esofageo del diaframma", "Il foro occipitale", "Il piloro", "Lo sfintere ileocecale"]
+  struttura: esofago
+  spiegazione: "Per entrare nell'addome l'esofago passa attraverso il diaframma, da un'apertura chiamata iato esofageo [@openstax-ap-23-3]."
+  stato: approvato
+- id: fegato-ghiandola
+  tipo: testo
+  domanda: "Qual è la ghiandola più grande del corpo?"
+  risposte: ["Il fegato", "Il pancreas", "La tiroide", "Le ghiandole salivari"]
+  struttura: fegato
+  spiegazione: "Il fegato è la ghiandola più grande del corpo [@openstax-ap-23-6]."
+  stato: approvato
+- id: fegato-bile
+  tipo: testo
+  domanda: "Quale liquido, che aiuta a digerire i grassi, produce il fegato?"
+  risposte: ["La bile", "Il succo pancreatico", "La saliva", "Il succo gastrico"]
+  struttura: fegato
+  spiegazione: "Il fegato produce la bile, un liquido che aiuta a digerire i grassi, e la invia al duodeno [@openstax-ap-23-6]."
+  stato: approvato
+- id: fegato-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Fegato", "Stomaco", "Intestino crasso", "Pancreas"]
+  struttura: fegato
+  spiegazione: "Il fegato si trova nella parte superiore destra della cavità addominale, sotto il diaframma, protetto dalle coste [@openstax-ap-23-6]."
+  stato: approvato
+- id: colecisti-bile
+  tipo: testo
+  domanda: "Che cosa fa la colecisti?"
+  risposte: ["Immagazzina e concentra la bile", "Produce l'insulina", "Assorbe l'acqua", "Produce la saliva"]
+  struttura: colecisti
+  spiegazione: "La colecisti, o cistifellea, immagazzina la bile prodotta dal fegato, la concentra e la spinge nel duodeno quando serve [@openstax-ap-23-6]."
+  stato: approvato
+- id: pancreas-ormoni
+  tipo: testo
+  domanda: "Quali ormoni rilascia nel sangue il pancreas?"
+  risposte: ["Insulina e glucagone", "Tiroxina e calcitonina", "Ossitocina e ADH", "Adrenalina e cortisolo"]
+  struttura: pancreas
+  spiegazione: "Oltre al succo pancreatico, il pancreas ha una funzione endocrina: rilascia nel sangue ormoni come l'insulina e il glucagone [@openstax-ap-23-6]."
+  stato: approvato
+- id: pancreas-indica
+  tipo: indica
+  domanda: "Quale organo è evidenziato nel corpo?"
+  risposte: ["Pancreas", "Colecisti", "Stomaco", "Esofago"]
+  struttura: pancreas
+  spiegazione: "Il pancreas è disposto di traverso dietro lo stomaco, con la testa accolta nella curva a C del duodeno [@openstax-ap-23-6]."
+  stato: approvato
+- id: tenue-assorbimento
+  tipo: testo
+  domanda: "In quale organo avviene quasi tutto l'assorbimento delle sostanze nutritive?"
+  risposte: ["Nell'intestino tenue", "Nello stomaco", "Nell'intestino crasso", "Nel fegato"]
+  struttura: intestino-tenue
+  spiegazione: "L'intestino tenue è l'organo principale della digestione: qui avviene la maggior parte della digestione e quasi tutto l'assorbimento delle sostanze nutritive [@openstax-ap-23-5]."
+  stato: approvato
+- id: crasso-nome
+  tipo: testo
+  domanda: "Perché l'intestino crasso si chiama così?"
+  risposte: ["Perché il suo diametro è più del doppio di quello del tenue", "Perché è più lungo del tenue", "Perché contiene i grassi", "Perché è l'ultimo tratto del canale"]
+  struttura: intestino-crasso
+  spiegazione: "Si chiama \"crasso\", cioè grosso, perché il suo diametro è più del doppio di quello dell'intestino tenue [@openstax-ap-23-5]."
+  stato: approvato
+- id: crasso-acqua
+  tipo: testo
+  domanda: "Che cosa completa l'intestino crasso?"
+  risposte: ["L'assorbimento dell'acqua", "La digestione delle proteine", "La produzione della bile", "La digestione degli amidi"]
+  struttura: intestino-crasso
+  spiegazione: "L'intestino crasso completa l'assorbimento dell'acqua e di alcune sostanze, ospita i batteri intestinali, forma le feci e le elimina [@openstax-ap-23-5]."
+  stato: approvato
+- id: denti-permanenti
+  tipo: testo
+  domanda: "Quanti sono i denti permanenti?"
+  risposte: ["32", "20", "28", "36"]
+  struttura: denti
+  spiegazione: "Nella vita si hanno 20 denti decidui, o da latte, e 32 denti permanenti, che li sostituiscono tra i 6 e i 12 anni circa [@openstax-ap-23-3]."
+  stato: approvato
+- id: salivari-amidi
+  tipo: testo
+  domanda: "Quali sostanze la saliva comincia a digerire?"
+  risposte: ["Gli amidi", "I grassi", "Le proteine", "Le fibre"]
+  struttura: ghiandole-salivari
+  spiegazione: "La saliva bagna il cibo, aiuta a deglutirlo e comincia a digerire gli amidi [@openstax-ap-23-3]."
+  stato: approvato
+- id: lingua-frenulo
+  tipo: testo
+  domanda: "Come si chiama la piega della mucosa che fissa la lingua al pavimento della bocca?"
+  risposte: ["Frenulo linguale", "Ugola", "Palato molle", "Papilla"]
+  struttura: lingua
+  spiegazione: "Sotto la lingua una piega della mucosa, il frenulo linguale, la fissa al pavimento della bocca [@openstax-ap-23-3]."
+  stato: approvato

@@ -1,0 +1,121 @@
+# Quiz dell'apparato Muscoli (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+# I fatti vengono dai testi delle schede, con le stesse fonti; tutte le domande partono in bozza.
+- id: bicipite-capi
+  tipo: testo
+  domanda: "Quanti capi ha il bicipite brachiale?"
+  risposte: ["Due", "Tre", "Quattro", "Uno"]
+  struttura: bicipite-brachiale
+  spiegazione: "Il bicipite brachiale ha due capi e attraversa sia la spalla sia il gomito [@openstax-ap-11-5]."
+  stato: approvato
+- id: bicipite-indica
+  tipo: indica
+  domanda: "Quale muscolo è evidenziato nel corpo?"
+  risposte: ["Bicipite brachiale", "Tricipite brachiale", "Deltoide", "Grande pettorale"]
+  struttura: bicipite-brachiale
+  spiegazione: "Il bicipite brachiale flette l'avambraccio, partecipa alla sua supinazione e flette il braccio alla spalla [@openstax-ap-11-5]."
+  stato: approvato
+- id: tricipite-estende
+  tipo: testo
+  domanda: "Quale muscolo estende l'avambraccio, come quando si tira un pugno?"
+  risposte: ["Il tricipite brachiale", "Il bicipite brachiale", "Il deltoide", "Il brachioradiale"]
+  struttura: tricipite-brachiale
+  spiegazione: "Il tricipite brachiale estende l'avambraccio, come quando si tira un pugno; lo aiuta l'anconeo [@openstax-ap-11-5]."
+  stato: approvato
+- id: deltoide-abduttore
+  tipo: testo
+  domanda: "Qual è il principale muscolo che solleva il braccio di lato?"
+  risposte: ["Il deltoide", "Il trapezio", "Il grande pettorale", "Il bicipite brachiale"]
+  struttura: deltoide
+  spiegazione: "Il deltoide è il principale abduttore del braccio, cioè lo solleva di lato [@openstax-ap-11-5]."
+  stato: approvato
+- id: deltoide-indica
+  tipo: indica
+  domanda: "Quale muscolo è evidenziato nel corpo?"
+  risposte: ["Deltoide", "Muscolo trapezio", "Grande pettorale", "Tricipite brachiale"]
+  struttura: deltoide
+  spiegazione: "Il deltoide è il muscolo spesso che dà alla spalla la sua forma arrotondata [@openstax-ap-11-5]."
+  stato: approvato
+- id: pettorale-ventaglio
+  tipo: testo
+  domanda: "Quale muscolo a forma di ventaglio copre gran parte della metà superiore del torace anteriore?"
+  risposte: ["Il grande pettorale", "Il retto dell'addome", "Il trapezio", "Il dentato anteriore"]
+  struttura: grande-pettorale
+  spiegazione: "Il grande pettorale è spesso, a forma di ventaglio, e copre gran parte della metà superiore del torace anteriore [@openstax-ap-11-5]."
+  stato: approvato
+- id: gastrocnemio-achille
+  tipo: testo
+  domanda: "Su quale tendine si inseriscono il gastrocnemio e il soleo?"
+  risposte: ["Sul tendine calcaneare (di Achille)", "Sul tendine rotuleo", "Sul tendine del quadricipite", "Sulla linea alba"]
+  struttura: gastrocnemio
+  spiegazione: "I muscoli superficiali del compartimento posteriore della gamba si inseriscono tutti sul tendine calcaneare (di Achille), che si attacca al calcagno [@openstax-ap-11-6]."
+  stato: approvato
+- id: gastrocnemio-indica
+  tipo: indica
+  domanda: "Quale muscolo è evidenziato nel corpo?"
+  risposte: ["Gastrocnemio", "Soleo", "Tibiale anteriore", "Sartorio"]
+  struttura: gastrocnemio
+  spiegazione: "Il gastrocnemio è il muscolo più superficiale e visibile del polpaccio [@openstax-ap-11-6]."
+  stato: approvato
+- id: trapezio-cingolo
+  tipo: testo
+  domanda: "Quale muscolo della parte posteriore del torace stabilizza il cingolo scapolare?"
+  risposte: ["Il trapezio", "Il deltoide", "Il grande pettorale", "Il retto dell'addome"]
+  struttura: muscolo-trapezio
+  spiegazione: "Il trapezio è uno dei muscoli che posizionano e stabilizzano il cingolo scapolare, la base su cui gli altri muscoli muovono il braccio [@openstax-ap-11-5]."
+  stato: approvato
+- id: retto-linea-alba
+  tipo: testo
+  domanda: "Dove si uniscono, sulla linea mediana, le guaine dei due muscoli retti dell'addome?"
+  risposte: ["Nella linea alba", "Nella sinfisi pubica", "Nel tendine centrale", "Nella fossa poplitea"]
+  struttura: retto-addome
+  spiegazione: "Il retto dell'addome è racchiuso nella guaina del retto; le guaine dei due lati si uniscono sulla linea mediana nella linea alba [@openstax-ap-11-4]."
+  stato: approvato
+- id: massetere-masticazione
+  tipo: testo
+  domanda: "Qual è il principale muscolo della masticazione?"
+  risposte: ["Il massetere", "Il buccinatore", "Il grande zigomatico", "Lo sternocleidomastoideo"]
+  struttura: massetere
+  spiegazione: "Il massetere è il principale muscolo della masticazione: solleva la mandibola e chiude la bocca [@openstax-ap-11-3]."
+  stato: approvato
+- id: temporale-tempia
+  tipo: testo
+  domanda: "Quale muscolo si sente muovere appoggiando le dita sulla tempia mentre si mastica?"
+  risposte: ["Il muscolo temporale", "Il massetere", "Il muscolo frontale", "L'orbicolare dell'occhio"]
+  struttura: muscolo-temporale
+  spiegazione: "Il muscolo temporale aiuta il massetere nella masticazione e si sente muovere appoggiando le dita sulla tempia [@openstax-ap-11-3]."
+  stato: approvato
+- id: sternocleido-rotazione
+  tipo: testo
+  domanda: "Se lo sternocleidomastoideo si contrae da un solo lato, verso dove ruota la testa?"
+  risposte: ["Verso il lato opposto", "Verso lo stesso lato", "In avanti", "All'indietro"]
+  struttura: sternocleidomastoideo
+  spiegazione: "Se si contrae da un solo lato lo sternocleidomastoideo ruota la testa verso il lato opposto; i due muscoli insieme la flettono in avanti [@openstax-ap-11-3]."
+  stato: approvato
+- id: sartorio-gambe-incrociate
+  tipo: testo
+  domanda: "Quale muscolo a forma di nastro permette di sedersi a gambe incrociate?"
+  risposte: ["Il sartorio", "Il bicipite femorale", "Il gastrocnemio", "Il grande gluteo"]
+  struttura: sartorio
+  spiegazione: "Il sartorio flette la gamba al ginocchio e flette, abduce e ruota verso l'esterno la coscia: è il muscolo che permette di sedersi a gambe incrociate [@openstax-ap-11-6]."
+  stato: approvato
+- id: buccinatore-fischiare
+  tipo: testo
+  domanda: "Quale muscolo della guancia permette di fischiare, soffiare e succhiare?"
+  risposte: ["Il buccinatore", "Il massetere", "Il grande zigomatico", "Il muscolo temporale"]
+  struttura: buccinatore
+  spiegazione: "Il buccinatore forma gran parte della guancia e la comprime: permette di fischiare, soffiare e succhiare [@openstax-ap-11-3]."
+  stato: approvato
+- id: zigomatico-sorriso
+  tipo: testo
+  domanda: "Quale muscolo è chiamato il muscolo del sorriso?"
+  risposte: ["Il grande zigomatico", "Il buccinatore", "L'orbicolare dell'occhio", "Il massetere"]
+  struttura: zigomatico-maggiore
+  spiegazione: "Il grande zigomatico è il muscolo del sorriso: solleva gli angoli della bocca e li tira di lato [@openstax-ap-11-3]."
+  stato: approvato
+- id: trasverso-cintura
+  tipo: testo
+  domanda: "Quale muscolo, il più profondo della parete dell'addome, gira intorno all'addome come una cintura?"
+  risposte: ["Il trasverso dell'addome", "Il retto dell'addome", "L'obliquo esterno", "Il diaframma"]
+  struttura: trasverso-addome
+  spiegazione: "Il trasverso dell'addome è il più profondo dei tre muscoli piatti della parete anterolaterale dell'addome e gira intorno all'addome in orizzontale, come una cintura [@openstax-ap-11-4]."
+  stato: approvato

@@ -6,11 +6,13 @@ import { InfoCard } from './InfoCard';
 
 // Il percorso guidato (testo, schemi, comandi) si scarica solo quando lo si apre.
 const GuidedPathPanel = lazy(() => import('@/components/features/guided-path/GuidedPathPanel'));
+// Anche il quiz (D53) si scarica solo quando lo si apre; le domande, solo per l'apparato scelto.
+const QuizPanel = lazy(() => import('@/components/features/quiz/QuizPanel'));
 
 /**
  * Pannello ancorato al bordo destro, a tutta altezza (D16). Mostra il cartellino
  * della struttura selezionata e si allarga nella scheda quando la si apre; senza
- * selezione mostra il percorso guidato in corso (D24).
+ * selezione mostra il quiz (D53) o il percorso guidato in corso (D24).
  */
 export function Panel() {
   const { state, dispatch } = useAtlas();
@@ -28,6 +30,14 @@ export function Panel() {
     wasSheet.current = !!sheet;
   }, [sheet]);
 
+  if (!unit && state.quiz)
+    return (
+      <aside className="panel" data-mode="quiz" aria-label="Quiz">
+        <Suspense fallback={null}>
+          <QuizPanel />
+        </Suspense>
+      </aside>
+    );
   if (!unit)
     return pathOpen ? (
       <aside className="panel" data-mode="path" aria-label="Percorso guidato">

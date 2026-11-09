@@ -1,5 +1,5 @@
 import { useAtlas } from '@/hooks/useAtlas';
-import { pageAvailable } from '@/utils/content';
+import { pageAvailable, QUIZ_THEMES } from '@/utils/content';
 import { PAGE_TITLES, READING_PAGE_IDS } from '@/utils/pages';
 
 /**
@@ -8,7 +8,7 @@ import { PAGE_TITLES, READING_PAGE_IDS } from '@/utils/pages';
  */
 export function TextOnlyHeader() {
   const { state, dispatch } = useAtlas();
-  const current = state.selection || state.guidedPath ? null : (state.page ?? 'indice');
+  const current = state.selection || state.guidedPath || state.quiz ? null : (state.page ?? 'indice');
   return (
     <header className="text-header">
       <span className="brand">Atlante del corpo umano</span>
@@ -22,12 +22,26 @@ export function TextOnlyHeader() {
             onClick={() => {
               dispatch({ type: 'select', id: null });
               dispatch({ type: 'setGuidedPath', guidedPath: null });
+              dispatch({ type: 'setQuiz', quiz: null });
               dispatch({ type: 'setPage', page: p });
             }}
           >
             {PAGE_TITLES[p]}
           </button>
         ))}
+        {Object.keys(QUIZ_THEMES).length > 0 && (
+          <button
+            type="button"
+            className="nav-item"
+            aria-current={state.quiz && !state.page ? 'page' : undefined}
+            onClick={() => {
+              dispatch({ type: 'setPage', page: null });
+              dispatch({ type: 'setQuiz', quiz: { theme: null } });
+            }}
+          >
+            Quiz
+          </button>
+        )}
       </nav>
       <p className="notice">
         Questo browser non mostra la grafica 3D (WebGL 2), quindi l'atlante si apre nella versione testuale: gli stessi

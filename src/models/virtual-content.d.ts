@@ -9,6 +9,8 @@ declare module 'virtual:contenuti' {
     GuidedPathSummary,
     Page,
     ProcessSummary,
+    QuizQuestion,
+    QuizThemeSummary,
     Structure,
     StructureSummary,
   } from '@/models/content';
@@ -21,6 +23,8 @@ declare module 'virtual:contenuti' {
   export const GLOSSARIO: GlossaryEntry[];
   export const caricaGlossario: () => Promise<{ default: GlossaryDefinition[] }>;
   export const caricaFonti: () => Promise<{ default: CitedSource[] }>;
+  export const QUIZ: Record<string, QuizThemeSummary>;
+  export const caricaQuiz: Record<string, () => Promise<{ default: QuizQuestion[] }>>;
 }
 
 declare module 'virtual:contenuti/modello' {
@@ -28,4 +32,11 @@ declare module 'virtual:contenuti/modello' {
   export const UNITA_VASI: string[];
   export const UNITA_NERVI: string[];
   export const CORPO_UNITA: Record<string, BodyKind>;
+}
+
+declare module 'virtual:contenuti/quiz/*' {
+  import type { QuizQuestion } from '@/models/content';
+
+  const domande: QuizQuestion[];
+  export default domande;
 }

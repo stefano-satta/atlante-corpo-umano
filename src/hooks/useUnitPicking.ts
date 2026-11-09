@@ -80,6 +80,8 @@ export function useUnitPicking(byIndex: Map<number, SceneUnit>) {
     const onUp = (e: PointerEvent) => {
       const p = pointer.current;
       if (Math.hypot(e.offsetX - p.downX, e.offsetY - p.downY) > 5) return; // era una rotazione
+      // Nel quiz (D53) il cartellino rivelerebbe la risposta: il corpo si ruota ma non si seleziona.
+      if (state.quiz) return;
       const radius = THIN_LAYERS.has(state.layer) ? THIN_PICK_RADIUS[e.pointerType === 'touch' ? 'touch' : 'mouse'] : 0;
       dispatch({ type: 'select', id: unitAt(e.offsetX, e.offsetY, radius)?.id ?? null });
     };
@@ -100,6 +102,11 @@ export function useUnitPicking(byIndex: Map<number, SceneUnit>) {
     const p = pointer.current;
     if (!p.dirty) return;
     p.dirty = false;
+    if (state.quiz) {
+      if (state.hover) dispatch({ type: 'hover', id: null });
+      gl.domElement.style.cursor = '';
+      return;
+    }
     const u = unitAt(p.x, p.y, THIN_LAYERS.has(state.layer) ? THIN_PICK_RADIUS.mouse : 0);
     dispatch({ type: 'hover', id: u?.id ?? null });
     gl.domElement.style.cursor = u ? 'pointer' : '';

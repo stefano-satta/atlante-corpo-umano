@@ -1,0 +1,114 @@
+# Quiz dell'apparato Organi (D53). La prima risposta è quella giusta: l'interfaccia le mescola.
+# I fatti vengono dai testi delle schede, con le stesse fonti; tutte le domande partono in bozza.
+- id: cuore-cavita
+  tipo: testo
+  domanda: "Quante cavità ha il cuore?"
+  risposte: [Quattro, Due, Tre, Sei]
+  struttura: cuore
+  spiegazione: "Il cuore ha due atri in alto e due ventricoli in basso [@nhlbi-cuore-anatomia]."
+  stato: approvato
+- id: cuore-mediastino
+  tipo: testo
+  domanda: "In quale spazio del torace si trova il cuore?"
+  risposte: [Nel mediastino, Nella cavità pleurica, Nel peritoneo, Nella cavità addominale]
+  struttura: cuore
+  spiegazione: "Il cuore si trova nella cavità toracica, tra i due polmoni, nello spazio chiamato mediastino [@openstax-ap-19-1]."
+  stato: approvato
+- id: cuore-pericardio
+  tipo: testo
+  domanda: "Come si chiama il sacco membranoso che racchiude il cuore?"
+  risposte: [Pericardio, Pleura, Peritoneo, Meningi]
+  struttura: cuore
+  spiegazione: "Il cuore è racchiuso nel pericardio, un sacco membranoso [@seer-cuore-struttura]."
+  stato: approvato
+- id: cuore-indica
+  tipo: indica
+  domanda: "Quale struttura è evidenziata nel corpo?"
+  risposte: [Cuore, Milza, Tiroide, Encefalo]
+  struttura: cuore
+  spiegazione: "Il cuore è un organo muscolare con quattro cavità, al centro del torace tra i due polmoni [@nhlbi-cuore-anatomia] [@openstax-ap-19-1]."
+  stato: approvato
+- id: encefalo-snc
+  tipo: testo
+  domanda: "Che cosa formano insieme l'encefalo e il midollo spinale?"
+  risposte: [Il sistema nervoso centrale, Il sistema nervoso periferico, Il sistema endocrino, Il sistema linfatico]
+  struttura: encefalo
+  spiegazione: "L'encefalo e il midollo spinale formano il sistema nervoso centrale [@openstax-ap-13-2]."
+  stato: approvato
+- id: encefalo-dura-madre
+  tipo: testo
+  domanda: "Come si chiama la più esterna delle tre meningi che avvolgono l'encefalo?"
+  risposte: [Dura madre, Pia madre, Aracnoide, Pericardio]
+  struttura: encefalo
+  spiegazione: "La dura madre è la meninge esterna, spessa e resistente; sotto ci sono l'aracnoide e la pia madre, aderente all'encefalo [@openstax-ap-13-3]."
+  stato: approvato
+- id: encefalo-liquido
+  tipo: testo
+  domanda: "Dove viene prodotto il liquido cerebrospinale?"
+  risposte: [Nei ventricoli dell'encefalo, Nel cervelletto, Nel midollo osseo, Nella dura madre]
+  struttura: encefalo
+  spiegazione: "Il liquido cerebrospinale è prodotto all'interno di quattro cavità dell'encefalo, i ventricoli, e fa da cuscinetto per encefalo e midollo spinale [@openstax-ap-13-3]."
+  stato: approvato
+- id: milza-linfatico
+  tipo: testo
+  domanda: "Qual è il più grande organo linfatico del corpo?"
+  risposte: [La milza, Il timo, La tiroide, Il pancreas]
+  struttura: milza
+  spiegazione: "La milza è il più grande organo linfatico del corpo [@seer-milza]."
+  stato: approvato
+- id: milza-indica
+  tipo: indica
+  domanda: "Quale struttura è evidenziata nel corpo?"
+  risposte: [Milza, Cuore, Tiroide, Paratiroidi]
+  struttura: milza
+  spiegazione: "La milza si trova nella parte superiore sinistra dell'addome, appena sotto il diaframma e dietro lo stomaco [@seer-milza]."
+  stato: approvato
+- id: tiroide-forma
+  tipo: testo
+  domanda: "Che forma ha la tiroide?"
+  risposte: [A farfalla, A fagiolo, A pera, A clessidra]
+  struttura: tiroide
+  spiegazione: "La tiroide è una piccola ghiandola a forma di farfalla nella parte anteriore del collo [@niddk-esami-tiroide]."
+  stato: approvato
+- id: tiroide-indica
+  tipo: indica
+  domanda: "Quale struttura è evidenziata nel corpo?"
+  risposte: [Tiroide, Ipofisi, Milza, Cuore]
+  struttura: tiroide
+  spiegazione: "La tiroide si trova nel collo, appena sotto la laringe, con i due lobi ai lati della trachea [@seer-tiroide]."
+  stato: approvato
+- id: paratiroidi-calcio
+  tipo: testo
+  domanda: "Quale sostanza del sangue regola soprattutto l'ormone delle paratiroidi?"
+  risposte: [Il calcio, Lo zucchero, Il sodio, Il ferro]
+  struttura: paratiroidi
+  spiegazione: "L'ormone paratiroideo (PTH) è il regolatore più importante della quantità di calcio nel sangue [@seer-tiroide]."
+  stato: approvato
+- id: ipofisi-sella
+  tipo: testo
+  domanda: "Dove si trova l'ipofisi?"
+  risposte: [Nella sella turcica dell'osso sfenoide, Nell'orbita, Nel canale vertebrale, Nel seno mascellare]
+  struttura: ipofisi
+  spiegazione: "L'ipofisi è quasi del tutto circondata dall'osso, nella sella turcica, un incavo dell'osso sfenoide [@seer-ipofisi]."
+  stato: approvato
+- id: ipotalamo-comando
+  tipo: testo
+  domanda: "Con quale ghiandola l'ipotalamo collega il sistema nervoso al sistema endocrino?"
+  risposte: [Con l'ipofisi, Con la tiroide, Con il pancreas, Con le paratiroidi]
+  struttura: ipotalamo
+  spiegazione: "Insieme all'ipofisi l'ipotalamo forma una specie di centro di comando, che collega il sistema nervoso al sistema endocrino [@openstax-ap-17-3]."
+  stato: approvato
+- id: occhi-muscoli
+  tipo: testo
+  domanda: "Quanti muscoli extraoculari si attaccano al bulbo dell'occhio?"
+  risposte: [Sei, Quattro, Due, Otto]
+  struttura: occhi
+  spiegazione: "Sei muscoli extraoculari, quattro retti e due obliqui, partono dalle ossa dell'orbita e si attaccano al bulbo [@openstax-ap-14-1]."
+  stato: approvato
+- id: orecchi-equilibrio
+  tipo: testo
+  domanda: "Oltre all'udito, a quale senso servono gli orecchi?"
+  risposte: [All'equilibrio, Al tatto, All'olfatto, Al gusto]
+  struttura: orecchi
+  spiegazione: "Gli orecchi sono gli organi dell'udito e dell'equilibrio [@openstax-ap-14-1]."
+  stato: approvato
