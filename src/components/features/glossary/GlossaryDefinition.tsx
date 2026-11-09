@@ -1,5 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Button } from '@/components/common/Button';
 import { CloseIcon } from '@/components/common/Icons';
 import { ShortSourceList } from '@/components/common/ShortSourceList';
 import { useAtlas } from '@/hooks/useAtlas';
@@ -80,9 +81,8 @@ export function GlossaryDefinition({ anchor, onClose }: { anchor: HTMLAnchorElem
     >
       <div className="popover-header">
         <span className="label">Glossario</span>
-        <button
-          type="button"
-          className="close"
+        <Button
+          variant="close"
           aria-label="Chiudi la definizione"
           onClick={() => {
             onClose();
@@ -90,7 +90,7 @@ export function GlossaryDefinition({ anchor, onClose }: { anchor: HTMLAnchorElem
           }}
         >
           <CloseIcon />
-        </button>
+        </Button>
       </div>
       <p className="popover-term" id={`${id}-term`}>
         {entry?.termine ?? anchor.textContent}

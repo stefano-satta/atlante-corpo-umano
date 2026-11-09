@@ -3,6 +3,7 @@ import { NextIcon, PauseIcon, PlayIcon, PreviousIcon } from '@/components/common
 import { RichText } from '@/components/features/glossary/RichText';
 import { usePlayback } from '@/hooks/usePlayback';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { Button } from './Button';
 
 interface Step {
   titolo: string;
@@ -40,30 +41,29 @@ export function StepPlayer<S extends Step>({
       </div>
 
       <div className="cycle-controls">
-        <button type="button" className="cycle-button" onClick={previous} aria-label="Passo precedente">
+        <Button variant="cycle" onClick={previous} aria-label="Passo precedente">
           <PreviousIcon />
-        </button>
+        </Button>
         {/* Con il movimento ridotto non c'è riproduzione continua: si va avanti un passo alla volta. */}
         {!reducedMotion && (
-          <button type="button" className="cycle-button play" onClick={toggle} aria-pressed={playing}>
+          <Button variant="cycle" className="play" onClick={toggle} aria-pressed={playing}>
             {playing ? <PauseIcon /> : <PlayIcon />}
             {playing ? 'Pausa' : 'Riproduci'}
-          </button>
+          </Button>
         )}
-        <button type="button" className="cycle-button" onClick={next} aria-label="Passo successivo">
+        <Button variant="cycle" onClick={next} aria-label="Passo successivo">
           <NextIcon />
-        </button>
+        </Button>
         <ol className="cycle-steps" aria-label={stepsLabel}>
           {steps.map((p, i) => (
             <li key={p.titolo}>
-              <button
-                type="button"
+              <Button
                 aria-label={`Passo ${i + 1}: ${p.titolo}`}
                 aria-current={i === n ? 'step' : undefined}
                 onClick={() => goTo(i)}
               >
                 {i + 1}
-              </button>
+              </Button>
             </li>
           ))}
         </ol>

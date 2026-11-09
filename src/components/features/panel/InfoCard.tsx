@@ -1,3 +1,4 @@
+import { Button } from '@/components/common/Button';
 import { DraftNotice } from '@/components/common/DraftNotice';
 import {
   BackIcon,
@@ -30,9 +31,9 @@ function BackToGuidedPath() {
   if (!path || !hasGuidedPath(path.id)) return null;
   const title = GUIDED_PATHS.find((p) => p.id === path.id)?.titolo;
   return (
-    <button type="button" className="back back-to-path" onClick={() => dispatch({ type: 'select', id: null })}>
+    <Button variant="back" className="back-to-path" onClick={() => dispatch({ type: 'select', id: null })}>
       <BackIcon /> Torna al percorso “{title}”, passo {path.step + 1}
-    </button>
+    </Button>
   );
 }
 
@@ -46,19 +47,19 @@ function HeartbeatToggle() {
   if (useReducedMotion()) return null;
   return (
     <div className="heartbeat">
-      <button
-        type="button"
-        className="back heartbeat-toggle"
+      <Button
+        variant="back"
+        className="heartbeat-toggle"
         aria-pressed={!state.heartbeat}
         onClick={() => dispatch({ type: 'toggleHeartbeat' })}
       >
         {state.heartbeat ? <PauseIcon /> : <PlayIcon />}
         {state.heartbeat ? 'Ferma il battito' : 'Riprendi il battito'}
-      </button>
+      </Button>
       {state.heartbeat && (
-        <button
-          type="button"
-          className="back heartbeat-toggle"
+        <Button
+          variant="back"
+          className="heartbeat-toggle"
           aria-pressed={state.heartSound}
           onClick={() => {
             if (state.heartSound || unlockHeartSound()) dispatch({ type: 'toggleHeartSound' });
@@ -66,7 +67,7 @@ function HeartbeatToggle() {
         >
           {state.heartSound ? <SoundOffIcon /> : <SoundIcon />}
           {state.heartSound ? 'Togli il suono' : 'Ascolta il battito'}
-        </button>
+        </Button>
       )}
       <p className="heartbeat-note">
         Battito semplificato: ritmo e ampiezza non sono in scala; il suono è sintetizzato.
@@ -93,14 +94,13 @@ export function InfoCard({ unit }: { unit: SceneUnit }) {
       <BackToGuidedPath />
       <div className="panel-header">
         <span className="label">{group}</span>
-        <button
-          type="button"
-          className="close"
+        <Button
+          variant="close"
           aria-label="Chiudi il cartellino"
           onClick={() => dispatch({ type: 'select', id: null })}
         >
           <CloseIcon />
-        </button>
+        </Button>
       </div>
       <h2 className={name.length > 16 ? 'name long' : 'name'} ref={registerCalloutTarget}>
         {name}
@@ -148,9 +148,9 @@ export function InfoCard({ unit }: { unit: SceneUnit }) {
       )}
 
       {entry?.scheda && (
-        <button type="button" className="action" onClick={() => dispatch({ type: 'setSheet', open: true })}>
+        <Button variant="action" onClick={() => dispatch({ type: 'setSheet', open: true })}>
           Apri la scheda <ForwardIcon />
-        </button>
+        </Button>
       )}
 
       {structure?.limiti && (

@@ -1,4 +1,5 @@
 import { useId } from 'react';
+import { Button } from '@/components/common/Button';
 import { ForwardIcon } from '@/components/common/Icons';
 import { LAYERS } from '@/components/features/toolbar/LayerSwitch';
 import { useAtlas } from '@/hooks/useAtlas';
@@ -67,9 +68,9 @@ export function QuizSetup({ theme, available, ready, error, onStart }: QuizSetup
         </p>
       )}
       {error && <p className="notice">Non è stato possibile caricare le domande.</p>}
-      <button type="button" className="action" disabled={!theme || !ready || count === 0} onClick={onStart}>
+      <Button variant="action" disabled={!theme || !ready || count === 0} onClick={onStart}>
         {theme && !ready && !error ? 'Caricamento delle domande…' : 'Inizia il quiz'} <ForwardIcon />
-      </button>
+      </Button>
       <p className="note">Il quiz serve solo a verificare da soli che cosa si è capito: non è un esame.</p>
     </>
   );

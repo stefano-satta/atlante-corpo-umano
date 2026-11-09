@@ -88,23 +88,6 @@ function reduce(s: AtlasState, a: AtlasAction): AtlasState {
       return { ...s, home: a.open };
     case 'setTour':
       return { ...s, tour: a.step };
-    case 'fromUrl':
-      // Aprendo una pagina dall'indirizzo la selezione resta quella che c'era.
-      if (a.page) return { ...s, page: a.page };
-      // Un indirizzo di struttura lascia attivo il percorso in corso; uno di percorso lo imposta.
-      // Tornando indietro su `/` si torna alla soglia, su `/esplora` all'atlante.
-      return {
-        ...s,
-        home: a.home,
-        layer: a.layer ?? s.layer,
-        selection: a.selection,
-        body: bodyFor(s.body, a.selection),
-        sheet: a.sheet,
-        page: null,
-        guidedPath: a.guidedPath ?? (a.selection ? s.guidedPath : null),
-        // Tornando allo stesso tema del quiz resta la domanda in corso.
-        quiz: a.quiz ? { theme: a.quiz.theme, focus: s.quiz?.theme === a.quiz.theme ? s.quiz.focus : null } : null,
-      };
   }
 }
 

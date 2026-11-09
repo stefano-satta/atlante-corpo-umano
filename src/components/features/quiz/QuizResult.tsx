@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Button } from '@/components/common/Button';
 import { ForwardIcon } from '@/components/common/Icons';
 import type { QuizScore } from '@/utils/quizScore';
 
@@ -35,12 +36,12 @@ export function QuizResult({ score, previous, record, onRestart, onChangeTheme }
         {summary} {recordText({ previous, record })}
       </p>
       <div className="quiz-actions">
-        <button type="button" className="action" onClick={onRestart}>
+        <Button variant="action" onClick={onRestart}>
           Ricomincia <ForwardIcon />
-        </button>
-        <button type="button" className="back" onClick={onChangeTheme}>
+        </Button>
+        <Button variant="back" onClick={onChangeTheme}>
           Cambia apparato
-        </button>
+        </Button>
       </div>
     </>
   );

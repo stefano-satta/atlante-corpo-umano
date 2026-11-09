@@ -256,7 +256,7 @@
 }
 
 /* Su smartphone il cartellino e il percorso sono fogli dal basso: i comandi si nascondono.
-   Le voci del menu in alto usano la forma breve (TopBar). */
+   Le voci del menu in alto usano la forma breve (Header). */
 @media (max-width: 760px) {
   .view-controls {
     bottom: calc(14px + env(safe-area-inset-bottom, 0px));

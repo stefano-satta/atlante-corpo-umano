@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button } from '@/components/common/Button';
 import { ShortSourceList } from '@/components/common/ShortSourceList';
 import { Highlight } from '@/components/features/atlas-index/Highlight';
 import { SearchField } from '@/components/features/atlas-index/SearchField';
@@ -105,8 +106,7 @@ export function GlossaryPage() {
           <nav className="letters" aria-label="Lettere">
             {letters.map((l) =>
               present.has(l) ? (
-                <button
-                  type="button"
+                <Button
                   key={l}
                   aria-label={`Lettera ${l}`}
                   onClick={() => {
@@ -115,7 +115,7 @@ export function GlossaryPage() {
                   }}
                 >
                   {l}
-                </button>
+                </Button>
               ) : (
                 <span key={l} aria-hidden="true">
                   {l}
@@ -128,18 +128,17 @@ export function GlossaryPage() {
         {areas.length > 1 && (
           <fieldset className="filters">
             <legend className="visually-hidden">Filtra per apparato</legend>
-            <button type="button" aria-pressed={area === null} onClick={() => refine(query, null)}>
+            <Button aria-pressed={area === null} onClick={() => refine(query, null)}>
               Tutti
-            </button>
+            </Button>
             {areas.map((a) => (
-              <button
-                type="button"
+              <Button
                 key={a.id}
                 aria-pressed={area === a.id}
                 onClick={() => refine(query, area === a.id ? null : a.id)}
               >
                 {a.name} <span className="count">{a.count}</span>
-              </button>
+              </Button>
             ))}
           </fieldset>
         )}
@@ -162,13 +161,9 @@ export function GlossaryPage() {
               </p>
             ) : (
               <div className="glossary-tools">
-                <button
-                  type="button"
-                  className="text-button"
-                  onClick={() => setOpen(new Set(allOpen ? [] : results.map((d) => d.id)))}
-                >
+                <Button variant="text" onClick={() => setOpen(new Set(allOpen ? [] : results.map((d) => d.id)))}>
                   {allOpen ? 'Chiudi tutte le definizioni' : 'Apri tutte le definizioni'}
-                </button>
+                </Button>
               </div>
             )}
             {groups.map((g) => (

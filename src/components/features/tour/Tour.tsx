@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Button } from '@/components/common/Button';
 import { BackIcon, CloseIcon, ForwardIcon } from '@/components/common/Icons';
 import { useAtlas } from '@/hooks/useAtlas';
 import { closeTour } from '@/utils/tour';
@@ -112,9 +113,9 @@ export function Tour() {
           <span className="label">
             Guida · {number + 1} di {TOUR_STEPS.length}
           </span>
-          <button type="button" className="close" aria-label="Chiudi la guida" onClick={close}>
+          <Button variant="close" aria-label="Chiudi la guida" onClick={close}>
             <CloseIcon />
-          </button>
+          </Button>
         </div>
         <h2 id="tour-title" ref={heading} tabIndex={-1}>
           {step.title}
@@ -124,21 +125,17 @@ export function Tour() {
         </p>
         <div className="tour-controls">
           {number > 0 ? (
-            <button type="button" className="back" onClick={() => dispatch({ type: 'setTour', step: number - 1 })}>
+            <Button variant="back" onClick={() => dispatch({ type: 'setTour', step: number - 1 })}>
               <BackIcon /> Indietro
-            </button>
+            </Button>
           ) : (
-            <button type="button" className="back" onClick={close}>
+            <Button variant="back" onClick={close}>
               Salta la guida
-            </button>
+            </Button>
           )}
-          <button
-            type="button"
-            className="action"
-            onClick={() => (last ? close() : dispatch({ type: 'setTour', step: number + 1 }))}
-          >
+          <Button variant="action" onClick={() => (last ? close() : dispatch({ type: 'setTour', step: number + 1 }))}>
             {last ? 'Inizia a esplorare' : 'Avanti'} <ForwardIcon />
-          </button>
+          </Button>
         </div>
       </section>
     </>

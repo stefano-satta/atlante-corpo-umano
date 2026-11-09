@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Button } from '@/components/common/Button';
 import { ForwardIcon } from '@/components/common/Icons';
 import { Highlight } from '@/components/features/atlas-index/Highlight';
 import { SearchField } from '@/components/features/atlas-index/SearchField';
@@ -108,8 +109,7 @@ export function IndexPage() {
             <ul className="index-cards">
               {paths.map((p) => (
                 <li key={p.id}>
-                  <button
-                    type="button"
+                  <Button
                     className="index-card"
                     onClick={() => {
                       dispatch({ type: 'setGuidedPath', guidedPath: { id: p.id, step: 0 } });
@@ -121,13 +121,12 @@ export function IndexPage() {
                     </span>
                     <span className="entry-detail">Percorso in {p.passi} passi</span>
                     <span className="visually-hidden">: inizia il percorso</span>
-                  </button>
+                  </Button>
                 </li>
               ))}
               {processes.map((p) => (
                 <li key={p.id}>
-                  <button
-                    type="button"
+                  <Button
                     className="index-card"
                     onClick={() => {
                       if (textOnly) {
@@ -141,7 +140,7 @@ export function IndexPage() {
                     </span>
                     <span className="entry-detail">Animazione nella scheda: {p.structure.nome}</span>
                     <span className="visually-hidden">: {textOnly ? 'leggi il testo' : 'apri la scheda'}</span>
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>
@@ -185,41 +184,35 @@ export function IndexPage() {
             <ul className="index-terms">
               {glossary.slice(0, GLOSSARY_RESULTS).map((g) => (
                 <li key={g.id}>
-                  <button
-                    type="button"
+                  <Button
                     className="term-link"
                     aria-label={`${g.termine}: leggi la definizione`}
                     onClick={() => showDefinition(g.id)}
                   >
                     <Highlight text={g.termine} query={query} />
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>
             {glossary.length > GLOSSARY_RESULTS && (
-              <button
-                type="button"
-                className="text-button"
+              <Button
+                variant="text"
                 onClick={() => {
                   requestGlossarySearch(query.trim());
                   dispatch({ type: 'setPage', page: 'glossario' });
                 }}
               >
                 Tutti i {glossary.length} termini nel Glossario <ForwardIcon />
-              </button>
+              </Button>
             )}
           </section>
         )}
 
         {!searching && GLOSSARY.length > 0 && (
           <p className="index-glossary-link">
-            <button
-              type="button"
-              className="text-button"
-              onClick={() => dispatch({ type: 'setPage', page: 'glossario' })}
-            >
+            <Button variant="text" onClick={() => dispatch({ type: 'setPage', page: 'glossario' })}>
               Glossario: {GLOSSARY.length} termini con la loro definizione <ForwardIcon />
-            </button>
+            </Button>
           </p>
         )}
       </div>

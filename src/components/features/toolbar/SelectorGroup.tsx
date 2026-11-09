@@ -1,4 +1,5 @@
 import { type KeyboardEvent, useId } from 'react';
+import { Button } from '@/components/common/Button';
 
 export interface SelectorOption<T extends string> {
   id: T;
@@ -38,9 +39,7 @@ export function SelectorGroup<T extends string>({ title, variant, options, value
       </span>
       <div className={`selector-${variant}`} role="radiogroup" aria-labelledby={titleId} onKeyDown={onKeyDown}>
         {options.map((o) => (
-          // biome-ignore lint/a11y/useSemanticElements: pulsanti con ruolo radio per lo stile; le frecce sono gestite dal gruppo
-          <button
-            type="button"
+          <Button
             key={o.id}
             role="radio"
             aria-checked={value === o.id}
@@ -50,7 +49,7 @@ export function SelectorGroup<T extends string>({ title, variant, options, value
             onClick={() => onChange(o.id)}
           >
             {o.name}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

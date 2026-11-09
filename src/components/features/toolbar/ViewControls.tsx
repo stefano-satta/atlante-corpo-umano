@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
+import { Button } from '@/components/common/Button';
 import { CloseIcon, SlidersIcon } from '@/components/common/Icons';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { SIDEBAR_WIDTH } from '@/utils/layout';
-import { BodySwitch } from './BodySwitch';
+import { GenreSelector } from './GenreSelector';
 import { LayerSwitch } from './LayerSwitch';
-import { Command, Toolbar } from './Toolbar';
+import { Command, NavigationToolbar } from './NavigationToolbar';
 
 const SELECTORS_LABEL = 'Genere e apparati';
 
@@ -33,7 +34,7 @@ export function ViewControls() {
     <>
       {wide ? (
         <section className="selector-panel" aria-label={SELECTORS_LABEL}>
-          <BodySwitch />
+          <GenreSelector />
           <LayerSwitch />
         </section>
       ) : (
@@ -48,21 +49,21 @@ export function ViewControls() {
           }}
         >
           <div className="selector-drawer-content">
-            <button
-              type="button"
-              className="close selector-close"
+            <Button
+              variant="close"
+              className="selector-close"
               aria-label={`Chiudi ${SELECTORS_LABEL.toLowerCase()}`}
               onClick={() => setOpen(false)}
             >
               <CloseIcon />
-            </button>
-            <BodySwitch />
+            </Button>
+            <GenreSelector />
             <LayerSwitch />
           </div>
         </dialog>
       )}
       <div className="view-controls">
-        <Toolbar
+        <NavigationToolbar
           leading={
             !wide && (
               <Command

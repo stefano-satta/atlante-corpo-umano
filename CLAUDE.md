@@ -9,8 +9,9 @@ Atlante interattivo del corpo umano: sito statico (Vite + React 19 + TypeScript 
 ```bash
 npm run dev            # sviluppo: include bozze e testi verificati
 npm run build          # tsc --noEmit + vite build: in produzione solo contenuti "approvato"
-npm test               # Vitest (src/**/*.test.ts[x] e pipeline/**/*.test.mjs)
-npx vitest run src/utils/search.test.ts        # un singolo file
+npm test               # Vitest: test/unit/ e test/pipeline/
+npm run test:tutti     # tutti i test: Vitest e poi Playwright
+npx vitest run test/unit/utils/search.test.ts  # un singolo file
 npx vitest run -t "nome del test"              # un singolo test
 npm run controlla      # Biome (lint + formato); correggere con: npx biome check --write .
 npm run test:e2e       # Playwright: costruisce con ATLANTE_BOZZE=1 e serve su :4192 (SwiftShader)
@@ -55,12 +56,17 @@ Alias `@/` → `src/` (in `tsconfig.json`, `vite.config.ts` e `vitest.config.ts`
 | `contexts/` | `AtlasContext` (stato) e `TextOnlyContext` (versione senza 3D) |
 | `hooks/` | Tutti gli hook (`useAtlas`, `useContent`, `useReducedMotion`, `useKeyboardShortcuts`…) |
 | `models/` | Tipi condivisi |
-| `utils/` | Logica pura senza React: reducer, URL, ricerca, scena, tour… (con i test accanto) |
+| `utils/` | Logica pura senza React: reducer, URL, ricerca, scena, tour… |
 | `styles/` | Un foglio per area, importati in ordine da `index.css`; token in `tokens.css` |
 
 ### Stato e indirizzi
 
-`contexts/AtlasContext.tsx` contiene un reducer unico (`utils/atlasReducer.ts`; dalla UI `useAtlas()` → `{state, dispatch}`), sincronizzato con il router (React Router, modalità dichiarativa con `BrowserRouter` in `main.tsx`) tramite `readUrl`, `urlFor` e `urlChange` in `utils/url.ts` (D11, D47): l'indirizzo si legge con `useLocation` e si scrive con `useNavigate`. Le rotte sono dichiarate in `App.tsx`:
+`contexts/AtlasContext.tsx` espone `useAtlas()` → `{state, dispatch}` (React Router, modalità dichiarativa con `BrowserRouter` in `main.tsx`; D11, D47). L'indirizzo è l'unica fonte della parte navigabile:
+- **Lettura:** strato, struttura, scheda, pagina, percorso, soglia e tema del quiz si leggono dall'indirizzo (`readUrl` in `utils/url.ts`). Quello che l'indirizzo non dice sta nella voce di cronologia (`location.state`, `utils/atlasHistory.ts`): lo strato di percorsi e quiz completo, il percorso attivo dietro una struttura, l'atlante sotto una pagina. Una voce senza questi dati (collegamento, `?q=`, indirizzo diretto) tiene la vista di prima.
+- **Scrittura:** `dispatch` applica le regole di `utils/atlasReducer.ts` e porta il router al nuovo indirizzo (`urlFor`, `urlChange`) in un solo `useLayoutEffect`, con una sola navigazione per gestore. Corpo, pelle, battito, guida e domanda del quiz sono stato effimero.
+- **Riscrittura:** un effetto riscrive senza voce di cronologia gli indirizzi non canonici (di prima, sconosciuti).
+
+Le rotte sono dichiarate in `App.tsx`:
 
 - `/` (soglia d'ingresso; Indietro dall'atlante vi riporta);
 - `/esplora/<apparato>` (atlante senza selezione: "Esplora il corpo", chiusura del cartellino o del percorso); l'apparato è lo strato della barra (`LAYER_SLUGS`: `organi`, `scheletro`, `muscoli`, `cardiocircolatorio`, `nervoso`, `digerente`, `respiratorio`, `urinario`, `riproduttivo`, D47, D48, D49 e D51);
@@ -73,7 +79,7 @@ Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPag
 
 ### Scena 3D
 
-`components/features/scene/` è il motore 3D (three.js, R3F, camera-controls). `AtlasPage` lo carica con `lazy()` in un pacchetto separato: l'interfaccia deve restare leggera e non deve importarlo. Solo la scena usa gli hook `useBodyModel`, `useUnitVisibility`, `useUnitPicking` e `useHeartbeatAnimation`, che importano three.js: non vanno usati dall'interfaccia.
+`components/features/scene/` è il motore 3D (three.js, R3F, camera-controls). `AtlasPage` lo carica con `lazy()` in un pacchetto separato e lo monta la prima volta che l'atlante si vede (aprendo direttamente una pagina di lettura non si scaricano né three.js né i modelli): l'interfaccia deve restare leggera e non deve importarlo. Solo la scena usa gli hook `useBodyModel`, `useUnitVisibility`, `useUnitPicking` e `useHeartbeatAnimation`, che importano three.js: non vanno usati dall'interfaccia.
 
 - **Accesso dalla UI:** `utils/sceneApi.ts` (`sceneApi`, `resetView`, `INITIAL_TARGET`/`INITIAL_POSITION`) dà accesso alla telecamera senza React.
 - **Inquadrature:** `CameraDirector` in `Scene.tsx` gestisce telecamera e offset focale per selezione, percorso e soglia; `CalloutTracker` aggiorna la linea di richiamo verso il cartellino.
@@ -82,6 +88,7 @@ Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPag
 
 ### Interfaccia
 
+- **Pulsanti:** sempre `Button` da `components/common/Button.tsx` (mai `<button>`): `type="button"` predefinito, `variant` (`action`, `back`, `close`, `nav`, `cycle`, `text`) dà la classe di stile, il resto passa al `<button>`.
 - **Schemi delle schede:** `components/features/panel/schemaRegistry.tsx` associa ogni schema di processo e ogni figura al suo disegno e al suo apparato. Un nuovo schema si aggiunge lì e in `pipeline/contenuti/regole.mjs`: il tipo e un test controllano che i due elenchi coincidano.
 - **Versione solo testo:** senza WebGL 2 (`utils/webgl.ts`), `App.tsx` mostra `TextOnlyAtlasPage`, che usa gli stessi componenti con `TextOnlyContext` (D26).
 - **Tour:** ricordato in `localStorage` (`atlante.tour`, `utils/tour.ts`).
@@ -91,5 +98,8 @@ Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPag
 
 ### Test
 
-- **Unitari e di componente:** accanto ai file (`utils/*.test.ts`, `components/features/*/*.test.tsx`); i test della pipeline sono in `pipeline/*.test.mjs` e lavorano su una copia temporanea di `contenuti/` con stati fissati, per non dipendere dalle approvazioni reali.
+Tutti i test stanno in `test/`, mai accanto ai file. `test/dom-setup.ts` prepara jsdom e va importato dai test di componente.
+
+- **Unitari e di componente:** in `test/unit/`, che ricalca le cartelle di `src/` (`test/unit/utils/url.test.ts` prova `src/utils/url.ts`) e importa da `@/…`.
+- **Pipeline:** in `test/pipeline/*.test.mjs`; lavorano su una copia temporanea di `contenuti/` con stati fissati, per non dipendere dalle approvazioni reali.
 - **End-to-end:** `test/e2e/atlas.spec.ts` gira sulla build di produzione con axe-core.

@@ -1,12 +1,14 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import { Outlet } from 'react-router';
+import { Footer } from '@/components/common/Footer';
 import { LoadingBar } from '@/components/common/LoadingBar';
-import { TopBar } from '@/components/features/layout/TopBar';
+import { Navbar } from '@/components/common/Navbar';
 import { Callout } from '@/components/features/panel/Callout';
 import { Panel } from '@/components/features/panel/Panel';
 import { ViewControls } from '@/components/features/toolbar/ViewControls';
 import { Tour } from '@/components/features/tour/Tour';
 import { useAtlas } from '@/hooks/useAtlas';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 import { useOpenGuidedPath, useSelectedStructure } from '@/hooks/useSelectedStructure';
 import type { LazyModelLayer } from '@/models/scene';
@@ -36,6 +38,11 @@ export function AtlasPage() {
   const loading = LAZY_MODEL_LAYERS.find((l) => !lazyLoaded.has(l) && needsModelLayer(l, state.layer, state.selection));
   useKeyboardShortcuts();
 
+  // La scena si monta la prima volta che l'atlante si vede (o la soglia, dove il corpo gira dietro il
+  // testo): chi apre direttamente una pagina di lettura non scarica three.js né i modelli. Poi resta montata.
+  const [sceneWanted, setSceneWanted] = useState(!state.page);
+  if (!state.page && !sceneWanted) setSceneWanted(true);
+
   // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta.
   const previousPage = useRef(state.page);
   useEffect(() => {
@@ -47,6 +54,7 @@ export function AtlasPage() {
   const { unit, entry, sheet } = useSelectedStructure();
   const pathOpen = useOpenGuidedPath();
   const name = entry?.nome ?? (unit && (ORGANS_BY_ID.get(unit.id)?.name ?? unit.fmaName));
+  const title = useDocumentTitle(name);
 
   return (
     <div
@@ -56,18 +64,21 @@ export function AtlasPage() {
     >
       {/* Con una pagina di lettura aperta la vista resta montata ma inerte, e la scena smette di disegnare.
           Sotto la soglia la scena continua a disegnare: il corpo si carica e gira dietro il testo. */}
+      <title>{title}</title>
       <div className="view" inert={!!state.page || state.home}>
-        <Suspense fallback={null}>
-          <Scene
-            ready={ready}
-            onReady={onReady}
-            active={!state.page}
-            lazyLoaded={lazyLoaded}
-            onLazyLayerLoaded={onLazyLayerLoaded}
-          />
-        </Suspense>
-        <TopBar />
-        {!ready && !state.home && (
+        {sceneWanted && (
+          <Suspense fallback={null}>
+            <Scene
+              ready={ready}
+              onReady={onReady}
+              active={!state.page}
+              lazyLoaded={lazyLoaded}
+              onLazyLayerLoaded={onLazyLayerLoaded}
+            />
+          </Suspense>
+        )}
+        <Navbar />
+        {sceneWanted && !ready && !state.home && (
           <div className="loading" role="status">
             <span>Caricamento del modello 3D</span>
             <LoadingBar />
@@ -82,14 +93,7 @@ export function AtlasPage() {
         <Callout />
         <Panel />
         {!sheet && <ViewControls />}
-        <footer className="footer">
-          <p>Versione in sviluppo: alcuni nomi e testi sono in preparazione.</p>
-          <p>
-            Modello 3D: BodyParts3D © The Database Center for Life Science, CC BY 4.0; polmoni, tiroide, paratiroidi,
-            parotidi, cavità e cartilagini del naso, 37 muscoli, parte dei vasi, midollo spinale e nervi: Z-Anatomy, CC
-            BY-SA 4.0; organi femminili: Human Reference Atlas, CC BY 4.0. Modelli derivati CC BY-SA 4.0.
-          </p>
-        </footer>
+        <Footer />
         <p className="visually-hidden" aria-live="polite">
           {name ? `Selezionato: ${name}` : ''}
         </p>

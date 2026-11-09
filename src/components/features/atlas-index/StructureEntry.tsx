@@ -1,3 +1,4 @@
+import { Button } from '@/components/common/Button';
 import type { IndexEntry } from '@/models/atlasIndex';
 import { Highlight } from './Highlight';
 
@@ -37,14 +38,13 @@ export function StructureEntry({
   return (
     <li className="index-entry">
       {enabled ? (
-        <button
-          type="button"
+        <Button
           className="entry-name"
           aria-label={`${e.name}: ${textOnly ? 'leggi il testo' : 'mostra nel corpo'}`}
           onClick={() => onShow(e)}
         >
           <Highlight text={e.name} query={query} />
-        </button>
+        </Button>
       ) : (
         <span className="entry-name">
           <Highlight text={e.name} query={query} />
@@ -55,14 +55,13 @@ export function StructureEntry({
       </span>
       {!c && <span className="entry-detail">Solo nel modello 3D</span>}
       {c?.scheda && !textOnly && e.unit && (
-        <button
-          type="button"
+        <Button
           className="entry-open"
           aria-label={`Apri la scheda: ${e.name}`}
           onClick={() => e.unit && onOpenSheet(e.unit)}
         >
           Scheda
-        </button>
+        </Button>
       )}
     </li>
   );
@@ -90,14 +89,13 @@ function PartEntry({
   return (
     <li className="index-entry">
       {enabled ? (
-        <button
-          type="button"
+        <Button
           className="entry-name"
           aria-label={`${e.name}: ${textOnly ? 'leggi il testo' : 'apri la scheda'} ${parent.nome}`}
           onClick={() => (textOnly ? onShow({ ...e, content: parent }) : unit && onOpenSheet(unit))}
         >
           <Highlight text={e.name} query={query} />
-        </button>
+        </Button>
       ) : (
         <span className="entry-name">
           <Highlight text={e.name} query={query} />
@@ -110,14 +108,13 @@ function PartEntry({
         {e.inModel ? 'Nel modello 3D con' : 'Non nel modello 3D · scheda'} {parent.nome}
       </span>
       {e.glossaryTerm && (
-        <button
-          type="button"
+        <Button
           className="entry-open"
           aria-label={`Definizione: ${e.name}`}
           onClick={() => e.glossaryTerm && onShowDefinition(e.glossaryTerm)}
         >
           Definizione
-        </button>
+        </Button>
       )}
     </li>
   );

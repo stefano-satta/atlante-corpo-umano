@@ -101,7 +101,6 @@ export type AtlasAction =
   | { type: 'setQuizFocus'; focus: QuizFocus | null; layer?: Layer; body?: BodyKind }
   | { type: 'hover'; id: string | null }
   | { type: 'setHome'; open: boolean }
-  | { type: 'setTour'; step: number | null }
-  | ({ type: 'fromUrl' } & UrlRead);
+  | { type: 'setTour'; step: number | null };
 
 export type AtlasDispatch = (action: AtlasAction) => void;

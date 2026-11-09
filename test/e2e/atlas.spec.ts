@@ -749,3 +749,42 @@ test('il quiz evidenzia la struttura e segna le risposte giuste e sbagliate (D53
   await expect(page).toHaveURL(/\/esplora\//);
   expect(errors).toEqual([]);
 });
+
+test('una pagina di lettura aperta dal suo indirizzo non scarica il corpo 3D finché non si apre l’atlante', async ({
+  page,
+}) => {
+  const scaricati: string[] = [];
+  page.on('request', (r) => scaricati.push(r.url()));
+  const modelli = () => scaricati.filter((u) => u.endsWith('.glb'));
+  await page.goto('/glossario');
+  await expect(page.getByRole('heading', { name: 'Glossario', level: 1 })).toBeVisible();
+  await expect(page).toHaveTitle('Glossario · Atlante del corpo umano');
+  expect(modelli()).toEqual([]);
+
+  await page.getByRole('button', { name: "Torna all'atlante" }).click();
+  await expect(page).toHaveURL(/\/esplora\/organi$/);
+  await waitForScene(page);
+  expect(modelli().length).toBeGreaterThan(0);
+  await expect(page).toHaveTitle('Atlante del corpo umano');
+});
+
+test('tornando a una pagina di lettura con Indietro si ritrova il punto di lettura', async ({ page }) => {
+  await page.goto('/glossario');
+  const pagina = page.locator('main.reading-page');
+  await expect(page.locator('#glossario-retina')).toBeAttached();
+  await pagina.evaluate((el) => el.scrollTo({ top: 1500 }));
+  await expect.poll(() => pagina.evaluate((el) => el.scrollTop)).toBe(1500);
+
+  // Esc chiude la pagina senza scorrere fino al pulsante in cima (che il clic di Playwright farebbe).
+  await page.keyboard.press('Escape');
+  await expect(page).toHaveURL(/\/esplora\/organi$/);
+  await page.goBack();
+  await expect(page).toHaveURL(/\/glossario$/);
+  await expect.poll(() => page.locator('main.reading-page').evaluate((el) => el.scrollTop)).toBe(1500);
+
+  // Aprendo la pagina dal menu si parte dall'inizio.
+  await page.getByRole('button', { name: "Torna all'atlante" }).click();
+  await page.getByRole('navigation', { name: 'Sezioni' }).getByRole('button', { name: 'Glossario' }).click();
+  await expect(page.locator('main.reading-page')).toBeVisible();
+  expect(await page.locator('main.reading-page').evaluate((el) => el.scrollTop)).toBe(0);
+});

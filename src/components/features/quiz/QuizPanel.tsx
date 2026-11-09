@@ -1,3 +1,4 @@
+import { Button } from '@/components/common/Button';
 import { CloseIcon } from '@/components/common/Icons';
 import { LAYERS } from '@/components/features/toolbar/LayerSwitch';
 import { useAtlas } from '@/hooks/useAtlas';
@@ -25,14 +26,9 @@ export default function QuizPanel() {
     <article className="quiz" aria-labelledby="quiz-title">
       <div className="panel-header">
         <span className="label">Quiz{theme ? ` · ${themeName(theme)}` : ''}</span>
-        <button
-          type="button"
-          className="close"
-          aria-label="Chiudi il quiz"
-          onClick={() => dispatch({ type: 'setQuiz', quiz: null })}
-        >
+        <Button variant="close" aria-label="Chiudi il quiz" onClick={() => dispatch({ type: 'setQuiz', quiz: null })}>
           <CloseIcon />
-        </button>
+        </Button>
       </div>
       {/* Cambiare tema, dal pannello o dalla barra degli apparati, ricomincia da capo. */}
       <QuizSession key={theme ?? 'scelta'} theme={theme} />

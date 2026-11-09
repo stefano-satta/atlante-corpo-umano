@@ -1,0 +1,409 @@
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { afterEach, describe, expect, it } from 'vitest';
+import { leggiContenuti, leggiModello } from '../../pipeline/contenuti.mjs';
+
+const MODELLO = { gruppi: new Set(['cuore']), fma: new Set(['FMA1']) };
+
+const FONTI = `
+a:
+  tipo: istituzionale
+  titolo: Fonte A
+  ente: Ente A
+  url: https://esempio.org/a
+  consultata: 2026-10-22
+b:
+  tipo: manuale
+  titolo: Fonte B
+  autori: [Autore B]
+  url: https://esempio.org/b
+  consultata: 2026-10-22
+`;
+const RIFERIMENTI = `
+apparati: { cardiovascolare: Apparato cardiovascolare }
+nomi: { apparato-cardiovascolare: Apparato cardiovascolare, polmoni: Polmoni }
+`;
+const intestazione = (extra = '') => `---
+id: cuore
+tipo: organo
+strato: organi
+apparato: cardiovascolare
+nome: Cuore
+termine: cor
+ta2: 3932
+elementi3d: { gruppo: cuore }
+relazioni:
+  - { tipo: fa-parte-di, id: apparato-cardiovascolare }
+  - { tipo: collegato-a, id: polmoni, fonte: b }
+stato: approvato
+revisione: 2026-10-22
+${extra}---
+`;
+
+let cartella;
+const cartelle = [];
+function prepara(corpo, extra) {
+  cartella = fs.mkdtempSync(path.join(os.tmpdir(), 'contenuti-'));
+  cartelle.push(cartella);
+  fs.mkdirSync(path.join(cartella, 'strutture'));
+  fs.writeFileSync(path.join(cartella, 'fonti.yaml'), FONTI);
+  fs.writeFileSync(path.join(cartella, 'riferimenti.yaml'), RIFERIMENTI);
+  fs.writeFileSync(path.join(cartella, 'strutture', 'cuore.md'), intestazione(extra) + corpo);
+  return leggiContenuti(cartella, MODELLO);
+}
+afterEach(() => {
+  for (const c of cartelle.splice(0)) fs.rmSync(c, { recursive: true, force: true });
+});
+
+describe('controllo automatico dei contenuti', () => {
+  it('numera le fonti nell’ordine della prima citazione e le collega ai rimandi', () => {
+    const r = prepara('## In breve\n\nPrima frase [@b]. Seconda frase [@a] [@b].\n');
+    expect(r.errori).toEqual([]);
+    const [s] = r.strutture;
+    expect(s.fonti.map((f) => `${f.n}:${f.id}`)).toEqual(['1:b', '2:a']);
+    expect(s.sezioni[0].html).toContain('<a href="#fonte-2">2</a>, <a href="#fonte-1">1</a>');
+    expect(s.relazioni.find((x) => x.id === 'polmoni')).toMatchObject({ nome: 'Polmoni', fonte: 1 });
+    expect(s.fontiBreve).toBe(2);
+  });
+
+  it('rifiuta una citazione verso una fonte che non esiste', () => {
+    expect(prepara('## In breve\n\nFrase [@inventata].\n').errori.join()).toMatch(/fonte inesistente: \[@inventata\]/);
+  });
+
+  it('rifiuta un paragrafo senza fonte', () => {
+    expect(prepara('## In breve\n\nFrase con fonte [@a].\n\nFrase senza fonte.\n').errori.join()).toMatch(
+      /paragrafo senza fonte/,
+    );
+  });
+
+  it('accetta un elenco introdotto da un paragrafo citato, rifiuta voci senza fonte altrimenti', () => {
+    expect(prepara('## In breve\n\nLe parti [@a]:\n\n- una;\n- due.\n').errori).toEqual([]);
+    expect(prepara('## In breve\n\nLe parti:\n\n- una [@a];\n- due.\n').errori.join()).toMatch(
+      /voce di elenco senza fonte/,
+    );
+  });
+
+  it('rifiuta sezioni non previste, HTML grezzo e una prima sezione diversa da "In breve"', () => {
+    expect(prepara('## Curiosità\n\nFrase [@a].\n').errori.join()).toMatch(/sezione non ammessa/);
+    expect(prepara('## In breve\n\n<b>Frase</b> [@a].\n').errori.join()).toMatch(/HTML non ammesso/);
+    expect(prepara('## Cosa fa\n\nFrase [@a].\n').errori.join()).toMatch(/prima sezione deve essere "In breve"/);
+  });
+
+  it('controlla elementi 3D, relazioni e numero TA2', () => {
+    const errori = prepara('## In breve\n\nFrase [@a].\n')
+      .errori.concat(leggiContenuti(cartella, { gruppi: new Set(), fma: new Set() }).errori)
+      .join();
+    expect(errori).toMatch(/il gruppo 3D "cuore" non esiste nel modello/);
+    fs.writeFileSync(
+      path.join(cartella, 'strutture', 'cuore.md'),
+      intestazione().replace('ta2: 3932\n', '').replace('id: polmoni', 'id: milza') + '## In breve\n\nFrase [@a].\n',
+    );
+    const altri = leggiContenuti(cartella, MODELLO).errori.join();
+    expect(altri).toMatch(/manca il numero TA2/);
+    expect(altri).toMatch(/relazione verso "milza"/);
+  });
+
+  it('accetta le unità senza FMA indicate per id e le usa come unità da selezionare', () => {
+    prepara('## In breve\n\nFrase [@a].\n');
+    fs.writeFileSync(
+      path.join(cartella, 'strutture', 'cuore.md'),
+      `${intestazione().replace('{ gruppo: cuore }', '{ id: [ZA-a, ZA-b] }')}## In breve\n\nFrase [@a].\n`,
+    );
+    const r = leggiContenuti(cartella, { ...MODELLO, id: new Set(['ZA-a', 'ZA-b']) });
+    expect(r.errori).toEqual([]);
+    expect(r.strutture[0]).toMatchObject({ elementi3d: { id: ['ZA-a', 'ZA-b'] }, unita: 'ZA-a' });
+    expect(leggiContenuti(cartella, MODELLO).errori.join()).toMatch(/l'unità ZA-a non esiste nel modello/);
+  });
+});
+
+describe('contenuti reali dell’atlante', () => {
+  it('superano il controllo automatico', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    expect(r.errori).toEqual([]);
+    // Un contenuto per ogni file di contenuti/strutture.
+    const file = fs
+      .readdirSync('contenuti/strutture')
+      .filter((f) => f.endsWith('.md'))
+      .map((f) => f.replace(/\.md$/, ''))
+      .sort();
+    expect(r.strutture.map((s) => s.id).sort()).toEqual(file);
+  });
+
+  it('hanno la scheda completa solo organi e nervi con più di una sezione (G1)', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const tipi = new Set(r.strutture.filter((s) => s.scheda).map((s) => s.tipo));
+    expect([...tipi].sort()).toEqual(['nervo', 'organo']);
+    expect(r.strutture.find((s) => s.id === 'nervo-vago').scheda).toBe(true);
+    for (const s of r.strutture.filter((x) => x.scheda)) expect(s.sezioni.length).toBeGreaterThan(1);
+  });
+});
+
+describe('processi animati', () => {
+  const passo =
+    '{ atri: rilassati, ventricoli: rilassati, av: aperte, semilunari: chiuse, segnale: nessuno, tono: nessuno, flussi: [vene-atri] }';
+  const processo = (passi, corpo) => `---
+id: ciclo
+struttura: cuore
+titolo: Ciclo
+passi: [${passi.join(', ')}]
+stato: verificato
+revisione: 2026-10-24
+---
+${corpo}`;
+  const conProcesso = (testo) => {
+    prepara('## In breve\n\nFrase [@a].\n');
+    fs.mkdirSync(path.join(cartella, 'processi'));
+    fs.writeFileSync(path.join(cartella, 'processi', 'ciclo.md'), testo);
+    return leggiContenuti(cartella, MODELLO);
+  };
+
+  it('compila i passi con la numerazione delle fonti della struttura', () => {
+    const r = conProcesso(processo([passo, passo], '## Uno\n\nFrase [@b].\n\n## Due\n\nFrase [@a].\n'));
+    expect(r.errori).toEqual([]);
+    const [p] = r.strutture[0].processi;
+    expect(p.passi.map((x) => x.titolo)).toEqual(['Uno', 'Due']);
+    expect(p.passi[0].html).toContain('href="#fonte-2"');
+    expect(r.strutture[0].fonti.map((f) => f.id)).toEqual(['a', 'b']);
+  });
+
+  it('rifiuta stati del disegno non previsti, passi senza testo e didascalie senza fonte', () => {
+    const errato = passo.replace('av: aperte', 'av: socchiuse');
+    const errori = conProcesso(processo([errato, passo], '## Uno\n\nFrase senza fonte.\n')).errori.join();
+    expect(errori).toMatch(/av deve essere uno tra aperte, chiuse/);
+    expect(errori).toMatch(/passi nell'intestazione \(2\) e nel testo \(1\)/);
+    expect(errori).toMatch(/paragrafo senza fonte/);
+  });
+});
+
+describe('processi di un apparato', () => {
+  const processo = (passi, extra = '') => `---
+id: giro
+strutture: [cuore${extra}]
+schema: genitale-maschile
+titolo: Giro
+passi: [${passi.map((f) => `{ fase: ${f} }`).join(', ')}]
+stato: verificato
+revisione: 2026-10-25
+---
+## Uno
+
+Frase [@b].
+
+## Due
+
+Frase [@a].
+`;
+  const conProcesso = (testo) => {
+    prepara('## In breve\n\nFrase [@a].\n');
+    fs.mkdirSync(path.join(cartella, 'processi'));
+    fs.writeFileSync(path.join(cartella, 'processi', 'giro.md'), testo);
+    return leggiContenuti(cartella, MODELLO);
+  };
+
+  it('compila i passi con la fase dello schema', () => {
+    const r = conProcesso(processo(['spermatogenesi', 'eiaculazione']));
+    expect(r.errori).toEqual([]);
+    const [p] = r.strutture[0].processi;
+    expect(p).toMatchObject({ schema: 'genitale-maschile', principale: 'cuore' });
+    expect(p.passi.map((x) => x.fase)).toEqual(['spermatogenesi', 'eiaculazione']);
+  });
+
+  it('rifiuta fasi di un altro schema e strutture sconosciute', () => {
+    const errori = conProcesso(processo(['spermatogenesi', 'ovulazione'], ', milza')).errori.join();
+    expect(errori).toMatch(/passo 2: fase deve essere una tra spermatogenesi/);
+    expect(errori).toMatch(/struttura sconosciuta: milza/);
+  });
+
+  it('nei contenuti reali compare nella scheda di ogni organo dell’apparato', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const con = (id) => r.strutture.filter((s) => s.processi.some((p) => p.id === id)).map((s) => s.id);
+    expect(con('percorso-spermatozoi')).toEqual(
+      expect.arrayContaining(['testicoli', 'epididimi', 'dotti-deferenti', 'prostata', 'uretra', 'pene']),
+    );
+    expect(con('ciclo-ovarico-uterino').sort()).toEqual(['ovaie', 'tube-uterine', 'utero', 'vagina']);
+  });
+});
+
+describe('percorsi guidati', () => {
+  const passo = (extra = '') => `{ strato: organi, evidenzia: { gruppi: [cuore] }, schema: torace${extra} }`;
+  const percorso = (passi, corpo) => `---
+id: giro
+titolo: Un giro
+descrizione: Un giro breve.
+passi: [${passi.join(', ')}]
+stato: verificato
+revisione: 2026-10-24
+---
+${corpo}`;
+  const conPercorso = (testo) => {
+    prepara('## In breve\n\nFrase [@a].\n');
+    fs.mkdirSync(path.join(cartella, 'percorsi'));
+    fs.writeFileSync(path.join(cartella, 'percorsi', 'giro.md'), testo);
+    return leggiContenuti(cartella, MODELLO);
+  };
+
+  it('compila i passi con fonti numerate proprie e li segnala nella bibliografia', () => {
+    const r = conPercorso(
+      percorso(
+        [passo(), passo(', inquadra: { fma: [FMA1] }')],
+        '## Uno\n\nFrase [@b].\n\n## Due\n\nFrase [@a] [@b].\n',
+      ),
+    );
+    expect(r.errori).toEqual([]);
+    const [p] = r.percorsi;
+    expect(p.passi.map((x) => x.titolo)).toEqual(['Uno', 'Due']);
+    expect(p.descrizione).toBe('Un giro breve.');
+    expect(p.fonti.map((f) => `${f.n}:${f.id}`)).toEqual(['1:b', '2:a']);
+    expect(p.descrizione).toBe('Un giro breve.');
+    expect(p.passi[1]).toMatchObject({ strato: 'organi', schema: 'torace', inquadra: { gruppi: [], fma: ['FMA1'] } });
+    expect(p.passi[0].inquadra).toBeNull();
+    expect(r.fonti.find((f) => f.id === 'b').citataDa).toContainEqual({
+      id: 'percorsi/giro',
+      nome: 'percorso “Un giro”',
+    });
+  });
+
+  it('rifiuta schemi e strati sconosciuti, strutture assenti dal modello e paragrafi senza fonte', () => {
+    const errori = conPercorso(
+      percorso(
+        [passo().replace('schema: torace', 'schema: cuore'), passo().replace('[cuore]', '[fegato]')],
+        '## Uno\n\nFrase senza fonte.\n\n## Due\n\nFrase [@a].\n',
+      ),
+    ).errori.join();
+    expect(errori).toMatch(/passo 1: schema deve essere uno tra/);
+    expect(errori).toMatch(/passo 2: il gruppo 3D "fegato" non esiste nel modello/);
+    expect(errori).toMatch(/paragrafo senza fonte/);
+    expect(conPercorso(percorso([passo(), passo()], '## Uno\n\nFrase [@a].\n')).errori.join()).toMatch(
+      /passi nell'intestazione \(2\) e nel testo \(1\)/,
+    );
+  });
+
+  it('chiede la descrizione per la card della pagina Percorsi', () => {
+    const testo = percorso([passo(), passo()], '## Uno\n\nFrase [@a].\n\n## Due\n\nFrase [@a].\n');
+    expect(conPercorso(testo.replace(/^descrizione: .*\n/m, '')).errori.join()).toMatch(/manca la descrizione/);
+  });
+
+  it('il percorso reale "Un respiro" ha sei passi con fonti', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const [p] = r.percorsi;
+    expect(p.id).toBe('respirazione');
+    expect(p.passi).toHaveLength(6);
+    expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
+  });
+
+  it('il percorso reale "Il viaggio del cibo" ha otto passi, ciascuno con il suo schema e le fonti', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const p = r.percorsi.find((x) => x.id === 'viaggio-del-cibo');
+    expect(p.passi.map((x) => x.schema)).toEqual([
+      'digerente',
+      'bocca',
+      'deglutizione',
+      'stomaco',
+      'duodeno',
+      'villo',
+      'colon',
+      'retto',
+    ]);
+    expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
+    expect(p.descrizione).toBeTruthy();
+  });
+});
+
+describe('glossario', () => {
+  const GLOSSARIO = `
+alveolo:
+  termine: alveolo
+  varianti: [alveoli]
+  definizione: Piccola sacca d'aria [@a].
+  stato: approvato
+  revisione: 2026-10-24
+`;
+  const conGlossario = (glossario, corpo) => {
+    cartella = fs.mkdtempSync(path.join(os.tmpdir(), 'contenuti-'));
+    cartelle.push(cartella);
+    fs.mkdirSync(path.join(cartella, 'strutture'));
+    fs.writeFileSync(path.join(cartella, 'fonti.yaml'), FONTI);
+    fs.writeFileSync(path.join(cartella, 'riferimenti.yaml'), RIFERIMENTI);
+    fs.writeFileSync(path.join(cartella, 'glossario.yaml'), glossario);
+    fs.writeFileSync(path.join(cartella, 'strutture', 'cuore.md'), intestazione() + corpo);
+    return leggiContenuti(cartella, MODELLO);
+  };
+
+  it('compila le definizioni con le fonti e trasforma i segni nei testi in collegamenti', () => {
+    const r = conGlossario(GLOSSARIO, '## In breve\n\nGli [[alveoli|alveolo]] e l’[[alveolo]] [@a].\n');
+    expect(r.errori).toEqual([]);
+    expect(r.glossario[0]).toMatchObject({ id: 'alveolo', html: 'Piccola sacca d&#39;aria.', fonti: [{ id: 'a' }] });
+    expect(r.strutture[0].sezioni[0].html).toContain(
+      'Gli <a class="glossary-term" href="/glossario#glossario-alveolo" data-term="alveolo">alveoli</a>',
+    );
+    expect(r.fonti.find((f) => f.id === 'a').citataDa).toContainEqual({ id: 'glossario/alveolo', nome: 'glossario' });
+  });
+
+  it('rifiuta voci senza fonte, fonti inesistenti e segni verso voci che non esistono', () => {
+    const r = conGlossario(
+      `${GLOSSARIO}senza:\n  termine: senza\n  definizione: Nessuna fonte.\n  stato: bozza\n  revisione: 2026-10-24\nfalsa:\n  termine: falsa\n  definizione: Testo [@zeta].\n  stato: bozza\n  revisione: 2026-10-24\n`,
+      '## In breve\n\nIl [[bronco]] [@a].\n',
+    );
+    const errori = r.errori.join('\n');
+    expect(errori).toContain('senza: la definizione non cita nessuna fonte');
+    expect(errori).toContain('falsa: citazione di una fonte inesistente: [@zeta]');
+    expect(errori).toContain('termine del glossario inesistente: [[bronco]]');
+  });
+
+  it('controlla termine latino, numero TA2 e struttura delle parti senza modello 3D', () => {
+    const r = conGlossario(
+      `${GLOSSARIO}parte:\n  termine: parte\n  latino: pars\n  ta2: 1\n  parteDi: cuore\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\nsola:\n  termine: sola\n  latino: sola\n  parteDi: fegato\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\nunita:\n  termine: unita\n  latino: unita\n  ta2: 2\n  parteDi: cuore\n  nelModello: true\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\nslegata:\n  termine: slegata\n  nelModello: true\n  definizione: Testo [@a].\n  stato: bozza\n  revisione: 2026-10-24\n`,
+      '## In breve\n\nTesto [@a].\n',
+    );
+    const errori = r.errori.join('\n');
+    expect(r.glossario.find((v) => v.id === 'parte')).toMatchObject({
+      latino: 'pars',
+      ta2: 1,
+      parteDi: 'cuore',
+      nelModello: false,
+    });
+    expect(r.glossario.find((v) => v.id === 'unita')).toMatchObject({ parteDi: 'cuore', nelModello: true });
+    expect(r.glossario.find((v) => v.id === 'alveolo')).toMatchObject({ latino: null, ta2: null, parteDi: null });
+    expect(errori).toContain('sola: latino e ta2 vanno indicati insieme');
+    expect(errori).toContain('sola: parteDi indica una struttura sconosciuta: fegato');
+    expect(errori).toContain('slegata: nelModello va indicato (vero o falso) solo con parteDi');
+    expect(errori).not.toContain('parte:');
+    expect(errori).not.toContain('unita:');
+  });
+
+  it('compila la figura di una scheda continuando la numerazione delle fonti', () => {
+    const figura =
+      'figura:\n  schema: vulva\n  titolo: Genitali esterni\n  sezione: In breve\n  didascalia: Lo [[alveolo]] [@b].\n';
+    cartella = fs.mkdtempSync(path.join(os.tmpdir(), 'contenuti-'));
+    cartelle.push(cartella);
+    fs.mkdirSync(path.join(cartella, 'strutture'));
+    fs.writeFileSync(path.join(cartella, 'fonti.yaml'), FONTI);
+    fs.writeFileSync(path.join(cartella, 'riferimenti.yaml'), RIFERIMENTI);
+    fs.writeFileSync(path.join(cartella, 'glossario.yaml'), GLOSSARIO);
+    fs.writeFileSync(
+      path.join(cartella, 'strutture', 'cuore.md'),
+      `${intestazione(figura)}## In breve\n\nTesto [@a].\n`,
+    );
+    const r = leggiContenuti(cartella, MODELLO);
+    expect(r.errori).toEqual([]);
+    const f = r.strutture[0].figura;
+    expect(f).toMatchObject({ schema: 'vulva', titolo: 'Genitali esterni', sezione: 'In breve' });
+    expect(f.html).toContain('data-term="alveolo"');
+    expect(f.html).toContain('<a href="#fonte-2">2</a>');
+    fs.writeFileSync(
+      path.join(cartella, 'strutture', 'cuore.md'),
+      `${intestazione(figura.replace('In breve', 'Cosa fa'))}## In breve\n\nTesto [@a].\n`,
+    );
+    expect(leggiContenuti(cartella, MODELLO).errori.join('\n')).toContain(
+      'figura: sezione deve essere una delle sezioni della scheda (In breve)',
+    );
+  });
+
+  it('il glossario reale supera il controllo e ogni segno nei testi ha la sua voce', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    expect(r.errori).toEqual([]);
+    expect(r.glossario.length).toBeGreaterThanOrEqual(20);
+    expect(r.glossario.every((v) => v.fonti.length > 0)).toBe(true);
+  });
+});

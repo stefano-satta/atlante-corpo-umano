@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Button } from '@/components/common/Button';
 import { ForwardIcon } from '@/components/common/Icons';
 import { LoadingBar } from '@/components/common/LoadingBar';
 import { useAtlas } from '@/hooks/useAtlas';
@@ -51,24 +52,24 @@ export function HomePage({ ready }: { ready: boolean }) {
         </p>
 
         <div className="home-actions">
-          <button
-            type="button"
-            className="action home-explore"
+          <Button
+            variant="action"
+            className="home-explore"
             aria-disabled={!ready}
             aria-describedby={ready ? undefined : 'home-status'}
             onClick={explore}
           >
             Esplora il corpo <ForwardIcon />
-          </button>
+          </Button>
           {paths.length > 0 && (
-            <button type="button" className="home-path" onClick={() => dispatch({ type: 'setPage', page: 'percorsi' })}>
+            <Button className="home-path" onClick={() => dispatch({ type: 'setPage', page: 'percorsi' })}>
               <span className="home-path-name">Segui un percorso</span>
               <span className="home-path-detail">
                 {paths.length === 1
                   ? `“${paths[0].titolo}”, ${paths[0].passi} passi`
                   : `${paths.length} percorsi guidati`}
               </span>
-            </button>
+            </Button>
           )}
         </div>
         <p id="home-status" className="home-status" aria-live="polite">
@@ -83,17 +84,13 @@ export function HomePage({ ready }: { ready: boolean }) {
         </p>
 
         <nav className="home-links" aria-label="Altre sezioni">
-          <button type="button" className="nav-item" onClick={() => dispatch({ type: 'setPage', page: 'indice' })}>
+          <Button variant="nav" onClick={() => dispatch({ type: 'setPage', page: 'indice' })}>
             Indice dei contenuti
-          </button>
+          </Button>
           {hasPage('informazioni') && (
-            <button
-              type="button"
-              className="nav-item"
-              onClick={() => dispatch({ type: 'setPage', page: 'informazioni' })}
-            >
+            <Button variant="nav" onClick={() => dispatch({ type: 'setPage', page: 'informazioni' })}>
               Informazioni e avvertenze
-            </button>
+            </Button>
           )}
         </nav>
       </div>

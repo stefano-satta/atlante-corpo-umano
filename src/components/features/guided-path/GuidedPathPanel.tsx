@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Button } from '@/components/common/Button';
 import { DraftNotice } from '@/components/common/DraftNotice';
 import { BackIcon, CloseIcon, ForwardIcon, PauseIcon, PlayIcon } from '@/components/common/Icons';
 import { SourceList } from '@/components/common/SourceList';
@@ -35,15 +36,10 @@ function StepDiagram({ step }: { step: GuidedPathStep }) {
       </div>
       {!reducedMotion && (
         <div className="cycle-controls">
-          <button
-            type="button"
-            className="cycle-button play"
-            onClick={() => setPlaying((p) => !p)}
-            aria-pressed={playing}
-          >
+          <Button variant="cycle" className="play" onClick={() => setPlaying((p) => !p)} aria-pressed={playing}>
             {playing ? <PauseIcon /> : <PlayIcon />}
             {playing ? 'Pausa' : alveolus ? 'Riproduci gli scambi' : 'Riproduci il respiro'}
-          </button>
+          </Button>
         </div>
       )}
       {alveolus && (
@@ -117,9 +113,9 @@ export default function GuidedPathPanel() {
     <article className="guided-path" aria-labelledby="path-step-title">
       <div className="panel-header">
         <span className="label">Percorso · {path.titolo}</span>
-        <button type="button" className="close" aria-label="Chiudi il percorso" onClick={close}>
+        <Button variant="close" aria-label="Chiudi il percorso" onClick={close}>
           <CloseIcon />
-        </button>
+        </Button>
       </div>
       <p className="path-count label">
         Passo {number + 1} di {total}
@@ -140,29 +136,28 @@ export default function GuidedPathPanel() {
       <RichText className="text" html={step.html} />
 
       <nav className="path-controls" aria-label="Passi del percorso">
-        <button type="button" className="back" onClick={() => goTo(number - 1)} disabled={number === 0}>
+        <Button variant="back" onClick={() => goTo(number - 1)} disabled={number === 0}>
           <BackIcon /> Indietro
-        </button>
+        </Button>
         {last ? (
-          <button type="button" className="action" onClick={close}>
+          <Button variant="action" onClick={close}>
             {textOnly ? "Torna all'indice" : 'Esplora liberamente'} <ForwardIcon />
-          </button>
+          </Button>
         ) : (
-          <button type="button" className="action" onClick={() => goTo(number + 1)}>
+          <Button variant="action" onClick={() => goTo(number + 1)}>
             Avanti <ForwardIcon />
-          </button>
+          </Button>
         )}
         <ol className="path-steps">
           {path.passi.map((p, i) => (
             <li key={p.titolo}>
-              <button
-                type="button"
+              <Button
                 aria-label={`Passo ${i + 1}: ${p.titolo}`}
                 aria-current={i === number ? 'step' : undefined}
                 onClick={() => goTo(i)}
               >
                 {i + 1}
-              </button>
+              </Button>
             </li>
           ))}
         </ol>

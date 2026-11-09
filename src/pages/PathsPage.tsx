@@ -1,3 +1,4 @@
+import { Button } from '@/components/common/Button';
 import { ForwardIcon } from '@/components/common/Icons';
 import { PATH_ART } from '@/components/features/guided-path/PathArt';
 import { ReadingLayout } from '@/components/features/layout/ReadingLayout';
@@ -35,14 +36,13 @@ export default function PathsPage() {
                 <div className="path-card-body">
                   <p className="path-card-system">{art.system}</p>
                   <h2>
-                    <button
-                      type="button"
+                    <Button
                       className="path-card-link"
                       aria-describedby={`path-card-${p.id}`}
                       onClick={() => start(p.id)}
                     >
                       {p.titolo}
-                    </button>
+                    </Button>
                   </h2>
                   <p className="path-card-description" id={`path-card-${p.id}`}>
                     {p.descrizione}

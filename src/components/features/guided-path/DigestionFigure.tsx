@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Button } from '@/components/common/Button';
 import { NextIcon, PauseIcon, PlayIcon, PreviousIcon } from '@/components/common/Icons';
 import { usePlayback } from '@/hooks/usePlayback';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
@@ -90,29 +91,28 @@ export function DigestionFigure({ schema }: { schema: DigestionDiagramId }) {
       </div>
 
       <div className="cycle-controls">
-        <button type="button" className="cycle-button" onClick={previous} aria-label="Fase precedente">
+        <Button variant="cycle" onClick={previous} aria-label="Fase precedente">
           <PreviousIcon />
-        </button>
+        </Button>
         {!reducedMotion && (
-          <button type="button" className="cycle-button play" onClick={toggle} aria-pressed={playing}>
+          <Button variant="cycle" className="play" onClick={toggle} aria-pressed={playing}>
             {playing ? <PauseIcon /> : <PlayIcon />}
             {playing ? 'Pausa' : 'Riproduci'}
-          </button>
+          </Button>
         )}
-        <button type="button" className="cycle-button" onClick={next} aria-label="Fase successiva">
+        <Button variant="cycle" onClick={next} aria-label="Fase successiva">
           <NextIcon />
-        </button>
+        </Button>
         <ol className="cycle-steps" aria-label="Fasi dello schema">
           {phases.map((p, i) => (
             <li key={p.id}>
-              <button
-                type="button"
+              <Button
                 aria-label={`Fase ${i + 1}: ${p.label}`}
                 aria-current={i === n ? 'step' : undefined}
                 onClick={() => goTo(i)}
               >
                 {i + 1}
-              </button>
+              </Button>
             </li>
           ))}
         </ol>

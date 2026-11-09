@@ -1,4 +1,5 @@
 import { Suspense, useEffect, useRef } from 'react';
+import { Button } from '@/components/common/Button';
 import { DraftNotice } from '@/components/common/DraftNotice';
 import { BackIcon } from '@/components/common/Icons';
 import { LatinTerm } from '@/components/common/LatinTerm';
@@ -66,13 +67,13 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
       <header className="sheet-header">
         <div className="panel-header">
           {textOnly ? (
-            <button type="button" className="back" onClick={() => dispatch({ type: 'select', id: null })}>
+            <Button variant="back" onClick={() => dispatch({ type: 'select', id: null })}>
               <BackIcon /> Torna all'indice
-            </button>
+            </Button>
           ) : (
-            <button type="button" className="back" onClick={() => dispatch({ type: 'setSheet', open: false })}>
+            <Button variant="back" onClick={() => dispatch({ type: 'setSheet', open: false })}>
               <BackIcon /> Torna al cartellino
-            </button>
+            </Button>
           )}
         </div>
         <span className="label">{entry.nomeApparato}</span>

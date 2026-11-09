@@ -1,3 +1,4 @@
+import { Button } from '@/components/common/Button';
 import { useAtlas } from '@/hooks/useAtlas';
 import { pageAvailable, QUIZ_THEMES } from '@/utils/content';
 import { PAGE_TITLES, READING_PAGE_IDS } from '@/utils/pages';
@@ -14,10 +15,9 @@ export function TextOnlyHeader() {
       <span className="brand">Atlante del corpo umano</span>
       <nav aria-label="Sezioni">
         {READING_PAGE_IDS.filter(pageAvailable).map((p) => (
-          <button
-            type="button"
+          <Button
             key={p}
-            className="nav-item"
+            variant="nav"
             aria-current={current === p ? 'page' : undefined}
             onClick={() => {
               dispatch({ type: 'select', id: null });
@@ -27,12 +27,11 @@ export function TextOnlyHeader() {
             }}
           >
             {PAGE_TITLES[p]}
-          </button>
+          </Button>
         ))}
         {Object.keys(QUIZ_THEMES).length > 0 && (
-          <button
-            type="button"
-            className="nav-item"
+          <Button
+            variant="nav"
             aria-current={state.quiz && !state.page ? 'page' : undefined}
             onClick={() => {
               dispatch({ type: 'setPage', page: null });
@@ -40,7 +39,7 @@ export function TextOnlyHeader() {
             }}
           >
             Quiz
-          </button>
+          </Button>
         )}
       </nav>
       <p className="notice">

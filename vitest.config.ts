@@ -6,6 +6,7 @@ export default defineConfig({
   // '@/…' indica la cartella src, come in tsconfig.json.
   resolve: { alias: { '@': '/src' } },
   test: {
-    include: ['src/**/*.test.{ts,tsx}', 'pipeline/**/*.test.mjs'],
+    // Tutti i test stanno in test/: unit/ ricalca src/, pipeline/ la cartella omonima; e2e/ è di Playwright.
+    include: ['test/unit/**/*.test.{ts,tsx}', 'test/pipeline/**/*.test.mjs'],
   },
 });

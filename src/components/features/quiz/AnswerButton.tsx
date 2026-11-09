@@ -1,3 +1,4 @@
+import { Button } from '@/components/common/Button';
 import type { AnswerResult } from '@/utils/quiz';
 
 // Dopo la scelta, la lettera lascia il posto al segno dell'esito: l'informazione non sta nel solo colore.
@@ -19,8 +20,7 @@ interface AnswerButtonProps {
 export function AnswerButton({ letter, text, result, onChoose }: AnswerButtonProps) {
   const spoken = result && SPOKEN[result];
   return (
-    <button
-      type="button"
+    <Button
       className="quiz-answer"
       data-result={result}
       aria-disabled={result ? true : undefined}
@@ -32,6 +32,6 @@ export function AnswerButton({ letter, text, result, onChoose }: AnswerButtonPro
       </span>
       <span className="quiz-answer-text">{text}</span>
       {spoken && <span className="visually-hidden">{spoken}</span>}
-    </button>
+    </Button>
   );
 }

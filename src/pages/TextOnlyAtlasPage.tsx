@@ -4,6 +4,7 @@ import { TextOnlyHeader } from '@/components/features/layout/TextOnlyHeader';
 import { DetailSheet } from '@/components/features/panel/DetailSheet';
 import { TextOnlyContext } from '@/contexts/TextOnlyContext';
 import { useAtlas } from '@/hooks/useAtlas';
+import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { hasGuidedPath, STRUCTURES } from '@/utils/content';
 import { readUrl } from '@/utils/url';
 import { ReadingPage } from './ReadingPage';
@@ -21,6 +22,7 @@ export function TextOnlyAtlasPage() {
   const entry = state.selection
     ? STRUCTURES.find((s) => s.id === state.selection || s.unita === state.selection)
     : undefined;
+  const title = useDocumentTitle(entry?.nome);
   const path = !state.selection && state.guidedPath && hasGuidedPath(state.guidedPath.id);
   // Pagina di lettura della rotta. Anche le altre rotte rendono un Outlet (vuoto): conta l'indirizzo.
   const readingPage = useOutlet();
@@ -57,5 +59,10 @@ export function TextOnlyAtlasPage() {
       </main>
     );
 
-  return <TextOnlyContext.Provider value={true}>{content}</TextOnlyContext.Provider>;
+  return (
+    <TextOnlyContext.Provider value={true}>
+      <title>{title}</title>
+      {content}
+    </TextOnlyContext.Provider>
+  );
 }

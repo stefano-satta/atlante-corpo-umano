@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Button } from '@/components/common/Button';
 import { DraftNotice } from '@/components/common/DraftNotice';
 import { ForwardIcon } from '@/components/common/Icons';
 import { SourceList } from '@/components/common/SourceList';
@@ -74,9 +75,9 @@ export function QuestionCard({ prepared, number, total, chosen, onChoose, onNext
       </div>
       {answered && (
         <>
-          <button type="button" ref={next} className="action" aria-keyshortcuts="Enter" onClick={onNext}>
+          <Button ref={next} variant="action" aria-keyshortcuts="Enter" onClick={onNext}>
             {last ? 'Vedi il risultato' : 'Avanti'} <ForwardIcon />
-          </button>
+          </Button>
           {q.fonti.length > 0 && (
             <section className="card-sources" aria-labelledby="quiz-sources-title">
               <h3 id="quiz-sources-title" className="label">
