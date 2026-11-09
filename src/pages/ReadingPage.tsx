@@ -1,28 +1,30 @@
 import { lazy, Suspense } from 'react';
+import { PageLoader } from '@/components/common/PageLoader';
 import type { PageId } from '@/models/atlas';
 import { PAGE_TITLES } from '@/utils/pages';
+import { InfoPage } from './InfoPage';
+import { SourcesPage } from './SourcesPage';
 
-// Ogni pagina di lettura si scarica solo quando la si apre (come il quiz, D53): l'atlante non le porta con sé.
+// Percorsi, Indice e Glossario si scaricano solo quando li si apre (D55); Fonti e Informazioni sono
+// leggere e arrivano con l'atlante.
 const PathsPage = lazy(() => import('./PathsPage'));
 const IndexPage = lazy(() => import('./IndexPage').then((m) => ({ default: m.IndexPage })));
 const GlossaryPage = lazy(() => import('./GlossaryPage').then((m) => ({ default: m.GlossaryPage })));
-const SourcesPage = lazy(() => import('./SourcesPage').then((m) => ({ default: m.SourcesPage })));
-const InfoPage = lazy(() => import('./InfoPage').then((m) => ({ default: m.InfoPage })));
 
-/** Pagina di lettura indicata dallo stato (`/percorsi`, `/indice`, `/glossario`, `/fonti`, `/informazioni`). */
+/** Pagina di lettura indicata dallo stato (`/percorsi`, `/indice`, `/glossario`, `/fonti`, `/informazioni`…). */
 export function ReadingPage({ page }: { page: PageId }) {
+  if (page === 'fonti') return <SourcesPage />;
+  if (page === 'informazioni') return <InfoPage />;
+  if (page === 'circolazione') return <InfoPage id="circolazione" title={PAGE_TITLES.circolazione} />;
   return (
-    <Suspense fallback={null}>
-      <PageContent page={page} />
+    <Suspense fallback={<PageLoader label={LOADING_LABELS[page] ?? 'Caricamento'} />}>
+      {page === 'percorsi' ? <PathsPage /> : page === 'indice' ? <IndexPage /> : <GlossaryPage />}
     </Suspense>
   );
 }
 
-function PageContent({ page }: { page: PageId }) {
-  if (page === 'percorsi') return <PathsPage />;
-  if (page === 'indice') return <IndexPage />;
-  if (page === 'glossario') return <GlossaryPage />;
-  if (page === 'fonti') return <SourcesPage />;
-  if (page === 'circolazione') return <InfoPage id="circolazione" title={PAGE_TITLES.circolazione} />;
-  return <InfoPage />;
-}
+const LOADING_LABELS: Partial<Record<PageId, string>> = {
+  percorsi: 'Caricamento dei percorsi',
+  indice: "Caricamento dell'indice",
+  glossario: 'Caricamento del glossario',
+};

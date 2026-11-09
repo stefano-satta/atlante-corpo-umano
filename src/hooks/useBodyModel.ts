@@ -10,10 +10,11 @@ import { sceneApi } from '@/utils/sceneApi';
 import { bodyUniforms } from '@/utils/sceneMaterials';
 import { createUnits, prepareLayer } from '@/utils/sceneModel';
 
-// I vasi (D44) non sono fra questi file: pesano più degli organi e si scaricano solo quando servono.
+// Muscoli, vasi e nervi (D55, D44, D46) non sono fra questi file: pesano più degli organi e si scaricano
+// solo quando servono (`LazyLayer`). Le ossa sì, perché quasi ogni apparato le mostra in trasparenza.
 // Gli organi del solo corpo femminile (D29) stanno in un file a parte, piccolo: si caricano sempre,
 // così cambiare corpo non fa attendere e le loro unità hanno subito ingombro e ancoraggio.
-const MODEL_FILES = ['ossa', 'muscoli', 'organi', 'pelle', 'organi-donna'] as const;
+const MODEL_FILES = ['ossa', 'organi', 'pelle', 'organi-donna'] as const;
 export type ModelFile = (typeof MODEL_FILES)[number];
 
 export const configureLoader = (loader: GLTFLoader) => {

@@ -6,6 +6,19 @@ export const PAGE_IDS: PageId[] = ['indice', 'glossario', 'fonti', 'informazioni
 /** Tutte le pagine di lettura, con quella dei percorsi e la panoramica aperta dal cartellino dei vasi: hanno una rotta ciascuna. */
 export const READING_PAGE_IDS: PageId[] = ['percorsi', ...PAGE_IDS, 'circolazione'];
 
+/** Indirizzo di ogni pagina di lettura: l'id, salvo la panoramica della circolazione. */
+export const PAGE_PATHS: Record<PageId, string> = {
+  percorsi: '/percorsi',
+  indice: '/indice',
+  glossario: '/glossario',
+  fonti: '/fonti',
+  informazioni: '/informazioni',
+  circolazione: '/come-circola-il-sangue',
+};
+
+/** Indirizzi di prima delle pagine di lettura, che si leggono ancora e si riscrivono. */
+export const LEGACY_PAGE_PATHS: Record<string, PageId> = { '/circolazione': 'circolazione' };
+
 export const PAGE_TITLES: Record<PageId, string> = {
   percorsi: 'Percorsi',
   indice: 'Indice',

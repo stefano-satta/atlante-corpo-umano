@@ -73,9 +73,9 @@ Le rotte sono dichiarate in `App.tsx`:
 - `/esplora/<apparato>/<unità>` (cartellino) e `/esplora/<apparato>/<unità>/scheda` (scheda); gli indirizzi di prima `/esplora`, `/esplora/<unità>` e `/organo/<id>` si riscrivono senza voce di cronologia, come il cambio del solo apparato;
 - `/percorsi/<id>/<passo>` (passo contato da 1);
 - `/quiz`, `/quiz/<apparato>` e `/quiz/completa` (D53): quiz nel pannello, con `state.quiz` (tema e struttura della domanda, evidenziata come un passo di percorso); nell'indirizzo c'è solo il tema;
-- `/indice`, `/glossario`, `/fonti`, `/informazioni` (`PAGE_IDS` in `utils/pages.ts`); Indice e Glossario tengono la ricerca in `?q=` (`useSearchQuery`), che `searchFor` toglie passando ad altri indirizzi.
+- `/indice`, `/glossario`, `/fonti`, `/informazioni`, `/come-circola-il-sangue` (`PAGE_PATHS` in `utils/pages.ts`; `/circolazione` è l'indirizzo di prima e si riscrive); Indice e Glossario tengono la ricerca in `?q=` (`useSearchQuery`), che `searchFor` toglie passando ad altri indirizzi.
 
-Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPage`) che resta montata, così la scena 3D non si ricarica. Le rotte di struttura e di percorso non hanno un elemento: si leggono nello stato. Le pagine di lettura sono elementi di rotta e compaiono nell'`Outlet`. Nei test di componente `AtlasProvider` va dentro un router (`MemoryRouter`, o `BrowserRouter` se il test controlla `location`).
+Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPage`) che resta montata. Le rotte con il corpo 3D (soglia, esplorazione, percorsi a passi, quiz) non hanno un elemento: si leggono nello stato e le mostra l'atlante (`AtlasView`), montato alla prima visita e poi tenuto nascosto sotto le pagine, così la scena non si ricarica. Le pagine di lettura sono pagine a sé (D54): rotte sorelle sotto il guscio `components/features/layout/ReadingShell.tsx` (barra, contenuto, crediti), senza l'atlante sotto. Atlante e pagina seguono la rotta (`readUrl(location)`), non lo stato. Nei test di componente `AtlasProvider` va dentro un router (`MemoryRouter`, o `BrowserRouter` se il test controlla `location`).
 
 ### Scena 3D
 
@@ -83,7 +83,7 @@ Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPag
 
 - **Accesso dalla UI:** `utils/sceneApi.ts` (`sceneApi`, `resetView`, `INITIAL_TARGET`/`INITIAL_POSITION`) dà accesso alla telecamera senza React.
 - **Inquadrature:** `CameraDirector` in `Scene.tsx` gestisce telecamera e offset focale per selezione, percorso e soglia; `CalloutTracker` aggiorna la linea di richiamo verso il cartellino.
-- **Modelli:** un `.glb` per strato (ossa, muscoli, organi, pelle) più `organi-donna.glb`; `vasi.glb` (D44) e `nervi.glb` (D46) si scaricano solo quando servono (`needsModelLayer`, `lazyLayerOf`), ciascuno dentro un proprio `Suspense` (`LazyLayer`). `strutture.json` mappa le unità del modello agli id FMA e ai gruppi, e con `corpo` segna gli organi di un solo corpo; la logica sta in `utils/sceneModel.ts` e `utils/sceneMaterials.ts`.
+- **Modelli:** un `.glb` per strato. All'avvio si scaricano `ossa.glb`, `organi.glb`, `pelle.glb` e `organi-donna.glb` (le ossa servono in trasparenza a quasi ogni apparato). `muscoli.glb` (D55), `vasi.glb` (D44) e `nervi.glb` (D46) si scaricano solo quando lo strato, la selezione o una struttura evidenziata ne mostrano un'unità (`needsModelLayer`, `lazyLayerOf`, i passaggi di `useUnitVisibility`), ciascuno dentro un proprio `Suspense` (`LazyLayer`). `strutture.json` mappa le unità del modello agli id FMA e ai gruppi, e con `corpo` segna gli organi di un solo corpo; la logica sta in `utils/sceneModel.ts` e `utils/sceneMaterials.ts`.
 - **Corpo Uomo/Donna (D29):** `state.body`; `unitStates` nasconde gli organi dell'altro corpo e `bodyFor` (in `atlasReducer.ts`) passa al corpo giusto quando si sceglie un organo di un solo corpo.
 
 ### Interfaccia

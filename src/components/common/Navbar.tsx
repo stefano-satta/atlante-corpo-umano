@@ -5,12 +5,12 @@ import { GUIDED_PATHS, pageAvailable, QUIZ_THEMES } from '@/utils/content';
 import { PAGE_IDS, PAGE_SHORT_TITLES, PAGE_TITLES } from '@/utils/pages';
 import { Button } from './Button';
 
-/** Barra in alto della vista 3D (D11): marchio, esplorazione, percorsi e pagine di lettura. */
+/** Barra in alto (D11): marchio, esplorazione, percorsi, quiz e pagine di lettura; sull'atlante e in cima alle pagine. */
 export function Navbar() {
   const { state, dispatch } = useAtlas();
   const pathOpen = useOpenGuidedPath();
   // La voce Percorsi apre la pagina con tutti i percorsi; resta segnata anche durante un percorso.
-  const pathsCurrent = pathOpen || state.page === 'percorsi';
+  const pathsCurrent = state.page === 'percorsi' || (pathOpen && !state.page);
   // La voce Esplora è l'atlante libero, con qualunque apparato: segnata quando non c'è un percorso
   // né una pagina di lettura. Porta a `/esplora/<apparato>` chiudendo percorso e struttura.
   const quizCurrent = !!state.quiz && !state.page;
@@ -61,7 +61,13 @@ export function Navbar() {
         )}
         {PAGE_IDS.map((p) =>
           pageAvailable(p) ? (
-            <Button key={p} variant="nav" data-page={p} onClick={() => dispatch({ type: 'setPage', page: p })}>
+            <Button
+              key={p}
+              variant="nav"
+              data-page={p}
+              aria-current={state.page === p ? 'true' : undefined}
+              onClick={() => dispatch({ type: 'setPage', page: p })}
+            >
               <PageTitle page={p} />
             </Button>
           ) : (

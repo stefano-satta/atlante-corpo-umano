@@ -1,8 +1,10 @@
-/* Pagine di lettura (Indice, Glossario, Fonti, Informazioni) sopra l'atlante */
+/* Pagine di lettura (Percorsi, Indice, Glossario, Fonti, Informazioni): pagine a sé, con barra e crediti (D54) */
 .reading-page {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 5;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--slide);
@@ -10,6 +12,53 @@
   scrollbar-color: var(--slide-border) transparent;
   animation: fade-in 280ms var(--ease-out);
   color-scheme: light;
+}
+.reading-main {
+  flex: 1 0 auto;
+}
+/* Caricamento di una pagina (Glossario, Indice): al centro dello spazio del testo. */
+.page-loader {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 12px;
+  min-height: 50vh;
+  font-size: 15px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+.page-loader .loading-bar {
+  background: var(--slide-border);
+}
+.page-loader .loading-bar::after {
+  background: var(--eosin);
+}
+/* La barra dell'atlante, in chiaro e nel flusso della pagina: stessi rientri dell'atlante su ogni pagina. */
+.reading-page .top-bar {
+  position: static;
+  pointer-events: auto;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--slide-border);
+}
+.reading-page .top-bar .nav-item {
+  color: var(--ink-muted);
+}
+.reading-page .top-bar .nav-item[aria-current="true"] {
+  color: var(--ink);
+  box-shadow: inset 0 -2px var(--eosin);
+}
+/* I crediti chiudono la pagina, su ogni schermo. */
+.reading-page .footer {
+  display: block;
+  position: static;
+  max-width: 72ch;
+  padding: 24px 32px calc(28px + env(safe-area-inset-bottom, 0px)) max(32px, 8vw);
+  border-top: 1px solid var(--slide-border);
+  text-align: left;
+  color: var(--ink-muted);
+  pointer-events: auto;
 }
 .reading-page .draft-notice {
   margin: 0 0 32px;
@@ -86,7 +135,8 @@
 }
 
 @media (max-width: 760px) {
-  .reading-column {
+  .reading-column,
+  .reading-page .footer {
     padding-left: 20px;
     padding-right: 20px;
   }

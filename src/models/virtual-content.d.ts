@@ -29,6 +29,7 @@ declare module 'virtual:contenuti' {
 
 declare module 'virtual:contenuti/modello' {
   import type { BodyKind } from '@/models/atlas';
+  export const UNITA_MUSCOLI: string[];
   export const UNITA_VASI: string[];
   export const UNITA_NERVI: string[];
   export const CORPO_UNITA: Record<string, BodyKind>;

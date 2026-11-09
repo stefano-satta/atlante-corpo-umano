@@ -110,8 +110,8 @@ export function contenuti({ radice = process.cwd() } = {}) {
         ].join('\n');
       }
       if (percorso === '/modello') {
-        const { vasi, nervi, corpi } = indiceModello(fileModello);
-        return `export const UNITA_VASI = ${JSON.stringify(vasi)};\nexport const UNITA_NERVI = ${JSON.stringify(nervi)};\nexport const CORPO_UNITA = ${JSON.stringify(corpi)};`;
+        const { muscoli, vasi, nervi, corpi } = indiceModello(fileModello);
+        return `export const UNITA_MUSCOLI = ${JSON.stringify(muscoli)};\nexport const UNITA_VASI = ${JSON.stringify(vasi)};\nexport const UNITA_NERVI = ${JSON.stringify(nervi)};\nexport const CORPO_UNITA = ${JSON.stringify(corpi)};`;
       }
       if (percorso === '/fonti') return `export default ${JSON.stringify(d.fonti)};`;
       if (percorso === '/glossario') return `export default ${JSON.stringify(d.glossario)};`;

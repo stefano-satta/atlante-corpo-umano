@@ -216,14 +216,18 @@ export const GHOST_MODEL_LAYERS: Record<Layer, ModelLayer[]> = {
 };
 
 /** Strati del modello in un file a parte, nell'ordine in cui la scena li disegna. */
-export const LAZY_MODEL_LAYERS: readonly LazyModelLayer[] = ['vasi', 'nervi'];
+export const LAZY_MODEL_LAYERS: readonly LazyModelLayer[] = ['muscoli', 'vasi', 'nervi'];
 
 /**
- * I vasi e i nervi stanno ciascuno in un file a parte, che si scarica solo quando serve: strato aperto o
- * struttura di quello strato selezionata. Lo strato della barra ha lo stesso nome di quello del modello.
+ * Muscoli, vasi e nervi stanno ciascuno in un file a parte, che si scarica solo quando serve (D55): lo strato
+ * della barra lo mostra (pieno, in trasparenza o con alcune unità, come i muscoli dell'apparato digerente),
+ * oppure è selezionata una sua struttura.
  */
 export const needsModelLayer = (model: LazyModelLayer, layer: Layer, selection: string | null) =>
-  layer === model || (selection !== null && lazyLayerOf(selection) === model);
+  VISIBLE_MODEL_LAYERS[layer].includes(model) ||
+  GHOST_MODEL_LAYERS[layer].includes(model) ||
+  VISIBLE_UNITS[layer].some((u) => lazyLayerOf(u) === model) ||
+  (selection !== null && lazyLayerOf(selection) === model);
 
 /** Strato della barra in cui una struttura del modello è piena e selezionabile. */
 export const LAYER_OF_MODEL_LAYER: Record<Exclude<ModelLayer, 'pelle'>, Layer> = {

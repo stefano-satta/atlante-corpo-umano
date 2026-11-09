@@ -1,9 +1,10 @@
 import type { Layer, QuizTheme, UrlRead, UrlState } from '@/models/atlas';
-import { READING_PAGE_IDS } from './pages';
+import { LEGACY_PAGE_PATHS, PAGE_PATHS, READING_PAGE_IDS } from './pages';
 
 // Indirizzi (D11, D47): / (soglia), /esplora/<apparato> (atlante senza selezione),
 // /esplora/<apparato>/<struttura> (cartellino), /esplora/<apparato>/<struttura>/scheda (scheda),
-// /percorsi (elenco), /percorsi/<id>/<passo>, /quiz e /quiz/<apparato> o /quiz/completa (D53), /indice, /glossario, /fonti, /informazioni.
+// /percorsi (elenco), /percorsi/<id>/<passo>, /quiz e /quiz/<apparato> o /quiz/completa (D53), /indice, /glossario, /fonti,
+// /informazioni, /come-circola-il-sangue (prima /circolazione).
 // L'apparato è lo strato scelto nella barra laterale. Nell'indirizzo il passo si conta da 1.
 // Gli indirizzi di prima, /esplora, /esplora/<struttura> e /organo/<struttura>, si leggono ancora
 // e si riscrivono nella forma nuova.
@@ -37,7 +38,8 @@ export function exploreUrl(layer: Layer, selection: string | null, sheet = false
 }
 
 export function readUrl(pathname: string): UrlRead {
-  const page = READING_PAGE_IDS.find((p) => pathname === `/${p}`) ?? null;
+  const path = pathname.replace(/(.)\/$/, '$1');
+  const page = READING_PAGE_IDS.find((p) => path === PAGE_PATHS[p]) ?? LEGACY_PAGE_PATHS[path] ?? null;
   const p = /^\/percorsi\/([a-z0-9-]+)(?:\/(\d+))?\/?$/.exec(pathname);
   const guidedPath = p ? { id: p[1], step: Math.max(0, Number(p[2] ?? 1) - 1) } : null;
   // La soglia sta solo su `/`, anche sotto una pagina di lettura aperta da lì.
@@ -66,7 +68,7 @@ export function readUrl(pathname: string): UrlRead {
 }
 
 export function urlFor(s: UrlState) {
-  if (s.page) return `/${s.page}`;
+  if (s.page) return PAGE_PATHS[s.page];
   if (s.quiz) return quizUrl(s.quiz.theme);
   if (s.selection) return exploreUrl(s.layer, s.selection, s.sheet);
   if (s.guidedPath) return `/percorsi/${s.guidedPath.id}/${s.guidedPath.step + 1}`;

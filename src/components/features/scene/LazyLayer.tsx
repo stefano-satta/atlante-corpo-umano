@@ -19,7 +19,7 @@ interface LazyLayerProps {
 }
 
 /**
- * Strato dei vasi o dei nervi (`vasi.glb`, `nervi.glb`), caricato la prima volta che serve. Ingombri e
+ * Strato dei muscoli, dei vasi o dei nervi (`muscoli.glb`, `vasi.glb`, `nervi.glb`), caricato la prima volta che serve. Ingombri e
  * ancoraggi delle unità si riempiono qui.
  */
 export function LazyLayer({ layer, elements, units, materials, showFull, showDimmed, onLoaded }: LazyLayerProps) {

@@ -1,5 +1,6 @@
 import { lazy, type ReactNode, Suspense } from 'react';
 import { useLocation, useOutlet } from 'react-router';
+import { ReadingShell } from '@/components/features/layout/ReadingShell';
 import { TextOnlyHeader } from '@/components/features/layout/TextOnlyHeader';
 import { DetailSheet } from '@/components/features/panel/DetailSheet';
 import { TextOnlyContext } from '@/contexts/TextOnlyContext';
@@ -42,7 +43,12 @@ export function TextOnlyAtlasPage() {
         </div>
       </main>
     );
-  else if (state.page || (!entry && !path)) content = <ReadingPage page={state.page ?? 'indice'} />;
+  else if (state.page || (!entry && !path))
+    content = (
+      <ReadingShell>
+        <ReadingPage page={state.page ?? 'indice'} />
+      </ReadingShell>
+    );
   else
     content = (
       <main className="reading-page text-reading" aria-label={entry ? entry.nome : 'Percorso guidato'}>

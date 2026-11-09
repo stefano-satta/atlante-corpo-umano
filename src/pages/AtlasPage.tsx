@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import { Footer } from '@/components/common/Footer';
 import { LoadingBar } from '@/components/common/LoadingBar';
 import { Navbar } from '@/components/common/Navbar';
@@ -14,6 +14,7 @@ import { useOpenGuidedPath, useSelectedStructure } from '@/hooks/useSelectedStru
 import type { LazyModelLayer } from '@/models/scene';
 import { LAZY_MODEL_LAYERS, needsModelLayer } from '@/utils/atlasReducer';
 import { ORGANS_BY_ID } from '@/utils/organs';
+import { readUrl } from '@/utils/url';
 import { HomePage } from './HomePage';
 
 // Il motore 3D (three.js e React Three Fiber) sta in un pacchetto separato: l'interfaccia
@@ -21,12 +22,42 @@ import { HomePage } from './HomePage';
 const Scene = lazy(() => import('@/components/features/scene/Scene'));
 
 const LOADING_TEXT: Record<LazyModelLayer, string> = {
+  muscoli: 'Caricamento dei muscoli',
   vasi: 'Caricamento dei vasi sanguigni',
   nervi: 'Caricamento dei nervi',
 };
 
-/** L'atlante con il corpo 3D: scena, barre, pannello, e sopra soglia, guida e pagine di lettura. */
+/**
+ * Guscio della versione 3D. Le rotte con il corpo (soglia, esplorazione, percorsi a passi, quiz) mostrano
+ * l'atlante; le pagine di lettura sono pagine a sé (`ReadingShell`, nell'`Outlet`), senza l'atlante sotto.
+ * L'atlante si monta la prima volta che si vede: chi apre direttamente una pagina di lettura non scarica
+ * three.js né i modelli. Poi resta montato, nascosto e fermo sotto le pagine, così tornandoci la scena
+ * non si ricarica e la telecamera è dov'era.
+ */
 export function AtlasPage() {
+  const { state } = useAtlas();
+  useKeyboardShortcuts();
+  // Atlante e pagina di lettura seguono la stessa rotta dell'`Outlet` (il router la aggiorna in una
+  // transizione): non si vedono mai insieme, né nessuno dei due.
+  const onAtlas = !readUrl(useLocation().pathname).page;
+  const [visited, setVisited] = useState(onAtlas);
+  if (onAtlas && !visited) setVisited(true);
+
+  const { unit, entry } = useSelectedStructure();
+  const name = entry?.nome ?? (unit && (ORGANS_BY_ID.get(unit.id)?.name ?? unit.fmaName));
+  const title = useDocumentTitle(name);
+
+  return (
+    <>
+      <title>{title}</title>
+      {visited && <AtlasView hidden={!onAtlas} name={name} />}
+      <Outlet />
+    </>
+  );
+}
+
+/** L'atlante con il corpo 3D: scena, barre, pannello, e sopra soglia e guida. */
+function AtlasView({ hidden, name }: { hidden: boolean; name: string | null | undefined }) {
   const { state } = useAtlas();
   const [ready, setReady] = useState(false);
   const onReady = useCallback(() => setReady(true), []);
@@ -36,49 +67,42 @@ export function AtlasPage() {
     [],
   );
   const loading = LAZY_MODEL_LAYERS.find((l) => !lazyLoaded.has(l) && needsModelLayer(l, state.layer, state.selection));
-  useKeyboardShortcuts();
 
-  // La scena si monta la prima volta che l'atlante si vede (o la soglia, dove il corpo gira dietro il
-  // testo): chi apre direttamente una pagina di lettura non scarica three.js né i modelli. Poi resta montata.
-  const [sceneWanted, setSceneWanted] = useState(!state.page);
-  if (!state.page && !sceneWanted) setSceneWanted(true);
-
-  // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta.
-  const previousPage = useRef(state.page);
+  // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta, quando l'atlante si rivede.
+  const lastPage = useRef(state.page);
+  if (state.page) lastPage.current = state.page;
+  const wasHidden = useRef(hidden);
   useEffect(() => {
-    const previous = previousPage.current;
-    previousPage.current = state.page;
-    if (previous && !state.page) document.querySelector<HTMLElement>(`[data-page="${previous}"]`)?.focus();
-  }, [state.page]);
+    if (wasHidden.current && !hidden && lastPage.current)
+      document.querySelector<HTMLElement>(`.atlas [data-page="${lastPage.current}"]`)?.focus();
+    wasHidden.current = hidden;
+  }, [hidden]);
 
-  const { unit, entry, sheet } = useSelectedStructure();
+  const { unit, sheet } = useSelectedStructure();
   const pathOpen = useOpenGuidedPath();
-  const name = entry?.nome ?? (unit && (ORGANS_BY_ID.get(unit.id)?.name ?? unit.fmaName));
-  const title = useDocumentTitle(name);
 
   return (
     <div
       className="atlas"
+      hidden={hidden}
+      inert={hidden}
       data-panel={unit ? (sheet ? 'sheet' : 'card') : pathOpen ? 'path' : 'none'}
       data-home={state.home ? 'yes' : undefined}
     >
-      {/* Con una pagina di lettura aperta la vista resta montata ma inerte, e la scena smette di disegnare.
+      {/* Sotto una pagina di lettura l'atlante resta montato ma nascosto, e la scena smette di disegnare.
           Sotto la soglia la scena continua a disegnare: il corpo si carica e gira dietro il testo. */}
-      <title>{title}</title>
-      <div className="view" inert={!!state.page || state.home}>
-        {sceneWanted && (
-          <Suspense fallback={null}>
-            <Scene
-              ready={ready}
-              onReady={onReady}
-              active={!state.page}
-              lazyLoaded={lazyLoaded}
-              onLazyLayerLoaded={onLazyLayerLoaded}
-            />
-          </Suspense>
-        )}
+      <div className="view" inert={state.home}>
+        <Suspense fallback={null}>
+          <Scene
+            ready={ready}
+            onReady={onReady}
+            active={!hidden}
+            lazyLoaded={lazyLoaded}
+            onLazyLayerLoaded={onLazyLayerLoaded}
+          />
+        </Suspense>
         <Navbar />
-        {sceneWanted && !ready && !state.home && (
+        {!ready && !state.home && (
           <div className="loading" role="status">
             <span>Caricamento del modello 3D</span>
             <LoadingBar />
@@ -98,10 +122,8 @@ export function AtlasPage() {
           {name ? `Selezionato: ${name}` : ''}
         </p>
       </div>
-      {state.tour !== null && !state.home && !state.page && <Tour />}
+      {state.tour !== null && !state.home && !hidden && <Tour />}
       {state.home && <HomePage ready={ready} />}
-      {/* Pagina di lettura della rotta (/indice, /glossario, /fonti, /informazioni). */}
-      <Outlet />
     </div>
   );
 }

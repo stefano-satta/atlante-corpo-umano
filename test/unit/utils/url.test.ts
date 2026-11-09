@@ -97,3 +97,11 @@ describe('indirizzi del quiz (D53)', () => {
     });
   });
 });
+
+describe('pagina della circolazione', () => {
+  it('ha l’indirizzo /come-circola-il-sangue; quello di prima si legge ancora e si riscrive', () => {
+    expect(readUrl('/come-circola-il-sangue').page).toBe('circolazione');
+    expect(readUrl('/circolazione').page).toBe('circolazione');
+    expect(urlFor({ ...readUrl('/circolazione'), layer: 'organi' })).toBe('/come-circola-il-sangue');
+  });
+});

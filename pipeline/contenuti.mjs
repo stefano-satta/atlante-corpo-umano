@@ -95,6 +95,7 @@ export function indiceModello(file) {
   for (const e of elementi) if (!unita.has(e.gruppo ?? e.id)) unita.set(e.gruppo ?? e.id, e);
   const voci = [...unita];
   return {
+    muscoli: voci.filter(([, e]) => e.strato === 'muscoli').map(([id]) => id),
     vasi: voci.filter(([, e]) => e.strato === 'vasi').map(([id]) => id),
     nervi: voci.filter(([, e]) => e.strato === 'nervi').map(([id]) => id),
     corpi: Object.fromEntries(voci.filter(([, e]) => e.corpo).map(([id, e]) => [id, e.corpo])),

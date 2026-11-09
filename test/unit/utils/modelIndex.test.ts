@@ -7,6 +7,8 @@ describe('indice del modello', () => {
     expect(lazyLayerOf('vaso-right-anterior-cerebral-artery')).toBe('vasi');
     expect(lazyLayerOf('nervo-right-median-nerve')).toBe('nervi');
     expect(lazyLayerOf('nervo-spinal-cord')).toBe('nervi');
+    expect(lazyLayerOf('FJ3131')).toBe('muscoli');
+    expect(lazyLayerOf('FJ3259')).toBeUndefined();
     expect(lazyLayerOf('vaso-che-non-esiste')).toBeUndefined();
     expect(lazyLayerOf('cuore')).toBeUndefined();
     expect(lazyLayerOf('constructor')).toBeUndefined();
@@ -42,5 +44,16 @@ describe('uso dell’indice nello stato', () => {
     expect(needsModelLayer('nervi', 'organi', 'nervo-left-sciatic-nerve')).toBe(true);
     expect(needsModelLayer('vasi', 'organi', 'nervo-left-sciatic-nerve')).toBe(false);
     expect(needsModelLayer('nervi', 'vasi', null)).toBe(false);
+  });
+
+  it('scarica i muscoli solo per lo strato, per un muscolo o per gli apparati che ne mostrano alcuni (D55)', () => {
+    expect(needsModelLayer('muscoli', 'organi', null)).toBe(false);
+    expect(needsModelLayer('muscoli', 'scheletro', null)).toBe(false);
+    expect(needsModelLayer('muscoli', 'urinario', null)).toBe(false);
+    expect(needsModelLayer('muscoli', 'muscoli', null)).toBe(true);
+    expect(needsModelLayer('muscoli', 'organi', 'FJ3131')).toBe(true);
+    // Costrittori della faringe e muscoli dell'inspirazione.
+    expect(needsModelLayer('muscoli', 'digerente', null)).toBe(true);
+    expect(needsModelLayer('muscoli', 'respiratorio', null)).toBe(true);
   });
 });

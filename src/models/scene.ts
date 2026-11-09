@@ -4,8 +4,8 @@ import type { BodyKind } from './atlas';
 /** Strato del modello 3D: un file .glb per ciascuno. I valori sono quelli di strutture.json. */
 export type ModelLayer = 'ossa' | 'muscoli' | 'organi' | 'pelle' | 'vasi' | 'nervi';
 
-/** Strati in un file a parte, che si scarica solo quando serve (D44, D46). */
-export type LazyModelLayer = 'vasi' | 'nervi';
+/** Strati in un file a parte, che si scarica solo quando serve (D44, D46, D55). */
+export type LazyModelLayer = 'muscoli' | 'vasi' | 'nervi';
 
 /** Una riga di strutture.json, prodotto da pipeline/prepara-modelli.mjs. */
 export interface ModelElement {

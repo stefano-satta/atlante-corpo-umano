@@ -646,7 +646,7 @@ test('le sezioni Percorsi e Quiz si scaricano solo al clic sulla loro voce', asy
   expect(scaricato('PathsPage')).toBe(true);
   expect(scaricato('QuizPanel')).toBe(false);
 
-  // La pagina di lettura copre la barra: si torna all'atlante e da lì si apre il quiz.
+  // Dalla pagina di lettura si torna all'atlante e da lì si apre il quiz.
   await page.getByRole('button', { name: "Torna all'atlante" }).click();
   await sezioni.getByRole('button', { name: 'Quiz' }).click();
   await expect(page.getByRole('heading', { name: 'Mettiti alla prova' })).toBeVisible();
@@ -759,6 +759,8 @@ test('una pagina di lettura aperta dal suo indirizzo non scarica il corpo 3D fin
   await page.goto('/glossario');
   await expect(page.getByRole('heading', { name: 'Glossario', level: 1 })).toBeVisible();
   await expect(page).toHaveTitle('Glossario · Atlante del corpo umano');
+  // È una pagina a sé: l'atlante non c'è, nemmeno nascosto (D54).
+  await expect(page.locator('.atlas')).toHaveCount(0);
   expect(modelli()).toEqual([]);
 
   await page.getByRole('button', { name: "Torna all'atlante" }).click();
@@ -770,7 +772,7 @@ test('una pagina di lettura aperta dal suo indirizzo non scarica il corpo 3D fin
 
 test('tornando a una pagina di lettura con Indietro si ritrova il punto di lettura', async ({ page }) => {
   await page.goto('/glossario');
-  const pagina = page.locator('main.reading-page');
+  const pagina = page.locator('.reading-page');
   await expect(page.locator('#glossario-retina')).toBeAttached();
   await pagina.evaluate((el) => el.scrollTo({ top: 1500 }));
   await expect.poll(() => pagina.evaluate((el) => el.scrollTop)).toBe(1500);
@@ -780,11 +782,44 @@ test('tornando a una pagina di lettura con Indietro si ritrova il punto di lettu
   await expect(page).toHaveURL(/\/esplora\/organi$/);
   await page.goBack();
   await expect(page).toHaveURL(/\/glossario$/);
-  await expect.poll(() => page.locator('main.reading-page').evaluate((el) => el.scrollTop)).toBe(1500);
+  await expect.poll(() => page.locator('.reading-page').evaluate((el) => el.scrollTop)).toBe(1500);
 
   // Aprendo la pagina dal menu si parte dall'inizio.
   await page.getByRole('button', { name: "Torna all'atlante" }).click();
   await page.getByRole('navigation', { name: 'Sezioni' }).getByRole('button', { name: 'Glossario' }).click();
-  await expect(page.locator('main.reading-page')).toBeVisible();
-  expect(await page.locator('main.reading-page').evaluate((el) => el.scrollTop)).toBe(0);
+  await expect(page.locator('.reading-page')).toBeVisible();
+  expect(await page.locator('.reading-page').evaluate((el) => el.scrollTop)).toBe(0);
+});
+
+test('i muscoli si scaricano solo quando servono: strato Muscoli o apparato che ne mostra alcuni (D55)', async ({
+  page,
+}) => {
+  const scaricati: string[] = [];
+  page.on('request', (r) => scaricati.push(r.url()));
+  const muscoli = () => scaricati.some((u) => u.endsWith('/muscoli.glb'));
+  await page.goto('/esplora');
+  await expect(page.locator('.loading')).toBeHidden({ timeout: 45_000 });
+  // Organi e scheletro in trasparenza arrivano subito; i muscoli no.
+  expect(scaricati.some((u) => u.endsWith('/organi.glb'))).toBe(true);
+  expect(scaricati.some((u) => u.endsWith('/ossa.glb'))).toBe(true);
+  expect(muscoli()).toBe(false);
+  await page.getByRole('radio', { name: 'Urinario' }).click();
+  expect(muscoli()).toBe(false);
+
+  await page.getByRole('radio', { name: 'Muscoli' }).click();
+  await expect.poll(muscoli).toBe(true);
+  await expect(page.locator('.loading')).toBeHidden({ timeout: 45_000 });
+
+  // Un muscolo aperto dal suo indirizzo, in una nuova visita.
+  await page.goto('/esplora/muscoli/FJ3131');
+  await expect(page.getByRole('complementary', { name: 'Struttura selezionata' })).toBeVisible({ timeout: 45_000 });
+});
+
+test('la panoramica della circolazione ha l’indirizzo /come-circola-il-sangue (prima /circolazione)', async ({
+  page,
+}) => {
+  await page.goto('/circolazione');
+  await expect(page).toHaveURL(/\/come-circola-il-sangue$/);
+  await expect(page.getByRole('heading', { level: 1, name: 'Come circola il sangue' })).toBeVisible();
+  await expect(page.locator('.atlas')).toHaveCount(0);
 });

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button } from '@/components/common/Button';
+import { PageLoader } from '@/components/common/PageLoader';
 import { ShortSourceList } from '@/components/common/ShortSourceList';
 import { Highlight } from '@/components/features/atlas-index/Highlight';
 import { SearchField } from '@/components/features/atlas-index/SearchField';
@@ -146,7 +147,7 @@ export function GlossaryPage() {
         {error ? (
           <p className="notice">Non è stato possibile caricare il glossario.</p>
         ) : !definitions ? (
-          <p>Caricamento del glossario…</p>
+          <PageLoader label="Caricamento del glossario" />
         ) : (
           <>
             {definitions.some((d) => d.stato !== 'approvato') && (

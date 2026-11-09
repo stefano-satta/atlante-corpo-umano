@@ -28,6 +28,12 @@
   position: absolute;
   inset: 0;
 }
+/* Sotto una pagina di lettura l'atlante resta montato ma invisibile, con le sue misure: la scena non si
+   ridimensiona e, tornando, è com'era. */
+.atlas[hidden] {
+  display: block;
+  visibility: hidden;
+}
 /* Crediti: solo su desktop, in fondo a destra (in produzione il badge di Netlify può coprirli: l'utente lo accetta).
    Sui dispositivi touch e sugli schermi stretti stanno nella pagina Informazioni. */
 .footer {

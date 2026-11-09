@@ -12,7 +12,6 @@ import { LazyLayer } from './LazyLayer';
 /** Strato del modello di ogni file: gli organi femminili si mostrano con gli altri organi. */
 const LAYER_OF_FILE: Record<Exclude<ModelFile, 'pelle'>, ModelLayer> = {
   ossa: 'ossa',
-  muscoli: 'muscoli',
   organi: 'organi',
   'organi-donna': 'organi',
 };
@@ -26,17 +25,22 @@ export function Body({ onLazyLayerLoaded }: { onLazyLayerLoaded: (layer: LazyMod
   useHeartbeatAnimation();
   useUnitPicking(byIndex);
 
-  // Una volta scaricati, vasi e nervi restano: tornare allo strato non fa attendere.
+  // Un file a parte si scarica quando lo strato, la selezione o una struttura evidenziata (passo di percorso,
+  // domanda del quiz) mostrano una sua unità. Una volta scaricato resta: tornarci non fa attendere.
   const [wanted, setWanted] = useState<readonly LazyModelLayer[]>([]);
-  const wantedNow = LAZY_MODEL_LAYERS.find((l) => needsModelLayer(l, state.layer, state.selection));
+  const wantedNow = LAZY_MODEL_LAYERS.filter(
+    (l) => fullLayers.has(l) || dimmedLayers.has(l) || needsModelLayer(l, state.layer, state.selection),
+  ).join();
   useEffect(() => {
-    if (wantedNow) setWanted((w) => (w.includes(wantedNow) ? w : [...w, wantedNow]));
+    if (!wantedNow) return;
+    const now = wantedNow.split(',') as LazyModelLayer[];
+    setWanted((w) => (now.every((l) => w.includes(l)) ? w : [...new Set([...w, ...now])]));
   }, [wantedNow]);
 
   const skin = geometries.pelle;
   return (
     <group>
-      {(['ossa', 'muscoli', 'organi', 'organi-donna'] as const).map((f) => {
+      {(['ossa', 'organi', 'organi-donna'] as const).map((f) => {
         const g = geometries[f];
         if (!g) return null;
         return (
