@@ -6,6 +6,8 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  /* Spazio della barra di scorrimento sempre riservato: quando il contenuto arriva e la barra compare, la barra in alto non si sposta. */
+  scrollbar-gutter: stable;
   overscroll-behavior: contain;
   background: var(--slide);
   color: var(--ink);
