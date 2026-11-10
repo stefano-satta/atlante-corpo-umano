@@ -19,7 +19,7 @@ export type Layer =
 export type BodyKind = 'uomo' | 'donna';
 
 /** Pagina di lettura; il valore è anche il suo indirizzo (`/indice`, `/glossario`, `/fonti`, `/informazioni`). */
-export type PageId = 'percorsi' | 'indice' | 'glossario' | 'fonti' | 'informazioni' | 'circolazione';
+export type PageId = 'percorsi' | 'indice' | 'glossario' | 'fonti' | 'informazioni' | 'credits' | 'circolazione';
 
 /** Tema del quiz (D53): un apparato della barra laterale, oppure "completa" con domande di tutti. */
 export type QuizTheme = Layer | 'completa';

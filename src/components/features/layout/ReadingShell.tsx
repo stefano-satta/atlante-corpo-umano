@@ -10,7 +10,7 @@ const scrollPositions = new Map<string, number>();
 const RESTORE_TIMEOUT = 1000;
 
 /**
- * Guscio delle pagine di lettura (Percorsi, Indice, Glossario, Fonti, Informazioni): una pagina a sé, con
+ * Guscio delle pagine di lettura (Percorsi, Indice, Glossario, Fonti, Informazioni, Credits): una pagina a sé, con
  * barra in alto, contenuto e crediti, senza l'atlante sotto. Resta montato passando da una pagina all'altra.
  * Aprendo una pagina si parte dall'inizio; tornandoci con Indietro o Avanti si ritrova il punto di lettura.
  * Nella versione testuale la barra è nella testa di ogni pagina (`TextOnlyHeader`).

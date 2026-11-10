@@ -26,7 +26,7 @@ function renderMenu(path = '/esplora/organi') {
 const menuButton = () => screen.getByRole('button', { name: 'Altre sezioni' });
 
 describe('SecondaryMenuButton', () => {
-  it('apre e chiude il riquadro con Fonti e Informazioni', () => {
+  it('apre e chiude il riquadro con Fonti, Informazioni e Credits', () => {
     renderMenu();
     expect(menuButton().getAttribute('aria-expanded')).toBe('false');
     expect(screen.queryByRole('button', { name: /Fonti/ })).toBeNull();
@@ -35,6 +35,7 @@ describe('SecondaryMenuButton', () => {
     expect(menuButton().getAttribute('aria-expanded')).toBe('true');
     expect(screen.getByRole('button', { name: /Fonti/ })).toBeTruthy();
     expect(screen.getByRole('button', { name: /Informazioni/ })).toBeTruthy();
+    expect(screen.getByRole('button', { name: /Credits/ })).toBeTruthy();
 
     fireEvent.click(menuButton());
     expect(menuButton().getAttribute('aria-expanded')).toBe('false');

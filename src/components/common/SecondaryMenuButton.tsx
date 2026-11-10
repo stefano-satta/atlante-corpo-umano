@@ -10,11 +10,12 @@ import { MenuIcon } from './Icons';
 const DESCRIPTIONS: Partial<Record<PageId, string>> = {
   fonti: 'Le opere da cui vengono i testi',
   informazioni: 'Avvertenze, metodo, crediti e licenze',
+  credits: "Chi fa l'atlante e come scrivergli",
 };
 
 /**
  * Pulsante del menu secondario della barra in alto, dopo Glossario: apre un riquadro come il cartellino con
- * le voci meno usate (Fonti, Informazioni). È un pulsante che mostra e nasconde (`aria-expanded`), non un
+ * le voci meno usate (Fonti, Informazioni, Credits). È un pulsante che mostra e nasconde (`aria-expanded`), non un
  * menu ARIA: dentro ci sono pulsanti comuni, raggiungibili con Tab. Si chiude scegliendo una voce, con Esc
  * (il fuoco torna al pulsante), toccando fuori o portando il fuoco altrove.
  */

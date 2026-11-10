@@ -4,7 +4,7 @@ import type { PageId } from '@/models/atlas';
 export const NAV_PAGE_IDS: PageId[] = ['indice', 'glossario'];
 
 /** Pagine di lettura nel menu secondario della barra (`SecondaryMenuButton`), dopo Glossario. */
-export const MENU_PAGE_IDS: PageId[] = ['fonti', 'informazioni'];
+export const MENU_PAGE_IDS: PageId[] = ['fonti', 'informazioni', 'credits'];
 
 /** Pagine di lettura del menu, nell'ordine: prima quelle della barra, poi quelle del menu secondario. */
 export const PAGE_IDS: PageId[] = [...NAV_PAGE_IDS, ...MENU_PAGE_IDS];
@@ -19,6 +19,7 @@ export const PAGE_PATHS: Record<PageId, string> = {
   glossario: '/glossario',
   fonti: '/fonti',
   informazioni: '/informazioni',
+  credits: '/credits',
   circolazione: '/come-circola-il-sangue',
 };
 
@@ -31,6 +32,7 @@ export const PAGE_TITLES: Record<PageId, string> = {
   glossario: 'Glossario',
   fonti: 'Fonti',
   informazioni: 'Informazioni',
+  credits: 'Credits',
   circolazione: 'Come circola il sangue',
 };
 
