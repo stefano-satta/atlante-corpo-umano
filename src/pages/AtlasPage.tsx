@@ -71,13 +71,18 @@ function AtlasView({ hidden, name }: { hidden: boolean; name: string | null | un
   );
   const loading = LAZY_MODEL_LAYERS.find((l) => !lazyLoaded.has(l) && needsModelLayer(l, state.layer, state.selection));
 
-  // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta, quando l'atlante si rivede.
+  // Chiudendo una pagina il fuoco torna alla voce del menu che l'aveva aperta, quando l'atlante si rivede:
+  // per Fonti e Informazioni è il pulsante del menu secondario (`data-pages`), che a quel punto è chiuso.
   const lastPage = useRef(state.page);
   if (state.page) lastPage.current = state.page;
   const wasHidden = useRef(hidden);
   useEffect(() => {
     if (wasHidden.current && !hidden && lastPage.current)
-      document.querySelector<HTMLElement>(`.atlas [data-page="${lastPage.current}"]`)?.focus();
+      document
+        .querySelector<HTMLElement>(
+          `.atlas :is([data-page="${lastPage.current}"], [data-pages~="${lastPage.current}"])`,
+        )
+        ?.focus();
     wasHidden.current = hidden;
   }, [hidden]);
 

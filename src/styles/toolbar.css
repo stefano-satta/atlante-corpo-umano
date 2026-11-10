@@ -81,10 +81,6 @@
     opacity: 1;
   }
 }
-.short {
-  display: none;
-}
-
 /* Barra laterale: genere e apparati, sotto il titolo e il menu. Margine e larghezza valgono anche in sidebarInset() (src/utils/layout.ts). */
 .selector-panel {
   position: absolute;
@@ -264,12 +260,6 @@
   .atlas[data-panel="card"] .view-controls,
   .atlas[data-panel="path"] .view-controls {
     display: none;
-  }
-  .full {
-    display: none;
-  }
-  .short {
-    display: inline;
   }
 }
 

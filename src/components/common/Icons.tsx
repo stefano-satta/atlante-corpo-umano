@@ -18,6 +18,12 @@ export const CloseIcon = () => (
   </svg>
 );
 
+export const MenuIcon = () => (
+  <svg {...base} aria-hidden="true">
+    <path d="M2.5 4h11M2.5 8h11M2.5 12h11" />
+  </svg>
+);
+
 export const SlidersIcon = () => (
   <svg {...base} aria-hidden="true">
     <path d="M2 5h6M12 5h2M2 11h2M8 11h6" />

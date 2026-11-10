@@ -1,7 +1,13 @@
 import type { PageId } from '@/models/atlas';
 
-/** Pagine di lettura del menu, nell'ordine. Le voci Esplora e Percorsi, che le precedono, le disegna la barra a parte. */
-export const PAGE_IDS: PageId[] = ['indice', 'glossario', 'fonti', 'informazioni'];
+/** Pagine di lettura nella barra, a destra. Le voci Esplora, Percorsi e Quiz, a sinistra, le disegna la barra a parte. */
+export const NAV_PAGE_IDS: PageId[] = ['indice', 'glossario'];
+
+/** Pagine di lettura nel menu secondario della barra (`SecondaryMenuButton`), dopo Glossario. */
+export const MENU_PAGE_IDS: PageId[] = ['fonti', 'informazioni'];
+
+/** Pagine di lettura del menu, nell'ordine: prima quelle della barra, poi quelle del menu secondario. */
+export const PAGE_IDS: PageId[] = [...NAV_PAGE_IDS, ...MENU_PAGE_IDS];
 
 /** Tutte le pagine di lettura, con quella dei percorsi e la panoramica aperta dal cartellino dei vasi: hanno una rotta ciascuna. */
 export const READING_PAGE_IDS: PageId[] = ['percorsi', ...PAGE_IDS, 'circolazione'];
@@ -27,9 +33,6 @@ export const PAGE_TITLES: Record<PageId, string> = {
   informazioni: 'Informazioni',
   circolazione: 'Come circola il sangue',
 };
-
-/** Titoli brevi per il menu su smartphone, dove sei voci non stanno in una riga. */
-export const PAGE_SHORT_TITLES: Partial<Record<PageId, string>> = { informazioni: 'Info' };
 
 /** Nome del sito, in fondo al titolo di ogni pagina del browser. */
 export const SITE_TITLE = 'Atlante del corpo umano';

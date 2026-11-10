@@ -1,12 +1,15 @@
 import { useAtlas } from '@/hooks/useAtlas';
 import { useOpenGuidedPath } from '@/hooks/useSelectedStructure';
-import type { PageId } from '@/models/atlas';
 import { GUIDED_PATHS, pageAvailable, QUIZ_THEMES } from '@/utils/content';
-import { PAGE_IDS, PAGE_SHORT_TITLES, PAGE_TITLES } from '@/utils/pages';
+import { NAV_PAGE_IDS, PAGE_TITLES } from '@/utils/pages';
 import { Brand } from './Brand';
 import { Button } from './Button';
+import { SecondaryMenuButton } from './SecondaryMenuButton';
 
-/** Barra in alto (D11): marchio, esplorazione, percorsi, quiz e pagine di lettura; sull'atlante e in cima alle pagine. */
+/**
+ * Barra in alto (D11): marchio; a sinistra Esplora, Percorsi e Quiz; a destra Indice, Glossario e il menu
+ * secondario con le altre pagine di lettura. Sull'atlante e in cima alle pagine.
+ */
 export function Navbar() {
   const { state, dispatch } = useAtlas();
   const pathOpen = useOpenGuidedPath();
@@ -60,39 +63,33 @@ export function Navbar() {
             Quiz
           </Button>
         )}
-        {PAGE_IDS.map((p) =>
+        {/* Da Indice in poi le voci stanno a destra (`.nav-end` le spinge con margin-left: auto). */}
+        {NAV_PAGE_IDS.map((p, i) =>
           pageAvailable(p) ? (
             <Button
               key={p}
               variant="nav"
+              className={i === 0 ? 'nav-end' : undefined}
               data-page={p}
               aria-current={state.page === p ? 'true' : undefined}
               onClick={() => dispatch({ type: 'setPage', page: p })}
             >
-              <PageTitle page={p} />
+              {PAGE_TITLES[p]}
             </Button>
           ) : (
-            <Button key={p} variant="nav" aria-disabled="true" title="In preparazione">
-              <PageTitle page={p} />
+            <Button
+              key={p}
+              variant="nav"
+              className={i === 0 ? 'nav-end' : undefined}
+              aria-disabled="true"
+              title="In preparazione"
+            >
+              {PAGE_TITLES[p]}
             </Button>
           ),
         )}
       </nav>
+      <SecondaryMenuButton />
     </header>
-  );
-}
-
-/**
- * Titolo della voce, con la forma breve che compare su schermo stretto (`.full`/`.short`). Il
- * nome accessibile è la forma visibile: quella nascosta con `display: none` non conta.
- */
-function PageTitle({ page }: { page: PageId }) {
-  const short = PAGE_SHORT_TITLES[page];
-  if (!short) return <>{PAGE_TITLES[page]}</>;
-  return (
-    <>
-      <span className="full">{PAGE_TITLES[page]}</span>
-      <span className="short">{short}</span>
-    </>
   );
 }

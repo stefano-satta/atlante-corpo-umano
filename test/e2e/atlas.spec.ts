@@ -334,7 +334,9 @@ test('la scheda del cuore ha tutte le sezioni, i collegamenti e le fonti', async
 test('le pagine Fonti e Informazioni si aprono dal menu e si chiudono con Esc', async ({ page }) => {
   await page.goto('/esplora/organi/cuore');
   await waitForScene(page);
-  await page.getByRole('button', { name: 'Fonti' }).click();
+  // Fonti e Informazioni stanno nel menu secondario della barra, dopo Glossario.
+  await page.getByRole('button', { name: 'Altre sezioni' }).click();
+  await page.getByRole('button', { name: /^Fonti/ }).click();
   await expect(page).toHaveURL(/\/fonti$/);
   await expect(page.getByRole('heading', { level: 1, name: 'Fonti' })).toBeFocused();
   const main = page.getByRole('main');
@@ -344,9 +346,10 @@ test('le pagine Fonti e Informazioni si aprono dal menu e si chiudono con Esc', 
 
   await page.keyboard.press('Escape');
   await expect(page).toHaveURL(/\/esplora\/organi\/cuore$/);
-  await expect(page.getByRole('button', { name: 'Fonti' })).toBeFocused();
+  await expect(page.getByRole('button', { name: 'Altre sezioni' })).toBeFocused();
 
-  await page.getByRole('button', { name: 'Informazioni' }).click();
+  await page.getByRole('button', { name: 'Altre sezioni' }).click();
+  await page.getByRole('button', { name: /^Informazioni/ }).click();
   await expect(page.getByRole('heading', { name: 'Avvertenze' })).toBeVisible();
   await expect(page.getByText(/non sono stati rivisti da un medico/)).toBeVisible();
   await checkAccessibility(page);
