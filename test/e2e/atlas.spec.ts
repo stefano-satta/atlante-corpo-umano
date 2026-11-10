@@ -42,6 +42,24 @@ test('la vista iniziale si carica senza errori e senza problemi di accessibilitÃ
   expect(errors).toEqual([]);
 });
 
+test('logo e favicon (D56): icone e manifesto ci sono, la soglia e la barra mostrano il marchio', async ({ page }) => {
+  for (const path of ['/favicon.svg', '/favicon.ico', '/apple-touch-icon.png', '/icon-192.png', '/icon-512.png']) {
+    expect((await page.request.get(path)).status(), path).toBe(200);
+  }
+  const manifest = await (await page.request.get('/manifest.webmanifest')).json();
+  expect(manifest.short_name).toBe('Atlante');
+  for (const icon of manifest.icons) expect((await page.request.get(icon.src)).status(), icon.src).toBe(200);
+
+  await page.goto('/');
+  await expect(page.locator('link[rel="icon"][type="image/svg+xml"]')).toHaveAttribute('href', '/favicon.svg');
+  const homeBrand = page.locator('.home .brand');
+  await expect(homeBrand).toHaveText('Atlante del corpo umano');
+  await expect(homeBrand.locator('svg.logo')).toBeVisible();
+
+  await page.goto('/glossario');
+  await expect(page.locator('.top-bar .brand svg.logo')).toBeVisible();
+});
+
 test('il cartellino Ã¨ collegato alla struttura dalla linea di richiamo', async ({ page }) => {
   await page.goto('/esplora/organi/cuore');
   await waitForScene(page);

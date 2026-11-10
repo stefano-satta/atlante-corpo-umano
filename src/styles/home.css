@@ -6,7 +6,11 @@
   display: grid;
   grid-template-rows: 1fr auto;
   gap: 32px;
-  padding: calc(32px + env(safe-area-inset-top, 0px)) 32px calc(24px + env(safe-area-inset-bottom, 0px)) max(32px, 7vw);
+  /* Rientro sinistro comune a testata e colonna: marchio e testo partono dallo stesso bordo. */
+  --home-inset: max(32px, 7vw);
+  /* In alto lo spazio della testata: 22 px di rientro, 30 px di marchio, 32 px di respiro. */
+  padding: calc(84px + env(safe-area-inset-top, 0px)) 32px calc(24px + env(safe-area-inset-bottom, 0px))
+    var(--home-inset);
   overflow-y: auto;
   background: linear-gradient(90deg, rgb(22 19 31 / 0.95) 0%, rgb(22 19 31 / 0.82) 36%, rgb(22 19 31 / 0) 64%);
 }
@@ -15,23 +19,13 @@
   max-width: 34rem;
   animation: fade-in 700ms var(--ease-out);
 }
-.home-brand {
+/* Testata (D56): il marchio alla stessa altezza della barra in alto (`.top-bar`), allineato al testo. */
+.home-header {
+  position: absolute;
+  top: calc(22px + env(safe-area-inset-top, 0px));
+  left: max(var(--home-inset), env(safe-area-inset-left, 0px));
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin: 0 0 22px;
-  font-size: 16px;
-  font-weight: 600;
-  font-variant-caps: all-small-caps;
-  letter-spacing: 0.08em;
-  color: var(--eosin-room);
-}
-/* Il segno del vetrino: una linea corta prima del nome, come l'etichetta di un preparato. */
-.home-brand::before {
-  content: "";
-  width: 28px;
-  height: 2px;
-  background: currentColor;
 }
 .home h1 {
   margin: 0 0 24px;
@@ -128,7 +122,8 @@
 
 @media (max-width: 760px) {
   .home {
-    padding: calc(24px + env(safe-area-inset-top, 0px)) 20px calc(20px + env(safe-area-inset-bottom, 0px));
+    --home-inset: var(--bar-inset);
+    padding: calc(76px + env(safe-area-inset-top, 0px)) var(--home-inset) calc(20px + env(safe-area-inset-bottom, 0px));
     background: linear-gradient(0deg, rgb(22 19 31 / 0.97) 0%, rgb(22 19 31 / 0.88) 52%, rgb(22 19 31 / 0.1) 82%);
   }
   .home-column {

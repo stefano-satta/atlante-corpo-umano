@@ -1,3 +1,4 @@
+import { Brand } from '@/components/common/Brand';
 import { Button } from '@/components/common/Button';
 import { useAtlas } from '@/hooks/useAtlas';
 import { pageAvailable, QUIZ_THEMES } from '@/utils/content';
@@ -12,7 +13,7 @@ export function TextOnlyHeader() {
   const current = state.selection || state.guidedPath || state.quiz ? null : (state.page ?? 'indice');
   return (
     <header className="text-header">
-      <span className="brand">Atlante del corpo umano</span>
+      <Brand />
       <nav aria-label="Sezioni">
         {READING_PAGE_IDS.filter(pageAvailable).map((p) => (
           <Button

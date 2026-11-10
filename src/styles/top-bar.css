@@ -6,19 +6,29 @@
   left: 0;
   right: var(--occupied);
   display: flex;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
   gap: 8px 32px;
-  padding: calc(22px + env(safe-area-inset-top, 0px)) 28px 0 max(28px, env(safe-area-inset-left, 0px));
+  padding: calc(22px + env(safe-area-inset-top, 0px)) var(--bar-inset) 0
+    max(var(--bar-inset), env(safe-area-inset-left, 0px));
   pointer-events: none;
 }
 .top-bar > * {
   pointer-events: auto;
 }
+/* Marchio (D56): logo e nome centrati fra loro; la barra centra il marchio e le voci del menu. */
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--brand-gap);
   font: 600 21px / 1 var(--font-display);
   font-variation-settings: "opsz" 48;
   letter-spacing: -0.015em;
+}
+.brand .logo {
+  flex: none;
+  width: var(--brand-logo);
+  height: var(--brand-logo);
 }
 .top-bar nav {
   display: flex;
@@ -40,10 +50,6 @@
 }
 
 @media (max-width: 760px) {
-  .top-bar {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
   /* Sei voci non stanno in una riga sugli smartphone più stretti: vanno a capo. */
   .top-bar nav {
     width: 100%;

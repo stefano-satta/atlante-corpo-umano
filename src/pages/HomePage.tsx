@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Brand } from '@/components/common/Brand';
 import { Button } from '@/components/common/Button';
 import { ForwardIcon } from '@/components/common/Icons';
 import { LoadingBar } from '@/components/common/LoadingBar';
@@ -43,8 +44,11 @@ export function HomePage({ ready }: { ready: boolean }) {
 
   return (
     <main className="home" aria-labelledby="home-title">
+      {/* Testata (D56): il marchio nella stessa posizione che ha nella barra in alto dell'atlante. */}
+      <header className="home-header">
+        <Brand />
+      </header>
       <div className="home-column">
-        <p className="home-brand">Atlante del corpo umano</p>
         <h1 id="home-title">Il corpo umano, strato per strato.</h1>
         <p className="home-intro">
           Un modello 3D da ruotare e ingrandire. Scegli un organo, un osso o un muscolo per leggere dove si trova e cosa

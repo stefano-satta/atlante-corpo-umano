@@ -2,7 +2,7 @@
 
 Globo (nome provvisorio) è un globulo rosso che accompagna le video spiegazioni. È un omaggio allo spirito di "Esplorando il corpo umano", ma il disegno è originale: non riprende tratti, nome, abiti od oggetti dei personaggi della serie.
 
-Per ora compare **solo nei video**. Se e dove usarlo nel sito (soglia, percorsi, stati vuoti) si deciderà più avanti.
+Nei video compare intero. Nel sito compare **solo come logo** (D56, vedi sotto); altri usi (percorsi, stati vuoti) si decideranno più avanti.
 
 ## File
 
@@ -54,6 +54,15 @@ Globo usa gli stessi colori sul fondo chiaro (`--slide #f4f1f5`) e su quello scu
 | Sorpreso | un dato che colpisce ("ogni giorno respiri…") |
 | Pensieroso | prima di una domanda che il video si pone e poi risolve |
 | Preoccupato | quando qualcosa nel corpo non funziona come dovrebbe (senza drammatizzare) |
+
+## Logo (D56)
+
+Il logo è il viso di Globo nel campo di un vetrino: cerchio `--room` (`#16131f`), anello `--eosin-room`, corpo, occhi con pupille e sorriso a tratto. Sorgente unica: `public/favicon.svg`, ripetuto in `src/components/common/Logo.tsx`; le icone PNG e ICO si rigenerano con `npm run icone`.
+
+- Il fondo del vetrino c'è sempre: è quello che lo rende leggibile su ogni sfondo.
+- Niente arti, guance, oggetti o altre espressioni: il logo è sempre il viso sorridente.
+- A 16 px (solo nel `favicon.ico`) restano campo, corpo e occhi: anello, pupille fini e sorriso si impasterebbero.
+- Accanto c'è sempre il nome dell'atlante; il logo è decorativo (`aria-hidden`).
 
 ## Tono di voce
 

@@ -38,5 +38,16 @@
   --panel-gap: 12px;
   --w-card: clamp(300px, 33.333vw, 640px);
   --w-sheet: min(52vw, 760px);
+  /* Marchio (D56): rientro della barra in alto, lato del logo e spazio fra logo e nome.
+     La soglia allinea il suo testo al nome sommandoli. */
+  --bar-inset: 28px;
+  --brand-logo: 30px;
+  --brand-gap: 10px;
   color-scheme: dark;
+}
+@media (max-width: 760px) {
+  :root {
+    --bar-inset: 20px;
+    --brand-logo: 26px;
+  }
 }

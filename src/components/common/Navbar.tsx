@@ -3,6 +3,7 @@ import { useOpenGuidedPath } from '@/hooks/useSelectedStructure';
 import type { PageId } from '@/models/atlas';
 import { GUIDED_PATHS, pageAvailable, QUIZ_THEMES } from '@/utils/content';
 import { PAGE_IDS, PAGE_SHORT_TITLES, PAGE_TITLES } from '@/utils/pages';
+import { Brand } from './Brand';
 import { Button } from './Button';
 
 /** Barra in alto (D11): marchio, esplorazione, percorsi, quiz e pagine di lettura; sull'atlante e in cima alle pagine. */
@@ -24,7 +25,7 @@ export function Navbar() {
 
   return (
     <header className="top-bar">
-      <span className="brand">Atlante del corpo umano</span>
+      <Brand />
       <nav aria-label="Sezioni">
         <Button variant="nav" aria-current={exploreCurrent ? 'true' : undefined} onClick={explore}>
           Esplora
