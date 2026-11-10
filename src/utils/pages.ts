@@ -34,6 +34,14 @@ export const PAGE_SHORT_TITLES: Partial<Record<PageId, string>> = { informazioni
 /** Nome del sito, in fondo al titolo di ogni pagina del browser. */
 export const SITE_TITLE = 'Atlante del corpo umano';
 
+/** Indirizzo pubblico del sito, per il link canonico (gli stessi URL assoluti stanno in index.html e nella sitemap). */
+export const SITE_URL = 'https://atlante-corpo-umano.netlify.app';
+
+/** Link canonico di un indirizzo: dominio pubblico e percorso, senza query né barra finale. */
+export function canonicalFor(pathname: string) {
+  return `${SITE_URL}${pathname.replace(/(.)\/+$/, '$1')}`;
+}
+
 /**
  * Titolo della scheda del browser per lo stato mostrato: la pagina di lettura, la struttura aperta, il
  * percorso o il quiz, seguiti dal nome del sito. Sulla soglia e nell'atlante senza selezione c'è solo il nome.

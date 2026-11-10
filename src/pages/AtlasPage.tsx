@@ -14,6 +14,7 @@ import { useOpenGuidedPath, useSelectedStructure } from '@/hooks/useSelectedStru
 import type { LazyModelLayer } from '@/models/scene';
 import { LAZY_MODEL_LAYERS, needsModelLayer } from '@/utils/atlasReducer';
 import { ORGANS_BY_ID } from '@/utils/organs';
+import { canonicalFor } from '@/utils/pages';
 import { readUrl } from '@/utils/url';
 import { HomePage } from './HomePage';
 
@@ -39,7 +40,8 @@ export function AtlasPage() {
   useKeyboardShortcuts();
   // Atlante e pagina di lettura seguono la stessa rotta dell'`Outlet` (il router la aggiorna in una
   // transizione): non si vedono mai insieme, né nessuno dei due.
-  const onAtlas = !readUrl(useLocation().pathname).page;
+  const { pathname } = useLocation();
+  const onAtlas = !readUrl(pathname).page;
   const [visited, setVisited] = useState(onAtlas);
   if (onAtlas && !visited) setVisited(true);
 
@@ -50,6 +52,7 @@ export function AtlasPage() {
   return (
     <>
       <title>{title}</title>
+      <link rel="canonical" href={canonicalFor(pathname)} />
       {visited && <AtlasView hidden={!onAtlas} name={name} />}
       <Outlet />
     </>

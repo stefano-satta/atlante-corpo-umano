@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SITE_TITLE, titleFor } from '@/utils/pages';
+import { canonicalFor, SITE_TITLE, SITE_URL, titleFor } from '@/utils/pages';
 
 const base = { page: null, selection: null, quiz: null, home: false };
 
@@ -28,5 +28,17 @@ describe('titleFor', () => {
 
   it('senza il nome della struttura, ancora sconosciuto, dà il nome del sito', () => {
     expect(titleFor({ ...base, selection: 'FJ1234' }, { structure: null })).toBe(SITE_TITLE);
+  });
+});
+
+describe('canonicalFor', () => {
+  it('unisce il dominio pubblico e il percorso', () => {
+    expect(canonicalFor('/')).toBe(`${SITE_URL}/`);
+    expect(canonicalFor('/esplora/organi/cuore/scheda')).toBe(`${SITE_URL}/esplora/organi/cuore/scheda`);
+  });
+
+  it('toglie la barra finale, tranne sulla soglia', () => {
+    expect(canonicalFor('/glossario/')).toBe(`${SITE_URL}/glossario`);
+    expect(canonicalFor('/')).toBe(`${SITE_URL}/`);
   });
 });

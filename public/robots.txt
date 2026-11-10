@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://atlante-corpo-umano.netlify.app/sitemap.xml

@@ -60,6 +60,26 @@ test('logo e favicon (D56): icone e manifesto ci sono, la soglia e la barra most
   await expect(page.locator('.top-bar .brand svg.logo')).toBeVisible();
 });
 
+test("i meta per motori di ricerca e condivisioni sono nell'HTML servito", async ({ page }) => {
+  // I crawler social non eseguono JavaScript: i meta devono stare nell'HTML statico.
+  const html = await (await page.request.get('/esplora/organi/cuore')).text();
+  expect(html).toMatch(/<meta\s+name="description"\s+content="[^"]{50,}"/);
+  expect(html).toMatch(
+    /<meta\s+property="og:image"\s+content="https:\/\/atlante-corpo-umano\.netlify\.app\/og-image\.png"/,
+  );
+  expect(html).toMatch(/<meta\s+name="twitter:card"\s+content="summary_large_image"/);
+  const image = await page.request.get('/og-image.png');
+  expect(image.status()).toBe(200);
+  expect(image.headers()['content-type']).toBe('image/png');
+  for (const file of ['/robots.txt', '/sitemap.xml']) expect((await page.request.get(file)).status(), file).toBe(200);
+
+  // Il link canonico segue l'indirizzo, ed è uno solo.
+  await page.goto('/glossario');
+  const canonical = page.locator('link[rel="canonical"]');
+  await expect(canonical).toHaveCount(1);
+  await expect(canonical).toHaveAttribute('href', 'https://atlante-corpo-umano.netlify.app/glossario');
+});
+
 test('il cartellino è collegato alla struttura dalla linea di richiamo', async ({ page }) => {
   await page.goto('/esplora/organi/cuore');
   await waitForScene(page);

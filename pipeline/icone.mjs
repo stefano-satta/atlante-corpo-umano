@@ -2,6 +2,7 @@
  * Icone dell'atlante (D56) da `public/favicon.svg`, l'unica sorgente: favicon.ico (16 e 32 px),
  * apple-touch-icon (180), icone del manifesto (192, 512) e la versione "maskable" (512).
  * Rasterizza con il Chromium di Playwright, già usato dai test end-to-end.
+ * Genera anche l'anteprima per le condivisioni social (og-image.png, 1200 × 630).
  * Uso: npm run icone
  */
 import { readFile, writeFile } from 'node:fs/promises';
@@ -63,5 +64,32 @@ await out('icon-192.png', await render(192));
 await out('icon-512.png', await render(512));
 // Zona sicura delle icone maskable: un cerchio di raggio pari al 40 % del lato.
 await out('icon-maskable-512.png', await render(512, { scale: 0.78, fill: true }));
+
+/**
+ * Anteprima per le condivisioni (Open Graph, 1200 × 630). Logo e nome stanno al centro: le miniature
+ * quadrate di alcune app ritagliano i lati. I caratteri sono quelli del sito, incorporati.
+ */
+const font = async (pkg, file) =>
+  (await readFile(new URL(`../node_modules/@fontsource-variable/${pkg}/files/${file}`, import.meta.url))).toString(
+    'base64',
+  );
+const [title, text] = await Promise.all([
+  font('bricolage-grotesque', 'bricolage-grotesque-latin-wght-normal.woff2'),
+  font('atkinson-hyperlegible-next', 'atkinson-hyperlegible-next-latin-wght-normal.woff2'),
+]);
+await page.setViewportSize({ width: 1200, height: 630 });
+await page.setContent(`<style>
+  @font-face{font-family:Bricolage;src:url(data:font/woff2;base64,${title}) format('woff2');font-weight:200 800}
+  @font-face{font-family:Atkinson;src:url(data:font/woff2;base64,${text}) format('woff2');font-weight:200 800}
+  html,body{margin:0;width:1200px;height:630px;background:${ROOM};color:#e9e4ef}
+  body{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+    background:radial-gradient(circle at 50% 38%,#29233a 0,${ROOM} 62%)}
+  svg{width:220px;height:220px;display:block}
+  h1{margin:0;font:700 76px/1 Bricolage,sans-serif;letter-spacing:-0.01em}
+  p{margin:0;font:400 32px/1.3 Atkinson,sans-serif;color:#a59db3}
+  b{color:#ef8fac;font-weight:400}
+</style>${svg}<h1>Atlante del corpo umano</h1><p>Organi, ossa, muscoli, vasi e nervi in 3D <b>·</b> con fonti citate</p>`);
+await page.evaluate(() => document.fonts.ready);
+await out('og-image.png', await page.screenshot({ type: 'png' }));
 await page.context().browser().close();
 console.log('Icone scritte in public/.');

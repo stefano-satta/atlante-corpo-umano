@@ -7,6 +7,7 @@ import { TextOnlyContext } from '@/contexts/TextOnlyContext';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { hasGuidedPath, STRUCTURES } from '@/utils/content';
+import { canonicalFor } from '@/utils/pages';
 import { readUrl } from '@/utils/url';
 import { ReadingPage } from './ReadingPage';
 
@@ -27,7 +28,8 @@ export function TextOnlyAtlasPage() {
   const path = !state.selection && state.guidedPath && hasGuidedPath(state.guidedPath.id);
   // Pagina di lettura della rotta. Anche le altre rotte rendono un Outlet (vuoto): conta l'indirizzo.
   const readingPage = useOutlet();
-  const routePage = readUrl(useLocation().pathname).page;
+  const { pathname } = useLocation();
+  const routePage = readUrl(pathname).page;
 
   let content: ReactNode;
   if (routePage) content = readingPage;
@@ -68,6 +70,7 @@ export function TextOnlyAtlasPage() {
   return (
     <TextOnlyContext.Provider value={true}>
       <title>{title}</title>
+      <link rel="canonical" href={canonicalFor(pathname)} />
       {content}
     </TextOnlyContext.Provider>
   );
