@@ -75,7 +75,6 @@
   position: static;
   max-width: 72ch;
   padding: 24px 32px calc(28px + env(safe-area-inset-bottom, 0px)) max(32px, 8vw);
-  border-top: 1px solid var(--slide-border);
   text-align: left;
   color: var(--ink-muted);
   pointer-events: auto;
