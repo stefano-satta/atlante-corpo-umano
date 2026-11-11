@@ -208,6 +208,40 @@ test('su schermo stretto il cartellino è un foglio dal basso e la barra si nasc
   await checkAccessibility(page);
 });
 
+test('su smartphone lo schema del percorso sta intero in alto e il foglio si apre a tutta altezza', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/percorsi/respirazione/1');
+  await waitForScene(page);
+  const panel = page.getByRole('complementary', { name: 'Percorso guidato' });
+  const figure = panel.getByRole('figure', { name: 'Schema del torace' });
+  const sheetTop = async () => (await panel.locator('.guided-path').boundingBox())?.y ?? 0;
+  // Il disegno è tutto visibile, sopra il foglio.
+  await expect(async () => {
+    const drawing = await figure.locator('.chest-diagram').boundingBox();
+    expect(drawing?.y ?? -1).toBeGreaterThanOrEqual(0);
+    expect((drawing?.y ?? 0) + (drawing?.height ?? 0)).toBeLessThanOrEqual(await sheetTop());
+  }).toPass({ timeout: 5_000 });
+  await expect(page.getByRole('navigation', { name: 'Sezioni' })).toBeHidden();
+  await checkAccessibility(page);
+
+  // Corpo 3D al posto dello schema, e ritorno.
+  await panel.getByRole('button', { name: 'Corpo 3D' }).click();
+  await expect(figure).toBeHidden();
+  await panel.getByRole('button', { name: 'Schema' }).click();
+  await expect(figure).toBeVisible();
+
+  // Il foglio a tutta altezza copre il palco; Avanti porta al passo dopo.
+  const handle = panel.getByRole('button', { name: 'Testo a tutta altezza' });
+  await handle.click();
+  await expect(handle).toHaveAttribute('aria-expanded', 'true');
+  await expect(figure).toBeHidden();
+  await panel.getByRole('button', { name: 'Avanti' }).click();
+  await expect(page).toHaveURL(/\/percorsi\/respirazione\/2$/);
+  await expect(panel.getByRole('heading', { name: "Le vie dell'aria" })).toBeVisible();
+});
+
 test('il cartellino mostra il testo verificato, i rimandi e le fonti', async ({ page }) => {
   await page.goto('/esplora/organi/cuore');
   await waitForScene(page);

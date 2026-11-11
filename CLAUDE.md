@@ -91,6 +91,7 @@ Tutte le rotte stanno sotto una rotta di layout (`AtlasPage` o `TextOnlyAtlasPag
 - **Pulsanti:** sempre `Button` da `components/common/Button.tsx` (mai `<button>`): `type="button"` predefinito, `variant` (`action`, `back`, `close`, `nav`, `cycle`, `text`) dà la classe di stile, il resto passa al `<button>`.
 - **Schemi delle schede:** `components/features/panel/schemaRegistry.tsx` associa ogni schema di processo e ogni figura al suo disegno e al suo apparato. Un nuovo schema si aggiunge lì e in `pipeline/contenuti/regole.mjs`: il tipo e un test controllano che i due elenchi coincidano.
 - **Versione solo testo:** senza WebGL 2 (`utils/webgl.ts`), `App.tsx` mostra `TextOnlyAtlasPage`, che usa gli stessi componenti con `TextOnlyContext` (D26).
+- **Percorsi su smartphone:** sotto i 760 px lo schema del passo sta sul "palco" in alto (interruttore Schema/Corpo 3D) e testo e comandi in un foglio con maniglia; mentre lo schema copre il corpo la scena si ferma (`utils/sceneCover.ts`, `useCoverScene`).
 - **Tour:** ricordato in `localStorage` (`atlante.tour`, `utils/tour.ts`).
 - **Quiz (D53):** `components/features/quiz/QuizPanel.tsx`, caricato con `lazy()`; logica pura in `utils/quiz.ts`, miglior risultato in `localStorage` (`atlante.quiz`, `utils/quizScore.ts`). Durante il quiz le strutture non si selezionano.
 - **Viaggio del cibo:** un file per schema in `components/features/guided-path/digestion/` (registro in `diagrams.ts`), stili in `styles/digestion/`, con le regole comuni in `common.css`.

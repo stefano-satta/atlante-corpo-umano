@@ -230,15 +230,260 @@
   animation: flow-dash 900ms linear infinite;
 }
 
+/* Elementi solo per smartphone: maniglia del foglio, interruttore del palco, avvertenza sotto il testo. */
+.sheet-handle,
+.stage-switch,
+.path-disclaimer {
+  display: none;
+}
+
 @media (max-width: 760px) {
-  .guided-path {
-    padding: 16px 20px calc(22px + env(safe-area-inset-bottom, 0px));
-  }
   .breathing-diagram .labels text,
   .breathing-diagram .orientation {
     font-size: 16px;
   }
   .breathing-diagram .labels .minor {
     font-size: 14px;
+  }
+
+  /* Foglio: tutto lo spazio sotto il palco, con il proprio scorrimento. Sta in posizione statica, così lo
+     schema (in posizione assoluta rispetto al pannello) resta fermo sul palco e non viene ritagliato. */
+  .panel[data-mode="path"] .guided-path {
+    flex: 1;
+    min-height: 0;
+    margin-top: var(--stage-h);
+    padding: 0 16px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--slide);
+    border-top: 3px solid var(--eosin);
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+    pointer-events: auto;
+    transition: margin-top var(--open-duration) var(--ease-out);
+  }
+  .panel[data-mode="path"] .guided-path[data-expanded] {
+    margin-top: 0;
+  }
+  .sheet-handle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% + 32px);
+    height: 28px;
+    margin: 0 -16px;
+    flex: none;
+    background: none;
+    border: 0;
+  }
+  .sheet-handle::before {
+    content: "";
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--slide-border);
+    transition: background-color 180ms ease-out;
+  }
+  .sheet-handle:hover::before {
+    background: var(--ink-muted);
+  }
+  .guided-path .panel-header {
+    min-height: 28px;
+  }
+  .path-count {
+    margin: 4px 0 0;
+  }
+  .guided-path .name,
+  .guided-path .name.long {
+    margin: 2px 0 8px;
+    font-size: 24px;
+    line-height: 1.1;
+  }
+  .guided-path .text {
+    font-size: 16px;
+  }
+  .path-disclaimer {
+    display: block;
+    margin: 0 0 12px;
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+
+  /* Palco: lo schema a tutta larghezza sopra il foglio. */
+  .guided-path .cycle {
+    position: absolute;
+    inset: 0 0 auto;
+    height: var(--stage-h);
+    margin: 0;
+    padding: 52px 12px 10px;
+    display: grid;
+    grid-template-rows: minmax(0, 1fr);
+    grid-auto-rows: auto;
+    gap: 8px;
+    border-radius: 0;
+    background: var(--room);
+    pointer-events: auto;
+  }
+  .guided-path .cycle .cycle-diagram {
+    min-height: 0;
+  }
+  .guided-path .cycle-diagram > svg {
+    width: 100%;
+    height: 100%;
+  }
+  .guided-path .cycle-disclaimer,
+  .guided-path .cycle-steps {
+    display: none;
+  }
+  /* Comandi dello schema nella riga in alto, a sinistra dell'interruttore: solo icone, con l'etichetta
+     per i lettori di schermo. */
+  .guided-path .cycle-controls {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    flex-wrap: nowrap;
+  }
+  .guided-path .cycle-button {
+    width: 42px;
+    height: 42px;
+  }
+  .guided-path .cycle-button.play {
+    padding: 0;
+    justify-content: center;
+  }
+  .guided-path .play-text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .guided-path .digestion-caption {
+    display: block;
+  }
+  .guided-path .digestion-caption .label {
+    margin-right: 6px;
+  }
+  .guided-path .digestion-caption p {
+    display: inline;
+  }
+  .guided-path .cycle-legend {
+    gap: 4px 14px;
+    font-size: 12px;
+  }
+  .guided-path .digestion-caption {
+    min-height: 0;
+    font-size: 15px;
+  }
+  .guided-path .digestion-caption p,
+  .guided-path .digestion-caption strong {
+    font-size: 15px;
+  }
+  .guided-path[data-stage="body"] .cycle,
+  .guided-path[data-expanded] .cycle {
+    display: none;
+  }
+  .stage-switch {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    z-index: 1;
+    display: flex;
+    margin: 0;
+    padding: 2px;
+    border: 1px solid var(--room-border);
+    border-radius: var(--radius-option);
+    background: var(--room-raised);
+    pointer-events: auto;
+  }
+  .stage-switch button {
+    min-height: 36px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: calc(var(--radius-option) - 2px);
+    background: none;
+    color: var(--room-muted);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  .stage-switch button[aria-pressed="true"] {
+    background: var(--slide);
+    color: var(--ink);
+  }
+  .stage-switch :focus-visible {
+    outline-color: var(--eosin-room);
+  }
+
+  /* Comandi su una riga: Indietro (solo icona), tacche dei passi, Avanti. */
+  .path-controls {
+    flex-wrap: nowrap;
+    gap: 10px;
+    margin: 4px -16px 0;
+    padding: 8px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+  }
+  .path-controls .back {
+    flex: none;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--slide-border);
+    border-radius: var(--radius-option);
+  }
+  .path-back-text,
+  .path-finish-extra {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .path-controls .action {
+    flex: none;
+    order: 2;
+  }
+  .path-steps {
+    order: 1;
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    gap: 0;
+  }
+  .path-steps li {
+    flex: 1;
+    min-width: 0;
+  }
+  .path-steps button {
+    position: relative;
+    width: 100%;
+    min-width: 0;
+    height: 44px;
+    border: 0;
+    background: none;
+    font-size: 0;
+  }
+  .path-steps button::before {
+    content: "";
+    position: absolute;
+    inset: 20px 2px auto;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--slide-border);
+  }
+  .path-steps button:hover {
+    background: none;
+  }
+  .path-steps button:hover::before,
+  .path-steps button[data-done]::before {
+    background: var(--ink-muted);
+  }
+  .path-steps button[aria-current="step"] {
+    background: none;
+  }
+  .path-steps button[aria-current="step"]::before {
+    top: 19px;
+    height: 6px;
+    background: var(--eosin);
   }
 }

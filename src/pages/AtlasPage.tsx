@@ -10,6 +10,7 @@ import { Tour } from '@/components/features/tour/Tour';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useDocumentTitle } from '@/hooks/useDocumentTitle';
 import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
+import { useSceneCovered } from '@/hooks/useSceneCovered';
 import { useOpenGuidedPath, useSelectedStructure } from '@/hooks/useSelectedStructure';
 import type { LazyModelLayer } from '@/models/scene';
 import { LAZY_MODEL_LAYERS, needsModelLayer } from '@/utils/atlasReducer';
@@ -88,6 +89,8 @@ function AtlasView({ hidden, name }: { hidden: boolean; name: string | null | un
 
   const { unit, sheet } = useSelectedStructure();
   const pathOpen = useOpenGuidedPath();
+  // Su smartphone lo schema di un passo può coprire il corpo: la scena si ferma finché resta coperta.
+  const covered = useSceneCovered() && pathOpen && !unit;
 
   return (
     <div
@@ -104,7 +107,7 @@ function AtlasView({ hidden, name }: { hidden: boolean; name: string | null | un
           <Scene
             ready={ready}
             onReady={onReady}
-            active={!hidden}
+            active={!hidden && !covered}
             lazyLoaded={lazyLoaded}
             onLazyLayerLoaded={onLazyLayerLoaded}
           />

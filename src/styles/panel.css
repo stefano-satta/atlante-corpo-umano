@@ -128,8 +128,7 @@
 }
 
 @media (max-width: 760px) {
-  .panel[data-mode="card"],
-  .panel[data-mode="path"] {
+  .panel[data-mode="card"] {
     top: auto;
     right: 0;
     bottom: 0;
@@ -152,8 +151,21 @@
     border-left: 0;
     border-radius: 0;
   }
+  /* Il percorso occupa tutto lo spazio sotto il marchio: in alto il palco con lo schema, sotto il foglio
+     (styles/guided-path.css). Il pannello è trasparente e lascia passare i tocchi verso il corpo 3D. */
   .panel[data-mode="path"] {
-    max-height: 50vh;
+    --path-top: calc(62px + env(safe-area-inset-top, 0px));
+    --stage-h: calc((100dvh - var(--path-top)) * 0.54);
+    inset: var(--path-top) 0 0;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    background: none;
+    border: 0;
+    border-radius: 0;
+    pointer-events: none;
+    animation-name: sheet-rise;
   }
   .info-card {
     padding: 16px 20px calc(22px + env(safe-area-inset-bottom, 0px));

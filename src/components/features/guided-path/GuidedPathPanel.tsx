@@ -7,12 +7,15 @@ import { RichText } from '@/components/features/glossary/RichText';
 import { useActiveStep } from '@/hooks/useActiveStep';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useBreathPhase } from '@/hooks/useBreathPhase';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useCoverScene } from '@/hooks/useSceneCovered';
 import { useTextOnly } from '@/hooks/useTextOnly';
 import type { GuidedPathStep } from '@/models/content';
 import { isDigestionDiagram } from '@/models/digestion';
+import { NARROW_WIDTH } from '@/utils/layout';
 import { AlveolusDiagram, ChestDiagram } from './BreathingDiagrams';
-import { DigestionFigure } from './DigestionFigure';
+import { DIGESTION_DISCLAIMERS, DigestionFigure } from './DigestionFigure';
 
 const PHASE_LABELS = { rest: null, inhale: 'Inspirazione', exhale: 'Espirazione' } as const;
 
@@ -38,7 +41,9 @@ function StepDiagram({ step }: { step: GuidedPathStep }) {
         <div className="cycle-controls">
           <Button variant="cycle" className="play" onClick={() => setPlaying((p) => !p)} aria-pressed={playing}>
             {playing ? <PauseIcon /> : <PlayIcon />}
-            {playing ? 'Pausa' : alveolus ? 'Riproduci gli scambi' : 'Riproduci il respiro'}
+            <span className="play-text">
+              {playing ? 'Pausa' : alveolus ? 'Riproduci gli scambi' : 'Riproduci il respiro'}
+            </span>
           </Button>
         </div>
       )}
@@ -58,18 +63,26 @@ function StepDiagram({ step }: { step: GuidedPathStep }) {
           </li>
         </ul>
       )}
-      <p className="cycle-disclaimer">
-        {alveolus
-          ? 'Schema semplificato, non in scala: un solo alveolo e un solo capillare.'
-          : "Schema semplificato, non in scala; i movimenti sono accentuati. Il lato destro del corpo è a sinistra dell'immagine."}
-      </p>
+      <p className="cycle-disclaimer">{disclaimerFor(step.schema)}</p>
     </figure>
   );
+}
+
+/** Avvertenza dello schema del passo: sotto il disegno, e su smartphone nel foglio, sotto il testo. */
+function disclaimerFor(schema: string) {
+  if (isDigestionDiagram(schema)) return DIGESTION_DISCLAIMERS[schema];
+  return schema === 'alveolo'
+    ? 'Schema semplificato, non in scala: un solo alveolo e un solo capillare.'
+    : "Schema semplificato, non in scala; i movimenti sono accentuati. Il lato destro del corpo è a sinistra dell'immagine.";
 }
 
 /**
  * Percorso guidato nel pannello a destra (D24): un passo alla volta, con testo, schema e fonti.
  * Ogni passo sceglie lo strato e le strutture evidenziate; la telecamera le inquadra (Scene.tsx).
+ *
+ * Su smartphone il pannello si divide in due: in alto il "palco", con lo schema del passo a tutta
+ * larghezza al posto del corpo 3D (un interruttore riporta il corpo), e sotto il foglio con testo e
+ * comandi, che una maniglia apre a tutta altezza. Mentre lo schema copre il corpo la scena si ferma.
  */
 export default function GuidedPathPanel() {
   const { dispatch } = useAtlas();
@@ -77,6 +90,12 @@ export default function GuidedPathPanel() {
   const { path, step, number, error } = useActiveStep();
   const title = useRef<HTMLHeadingElement>(null);
   const total = path?.passi.length ?? 0;
+  const narrow = useMediaQuery(`(max-width: ${NARROW_WIDTH}px)`) && !textOnly;
+  // Scelte di chi legge su smartphone, tenute per tutto il percorso: cosa mostra il palco, foglio aperto.
+  const [stage, setStage] = useState<'schema' | 'body'>('schema');
+  const [expanded, setExpanded] = useState(false);
+  const hasFigure = !!step && step.schema !== 'nessuno';
+  useCoverScene(narrow && (expanded || (hasFigure && stage === 'schema')));
 
   // Ogni passo mostra il suo strato: anche tornando al percorso dopo aver esplorato.
   useEffect(() => {
@@ -90,8 +109,9 @@ export default function GuidedPathPanel() {
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: a ogni nuovo passo il pannello torna in cima
   useEffect(() => {
-    const container = title.current?.closest('.panel, .reading-page');
-    if (container) container.scrollTop = 0;
+    const article = title.current?.closest('.guided-path');
+    for (const container of [article, article?.closest('.panel, .reading-page')])
+      if (container) container.scrollTop = 0;
   }, [number]);
 
   if (error) return <p className="notice guided-path">Non è stato possibile caricare il percorso.</p>;
@@ -110,7 +130,17 @@ export default function GuidedPathPanel() {
   const sources = path.fonti.filter((f) => cited.has(f.n));
 
   return (
-    <article className="guided-path" aria-labelledby="path-step-title">
+    <article
+      className="guided-path"
+      aria-labelledby="path-step-title"
+      data-stage={hasFigure ? stage : 'body'}
+      data-expanded={expanded || undefined}
+    >
+      {narrow && (
+        <Button className="sheet-handle" aria-expanded={expanded} onClick={() => setExpanded((e) => !e)}>
+          <span className="visually-hidden">Testo a tutta altezza</span>
+        </Button>
+      )}
       <div className="panel-header">
         <span className="label">Percorso · {path.titolo}</span>
         <Button variant="close" aria-label="Chiudi il percorso" onClick={close}>
@@ -128,20 +158,39 @@ export default function GuidedPathPanel() {
       </p>
       <DraftNotice status={path.stato} />
 
+      {narrow && hasFigure && !expanded && (
+        <fieldset className="stage-switch">
+          <legend className="visually-hidden">Mostra in alto</legend>
+          <Button aria-pressed={stage === 'schema'} onClick={() => setStage('schema')}>
+            Schema
+          </Button>
+          <Button aria-pressed={stage === 'body'} onClick={() => setStage('body')}>
+            Corpo 3D
+          </Button>
+        </fieldset>
+      )}
       {isDigestionDiagram(step.schema) ? (
         <DigestionFigure key={number} schema={step.schema} />
       ) : (
         step.schema !== 'nessuno' && <StepDiagram key={number} step={step} />
       )}
       <RichText className="text" html={step.html} />
+      {narrow && hasFigure && <p className="path-disclaimer">{disclaimerFor(step.schema)}</p>}
 
       <nav className="path-controls" aria-label="Passi del percorso">
         <Button variant="back" onClick={() => goTo(number - 1)} disabled={number === 0}>
-          <BackIcon /> Indietro
+          <BackIcon /> <span className="path-back-text">Indietro</span>
         </Button>
         {last ? (
           <Button variant="action" onClick={close}>
-            {textOnly ? "Torna all'indice" : 'Esplora liberamente'} <ForwardIcon />
+            {textOnly ? (
+              "Torna all'indice"
+            ) : (
+              <span>
+                Esplora<span className="path-finish-extra"> liberamente</span>
+              </span>
+            )}{' '}
+            <ForwardIcon />
           </Button>
         ) : (
           <Button variant="action" onClick={() => goTo(number + 1)}>
@@ -154,6 +203,7 @@ export default function GuidedPathPanel() {
               <Button
                 aria-label={`Passo ${i + 1}: ${p.titolo}`}
                 aria-current={i === number ? 'step' : undefined}
+                data-done={i < number || undefined}
                 onClick={() => goTo(i)}
               >
                 {i + 1}

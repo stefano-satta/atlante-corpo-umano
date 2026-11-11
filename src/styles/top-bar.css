@@ -172,6 +172,11 @@
     right: 8px;
     width: min(290px, calc(100vw - 2 * var(--bar-inset)));
   }
+  /* Durante un percorso le voci lasciano spazio allo schema: restano marchio e menu secondario, e il
+     percorso si chiude dal suo pannello. */
+  .atlas[data-panel="path"] .top-bar nav {
+    display: none;
+  }
 }
 
 /* Smartphone più stretti (320 px): marchio e voci si stringono perché il menu resti accanto al marchio e

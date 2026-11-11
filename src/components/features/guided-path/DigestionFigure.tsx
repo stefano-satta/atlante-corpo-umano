@@ -44,7 +44,8 @@ const LEGENDS: Partial<Record<DigestionDiagramId, ReactNode>> = {
   retto: [item('stool', 'Feci'), item('smooth', 'Muscolo liscio'), item('muscle', 'Muscolo scheletrico')],
 };
 
-const DISCLAIMERS: Record<DigestionDiagramId, string> = {
+/** Avvertenza sotto ogni schema; su smartphone sta nel foglio del percorso, sotto il testo. */
+export const DIGESTION_DISCLAIMERS: Record<DigestionDiagramId, string> = {
   digerente:
     "Schema semplificato, non in scala. Il lato destro del corpo è a sinistra dell'immagine. I tempi sono quelli indicati dalle fonti e variano con il pasto.",
   bocca:
@@ -97,7 +98,7 @@ export function DigestionFigure({ schema }: { schema: DigestionDiagramId }) {
         {!reducedMotion && (
           <Button variant="cycle" className="play" onClick={toggle} aria-pressed={playing}>
             {playing ? <PauseIcon /> : <PlayIcon />}
-            {playing ? 'Pausa' : 'Riproduci'}
+            <span className="play-text">{playing ? 'Pausa' : 'Riproduci'}</span>
           </Button>
         )}
         <Button variant="cycle" onClick={next} aria-label="Fase successiva">
@@ -119,7 +120,7 @@ export function DigestionFigure({ schema }: { schema: DigestionDiagramId }) {
       </div>
 
       {LEGENDS[schema] && <ul className="cycle-legend">{LEGENDS[schema]}</ul>}
-      <p className="cycle-disclaimer">{DISCLAIMERS[schema]}</p>
+      <p className="cycle-disclaimer">{DIGESTION_DISCLAIMERS[schema]}</p>
     </figure>
   );
 }
