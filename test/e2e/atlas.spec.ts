@@ -251,7 +251,12 @@ test('il cartellino mostra il testo verificato, i rimandi e le fonti', async ({ 
     'href',
     'https://ta2viewer.openanatomy.org/?id=3932',
   );
-  await expect(panel.getByRole('region', { name: 'Fonti' }).getByRole('listitem')).toHaveCount(3);
+  const sources = panel.locator('details', { has: page.locator('summary', { hasText: /^Fonti$/ }) });
+  await expect(sources.locator('li')).toHaveCount(3);
+  await expect(sources.locator('li').first()).toBeHidden();
+  // Un rimando del testo apre il riquadro delle fonti.
+  await panel.locator('.text .citation a').first().click();
+  await expect(sources.locator('li').first()).toBeVisible();
   await checkAccessibility(page);
 });
 
@@ -499,7 +504,7 @@ test('il percorso "Un respiro" si segue passo per passo e si può lasciare per e
   await panel.getByRole('button', { name: 'Passo 5: Negli alveoli' }).click();
   await expect(page).toHaveURL(/\/percorsi\/respirazione\/5$/);
   await expect(panel.getByText("Ossigeno, dall'aria al sangue")).toBeVisible();
-  await expect(panel.getByRole('heading', { name: 'Fonti di questo passo' })).toBeVisible();
+  await expect(panel.locator('summary', { hasText: 'Fonti di questo passo' })).toBeVisible();
   await checkAccessibility(page);
 
   // Si esplora una struttura (come con un clic nel corpo) e si torna allo stesso passo.

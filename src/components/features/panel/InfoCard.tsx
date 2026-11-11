@@ -11,7 +11,7 @@ import {
 } from '@/components/common/Icons';
 import { LatinTerm } from '@/components/common/LatinTerm';
 import { PageLink } from '@/components/common/PageLink';
-import { SourceList } from '@/components/common/SourceList';
+import { SourceDisclosure } from '@/components/common/SourceDisclosure';
 import { RichText } from '@/components/features/glossary/RichText';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useStructure } from '@/hooks/useContent';
@@ -153,19 +153,16 @@ export function InfoCard({ unit }: { unit: SceneUnit }) {
         </Button>
       )}
 
-      {structure?.limiti && (
-        <details className="source-notes">
-          <summary>Note sulle fonti</summary>
-          <p>{structure.limiti}</p>
-        </details>
-      )}
-      {sources.length > 0 && (
-        <section className="card-sources" aria-labelledby="card-sources-title">
-          <h3 id="card-sources-title" className="label">
-            Fonti
-          </h3>
-          <SourceList sources={sources} />
-        </section>
+      {(structure?.limiti || sources.length > 0) && (
+        <div className="card-sources">
+          {structure?.limiti && (
+            <details className="source-notes">
+              <summary>Note sulle fonti</summary>
+              <p>{structure.limiti}</p>
+            </details>
+          )}
+          {sources.length > 0 && <SourceDisclosure title="Fonti" sources={sources} />}
+        </div>
       )}
       {!entry && unit.fma && unit.layer !== 'organi' && (
         <p className="fma-id">Identificativo FMA {unit.fma.replace(/^FMA/, '')}</p>

@@ -4,7 +4,7 @@ import { DraftNotice } from '@/components/common/DraftNotice';
 import { BackIcon } from '@/components/common/Icons';
 import { LatinTerm } from '@/components/common/LatinTerm';
 import { PageLink } from '@/components/common/PageLink';
-import { SourceList } from '@/components/common/SourceList';
+import { SourceDisclosure } from '@/components/common/SourceDisclosure';
 import { RichText } from '@/components/features/glossary/RichText';
 import { useAtlas } from '@/hooks/useAtlas';
 import { useStructure } from '@/hooks/useContent';
@@ -152,12 +152,12 @@ export function DetailSheet({ entry }: { entry: StructureSummary }) {
             </section>
             <section id="sez-fonti" aria-labelledby="h-fonti">
               <h2 id="h-fonti">Fonti</h2>
-              <SourceList sources={s.fonti} />
+              <SourceDisclosure title="Elenco delle fonti" sources={s.fonti} />
               {s.limiti && (
-                <>
-                  <h3>Note sulle fonti</h3>
-                  <p className="notes">{s.limiti}</p>
-                </>
+                <details className="source-notes">
+                  <summary>Note sulle fonti</summary>
+                  <p>{s.limiti}</p>
+                </details>
               )}
               <p className="revision">
                 Ultima revisione del testo: {formatLongDate(s.revisione)}. I testi non sono stati rivisti da un medico

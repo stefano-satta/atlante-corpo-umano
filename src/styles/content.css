@@ -85,6 +85,10 @@
   margin: 8px 0 0;
   line-height: 1.5;
 }
+/* Due riquadri di seguito (fonti e note) stanno vicini. */
+.source-notes + .source-notes {
+  margin-top: 12px;
+}
 .source-list {
   margin: 0;
   padding-left: 22px;
@@ -93,6 +97,9 @@
   font-size: 13px;
   line-height: 1.45;
   color: var(--ink-muted);
+}
+.source-disclosure .source-list {
+  margin-top: 10px;
 }
 .source-list li::marker {
   font-variant-numeric: tabular-nums;

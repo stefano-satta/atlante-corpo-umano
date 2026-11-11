@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/common/Button';
 import { DraftNotice } from '@/components/common/DraftNotice';
 import { BackIcon, CloseIcon, ForwardIcon, PauseIcon, PlayIcon } from '@/components/common/Icons';
-import { SourceList } from '@/components/common/SourceList';
+import { SourceDisclosure } from '@/components/common/SourceDisclosure';
 import { RichText } from '@/components/features/glossary/RichText';
 import { useActiveStep } from '@/hooks/useActiveStep';
 import { useAtlas } from '@/hooks/useAtlas';
@@ -220,19 +220,16 @@ export default function GuidedPathPanel() {
         </p>
       )}
 
-      {path.limiti && (
-        <details className="source-notes">
-          <summary>Note sulle fonti</summary>
-          <p>{path.limiti}</p>
-        </details>
-      )}
-      {sources.length > 0 && (
-        <section className="card-sources" aria-labelledby="path-sources-title">
-          <h3 id="path-sources-title" className="label">
-            Fonti di questo passo
-          </h3>
-          <SourceList sources={sources} />
-        </section>
+      {(path.limiti || sources.length > 0) && (
+        <div className="card-sources">
+          {path.limiti && (
+            <details className="source-notes">
+              <summary>Note sulle fonti</summary>
+              <p>{path.limiti}</p>
+            </details>
+          )}
+          {sources.length > 0 && <SourceDisclosure title="Fonti di questo passo" sources={sources} />}
+        </div>
       )}
     </article>
   );

@@ -93,8 +93,10 @@ describe('pannello della struttura selezionata', () => {
     expect(screen.getByRole('link', { name: /TA2 3932/ }).getAttribute('href')).toBe(
       'https://ta2viewer.openanatomy.org/?id=3932',
     );
-    const sources = screen.getByRole('region', { name: 'Fonti' });
-    expect(sources.querySelectorAll('li')).toHaveLength(3);
+    // Le fonti stanno chiuse in un riquadro a scomparsa, come le note.
+    const sources = screen.getByText('Fonti', { selector: 'summary' }).closest('details');
+    expect(sources?.open).toBe(false);
+    expect(sources?.querySelectorAll('li')).toHaveLength(3);
     // Ogni rimando nel testo porta a una fonte presente nell'elenco.
     for (const citation of document.querySelectorAll<HTMLAnchorElement>('.text .citation a'))
       expect(document.querySelector(citation.getAttribute('href') ?? '')).toBeTruthy();

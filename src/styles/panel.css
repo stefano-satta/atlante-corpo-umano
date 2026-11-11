@@ -10,6 +10,8 @@
   border-left: 3px solid var(--eosin);
   border-radius: var(--radius-panel);
   overflow-y: auto;
+  /* Spazio della barra sempre riservato: aprendo le fonti il testo non si restringe. */
+  scrollbar-gutter: stable;
   overscroll-behavior: contain;
   scrollbar-color: var(--slide-border) transparent;
   scrollbar-width: thin;
@@ -98,12 +100,12 @@
   font-variant-numeric: tabular-nums;
   color: var(--ink-muted);
 }
+/* Subito dopo il contenuto, non ancorate al fondo: aprendosi, i riquadri crescono verso il basso. */
 .card-sources {
-  margin-top: auto;
   padding-top: 28px;
 }
-.card-sources h3 {
-  margin: 0 0 8px;
+.card-sources > .source-notes:first-child {
+  margin-top: 0;
 }
 .heartbeat {
   display: flex;
