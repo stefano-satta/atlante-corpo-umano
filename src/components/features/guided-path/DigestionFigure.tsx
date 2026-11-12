@@ -1,10 +1,7 @@
 import type { ReactNode } from 'react';
-import { Button } from '@/components/common/Button';
-import { NextIcon, PauseIcon, PlayIcon, PreviousIcon } from '@/components/common/Icons';
-import { usePlayback } from '@/hooks/usePlayback';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { DIGESTION_PHASES, type DigestionDiagramId } from '@/models/digestion';
 import { DIGESTION_DIAGRAMS } from './digestion/diagrams';
+import { legendItem as item, PhasedFigure } from './PhasedFigure';
 
 const FIGURE_LABELS: Record<DigestionDiagramId, string> = {
   digerente: 'Schema del canale digerente',
@@ -16,12 +13,6 @@ const FIGURE_LABELS: Record<DigestionDiagramId, string> = {
   colon: "Schema dell'intestino crasso",
   retto: 'Schema del retto e del canale anale',
 };
-
-const item = (swatch: string, text: string) => (
-  <li className="legend-item" key={swatch}>
-    <span className={`swatch ${swatch}`} aria-hidden="true" /> {text}
-  </li>
-);
 
 const LEGENDS: Partial<Record<DigestionDiagramId, ReactNode>> = {
   digerente: [item('food', 'Il bolo'), item('organ-active', 'Organi al lavoro in questa fase')],
@@ -63,64 +54,16 @@ export const DIGESTION_DISCLAIMERS: Record<DigestionDiagramId, string> = {
   retto: 'Schema semplificato, non in scala, in sezione.',
 };
 
-/**
- * Schema animato di un passo del "Viaggio del cibo": il disegno, i comandi per scorrerne le fasi o
- * riprodurle di seguito e una didascalia breve. Parte fermo (WCAG 2.2.2) e con il movimento ridotto
- * non ha Riproduci: le fasi si scelgono una alla volta.
- */
+/** Schema animato di un passo del "Viaggio del cibo". */
 export function DigestionFigure({ schema }: { schema: DigestionDiagramId }) {
-  const reducedMotion = useReducedMotion();
-  const phases = DIGESTION_PHASES[schema];
-  const { step: n, playing, goTo, next, previous, toggle } = usePlayback(phases.length);
-  const phase = phases[n];
-  const Diagram = DIGESTION_DIAGRAMS[schema];
-
   return (
-    <figure className="cycle digestion" aria-label={FIGURE_LABELS[schema]}>
-      <div className="cycle-diagram" data-playing={playing}>
-        <Diagram phase={phase.id} playing={playing && !reducedMotion} reducedMotion={reducedMotion} />
-      </div>
-
-      <div className="digestion-caption" aria-live={playing ? 'off' : 'polite'}>
-        <span className="label">
-          Fase {n + 1} di {phases.length}
-        </span>
-        <p>
-          <strong>{phase.label}</strong>
-          {phase.detail && <> · {phase.detail}</>}
-        </p>
-      </div>
-
-      <div className="cycle-controls">
-        <Button variant="cycle" onClick={previous} aria-label="Fase precedente">
-          <PreviousIcon />
-        </Button>
-        {!reducedMotion && (
-          <Button variant="cycle" className="play" onClick={toggle} aria-pressed={playing}>
-            {playing ? <PauseIcon /> : <PlayIcon />}
-            <span className="play-text">{playing ? 'Pausa' : 'Riproduci'}</span>
-          </Button>
-        )}
-        <Button variant="cycle" onClick={next} aria-label="Fase successiva">
-          <NextIcon />
-        </Button>
-        <ol className="cycle-steps" aria-label="Fasi dello schema">
-          {phases.map((p, i) => (
-            <li key={p.id}>
-              <Button
-                aria-label={`Fase ${i + 1}: ${p.label}`}
-                aria-current={i === n ? 'step' : undefined}
-                onClick={() => goTo(i)}
-              >
-                {i + 1}
-              </Button>
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      {LEGENDS[schema] && <ul className="cycle-legend">{LEGENDS[schema]}</ul>}
-      <p className="cycle-disclaimer">{DIGESTION_DISCLAIMERS[schema]}</p>
-    </figure>
+    <PhasedFigure
+      label={FIGURE_LABELS[schema]}
+      className="digestion"
+      phases={DIGESTION_PHASES[schema]}
+      diagram={DIGESTION_DIAGRAMS[schema]}
+      legend={LEGENDS[schema]}
+      disclaimer={DIGESTION_DISCLAIMERS[schema]}
+    />
   );
 }

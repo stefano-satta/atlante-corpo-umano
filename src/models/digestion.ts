@@ -1,3 +1,5 @@
+import type { DiagramPhase } from './phases';
+
 /** Schemi del percorso "Il viaggio del cibo": uno per passo. */
 export type DigestionDiagramId =
   | 'digerente'
@@ -9,13 +11,7 @@ export type DigestionDiagramId =
   | 'colon'
   | 'retto';
 
-export interface DigestionPhase {
-  id: string;
-  /** Titolo breve della fase, mostrato sotto il disegno. */
-  label: string;
-  /** Dettaglio facoltativo: un tempo o un dato che il testo del passo riporta con la sua fonte. */
-  detail?: string;
-}
+export type DigestionPhase = DiagramPhase;
 
 /**
  * Fasi di ogni schema, nell'ordine della riproduzione. Le etichette riassumono il testo del passo,

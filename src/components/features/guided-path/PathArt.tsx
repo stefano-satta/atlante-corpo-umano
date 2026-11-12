@@ -113,8 +113,36 @@ function FoodArt() {
   );
 }
 
+// Due anse che si incrociano al centro, dove sta il cuore: in alto il circolo polmonare, in basso il
+// sistemico. Ogni metà ha il colore del sangue che la percorre.
+const LUNG_LOOP_POOR = 'M200 120 C150 96 96 70 112 42 C124 22 170 26 200 34';
+const LUNG_LOOP_RICH = 'M200 34 C230 26 276 22 288 42 C304 70 250 96 200 120';
+const BODY_LOOP_RICH = 'M200 120 C250 144 318 170 300 206 C288 228 236 230 200 222';
+const BODY_LOOP_POOR = 'M200 222 C164 230 112 228 100 206 C82 170 150 144 200 120';
+
+/** "Il giro del sangue": i due circuiti con i globuli rossi che li percorrono. */
+function BloodArt() {
+  return (
+    <Field id="art-blood">
+      <g className="art-vessels">
+        <path className="poor" d={LUNG_LOOP_POOR} />
+        <path className="rich" d={LUNG_LOOP_RICH} />
+        <path className="rich" d={BODY_LOOP_RICH} />
+        <path className="poor" d={BODY_LOOP_POOR} />
+      </g>
+      <g className="art-cells">
+        {[LUNG_LOOP_POOR, LUNG_LOOP_RICH, BODY_LOOP_RICH, BODY_LOOP_POOR].map((d) => (
+          <path key={d} d={d} />
+        ))}
+      </g>
+      <ellipse className="art-heart" cx="200" cy="120" rx="22" ry="18" />
+    </Field>
+  );
+}
+
 /** Illustrazione e apparato di ogni percorso; un percorso nuovo senza disegno usa quello del cibo. */
 export const PATH_ART: Record<string, { art: () => ReactNode; system: string }> = {
   respirazione: { art: BreathArt, system: 'Apparato respiratorio' },
   'viaggio-del-cibo': { art: FoodArt, system: 'Apparato digerente' },
+  'giro-del-sangue': { art: BloodArt, system: 'Apparato cardiocircolatorio' },
 };

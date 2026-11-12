@@ -113,6 +113,31 @@
   fill: #e3b45c;
   opacity: 0.55;
 }
+.path-art-svg .art-vessels path {
+  fill: none;
+  stroke-width: 18;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+.path-art-svg .art-vessels .poor {
+  stroke: #4362a8;
+}
+.path-art-svg .art-vessels .rich {
+  stroke: #b8434b;
+}
+.path-art-svg .art-cells path {
+  fill: none;
+  stroke: #f1c9cf;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-dasharray: 0 30;
+  opacity: 0.7;
+}
+.path-art-svg .art-heart {
+  fill: var(--eosin);
+  stroke: #d9a0aa;
+  stroke-width: 2;
+}
 
 /* Testo */
 .path-card-body {

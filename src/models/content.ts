@@ -1,6 +1,7 @@
 // Forma dei contenuti compilati da pipeline/contenuti.mjs. I nomi dei campi seguono lo schema
 // dei file in contenuti/ (D17), scritto in italiano: qui sono dati, come la risposta di un'API.
 
+import type { CirculationDiagramId } from './circulation';
 import type { DigestionDiagramId } from './digestion';
 
 export type ContentStatus = 'bozza' | 'verificato' | 'approvato';
@@ -158,13 +159,20 @@ export interface ModelElements {
   fma: string[];
 }
 
-export type PathDiagram = 'nessuno' | 'torace' | 'inspirazione' | 'espirazione' | 'alveolo' | DigestionDiagramId;
+export type PathDiagram =
+  | 'nessuno'
+  | 'torace'
+  | 'inspirazione'
+  | 'espirazione'
+  | 'alveolo'
+  | DigestionDiagramId
+  | CirculationDiagramId;
 
 /** Un passo di un percorso guidato (D24). */
 export interface GuidedPathStep {
   titolo: string;
   html: string;
-  strato: 'muscoli' | 'organi' | 'scheletro' | 'digerente' | 'respiratorio';
+  strato: 'muscoli' | 'organi' | 'scheletro' | 'vasi' | 'digerente' | 'respiratorio';
   /** Strutture mostrate piene; quelle di un altro strato si aggiungono alla vista. */
   evidenzia: ModelElements;
   /** Strutture da inquadrare, se diverse da quelle evidenziate. */

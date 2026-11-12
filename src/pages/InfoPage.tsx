@@ -6,7 +6,16 @@ import { usePage } from '@/hooks/useContent';
 import { formatLongDate } from '@/utils/format';
 
 /** Pagina con un testo editoriale dai contenuti (contenuti/pagine/): Informazioni, se non è indicata un'altra. */
-export function InfoPage({ id = 'informazioni', title = 'Informazioni' }: { id?: string; title?: string }) {
+export function InfoPage({
+  id = 'informazioni',
+  title = 'Informazioni',
+  children,
+}: {
+  id?: string;
+  title?: string;
+  /** Contenuto aggiunto dopo il testo, come l'invito a un percorso. */
+  children?: ReactNode;
+}) {
   const { data: page, error } = usePage(id);
 
   let content: ReactNode;
@@ -17,6 +26,7 @@ export function InfoPage({ id = 'informazioni', title = 'Informazioni' }: { id?:
       <>
         <DraftNotice status={page.stato} />
         <RichText className="page-text" html={page.html} />
+        {children}
         <p className="revision">Ultima revisione: {formatLongDate(page.revisione)}.</p>
       </>
     );

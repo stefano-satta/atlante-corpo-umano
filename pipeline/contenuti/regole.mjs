@@ -55,8 +55,16 @@ export const SCHEMI_PERCORSO = [
   'villo',
   'colon',
   'retto',
+  // Il giro del sangue (il passo nei polmoni riusa "alveolo")
+  'circuiti',
+  'vene-cave',
+  'cuore-destro',
+  'cuore-sinistro',
+  'aorta',
+  'rene',
+  'coronarie',
 ];
-export const STRATI_PERCORSO = ['muscoli', 'organi', 'scheletro', 'digerente', 'respiratorio'];
+export const STRATI_PERCORSO = ['muscoli', 'organi', 'scheletro', 'vasi', 'digerente', 'respiratorio'];
 
 export const DATA = /^\d{4}-\d{2}-\d{2}$/;
 export const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;

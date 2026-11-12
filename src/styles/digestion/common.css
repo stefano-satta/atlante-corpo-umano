@@ -154,24 +154,6 @@
 .swatch.smooth {
   background: var(--smooth);
 }
-/* Didascalia della fase */
-.digestion-caption {
-  display: grid;
-  gap: 2px;
-  min-height: 3.2em;
-}
-.digestion-caption .label {
-  color: var(--room-muted);
-  font-size: 14px;
-}
-.digestion-caption p {
-  margin: 0;
-  font-size: 16px;
-}
-.digestion-caption strong {
-  font: 600 18px / 1.2 var(--font-display);
-}
-
 /* Stati delle fasi: dopo le regole di base, perché le precisano. */
 .digestion-diagram [data-visible] {
   transition: opacity 420ms ease-out;

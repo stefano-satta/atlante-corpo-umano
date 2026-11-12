@@ -286,8 +286,7 @@ ${corpo}`;
 
   it('il percorso reale "Un respiro" ha sei passi con fonti', () => {
     const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
-    const [p] = r.percorsi;
-    expect(p.id).toBe('respirazione');
+    const p = r.percorsi.find((x) => x.id === 'respirazione');
     expect(p.passi).toHaveLength(6);
     expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
   });
@@ -307,6 +306,24 @@ ${corpo}`;
     ]);
     expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
     expect(p.descrizione).toBeTruthy();
+  });
+
+  it('il percorso reale "Il giro del sangue" ha otto passi nello strato dei vasi, con schemi e fonti', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    expect(r.errori).toEqual([]);
+    const p = r.percorsi.find((x) => x.id === 'giro-del-sangue');
+    expect(p.passi.map((x) => x.schema)).toEqual([
+      'circuiti',
+      'vene-cave',
+      'cuore-destro',
+      'alveolo',
+      'cuore-sinistro',
+      'aorta',
+      'rene',
+      'coronarie',
+    ]);
+    expect(p.passi.every((x) => x.strato === 'vasi')).toBe(true);
+    expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
   });
 });
 

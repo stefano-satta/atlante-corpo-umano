@@ -550,6 +550,33 @@ test('il percorso "Il viaggio del cibo" mostra uno schema animato a fasi in ogni
   expect(errors).toEqual([]);
 });
 
+test('il percorso "Il giro del sangue" segue il sangue nei due circuiti, dalla pagina sulla circolazione', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/come-circola-il-sangue');
+  await page.getByRole('button', { name: 'Segui il percorso “Il giro del sangue”' }).click();
+  await expect(page).toHaveURL(/\/percorsi\/giro-del-sangue\/1$/);
+  await waitForScene(page);
+  const panel = page.getByRole('complementary', { name: 'Percorso guidato' });
+  await expect(panel.getByRole('heading', { name: 'Due circuiti' })).toBeVisible();
+  const figure = panel.getByRole('figure', { name: 'Schema dei due circuiti del sangue' });
+  await figure.getByRole('button', { name: 'Fase 2: Circolo sistemico' }).click();
+  await expect(figure.locator('.circulation-diagram')).toHaveAttribute('data-phase', 'sistemico');
+  await checkAccessibility(page);
+
+  // Il passo nei polmoni riusa lo schema dell'alveolo di "Un respiro".
+  await panel.getByRole('button', { name: 'Passo 4: Nei polmoni' }).click();
+  await expect(panel.getByRole('figure', { name: 'Schema di un alveolo' })).toBeVisible();
+  await panel.getByRole('button', { name: 'Passo 7: Al rene e ritorno' }).click();
+  const kidney = panel.getByRole('figure', { name: 'Schema dei vasi del rene' });
+  await kidney.getByRole('button', { name: 'Fase successiva' }).click();
+  await expect(kidney.locator('.circulation-diagram')).toHaveAttribute('data-phase', 'capillari');
+  await checkAccessibility(page);
+  expect(errors).toEqual([]);
+});
+
 test('con il movimento ridotto il percorso non offre la riproduzione continua', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/percorsi/respirazione/4');

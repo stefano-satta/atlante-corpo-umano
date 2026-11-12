@@ -1,4 +1,22 @@
 /* Percorso guidato nel pannello (D24) */
+/* Didascalia della fase degli schemi a fasi (cibo, sangue) */
+.phase-caption {
+  display: grid;
+  gap: 2px;
+  min-height: 3.2em;
+}
+.phase-caption .label {
+  color: var(--room-muted);
+  font-size: 14px;
+}
+.phase-caption p {
+  margin: 0;
+  font-size: 16px;
+}
+.phase-caption strong {
+  font: 600 18px / 1.2 var(--font-display);
+}
+
 .guided-path {
   min-height: 100%;
   display: flex;
@@ -358,25 +376,25 @@
     clip-path: inset(50%);
     white-space: nowrap;
   }
-  .guided-path .digestion-caption {
+  .guided-path .phase-caption {
     display: block;
   }
-  .guided-path .digestion-caption .label {
+  .guided-path .phase-caption .label {
     margin-right: 6px;
   }
-  .guided-path .digestion-caption p {
+  .guided-path .phase-caption p {
     display: inline;
   }
   .guided-path .cycle-legend {
     gap: 4px 14px;
     font-size: 12px;
   }
-  .guided-path .digestion-caption {
+  .guided-path .phase-caption {
     min-height: 0;
     font-size: 15px;
   }
-  .guided-path .digestion-caption p,
-  .guided-path .digestion-caption strong {
+  .guided-path .phase-caption p,
+  .guided-path .phase-caption strong {
     font-size: 15px;
   }
   .guided-path[data-stage="body"] .cycle,

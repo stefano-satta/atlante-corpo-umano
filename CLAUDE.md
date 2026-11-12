@@ -8,6 +8,7 @@ Atlante interattivo del corpo umano: sito statico (Vite + React 19 + TypeScript 
 
 ```bash
 npm run dev            # sviluppo: include bozze e testi verificati
+npm run dev:rete       # come dev, ma raggiungibile dal telefono sulla stessa rete (porta 5173): avvio predefinito
 npm run build          # tsc --noEmit + vite build: in produzione solo contenuti "approvato"
 npm test               # Vitest: test/unit/ e test/pipeline/
 npm run test:tutti     # tutti i test: Vitest e poi Playwright

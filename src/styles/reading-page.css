@@ -160,3 +160,11 @@
     padding-right: 20px;
   }
 }
+
+/* Invito a un percorso in fondo a una pagina (Come circola il sangue). */
+.path-invite {
+  margin: 32px 0 0;
+  padding: 16px 20px;
+  border-left: 3px solid var(--eosin);
+  background: var(--slide);
+}

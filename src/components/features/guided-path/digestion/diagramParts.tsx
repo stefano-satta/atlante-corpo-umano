@@ -2,12 +2,7 @@ import type { CSSProperties } from 'react';
 
 // Pezzi comuni agli schemi del percorso "Il viaggio del cibo".
 
-export interface DiagramProps {
-  phase: string;
-  /** Riproduzione in corso: accende i movimenti continui (flussi, onde, masticazione). */
-  playing: boolean;
-  reducedMotion: boolean;
-}
+export type { PhasedDiagramProps as DiagramProps } from '../PhasedFigure';
 
 /** Spostamento di un elemento disegnato nell'origine, animato dal CSS (`.moving`). */
 export const at = (x: number, y: number, scale = 1, opacity = 1): CSSProperties => ({

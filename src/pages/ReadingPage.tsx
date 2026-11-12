@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react';
 import { PageLoader } from '@/components/common/PageLoader';
+import { PathInvite } from '@/components/features/guided-path/PathInvite';
 import type { PageId } from '@/models/atlas';
 import { PAGE_TITLES } from '@/utils/pages';
 import { CreditsPage } from './CreditsPage';
@@ -17,7 +18,12 @@ export function ReadingPage({ page }: { page: PageId }) {
   if (page === 'fonti') return <SourcesPage />;
   if (page === 'informazioni') return <InfoPage />;
   if (page === 'credits') return <CreditsPage />;
-  if (page === 'circolazione') return <InfoPage id="circolazione" title={PAGE_TITLES.circolazione} />;
+  if (page === 'circolazione')
+    return (
+      <InfoPage id="circolazione" title={PAGE_TITLES.circolazione}>
+        <PathInvite id="giro-del-sangue">Per vedere il viaggio del sangue un passo alla volta nel corpo 3D:</PathInvite>
+      </InfoPage>
+    );
   return (
     <Suspense fallback={<PageLoader label={LOADING_LABELS[page] ?? 'Caricamento'} />}>
       {page === 'percorsi' ? <PathsPage /> : page === 'indice' ? <IndexPage /> : <GlossaryPage />}

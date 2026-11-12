@@ -1,0 +1,146 @@
+/*
+ * Schema del percorso "Il giro del sangue". Stessa sala scura degli altri schemi e stessi rosso e
+ * blu del ciclo cardiaco, riservati al sangue (D10). I tratti della fase sono accesi, gli altri
+ * attenuati; in riproduzione un tratteggio scorre nel verso del sangue.
+ */
+.circulation {
+  --valve: #f2c14e;
+  --organ-room: #4a4357;
+  margin: 18px 0 4px;
+}
+.circulation-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: var(--font-text);
+}
+.circulation-diagram .stop-poor {
+  stop-color: var(--blood-poor);
+}
+.circulation-diagram .stop-rich {
+  stop-color: var(--blood-rich);
+}
+.circulation-diagram .arrowhead {
+  fill: var(--slide);
+}
+.circulation-diagram text {
+  fill: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.circulation-diagram .labels text {
+  fill: var(--room-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+.circulation-diagram .orientation,
+.circulation-diagram .note {
+  fill: var(--room-muted);
+  font-size: 11px;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+}
+.circulation-diagram .diaphragm {
+  stroke: var(--room-dim);
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+
+/* Organi, cuore e cavità */
+.circulation-diagram .organ rect {
+  fill: var(--organ-room);
+  stroke: var(--room-dim);
+  stroke-width: 1.5;
+}
+.circulation-diagram .bed {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.circulation-diagram .heart {
+  fill: none;
+  stroke: var(--room-dim);
+  stroke-width: 2;
+}
+.circulation-diagram .chamber rect {
+  stroke: var(--room-text);
+  stroke-width: 1.5;
+}
+.circulation-diagram .chamber.poor rect {
+  fill: var(--blood-poor);
+}
+.circulation-diagram .chamber.rich rect {
+  fill: var(--blood-rich);
+}
+
+/* Vasi */
+.circulation-diagram .vessel path {
+  fill: none;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.circulation-diagram .vessel.thin path {
+  stroke-width: 3.5;
+}
+.circulation-diagram .vessel.poor path {
+  stroke: var(--blood-poor);
+}
+.circulation-diagram .vessel.rich path {
+  stroke: var(--blood-rich);
+}
+.circulation-diagram .vessel .flow {
+  stroke: #fff;
+  stroke-width: 2;
+  stroke-dasharray: 2 10;
+  opacity: 0;
+}
+.circulation-diagram .vessel.thin .flow {
+  stroke-width: 1.2;
+}
+.circulation-diagram[data-playing] .vessel .flow {
+  opacity: 0.75;
+  animation: circulation-flow 900ms linear infinite;
+}
+.circulation-diagram .valve {
+  fill: none;
+  stroke: var(--room-text);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.swatch.valve {
+  background: var(--valve);
+}
+
+/* Fase: il tratto acceso è pieno, il resto si attenua. */
+.circulation-diagram .organ,
+.circulation-diagram .chamber,
+.circulation-diagram .vessel,
+.circulation-diagram .valve {
+  opacity: 0.3;
+  transition:
+    opacity 420ms ease-out,
+    stroke 260ms ease-out;
+}
+.circulation-diagram [data-active] {
+  opacity: 1;
+}
+.circulation-diagram .valve[data-active] {
+  stroke: var(--valve);
+}
+@keyframes circulation-flow {
+  to {
+    stroke-dashoffset: -12;
+  }
+}
+
+@media (max-width: 760px) {
+  .circulation-diagram text {
+    font-size: 15px;
+  }
+  .circulation-diagram .labels text,
+  .circulation-diagram .orientation,
+  .circulation-diagram .note {
+    font-size: 13px;
+  }
+}
