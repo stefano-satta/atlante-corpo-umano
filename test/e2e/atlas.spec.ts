@@ -577,6 +577,30 @@ test('il percorso "Il giro del sangue" segue il sangue nei due circuiti, dalla p
   expect(errors).toEqual([]);
 });
 
+test('il percorso "Dalla luce all\'immagine" riusa lo schema della vista e si apre dalla pagina Percorsi', async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/percorsi');
+  await page.getByRole('button', { name: "Dalla luce all'immagine" }).click();
+  await expect(page).toHaveURL(/\/percorsi\/dalla-luce-all-immagine\/1$/);
+  await waitForScene(page);
+  const panel = page.getByRole('complementary', { name: 'Percorso guidato' });
+  const figure = panel.getByRole('figure', { name: "Schema della vista, dall'occhio alla corteccia" });
+  await figure.getByRole('button', { name: 'Fase 5: Chiasma ottico' }).click();
+  await expect(figure.locator('.vision-diagram')).toHaveAttribute('data-phase', 'chiasma');
+  await checkAccessibility(page);
+
+  // Un passo con una sola fase mostra il disegno senza comandi.
+  await panel.getByRole('button', { name: 'Passo 5: Nella retina' }).click();
+  const retina = panel.getByRole('figure', { name: "Schema dell'occhio: la retina" });
+  await expect(retina.locator('.vision-diagram')).toHaveAttribute('data-phase', 'retina');
+  await expect(retina.getByRole('button')).toHaveCount(0);
+  await checkAccessibility(page);
+  expect(errors).toEqual([]);
+});
+
 test('con il movimento ridotto il percorso non offre la riproduzione continua', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/percorsi/respirazione/4');

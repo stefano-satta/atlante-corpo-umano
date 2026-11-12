@@ -140,9 +140,43 @@ function BloodArt() {
   );
 }
 
+/** Raggi di luce che convergono verso la pupilla, sempre uguali. */
+const LIGHT_RAYS = Array.from({ length: 9 }, (_, i) => {
+  const y = 20 + i * 25;
+  return `M-10 ${y} L170 ${120 + (y - 120) * 0.12}`;
+});
+
+/** "Dalla luce all'immagine": la luce che converge nell'iride e nella pupilla. */
+function LightArt() {
+  return (
+    <Field id="art-light">
+      <g className="art-rays">
+        {LIGHT_RAYS.map((d) => (
+          <path key={d} d={d} />
+        ))}
+      </g>
+      <circle className="art-sclera" cx="236" cy="120" r="92" />
+      <circle className="art-iris" cx="236" cy="120" r="50" />
+      <g className="art-iris-fibers">
+        {Array.from({ length: 24 }, (_, i) => {
+          const a = (i / 24) * Math.PI * 2;
+          const x1 = 236 + Math.cos(a) * 24;
+          const y1 = 120 + Math.sin(a) * 24;
+          const x2 = 236 + Math.cos(a) * 48;
+          const y2 = 120 + Math.sin(a) * 48;
+          return <path key={a} d={`M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}`} />;
+        })}
+      </g>
+      <circle className="art-pupil" cx="236" cy="120" r="22" />
+      <circle className="art-glint" cx="226" cy="108" r="6" />
+    </Field>
+  );
+}
+
 /** Illustrazione e apparato di ogni percorso; un percorso nuovo senza disegno usa quello del cibo. */
 export const PATH_ART: Record<string, { art: () => ReactNode; system: string }> = {
   respirazione: { art: BreathArt, system: 'Apparato respiratorio' },
   'viaggio-del-cibo': { art: FoodArt, system: 'Apparato digerente' },
   'giro-del-sangue': { art: BloodArt, system: 'Apparato cardiocircolatorio' },
+  'dalla-luce-all-immagine': { art: LightArt, system: 'Apparato visivo' },
 };

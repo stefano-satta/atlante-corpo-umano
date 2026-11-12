@@ -14,10 +14,12 @@ import { useTextOnly } from '@/hooks/useTextOnly';
 import { isCirculationDiagram } from '@/models/circulation';
 import type { GuidedPathStep } from '@/models/content';
 import { isDigestionDiagram } from '@/models/digestion';
+import { isVisionPathDiagram } from '@/models/visionPath';
 import { NARROW_WIDTH } from '@/utils/layout';
 import { AlveolusDiagram, ChestDiagram } from './BreathingDiagrams';
 import { CIRCULATION_DISCLAIMERS, CirculationFigure } from './CirculationFigure';
 import { DIGESTION_DISCLAIMERS, DigestionFigure } from './DigestionFigure';
+import { VISION_PATH_DISCLAIMER, VisionPathFigure } from './VisionPathFigure';
 
 const PHASE_LABELS = { rest: null, inhale: 'Inspirazione', exhale: 'Espirazione' } as const;
 
@@ -74,6 +76,7 @@ function StepDiagram({ step }: { step: GuidedPathStep }) {
 function disclaimerFor(schema: string) {
   if (isDigestionDiagram(schema)) return DIGESTION_DISCLAIMERS[schema];
   if (isCirculationDiagram(schema)) return CIRCULATION_DISCLAIMERS[schema];
+  if (isVisionPathDiagram(schema)) return VISION_PATH_DISCLAIMER;
   return schema === 'alveolo'
     ? 'Schema semplificato, non in scala: un solo alveolo e un solo capillare.'
     : "Schema semplificato, non in scala; i movimenti sono accentuati. Il lato destro del corpo è a sinistra dell'immagine.";
@@ -176,6 +179,8 @@ export default function GuidedPathPanel() {
         <DigestionFigure key={number} schema={step.schema} />
       ) : isCirculationDiagram(step.schema) ? (
         <CirculationFigure key={number} schema={step.schema} />
+      ) : isVisionPathDiagram(step.schema) ? (
+        <VisionPathFigure key={number} schema={step.schema} />
       ) : (
         step.schema !== 'nessuno' && <StepDiagram key={number} step={step} />
       )}

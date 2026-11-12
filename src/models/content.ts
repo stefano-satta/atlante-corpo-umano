@@ -3,6 +3,7 @@
 
 import type { CirculationDiagramId } from './circulation';
 import type { DigestionDiagramId } from './digestion';
+import type { VisionPathDiagramId } from './visionPath';
 
 export type ContentStatus = 'bozza' | 'verificato' | 'approvato';
 
@@ -166,7 +167,8 @@ export type PathDiagram =
   | 'espirazione'
   | 'alveolo'
   | DigestionDiagramId
-  | CirculationDiagramId;
+  | CirculationDiagramId
+  | VisionPathDiagramId;
 
 /** Un passo di un percorso guidato (D24). */
 export interface GuidedPathStep {

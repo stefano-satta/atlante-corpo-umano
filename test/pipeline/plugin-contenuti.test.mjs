@@ -6,7 +6,7 @@ import { contenuti, senzaVociMancanti } from '../../pipeline/plugin-contenuti.mj
 
 // Copia dei contenuti reali con stati fissati, per provare il filtro di pubblicazione senza
 // dipendere da quali testi sono approvati oggi: femore in bozza, cuore e Informazioni approvati,
-// percorsi "Un respiro", "Il viaggio del cibo" e "Il giro del sangue" verificati; nel glossario alveolo in bozza, le altre voci approvate.
+// tutti i percorsi verificati; nel glossario alveolo in bozza, le altre voci approvate.
 let radice;
 beforeAll(() => {
   radice = fs.mkdtempSync(path.join(os.tmpdir(), 'atlante-'));
@@ -23,6 +23,7 @@ beforeAll(() => {
   fissa('percorsi/respirazione.md', 'verificato');
   fissa('percorsi/viaggio-del-cibo.md', 'verificato');
   fissa('percorsi/giro-del-sangue.md', 'verificato');
+  fissa('percorsi/dalla-luce-all-immagine.md', 'verificato');
   const glossario = path.join(radice, 'contenuti/glossario.yaml');
   fs.writeFileSync(
     glossario,

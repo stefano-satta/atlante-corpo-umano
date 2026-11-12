@@ -7,7 +7,8 @@
 }
 .path-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  /* Una colonna su smartphone, due su tablet, tre su desktop. */
+  grid-template-columns: minmax(0, 1fr);
   gap: 28px;
   margin: 36px 0 0;
   padding: 0;
@@ -139,6 +140,34 @@
   stroke-width: 2;
 }
 
+.path-art-svg .art-rays path {
+  stroke: #f6e7a8;
+  stroke-width: 2;
+  stroke-dasharray: 6 8;
+  opacity: 0.55;
+}
+.path-art-svg .art-sclera {
+  fill: #e9e4ef;
+  opacity: 0.16;
+}
+.path-art-svg .art-iris {
+  fill: #6b5aa8;
+  stroke: #c3baf2;
+  stroke-width: 2;
+}
+.path-art-svg .art-iris-fibers path {
+  stroke: #c3baf2;
+  stroke-width: 1.5;
+  opacity: 0.6;
+}
+.path-art-svg .art-pupil {
+  fill: #120f18;
+}
+.path-art-svg .art-glint {
+  fill: #fff;
+  opacity: 0.8;
+}
+
 /* Testo */
 .path-card-body {
   display: flex;
@@ -225,6 +254,17 @@
 }
 .path-card:hover .path-card-cta {
   gap: 10px;
+}
+
+@media (min-width: 761px) {
+  .path-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1100px) {
+  .path-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 760px) {

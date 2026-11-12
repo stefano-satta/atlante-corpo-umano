@@ -63,6 +63,13 @@ export const SCHEMI_PERCORSO = [
   'aorta',
   'rene',
   'coronarie',
+  // Dalla luce all'immagine (riusano il disegno della vista)
+  'vista',
+  'vista-ingresso',
+  'vista-fuoco',
+  'vista-retina',
+  'vista-chiasma',
+  'vista-corteccia',
 ];
 export const STRATI_PERCORSO = ['muscoli', 'organi', 'scheletro', 'vasi', 'digerente', 'respiratorio'];
 

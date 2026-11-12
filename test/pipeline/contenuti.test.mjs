@@ -423,4 +423,19 @@ alveolo:
     expect(r.glossario.length).toBeGreaterThanOrEqual(20);
     expect(r.glossario.every((v) => v.fonti.length > 0)).toBe(true);
   });
+
+  it('il percorso reale "Dalla luce all\'immagine" ha sette passi con gli schemi della vista e le fonti', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const p = r.percorsi.find((x) => x.id === 'dalla-luce-all-immagine');
+    expect(p.passi.map((x) => x.schema)).toEqual([
+      'vista',
+      'nessuno',
+      'vista-ingresso',
+      'vista-fuoco',
+      'vista-retina',
+      'vista-chiasma',
+      'vista-corteccia',
+    ]);
+    expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
+  });
 });
