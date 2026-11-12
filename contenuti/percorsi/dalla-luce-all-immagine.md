@@ -24,7 +24,7 @@ limiti: >
   corteccia visiva si vedono solo nello schema. Il testo riprende i fatti e le fonti delle schede
   già approvate degli occhi, del nervo ottico, dell'apparato lacrimale e dei muscoli dell'occhio,
   e del processo "Come funziona la vista".
-stato: bozza
+stato: approvato
 revisione: 2026-11-12
 ---
 
