@@ -438,4 +438,20 @@ alveolo:
     ]);
     expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
   });
+
+  it('il percorso reale "Come si forma l\'urina" ha sette passi nello strato urinario, con schemi e fonti', () => {
+    const r = leggiContenuti('contenuti', leggiModello('public/modelli/strutture.json'));
+    const p = r.percorsi.find((x) => x.id === 'come-si-forma-l-urina');
+    expect(p.passi.map((x) => x.schema)).toEqual([
+      'urina',
+      'nessuno',
+      'urina-filtrazione',
+      'urina-riassorbimento',
+      'urina-ureteri',
+      'urina-riempimento',
+      'urina-minzione',
+    ]);
+    expect(p.passi.every((x) => x.strato === 'urinario')).toBe(true);
+    expect(p.passi.every((x) => x.html.includes('href="#fonte-'))).toBe(true);
+  });
 });

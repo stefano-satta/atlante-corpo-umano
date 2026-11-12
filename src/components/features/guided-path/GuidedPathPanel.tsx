@@ -14,11 +14,13 @@ import { useTextOnly } from '@/hooks/useTextOnly';
 import { isCirculationDiagram } from '@/models/circulation';
 import type { GuidedPathStep } from '@/models/content';
 import { isDigestionDiagram } from '@/models/digestion';
+import { isUrinePathDiagram } from '@/models/urinePath';
 import { isVisionPathDiagram } from '@/models/visionPath';
 import { NARROW_WIDTH } from '@/utils/layout';
 import { AlveolusDiagram, ChestDiagram } from './BreathingDiagrams';
 import { CIRCULATION_DISCLAIMERS, CirculationFigure } from './CirculationFigure';
 import { DIGESTION_DISCLAIMERS, DigestionFigure } from './DigestionFigure';
+import { URINE_PATH_DISCLAIMER, UrinePathFigure } from './UrinePathFigure';
 import { VISION_PATH_DISCLAIMER, VisionPathFigure } from './VisionPathFigure';
 
 const PHASE_LABELS = { rest: null, inhale: 'Inspirazione', exhale: 'Espirazione' } as const;
@@ -77,6 +79,7 @@ function disclaimerFor(schema: string) {
   if (isDigestionDiagram(schema)) return DIGESTION_DISCLAIMERS[schema];
   if (isCirculationDiagram(schema)) return CIRCULATION_DISCLAIMERS[schema];
   if (isVisionPathDiagram(schema)) return VISION_PATH_DISCLAIMER;
+  if (isUrinePathDiagram(schema)) return URINE_PATH_DISCLAIMER;
   return schema === 'alveolo'
     ? 'Schema semplificato, non in scala: un solo alveolo e un solo capillare.'
     : "Schema semplificato, non in scala; i movimenti sono accentuati. Il lato destro del corpo è a sinistra dell'immagine.";
@@ -91,7 +94,7 @@ function disclaimerFor(schema: string) {
  * comandi, che una maniglia apre a tutta altezza. Mentre lo schema copre il corpo la scena si ferma.
  */
 export default function GuidedPathPanel() {
-  const { dispatch } = useAtlas();
+  const { state, dispatch } = useAtlas();
   const textOnly = useTextOnly();
   const { path, step, number, error } = useActiveStep();
   const title = useRef<HTMLHeadingElement>(null);
@@ -181,6 +184,8 @@ export default function GuidedPathPanel() {
         <CirculationFigure key={number} schema={step.schema} />
       ) : isVisionPathDiagram(step.schema) ? (
         <VisionPathFigure key={number} schema={step.schema} />
+      ) : isUrinePathDiagram(step.schema) ? (
+        <UrinePathFigure key={number} schema={step.schema} body={state.body} />
       ) : (
         step.schema !== 'nessuno' && <StepDiagram key={number} step={step} />
       )}

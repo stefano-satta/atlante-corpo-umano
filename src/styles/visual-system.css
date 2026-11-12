@@ -138,7 +138,8 @@
   }
 }
 
-/* Lo stesso disegno negli schemi del percorso "Dalla luce all'immagine". */
-.vision-path {
+/* Gli stessi disegni negli schemi dei percorsi "Dalla luce all'immagine" e "Come si forma l'urina". */
+.vision-path,
+.urine-path {
   margin: 18px 0 4px;
 }

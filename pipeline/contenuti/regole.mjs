@@ -70,8 +70,15 @@ export const SCHEMI_PERCORSO = [
   'vista-retina',
   'vista-chiasma',
   'vista-corteccia',
+  // Come si forma l'urina (riusano il disegno dell'apparato urinario)
+  'urina',
+  'urina-filtrazione',
+  'urina-riassorbimento',
+  'urina-ureteri',
+  'urina-riempimento',
+  'urina-minzione',
 ];
-export const STRATI_PERCORSO = ['muscoli', 'organi', 'scheletro', 'vasi', 'digerente', 'respiratorio'];
+export const STRATI_PERCORSO = ['muscoli', 'organi', 'scheletro', 'vasi', 'digerente', 'respiratorio', 'urinario'];
 
 export const DATA = /^\d{4}-\d{2}-\d{2}$/;
 export const ID = /^[a-z0-9]+(-[a-z0-9]+)*$/;

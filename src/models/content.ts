@@ -3,6 +3,7 @@
 
 import type { CirculationDiagramId } from './circulation';
 import type { DigestionDiagramId } from './digestion';
+import type { UrinePathDiagramId } from './urinePath';
 import type { VisionPathDiagramId } from './visionPath';
 
 export type ContentStatus = 'bozza' | 'verificato' | 'approvato';
@@ -168,13 +169,14 @@ export type PathDiagram =
   | 'alveolo'
   | DigestionDiagramId
   | CirculationDiagramId
-  | VisionPathDiagramId;
+  | VisionPathDiagramId
+  | UrinePathDiagramId;
 
 /** Un passo di un percorso guidato (D24). */
 export interface GuidedPathStep {
   titolo: string;
   html: string;
-  strato: 'muscoli' | 'organi' | 'scheletro' | 'vasi' | 'digerente' | 'respiratorio';
+  strato: 'muscoli' | 'organi' | 'scheletro' | 'vasi' | 'digerente' | 'respiratorio' | 'urinario';
   /** Strutture mostrate piene; quelle di un altro strato si aggiungono alla vista. */
   evidenzia: ModelElements;
   /** Strutture da inquadrare, se diverse da quelle evidenziate. */

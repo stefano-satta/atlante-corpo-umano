@@ -24,6 +24,7 @@ beforeAll(() => {
   fissa('percorsi/viaggio-del-cibo.md', 'verificato');
   fissa('percorsi/giro-del-sangue.md', 'verificato');
   fissa('percorsi/dalla-luce-all-immagine.md', 'verificato');
+  fissa('percorsi/come-si-forma-l-urina.md', 'verificato');
   const glossario = path.join(radice, 'contenuti/glossario.yaml');
   fs.writeFileSync(
     glossario,

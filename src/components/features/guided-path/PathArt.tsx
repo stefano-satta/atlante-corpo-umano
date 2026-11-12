@@ -173,10 +173,42 @@ function LightArt() {
   );
 }
 
+/** Gocce d'urina che scendono lungo l'uretere, sempre uguali. */
+const URETER_PATH = 'M232 128 C 262 150 270 190 292 250';
+
+/** "Come si forma l'urina": un rene con i suoi nefroni e l'urina che scende nell'uretere. */
+function UrineArt() {
+  return (
+    <Field id="art-urine">
+      <g className="art-capillaries">
+        {Array.from({ length: 7 }, (_, i) => {
+          const y = 40 + i * 26;
+          return <path key={y} d={`M-10 ${y} C 60 ${y - 14} 110 ${y + 14} 168 ${120 + (y - 120) * 0.35}`} />;
+        })}
+      </g>
+      <path
+        className="art-kidney"
+        d="M206 34 C 150 34 132 86 136 124 C 140 166 168 204 208 204 C 238 204 246 178 234 160 C 222 144 224 112 238 98 C 258 76 252 34 206 34 Z"
+      />
+      <g className="art-nephrons">
+        {Array.from({ length: 9 }, (_, i) => {
+          const a = -1.1 + i * 0.28;
+          const x = 196 + Math.cos(a + Math.PI) * 44;
+          const y = 120 + Math.sin(a + Math.PI) * 58;
+          return <circle key={a} cx={x.toFixed(1)} cy={y.toFixed(1)} r="7" />;
+        })}
+      </g>
+      <path className="art-ureter" d={URETER_PATH} />
+      <path className="art-urine-drops" d={URETER_PATH} />
+    </Field>
+  );
+}
+
 /** Illustrazione e apparato di ogni percorso; un percorso nuovo senza disegno usa quello del cibo. */
 export const PATH_ART: Record<string, { art: () => ReactNode; system: string }> = {
   respirazione: { art: BreathArt, system: 'Apparato respiratorio' },
   'viaggio-del-cibo': { art: FoodArt, system: 'Apparato digerente' },
   'giro-del-sangue': { art: BloodArt, system: 'Apparato cardiocircolatorio' },
   'dalla-luce-all-immagine': { art: LightArt, system: 'Apparato visivo' },
+  'come-si-forma-l-urina': { art: UrineArt, system: 'Apparato urinario' },
 };

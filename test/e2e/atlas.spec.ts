@@ -601,6 +601,28 @@ test('il percorso "Dalla luce all\'immagine" riusa lo schema della vista e si ap
   expect(errors).toEqual([]);
 });
 
+test('il percorso "Come si forma l\'urina" riusa lo schema urinario nello strato Urinario', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.goto('/percorsi');
+  await page.getByRole('button', { name: "Come si forma l'urina" }).click();
+  await expect(page).toHaveURL(/\/percorsi\/come-si-forma-l-urina\/1$/);
+  await waitForScene(page);
+  const panel = page.getByRole('complementary', { name: 'Percorso guidato' });
+  const figure = panel.getByRole('figure', { name: "Schema dell'apparato urinario, dai reni all'uretra" });
+  await figure.getByRole('button', { name: 'Fase 4: La vescica si riempie' }).click();
+  await expect(figure.locator('.urinary-diagram')).toHaveAttribute('data-phase', 'riempimento');
+  await checkAccessibility(page);
+
+  // Un passo con una sola fase mostra il disegno senza comandi.
+  await panel.getByRole('button', { name: "Passo 7: L'urina esce dall'uretra" }).click();
+  const exit = panel.getByRole('figure', { name: "Schema dell'apparato urinario: l'urina esce dall'uretra" });
+  await expect(exit.locator('.urinary-diagram')).toHaveAttribute('data-phase', 'minzione');
+  await expect(exit.getByRole('button')).toHaveCount(0);
+  await checkAccessibility(page);
+  expect(errors).toEqual([]);
+});
+
 test('con il movimento ridotto il percorso non offre la riproduzione continua', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/percorsi/respirazione/4');
